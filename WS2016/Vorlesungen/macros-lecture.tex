@@ -123,6 +123,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \definecolor{alert}{HTML}{176FC0}
 \definecolor{darkgreen}{HTML}{36AB14}
 \definecolor{strongyellow}{HTML}{FFE219}
+\definecolor{devilscss}{HTML}{666666}
 
 \newcommand{\redalert}[1]{\textcolor{darkred}{#1}}
 
@@ -133,10 +134,13 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \newcommand{\Sterm}[1]{\ensuremath{\mathtt{\textcolor{purple}{#1}}}}    % letters in alphabets
 \newcommand{\Snterm}[1]{\textsf{\textcolor{darkblue}{#1}}} % nonterminal symbols
 \newcommand{\Slang}[1]{\textbf{\textcolor{black}{#1}}}    % languages
+\newcommand{\Slangsub}[2]{\Slang{#1}_{\Slang{#2}}}    % languages
 % Code
 \newcommand{\Scode}[1]{\textbf{#1}}    % reserved words in program listings, e.g., "if"
 \newcommand{\Scodelit}[1]{\textcolor{purple}{#1}}    % literals in program listings, e.g., strings
 \newcommand{\Scomment}[1]{\textcolor{gray}{#1}}    % comment in program listings
+
+\newcommand{\narrowcentering}[1]{\mbox{}\hfill#1\hfill\mbox{}}
 
 %%% Slide layout commands:
 
@@ -187,6 +191,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 % \hspace{-8mm}\ghost{\raisebox{-7mm}{\rotatebox{90}{{\footnotesize\textcolor{darkgreen}{Beispiel}}}}}\hspace{8mm}
 \newcommand{\examplebox}[1]{%
 	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1235}
 		\node (n1) [decorate,draw=darkgreen, fill=darkgreen!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
 % 		\node (n2) [align=left,text width=\linewidth,inner sep=0mm] at (n1.92) {{\footnotesize\raisebox{3mm}{\textcolor{darkgreen}{Beispiel}}}};
 % 		\node (n2) [decorate,draw=darkgreen, fill=darkgreen!10,thick, align=left,text width=\linewidth,inner sep=2mm] at (n1.90) {{\footnotesize\raisebox{0mm}{\textcolor{darkgreen}{Beispiel}}}};
@@ -195,12 +200,14 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 
 \newcommand{\codebox}[1]{%
 	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1236}
 		\node (n1) [decorate,draw=strongyellow, fill=strongyellow!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
 	\end{tikzpicture}%
 }%
 
 \newcommand{\defbox}[1]{%
 	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1237}
 		\node (n1) [decorate,draw=darkred, fill=darkred!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
 	\end{tikzpicture}%
 }%
@@ -210,6 +217,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \newcommand{\doodlebox}[2]{%
 \sbox{\mybox}{#2}%
 	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1238}
 		\node (n1) [decorate,draw=#1, fill=#1!10,thick,align=left,inner sep=1mm] at (0,0) {\usebox{\mybox}};
 	\end{tikzpicture}%
 }%
