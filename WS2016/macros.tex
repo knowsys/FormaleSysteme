@@ -1,0 +1,72 @@
+% Common notation
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{xspace}
+
+\newcommand{\lectureurl}{https://iccl.inf.tu-dresden.de/web/FS2016}
+
+\DeclareMathAlphabet{\mathsc}{OT1}{cmr}{m}{sc} % Let's have \mathsc since the slide style has no working \textsc
+
+% Dual of "phantom": make a text that is visible but intangible
+\newcommand{\ghost}[1]{\raisebox{0pt}[0pt][0pt]{\makebox[0pt][l]{#1}}}
+
+\newcommand{\tuple}[1]{\langle{#1}\rangle}
+
+%%% Annotation %%%
+
+\usepackage{color}
+\newcommand{\todo}[1]{{\tiny\color{red}\textbf{TODO: #1}}}
+
+
+
+%%% Old macros below; move when needed
+
+\newcommand{\blank}{\text{\textvisiblespace}} % empty tape cell for TM
+
+% table syntax
+\newcommand{\dom}{\textbf{dom}}
+\newcommand{\adom}{\textbf{adom}}
+\newcommand{\dbconst}[1]{\texttt{"#1"}}
+\newcommand{\pred}[1]{\textsf{#1}}
+\newcommand{\foquery}[2]{#2[#1]}
+\newcommand{\ground}[1]{\textsf{ground}(#1)}
+% \newcommand{\foquery}[2]{\{#1\mid #2\}} %% Notation as used in Alice Book
+% \newcommand{\foquery}[2]{\tuple{#1\mid #2}}
+
+\newcommand{\quantor}{\mathord{\reflectbox{$\text{\sf{Q}}$}}} % the generic quantor
+
+% logic syntax
+\newcommand{\Inter}{\mathcal{I}} %used to denote an interpretation
+\newcommand{\Jnter}{\mathcal{J}} %used to denote another interpretation
+\newcommand{\Knter}{\mathcal{K}} %used to denote yet another interpretation
+\newcommand{\Zuweisung}{\mathcal{Z}} %used to denote a variable assignment
+
+% query languages
+\newcommand{\qlang}[1]{{\sf #1}} % Font for query languages
+\newcommand{\qmaps}[1]{\textbf{QM}({\sf #1})} % Set of query mappings for a query language
+
+%%% Complexities %%%
+
+\hyphenation{Exp-Time} % prevent "Ex-PTime" (see, e.g. Tobies'01, Glimm'07 ;-)
+\hyphenation{NExp-Time} % better that than something else
+
+% \newcommand{\complclass}[1]{{\sc #1}\xspace} % font for complexity classes
+\newcommand{\complclass}[1]{\ensuremath{\mathsc{#1}}\xspace} % font for complexity classes
+
+\newcommand{\ACzero}{\complclass{AC$_0$}}
+\newcommand{\LogSpace}{\complclass{L}}
+\newcommand{\NLogSpace}{\complclass{NL}}
+\newcommand{\PTime}{\complclass{P}}
+\newcommand{\NP}{\complclass{NP}}
+\newcommand{\coNP}{\complclass{coNP}}
+\newcommand{\PH}{\complclass{PH}}
+\newcommand{\PSpace}{\complclass{PSpace}}
+\newcommand{\NPSpace}{\complclass{NPSpace}}
+\newcommand{\ExpTime}{\complclass{ExpTime}}
+\newcommand{\NExpTime}{\complclass{NExpTime}}
+\newcommand{\ExpSpace}{\complclass{ExpSpace}}
+\newcommand{\TwoExpTime}{\complclass{2ExpTime}}
+\newcommand{\NTwoExpTime}{\complclass{N2ExpTime}}
+\newcommand{\ThreeExpTime}{\complclass{3ExpTime}}
+\newcommand{\kExpTime}[1]{\complclass{#1ExpTime}}
+\newcommand{\kExpSpace}[1]{\complclass{#1ExpSpace}}

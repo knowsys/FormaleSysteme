@@ -1,0 +1,574 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{1}{Willkommen/Einleitung formale Sprachen}{10. Oktober 2016}
+
+\begin{document}
+
+\maketitle
+
+
+\sectionSlide{Willkommen zur Vorlesung\\Formale Systeme}
+
+\begin{frame}\frametitle{Raum, Zeit, URL}
+
+\begin{itemize}
+\item \emph{Vorlesungen:}\\
+	Montag, DS3 (11:10--12:40), HSZ/0002\\
+	Donnerstag, DS4 (13:00--14:30), HSZ/0003
+\item \emph{Keine Vorlesungen:}\\
+	Reformationstag: Mo 31.10.\\
+	Jahreswechsel: Do 22.12., Mo 26.12., Do 29.12., Mo 2.1.
+\item \emph{Vorlesungswebseite}:\\[1ex]
+	\url{\lectureurl}\\[1ex]
+	(Folien, Übungsblätter, Termine, etc.)
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Übungen}
+\begin{itemize}
+\item \emph{Anmeldung} zu den Übungen über jexam
+\item \emph{Übungsblätter} jeweils donnerstags nach der Vorlesung\\
+	(erstes Übungsblatt am 13. Oktober 2016)
+\item \emph{Beginn der Übungen:} 17. Oktober 2016
+\item \emph{Übungsablauf}, vereinfacht, idealisiert:\\
+	Aufgaben werden zu Hause bearbeitet so gut es geht;\\
+	in der Übung helfen Gruppenleiter/innen bei Fragen und Problemen und zeigen Beispiellösungen\\[1ex]
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Prüfung}
+\begin{itemize}
+\item schritliche Prüfung (90min) am Ende des Wintersemesters
+\item prüfungsrelevant:\\
+	kompletter Stoff, der in der Vorlesung behandelt wird\\
+	Wiedergeben (Definieren) \alert{und} Anwenden (Rechnen)
+\item Modulnote ergibt sich je nach Studiengang
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Formale Systeme Bestehen}
+Tipps:
+\begin{itemize}
+\item \emph{Von Hand Mitschreiben}\\
+	{\footnotesize Man merkt sich Stoff deutlich besser, wenn man ihn für sich selbst handschriftlich
+	zusammenfasst.\footnote{\tiny P.\ Mueller \& D.\ Oppenheimer. The Pen Is Mightier Than the Keyboard: Advantages of Longhand Over Laptop Note Taking. Psychological Science, 06/2014, 25:6}}
+\item \emph{Selber Rechnen}\\
+	{\footnotesize Die Prüfung besteht im Lösen von Rechenaufgaben. Theorie allein hilft da nicht weiter.}
+\item \emph{Schnell sein}\\
+	{\footnotesize Prüfungszeit ist meistens knapp. Es reicht nicht, Aufgaben "`im Prinzip"' lösen zu können. Man muss sie schnell lösen.}
+\item \emph{Ehrlich zu sich selbst sein}\\
+	{\footnotesize Man sollte selber wissen, ob man genug gelernt hat oder nicht.\footnote{\tiny Vgl.\ aber auch Wikipedia \href{https://de.wikipedia.org/wiki/Dunning-Kruger-Effekt}{[[Dunning-Kruger-Effekt]]}}}
+\end{itemize}
+
+\end{frame}
+
+
+\sectionSlide{Übersicht und Motivation}
+
+\newcommand{\qaline}[2]{\alert{#1}\\\hfill \textcolor{darkred}{#2}\\[1.5ex]}
+
+% Uebersicht Thema und Ziel der Vorlesung,
+\begin{frame}\frametitle{Grundlegende Fragen der Informatik}
+
+\qaline{Was ist ein Computer?}{Eine Maschine, die rechnet.}
+
+\qaline{Was ist "`Rechnen"'?}{Die systematische Überführung von Eingaben in Ausgaben.}
+
+\qaline{Was sind "`Eingaben"' und "`Ausgaben"'?}{Folgen von Zeichen, zum Beispiel Dateien oder Textausgaben.}
+
+\qaline{So viele Computer, Programme, \ldots{} das passt doch in kein \ghost{Studium!}}{Nein, man muss sich auf das Wesentliche konzentrieren.}
+% Mit Hilfe von Modellen für Computer und Rechenverfahren.\\[1ex]
+
+\qaline{Was ist das Wesentliche?}{Vereinfachte Modelle für Computer und Rechenverfahren.}
+
+\qaline{Was sagen uns Modelle über echte Computer und Software?}{Was man berechnen kann, wie aufwändig es ist,\\\hfill wie man es implementieren kann, ob es stimmt, \ldots}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zielstellung, Kernthemen}
+
+Ziel dieser Vorlesung ist es, wichtige Grundlagen zur \alert{Modellierung von Berechnung}
+in der Informatik einzuführen, \alert{konkrete Modelle} vorzustellen und ihre \alert{Eigenschaften verständlich zu machen}.
+\medskip
+
+\begin{itemize}
+\item Ein- und Ausgaben sind Zeichenfolgen\\
+$\leadsto$ Wir beginnen mit Wörtern und \redalert{formalen Sprachen}
+%
+\item Wir wollen Berechnungsaufgaben beschreiben\\
+$\leadsto$ Spezifikation von Sprachen\\
+\hspace{1em} (direkt, mit \redalert{Grammatiken}, mit \redalert{regulären Ausdrucken}, \ldots)
+%
+\item Fokus auf einfache Berechnungsmodelle\\
+$\leadsto$ \redalert{Automaten} (in vielen Versionen \ldots)
+%
+\item Man kann Berechnungsaufgaben auch logisch spezifizieren\\
+$\leadsto$ \redalert{Aussagenlogik} als einfacher Einstieg
+%
+\item Lösung logischer Probleme\\
+$\leadsto$ Berechnungsverfahren zum \redalert{logischen Schließen}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Gliederung "`Formale Systeme"'}
+
+\alert{Teil 1: Sprachen und Automaten}
+\begin{itemize}
+\item Formale Sprachen und Grammatiken
+\item Reguläre Sprachen und endliche Automaten
+\item Kontextfreie Sprachen und Kellerautomaten
+\item Kontextsensitive Sprachen, Typ-0-Sprachen und \ghost{Turingmaschinen}
+\end{itemize}
+\bigskip
+
+\alert{Teil 2: Aussagenlogik}
+\begin{itemize}
+\item Syntax und Semantik
+\item logisches Schließen, Backtracking und andere Verfahren
+\item Horn-Logik als Vereinfachung
+\end{itemize}
+
+\end{frame}
+
+% \overviewslide
+
+\begin{frame}\frametitle{Literatur}
+
+TODO
+
+\end{frame}
+
+
+% Motivation,
+% Ueberblick,
+% Literatur
+
+\sectionSlide{Sprachen in der Informatik}
+
+
+\begin{frame}\frametitle{Wozu Sprachen?}
+
+\end{frame}
+
+\begin{frame}\frametitle{}
+
+~\hfill
+\includegraphics[height=8.5cm]{images/xkcd-regexps}
+\hfill~
+\rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
+
+\end{frame}
+
+
+\begin{frame}[fragile]\frametitle{Wozu Sprachen?}
+\newcommand{\smaller}[1]{{\footnotesize #1}}
+
+Formale Sprachen und die zugehörigen Automaten und Grammatiken haben sehr viele Anwendungen:
+
+\begin{itemize}
+\item \alert{Compilerbau}\\
+	\smaller{Programmiersprachen sind typische formale Sprachen}
+\item \alert{Interpretation natürlicher Sprachen}\\
+	\smaller{viele Anwendungen des Sprachverstehens nutzen Grammatiken}
+\item \alert{Datenaustausch}\\
+	\smaller{Textformate (HTML, CSV, JSON, XML, \ldots) bilden formale Sprachen}
+\item \alert{Formatierung/Validierung/Spezifikation}\\
+	\smaller{z.B. um die Gültigkeit von Formulareingaben zu prüfen}
+\item \alert{Berechenbarkeit und Komplexität}\\
+	\smaller{mächtigere Sprachdefinitionen verlangen teurere Algorithmen}
+\item \alert{Informationsextraktion}\\
+	\smaller{Formale Sprachen helfen bei der Mustersuche in Textdokumenten}
+\item \alert{Datenbanken}\\
+	\smaller{Datenbankanfragen können Muster suchen, z.B. in \ghost{Graphdatenbanken}}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t,fragile]\frametitle{Beispiel Compiler}
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (n1) [decorate,mybox=black/cyan!40] at (0,6) {Quellprogramm};
+\uncover<1>{
+	\node at (0,3) {{\Huge ?}};
+}
+\uncover<2>{
+\node (n2) [decorate,mybox=black/white] at (0,4.5) {Lexer};
+	\node (t2) [right=of n2,align=left] {\alert{lexikalische Analyse}\\erzeugt Folge von Tokens\\(${}={}$Bedeutungseinheiten)};
+\node (n3) [decorate,mybox=black/white] at (0,3) {Parser};
+	\node (t3) [right=of n3,align=left] {\alert{syntaktische Analyse}\\erzeugt Strukturbaum};
+\node (n4) [decorate,mybox=black/white] at (0,1.5) {$\ldots$};
+	\node (t4) [right=of n4,align=left] {semantische Analyse,\\
+	Codeerzeugung,\\Optimierung,\ldots};
+}
+\node (n5) [decorate,mybox=black/cyan!40] at (0,0) {Programm in Zielsprache};
+%
+\draw[myarrow=black]    (n1) edge[decorate] (n2);
+\uncover<2>{
+\draw[myarrow=black]    (n2) edge[decorate] (n3);
+\draw[myarrow=black]    (n3) edge[decorate] (n4);
+}
+\draw[myarrow=black]    (n4) edge[decorate] (n5);
+%
+\uncover<2>{
+\draw[myarrowb=alert]    (t2) edge[decorate] (n2);
+\draw[myarrowb=alert]    (t3) edge[decorate] (n3);
+\draw[myarrowb=alert]    (t4) edge[decorate] (n4);
+}
+\end{tikzpicture}
+
+\end{frame}
+
+
+% Lexer (speziell Scanner)/Parser-Beispiel
+
+\begin{frame}\frametitle{Lexikalische Analyse}
+
+\alert{Eingabe:} Zeichenkette eines Programms\\[1ex]
+\examplebox{Bsp.:~~~ $\underbrace{\texttt{\Sterm{lengthCm = lengthInch * 2.54;}}}_{\text{Kette von 29 Zeichen}}$}
+% 	\bigskip
+
+\alert{Ausgabe:} Kette von Grundsymbolen (Tokens)\\[1ex]
+\examplebox{Bsp.:~~~ $\underbrace{\textsf{\Snterm{NAME EQUALS NAME STAR NUMBER SEMICOLON}}}_{\text{Kette von 6 Tokens}}$}
+
+\begin{itemize}
+\item Zur Weiterverarbeitung wird Tokens oft weitere Information mitgegeben,
+	z.B. $\textsf{\Snterm{NAME}} (\texttt{"{}\Sterm{lengthCm}"{}})$ und \ghost{$\textsf{\Snterm{NAME}} (\texttt{"{}\Sterm{lengthInch}"{}})$}
+\item Manche Zeichen werden nicht zu Tokens\\(z.B. Leerzeichen, Kommentare)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Lexikalische Analyse (2)}
+
+Verschiedene Arten von Grundsymbolen:
+\begin{itemize}
+\item Schlüsselwörter (\texttt{\Sterm{if}}, \texttt{\Sterm{while}}, \texttt{\Sterm{class}}, \ldots)
+\item Operatoren (\texttt{\Sterm{=}}, \texttt{\Sterm{+}}, \texttt{\Sterm{{>}{}{>}}}, \ldots)
+\item Bezeichner (\texttt{\Sterm{lengthCm}}, \texttt{\Sterm{getLength}}, \texttt{\Sterm{InventoryItem}}, \ldots)
+\item Literale (\texttt{\Sterm{2.54}}, \texttt{\Sterm{true}}, \texttt{\Sterm{\squote{}Hello World!\squote}}, \ldots)
+\end{itemize}
+\medskip
+
+Für einige Grundsymbole gibt es unendlich viele Möglichkeiten
+\examplebox{Bsp.: "`Ein Bezeichner ist ein String, der mit einem Buchstaben beginnt und danach nur Buchstaben oder Ziffern enthält."'}
+% \\[2ex]
+
+Wie soll ein Lexer das korrekt erkennen?
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Bezeichner erkennen}
+\examplebox{Bsp.: "`Ein Bezeichner ist ein String, der mit einem Buchstaben beginnt und danach nur Buchstaben oder Ziffern enthält."'}
+
+Schematische Darstellung als \alert{Syntaxdiagramm}:
+
+\begin{center}
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+\node at (0,3) {Bezeichner:};
+%
+\node (b1) [rounded corners,draw=black,thick] at (1,2) {\Snterm{Buchstabe}};
+\node (b2) [rounded corners,draw=black,thick] at (4,1) {\Snterm{Buchstabe}};
+\node (z)[rounded corners,draw=black,thick] at (4,0) {\Snterm{Ziffer}};
+% \draw[decorate,thick] (0,0) -- (0,3) -- (3,3);
+\draw [->,line width=0.5mm] (-1,2) -> (b1);
+\draw [->,line width=0.5mm] (b1) -> (6,2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (b2) -- (2.5,1) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (z) -- (2.5,0) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (5.5,2) -- (5.5,1) -> (b2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (5.5,2) -- (5.5,0) -> (z);
+\end{tikzpicture}
+\end{center}
+Hierbei stehen \Snterm{Buchstabe} und \Snterm{Ziffer} jeweils für ein beliebiges Zeichen dieses Typs.
+
+\end{frame}
+
+
+\newcommand{\nameForInnerLexerState}{inner}
+
+\begin{frame}\frametitle{Bezeichner erkennen (2)}
+
+Wie setzt man das praktisch um?\\
+Code eines unerfahrenen Programmierers:\medskip
+
+\codebox{%
+{\footnotesize\tt%
+\Scode{function} isIdentifier():\\
+~~~state = \Sterm{\squote{}start\squote}\\
+~~~\Scode{while} hasNextSymbol():\\
+~~~~~~~~symbol = getNextSymbol()\\
+~~~~~~~~\Scode{if} ( state == \Scodelit{"{}start"{}} \&\& isLetter(symbol) ):\\
+~~~~~~~~~~~~~state = \Sterm{\squote\nameForInnerLexerState\squote}\\
+~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}start"{}} \&\& !isLetter(symbol) ):\\
+~~~~~~~~~~~~~\Scode{return} \Scodelit{false}\\
+~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}\nameForInnerLexerState"{}} \&\& isLetter(symbol) ):\\
+~~~~~~~~~~~~~\Scomment{// ok, wir lesen einfach weiter}\\
+~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}\nameForInnerLexerState"{}} \&\& isNumber(symbol) ):\\
+~~~~~~~~~~~~~\Scomment{// ok, wir lesen einfach weiter}\\
+~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}\nameForInnerLexerState"{}} \&\& \\
+~~~~~~~~~~~~~~~~~~~~~!isLetter(symbol) \&\& !isNumber(symbol) ):\\
+~~~~~~~~~~~~~\Scode{return} \Scodelit{false}\\
+~~~\Scode{if} (state == \Scodelit{"{}\nameForInnerLexerState"{}}): \Scode{return} \Scodelit{true}
+}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Bezeichner erkennen (3)}
+
+Der (schlechte) Programmcode zeigt eine wichtige Eigenschaft:
+\begin{center}
+	\redalert{Der Lexer muss nur einen "`Zustand"' speichern}
+\end{center}
+(im Beispiel ist dies der Wert der Variable \texttt{state})
+\bigskip
+
+Darstellung als \alert{endlicher Automat:}\bigskip
+
+\begin{minipage}{5cm}
+\doodlebox{gray}{%
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {start};
+\node (s2) [double,circle,draw=black,thick] at (3,0) {\nameForInnerLexerState};
+%
+\path[->,line width=0.5mm]
+(-1,0) edge (s1)
+(s1) edge node[above] {\Snterm{Buchstabe}} (s2)
+(s2) edge [loop above] node[above] {\Snterm{Buchstabe}} (s2)
+(s2) edge [loop below] node[below] {\Snterm{Ziffer}} (s2)
+;
+\end{tikzpicture}}
+\end{minipage}%
+% 
+\begin{minipage}{6cm}\footnotesize
+\begin{itemize}
+\item Automat beginnt im Startzustand \scalebox{0.5}{\begin{tikzpicture}[baseline=(s1.base)]\node (s1) [circle,draw=black,thick] at (0,0) {start};\path[->,line width=0.5mm]
+(-1,0) edge (s1);\end{tikzpicture}}
+\item Zustandswechsel gemäß Pfeilen
+\item Kein passender Pfeil für Symbol?\\ "`\texttt{\Scode{return} \Scodelit{false}}"'
+\item Keine weiteren Symbole?\\
+"`\texttt{\Scode{return} \Scodelit{true}}"' in Endzustand \scalebox{0.5}{\begin{tikzpicture}[baseline=(s2.base)]\node (s2) [double,circle,draw=black,thick] at (4,0) {\nameForInnerLexerState};\end{tikzpicture}}\\
+"`\texttt{\Scode{return} \Scodelit{false}}"' falls in Zustand \scalebox{0.5}{\begin{tikzpicture}[baseline=(s1.base)]\node (s1) [circle,draw=black,thick] at (0,0) {start};
+% \path[->,line width=0.5mm](-1,0) edge (s1);
+\end{tikzpicture}}
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Bezeichner erkennen (4)}
+
+Wie kann man jemandem am besten erklären, was ein "`Bezeichner"' ist?
+\begin{itemize}
+\item \alert{Sprachliche Umschreibung}: ungenau und mehrdeutig
+\item \alert{Syntaxdiagram}, \alert{endlicher Automat}: graphische Darstellung anschaulich, aber schnell unübersichtlich
+\item \alert{Programmcode}: Kernidee geht in Implementierungsdetails verloren
+\end{itemize}
+$\leadsto$ Spezifikationen verwenden meist \redalert{Grammatiken}
+
+\examplebox{\vspace{-3ex}\begin{align*}
+\Snterm{Bezeichner} &\Coloneqq \Snterm{Buchstabe} \mid \Snterm{Buchstabe}~ \Snterm{InBezeichner}\\
+\Snterm{InBezeichner} &\Coloneqq \Snterm{BuchOderZiff} \mid \Snterm{BuchOderZiff}~ \Snterm{InBezeichner}\\
+\Snterm{BuchOderZiff} &\Coloneqq \Snterm{Buchstabe} \mid \Snterm{Ziffer}\\
+\Snterm{Buchstabe} &\Coloneqq \quoted{\Sterm{a}} \mid \quoted{\Sterm{b}} \mid \ldots \mid \quoted{\Sterm{Z}}\\
+\Snterm{Ziffer} &\Coloneqq \quoted{\Sterm{0}} \mid \quoted{\Sterm{1}} \mid \ldots \mid \quoted{\Sterm{9}}
+\end{align*}
+% Beispiel: \ldots
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Formale Sprachen}
+
+Wir haben gesehen:
+\begin{itemize}
+\item In der Praxis interessieren wir uns oft für unendliche Mengen von Strings, z.B. \Snterm{Bezeichner} oder \Snterm{Java Programme}\\
+$\leadsto$ solche Mengen nennt man \redalert{formale Sprachen}
+\item Man kann formale Sprachen auf viele Arten beschreiben, z.B. mit Automaten, Grammatiken oder Syntaxdiagrammen\\
+$\leadsto$ unterschiedliche Stärken und Schwächen
+\item Kein Ansatz kann alle Sprachen beschreiben, z.B. gibt es keinen Automaten, der Java-Programme parsen kann\\
+$\leadsto$ man unterscheidet \redalert{Typen von Sprachen}
+\end{itemize}
+
+Erster Teil der Vorlesung:\\
+formale Sprachen und ihre Darstellungsarten
+
+\end{frame}
+
+
+% Lexer: Beispiel endlicher Automat, ev. vorher Beispiel reg. Grammatik?
+% Parser: Beispiel Grammtik(en)
+
+\sectionSlide{Formale Sprachen}
+
+\begin{frame}\frametitle{Grundbegriffe: Alphabete und Wörter}
+
+\defbox{Ein \redalert{Alphabet} ist eine endliche, nicht-leere Menge.\\
+Elemente des Alphabets heißen \redalert{Symbole}.}
+
+Meistens verwendet man die Buchstaben $\Sigma$ (Sigma) oder $\Gamma$ (Gamma) für Alphabete.
+
+\defbox{
+Ein endliches \redalert{Wort} über einem Alphabet $\Sigma$ ist eine endliche Folge von Symbolen aus $\Sigma$.
+Wenn $w$ ein endliches Wort ist, dann ist $|w|$ seine \redalert{Länge} (die Anzahl seiner Symbole).
+}
+
+Alle Wörter in dieser Vorlesung sind endlich. Wir sagen das ab jetzt nicht immer dazu.
+
+\examplebox{Beispiel:
+$\Sigma = \{\Sterm{a},\Sterm{b}\}$ ist ein Alphabet.\\
+Wörter über diesem Alphabet sind z.B. $\Sterm{abba}$ oder $\Sterm{bbb}$.\\
+Die Längen dieser Wörter sind $|\Sterm{abba}|=4$ und $|\Sterm{bbb}|=3$.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Grundbegriffe: Konkatenation, Leeres Wort}
+
+Die wichtigste Operation auf Wörtern ist Konkatenation ("`Hintereinanderhängung"'):
+\defbox{
+Die \redalert{Konkatenation} von zwei Wörtern $w=\Sterm{a_1}\ldots\Sterm{a_n}$ und $v=\Sterm{b_1}\ldots\Sterm{b_m}$
+ist das Wort $wv=\Sterm{a_1}\ldots\Sterm{a_n}\Sterm{b_1}\ldots\Sterm{b_m}$.
+}
+
+Wir schreiben also konkatenierte Wörter einfach nebeneinander.
+\medskip
+
+% Ein besonders endliches Wort ist das Wort der Länge $0$:
+\defbox{Das \redalert{leere Wort $\epsilon$} (epsilon) ist das Wort der Länge 0, also $|\epsilon|=0$.}
+Es gibt genau ein leeres Wort und man kann es über jedem Alphabet bilden.
+\medskip
+
+\examplebox{
+Beispiel: Für die Wörter $w=\Sterm{tuben}$ und $v=\Sterm{wachs}$ gilt
+$wv=\Sterm{tubenwachs}$ und $vw=\Sterm{wachstuben}$.
+}
+
+\examplebox{
+Beispiel: Für jedes Wort $w$ gilt: $w\epsilon = \epsilon w = w$
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Grundbegriffe: *-fixe}
+
+Manchmal ist es praktisch, Teile von Wörtern zu bezeichnen:
+\defbox{
+Sei $w=\Sterm{a_1}\ldots \Sterm{a_n}$ ein Wort der Länge $n$.
+\begin{itemize}
+\item Ein \redalert{Präfix} von $w$ ist ein Wort $\Sterm{a_1}\ldots \Sterm{a_i}$ mit $0\leq i \leq n$
+\item Ein \redalert{Suffix} von $w$ ist ein Wort $\Sterm{a_j}\ldots \Sterm{a_n}$ mit $0\leq j \leq n$
+\item Ein \redalert{Infix} von $w$ ist ein Wort $\Sterm{a_i}\ldots \Sterm{a_j}$ mit $0\leq i\leq j \leq n$
+\end{itemize}
+}
+
+\examplebox{
+Beispiel: Das Wort $\Sterm{Staubecken}$ hat ein Präfix $\Sterm{Staub}$, ein Suffix $\Sterm{ecken}$ und ein Infix $\Sterm{taube}$ (und viele andere mehr).
+}
+
+\examplebox{
+Beispiel: Das leere Wort $\epsilon$ ist Präfix, Suffix und Infix von jedem Wort (sogar von $\epsilon$ selbst).
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Grundbegriffe: formale Sprache}
+
+\defbox{Sei $\Sigma$ ein Alphabet. Eine Menge von Wörtern über $\Sigma$ wird
+\redalert{formale Sprache} über $\Sigma$ genannt.}
+
+Die Zusätze "`formal"' und "`über $\Sigma$"' werden meist weggelassen, wenn dadurch keine Missverständnisse auftreten können.
+\medskip
+
+Sprachen werden meist mit dem Buchstaben $\Slang{L}$ bezeichnet.
+
+
+\end{frame}
+
+% Grundbegriffe: Alphabet, Wort, leeres Wort, Konkatenation, Menge aller Woerter, Sprache
+	% Zusatz: Praefix, Infix, Suffix
+% Abzaehlbarkeit von Sprachen
+% Uberabzaehlbarkeit der Menge aller Sprachen
+
+% Operationen auf formalen Sprachen
+
+% Beispiele mit "Aussagen", die man beweisen kann
+
+% Identitaeten ("Rechenregeln")
+
+\sectionSlide{Grammatiken}
+
+% Grammatik: Beispiel mit Ableitung,
+% Produktionssystem, Ableitungsregel, (Nicht)Terminal, Start am Beispiel
+% formale Definition
+%	TODO: Notation Regeln: "->" oder "::=" oder was ganz anderes?
+% Herleitungsrelation, Ableitung, erzeugte Sprache
+% Beispielgrammatiken und ihre Sprachen (mit Beweis)
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+The relational model is very versatile
+\bigskip
+
+Relational algebra allows us to define queries with operators
+\bigskip
+
+Many operators exist, not all are really needed (see exercise)
+\bigskip
+
+Open questions:
+\begin{itemize}
+\item What does this have to do with logic? (next lecture)
+\item How hard is it to actually answer such queries? (complexity)
+\item How can we study the expressiveness of query languages?
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

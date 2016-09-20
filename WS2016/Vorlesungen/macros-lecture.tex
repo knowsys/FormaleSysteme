@@ -1,0 +1,215 @@
+% Macros used by all lectures, but not necessarily by excercises
+
+%%% General setup and dependencies:
+
+% \usetheme[ddcfooter,nosectionnum]{tud}
+\usetheme[nosectionnum,pagenum,noheader]{tud}
+% \usetheme[nosectionnum,pagenum]{tud}
+
+% Increase body font size to a sane level:
+\let\origframetitle\frametitle
+% \renewcommand{\frametitle}[1]{\origframetitle{#1}\normalsize}
+\renewcommand{\frametitle}[1]{\origframetitle{#1}\fontsize{10pt}{13.2}\selectfont}
+\setbeamerfont{itemize/enumerate subbody}{size=\small} % tud defaults to scriptsize!
+\setbeamerfont{itemize/enumerate subsubbody}{size=\small}
+% \setbeamerfont{normal text}{size=\small}
+% \setbeamerfont{itemize body}{size=\small}
+
+\renewcommand{\emph}[1]{\textbf{#1}}
+
+\def\arraystretch{1.3}% Make tables even less cramped vertically
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage{graphicx}
+\usepackage[export]{adjustbox} % loads graphicx
+\usepackage{import}
+\usepackage{stmaryrd}
+\usepackage[normalem]{ulem} % sout command
+% \usepackage{times}
+\usepackage{txfonts}
+
+\usepackage{smartdiagram}
+\usetikzlibrary{arrows,positioning}
+% Inspired by http://www.texample.net/tikz/examples/hand-drawn-lines/
+\usetikzlibrary{decorations.pathmorphing}
+\pgfdeclaredecoration{penciline}{initial}{
+    \state{initial}[width=+\pgfdecoratedinputsegmentremainingdistance,
+    auto corner on length=1mm,]{
+        \pgfpathcurveto%
+        {% From
+            \pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}
+                      {\pgfdecorationsegmentamplitude}
+        }
+        {%  Control 1
+        \pgfmathrand
+        \pgfpointadd{\pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}{0pt}}
+                    {\pgfqpoint{-\pgfdecorationsegmentaspect
+                     \pgfdecoratedinputsegmentremainingdistance}%
+                               {\pgfmathresult\pgfdecorationsegmentamplitude}
+                    }
+        }
+        {%TO 
+        \pgfpointadd{\pgfpointdecoratedinputsegmentlast}{\pgfpoint{1pt}{1pt}}
+        }
+    }
+    \state{final}{}
+}
+\tikzset{handdrawn/.style={decorate,decoration=penciline}}
+\tikzset{every shadow/.style={fill=none,shadow xshift=0pt,shadow yshift=0pt}}
+% \tikzset{module/.append style={top color=\col,bottom color=\col}}
+
+%%% Title -- always set this first
+
+\newcommand{\defineTitle}[3]{
+	\newcommand{\lectureindex}{#1}
+	\title{Formale Systeme}
+	\subtitle{\href{\lectureurl}{#1. Vorlesung: #2}}
+	\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
+%	\author{\href{http://www.sebastian-rudolph.de}{Sebastian Rudolph} in Vertretung von \href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
+	\date{#3}
+	\datecity{TU Dresden}
+% 	\institute{Computational Logic}
+}
+
+%%% Table of contents:
+
+\RequirePackage{ifthen}
+
+\newcommand{\highlight}[2]{%
+	\ifthenelse{\equal{#1}{\lectureindex}}{\alert{#2}}{#2}%
+}
+
+\def\myspace{-0.7ex}
+\newcommand{\printtoc}{
+\begin{tabular}{r@{$\quad$}l}
+\highlight{1}{1.} & \highlight{1}{Introduction | Relational data model}\\[\myspace]
+\highlight{2}{2.} & \highlight{2}{First-order queries}\\[\myspace]
+\highlight{3}{3.} & \highlight{3}{Complexity of query answering}\\[\myspace]
+\highlight{4}{4.} & \highlight{4}{Complexity of FO query answering}\\[\myspace]
+\highlight{5}{5.} & \highlight{5}{Conjunctive queries}\\[\myspace]
+\highlight{6}{6.} & \highlight{6}{Tree-like conjunctive queries}\\[\myspace]
+\highlight{7}{7.} & \highlight{7}{Query optimisation}\\[\myspace]
+\highlight{8}{8.} & \highlight{8}{Conjunctive Query Optimisation / First-Order~Expressiveness}\\[\myspace]
+\highlight{9}{9.} & \highlight{9}{First-Order~Expressiveness / Introduction to Datalog}\\[\myspace]
+\highlight{10}{10.} & \highlight{10}{Expressive Power and Complexity of Datalog}\\[\myspace]
+\highlight{11}{11.} & \highlight{11}{Optimisation and Evaluation of Datalog}\\[\myspace]
+\highlight{12}{12.} & \highlight{12}{Evaluation of Datalog (2)}\\[\myspace]
+\highlight{13}{13.} & \highlight{13}{Graph Databases and Path Queries}\\[\myspace]
+\highlight{14}{14.} & \highlight{14}{Outlook: database theory in practice}
+\end{tabular}
+}
+
+\newcommand{\overviewslide}{%
+\begin{frame}\frametitle{Overview}
+\printtoc
+\medskip
+
+Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more information and materials
+\end{frame}
+}
+
+%%% Colours:
+
+\usepackage{xcolor,colortbl}
+\definecolor{redhighlights}{HTML}{FFAA66}
+\definecolor{lightblue}{HTML}{55AAFF}
+\definecolor{lightred}{HTML}{FF5522}
+\definecolor{lightgreen}{HTML}{55FF55}
+\definecolor{darkred}{HTML}{CC4411}
+\definecolor{darkblue}{HTML}{176FC0}%{1133AA}
+\definecolor{alert}{HTML}{176FC0}
+\definecolor{darkgreen}{HTML}{36AB14}
+\definecolor{strongyellow}{HTML}{FFE219}
+
+\newcommand{\redalert}[1]{\textcolor{darkred}{#1}}
+
+%%% Style commands
+
+\newcommand{\quoted}[1]{\texttt{"}{#1}\texttt{"}}
+\newcommand{\squote}{\texttt{"}} % straight quote
+\newcommand{\Sterm}[1]{\ensuremath{\mathtt{\textcolor{purple}{#1}}}}    % letters in alphabets
+\newcommand{\Snterm}[1]{\textsf{\textcolor{darkblue}{#1}}} % nonterminal symbols
+\newcommand{\Slang}[1]{\textbf{\textcolor{black}{#1}}}    % languages
+% Code
+\newcommand{\Scode}[1]{\textbf{#1}}    % reserved words in program listings, e.g., "if"
+\newcommand{\Scodelit}[1]{\textcolor{purple}{#1}}    % literals in program listings, e.g., strings
+\newcommand{\Scomment}[1]{\textcolor{gray}{#1}}    % comment in program listings
+
+%%% Slide layout commands:
+
+\newcommand{\sectionSlide}[1]{
+\frame{\begin{center}
+\LARGE
+#1
+\end{center}}
+}
+
+\newcommand{\mydualbox}[3]{%
+ \begin{minipage}[t]{#1}
+ \begin{beamerboxesrounded}[upper=block title,lower=block body,shadow=true]%
+    {\centering\usebeamerfont*{block title}#2}%
+    \raggedright%
+    \usebeamerfont{block body}
+%     \small
+    #3%
+  \end{beamerboxesrounded}
+  \end{minipage}
+}
+% 
+\newcommand{\myheaderbox}[2]{%
+ \begin{minipage}[t]{#1}
+ \begin{beamerboxesrounded}[upper=block title,lower=block title,shadow=true]%
+    {\centering\usebeamerfont*{block title}\rule{0pt}{2.6ex} #2}%
+  \end{beamerboxesrounded}
+  \end{minipage}
+}
+
+\newcommand{\mycontentbox}[2]{%
+ \begin{minipage}[t]{#1}%
+ \begin{beamerboxesrounded}[upper=block body,lower=block body,shadow=true]%
+    {\centering\usebeamerfont*{block body}\rule{0pt}{2.6ex}#2}%
+  \end{beamerboxesrounded}
+  \end{minipage}
+}
+
+\newcommand{\mylcontentbox}[2]{%
+ \begin{minipage}[t]{#1}%
+ \begin{beamerboxesrounded}[upper=block body,lower=block body,shadow=true]%
+    {\flushleft\usebeamerfont*{block body}\rule{0pt}{2.6ex}#2}%
+  \end{beamerboxesrounded}
+  \end{minipage}
+}
+
+% label=180:{\rotatebox{90}{{\footnotesize\textcolor{darkgreen}{Beispiel}}}}
+% \hspace{-8mm}\ghost{\raisebox{-7mm}{\rotatebox{90}{{\footnotesize\textcolor{darkgreen}{Beispiel}}}}}\hspace{8mm}
+\newcommand{\examplebox}[1]{%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\node (n1) [decorate,draw=darkgreen, fill=darkgreen!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
+% 		\node (n2) [align=left,text width=\linewidth,inner sep=0mm] at (n1.92) {{\footnotesize\raisebox{3mm}{\textcolor{darkgreen}{Beispiel}}}};
+% 		\node (n2) [decorate,draw=darkgreen, fill=darkgreen!10,thick, align=left,text width=\linewidth,inner sep=2mm] at (n1.90) {{\footnotesize\raisebox{0mm}{\textcolor{darkgreen}{Beispiel}}}};
+	\end{tikzpicture}%
+}%
+
+\newcommand{\codebox}[1]{%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\node (n1) [decorate,draw=strongyellow, fill=strongyellow!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
+	\end{tikzpicture}%
+}%
+
+\newcommand{\defbox}[1]{%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\node (n1) [decorate,draw=darkred, fill=darkred!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
+	\end{tikzpicture}%
+}%
+
+
+\newsavebox{\mybox}%
+\newcommand{\doodlebox}[2]{%
+\sbox{\mybox}{#2}%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\node (n1) [decorate,draw=#1, fill=#1!10,thick,align=left,inner sep=1mm] at (0,0) {\usebox{\mybox}};
+	\end{tikzpicture}%
+}%
