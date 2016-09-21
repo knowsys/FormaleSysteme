@@ -151,7 +151,25 @@ $\leadsto$ Berechnungsverfahren zum \redalert{logischen Schließen}
 
 \begin{frame}\frametitle{Literatur}
 
-TODO
+Der Vorlesungsstoff gehört zu fast jeder Informatikausbildung. Es gibt viele
+Lehrmaterialien und eine weitgehend einheitliche \ghost{Notation.}
+\bigskip
+
+Lehrbücher zum ersten Teil der Vorlesung (formale Sprachen):
+
+\begin{itemize}
+\item Uwe Schöning: \emph{Theoretische Informatik -- kurz gefasst.} Spektrum Akademischer Verlag\\
+{\footnotesize\textcolor{devilscss}{deutschsprachiger Standardtext; in der Tat ziemlich kurzgefasst}}
+\item John E. Hopcroft, Rajeev Motwani, Jeffrey D. Ullman: \emph{Einführung in Automatentheorie, Formale Sprachen und Berechenbarkeit.} Pearson Studium\\
+{\footnotesize\textcolor{devilscss}{aus dem Englischen übertragenes Standardwerk; Original ev. besser}}
+\end{itemize}
+Existierende Skripte zu dieser Vorlesung (Links siehe Webseite):
+\begin{itemize}
+\item Franz Baader: \emph{Skript Formale Systeme, Teil 1 -- Automaten und formale Sprachen.} TU Dresden.
+% {\tiny Siehe \url{https://lat.inf.tu-dresden.de/teaching/ws2013-2014/FS/script_2016-02.pdf}}.
+\item Christel Baier, Manuela Berg, Walter Nauber: \emph{Formale Systeme WS 2011/2012: Skript zur Vorlesung.} TU Dresden.
+% {\tiny Siehe \url{http://www.inf.tu-dresden.de/content/institutes/thi/algi/lehre/WS1415/FS/lecture_notes/Skript_FS_C_Baier_WS1112.pdf}}.
+\end{itemize}
 
 \end{frame}
 
@@ -591,7 +609,7 @@ Man kann mit Sprachen "`rechnen"' um neue Sprachen zu bilden:
 \item \mytab{\redalert{Schnitt:}} $\Slangsub{L}{1}\cap\Slangsub{L}{2}$
 \item \mytab{\redalert{Komplement:}} $\overline{\Slang{L}}=\Sigma^*\setminus\Slang{L}$
 \hspace{2mm}\begin{minipage}[t]{4.3cm}{\footnotesize (nur sinnvoll, wenn das\\ Alphabet $\Sigma$ klar festgelegt ist!)}\end{minipage}
-\item \mytab{\redalert{Konkatenation:}} $\Slangsub{L}{1}\circ\Slangsub{L}{2} = \{ w_1 w_2 \mid w_1\in\Slangsub{L}{1}, w_2\in\Slangsub{L}{2}\}$
+\item \mytab{\redalert{Produkt:}} $\Slangsub{L}{1}\circ\Slangsub{L}{2} = \{ w_1 w_2 \mid w_1\in\Slangsub{L}{1}, w_2\in\Slangsub{L}{2}\}$
 \item \mytab{\redalert{Potenz:}} $\Slang{L}^0=\{\epsilon\}$ und $\Slang{L}^{n+1}=\Slang{L}\circ\Slang{L}^n$
 \item \mytab{\redalert{Kleene-Abschluss:}} $\Slang{L}^*= \Slang{L}^0\cup \Slang{L}^1 \cup \Slang{L}^2 \cup \ldots = \bigcup_{i\geq 0} \Slang{L}^i$
 \end{itemize}
@@ -611,7 +629,8 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \begin{frame}\frametitle{Operationen auf Sprachen: Kurzschreibweisen}
 
 \begin{itemize}
-\item Der Konkatenationsoperator wird oft eingespart:\\ statt $\Slangsub{L}{1}\circ\Slangsub{L}{2}$ schreiben wir $\Slangsub{L}{1}\Slangsub{L}{2}$
+\item Der Produktoperator wird oft eingespart:\\ statt $\Slangsub{L}{1}\circ\Slangsub{L}{2}$ schreiben wir $\Slangsub{L}{1}\Slangsub{L}{2}$\\
+{\footnotesize\textcolor{devilscss}{Hinweis: Manche Autoren verwenden $\cdot$ statt $\circ$.}}
 %
 \item Ein zusätzlicher \redalert{Plus-Operator} ist manchmal praktisch: $\Slang{L}^+= \bigcup_{i\geq 1} \Slang{L}^i$
 %
@@ -625,7 +644,7 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \examplebox{Beispiel:
 Die Menge aller gültigen Schreibweisen für Dezimalzahlen kann wie folgt definiert werden:\\[1.5ex]
 
-\narrowcentering{$ \Slang{Dezimalzahl} =  \big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\big) \circ \big(\{\Sterm{0}\}\cup \Slang{ZifferAb1}^+\big) \circ \big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Ziffer}^+ \big) $}\\[1.5ex]
+\narrowcentering{$ \Slang{Dezimalzahl} =  \Big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\Big) \circ \Big(\{\Sterm{0}\}\cup \Slang{ZifferAb1}^+\Big) \circ \Big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Ziffer}^+ \Big) $}\\[1.5ex]
 
 mit $\Slang{ZifferAb1}=\{\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$
 und $\Slang{Ziffer}=\{\Sterm{0}\}\cup \Slang{ZifferAb1}$.\\[1ex]
