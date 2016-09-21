@@ -212,6 +212,20 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 	\end{tikzpicture}%
 }%
 
+\newcommand{\theobox}[1]{%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1240}
+		\node (n1) [decorate,draw=darkblue, fill=darkblue!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#1};
+	\end{tikzpicture}%
+}%
+
+\newcommand{\anybox}[2]{%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1240}
+		\node (n1) [decorate,draw=#1, fill=#1!10,thick,align=left,text width=\linewidth, inner ysep=2mm, inner xsep=2mm] at (0,0) {#2};
+	\end{tikzpicture}%
+}%
+
 
 \newsavebox{\mybox}%
 \newcommand{\doodlebox}[2]{%

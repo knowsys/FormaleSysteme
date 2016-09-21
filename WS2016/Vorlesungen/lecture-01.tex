@@ -71,7 +71,7 @@ Tipps:
 \item \emph{Schnell sein}\\
 	{\footnotesize Prüfungszeit ist meistens knapp. Es reicht nicht, Aufgaben "`im Prinzip"' lösen zu können. Man muss sie schnell lösen.}
 \item \emph{Ehrlich zu sich selbst sein}\\
-	{\footnotesize Man sollte selber wissen, ob man genug gelernt hat oder nicht.\footnote{\tiny Vgl.\ aber auch Wikipedia \href{https://de.wikipedia.org/wiki/Dunning-Kruger-Effekt}{[[Dunning-Kruger-Effekt]]}}}
+	{\footnotesize Man sollte selbst wissen, ob man genug gelernt hat oder nicht.\footnote{\tiny Vgl.\ aber auch Wikipedia \href{https://de.wikipedia.org/wiki/Dunning-Kruger-Effekt}{[[Dunning-Kruger-Effekt]]}}}
 \end{itemize}
 
 \end{frame}
@@ -623,9 +623,9 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \pause
 
 \examplebox{Beispiel:
-Die Menge aller gültigen Schreibweisen für Dezimalzahlen kann wie folgt definiert werden:\\[1ex]
+Die Menge aller gültigen Schreibweisen für Dezimalzahlen kann wie folgt definiert werden:\\[1.5ex]
 
-\narrowcentering{$ \Slang{Dezimalzahl} =  \big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\big) \circ \big(\{\Sterm{0}\}\cup \Slang{ZifferAb1}^+\big) \circ \big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Ziffer}^+ \big) $}\\[1ex]
+\narrowcentering{$ \Slang{Dezimalzahl} =  \big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\big) \circ \big(\{\Sterm{0}\}\cup \Slang{ZifferAb1}^+\big) \circ \big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Ziffer}^+ \big) $}\\[1.5ex]
 
 mit $\Slang{ZifferAb1}=\{\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$
 und $\Slang{Ziffer}=\{\Sterm{0}\}\cup \Slang{ZifferAb1}$.\\[1ex]
@@ -634,6 +634,76 @@ und $\Slang{Ziffer}=\{\Sterm{0}\}\cup \Slang{ZifferAb1}$.\\[1ex]
 Ausdrücke der Form $(\{\epsilon\}\cup \Slang{L})$ beschreiben optionale Bestandteile.
 }
 
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Wie viele Wörter gibt es?}
+
+\pause
+
+\theobox{Satz: Es gibt \redalert{abzählbar viele} Wörter über jedem Alphabet $\Sigma$. Jede Sprache ist also entweder endlich oder abzählbar unendlich.}
+\pause
+
+\emph{Idee:} Zum "`Abzählen"' reihen wir die Wörter in $\Sigma^*$ der Länge nach auf, beginnend mit den kurzen Wörtern.\\
+Zum Beispiel: $\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba}, \Sterm{bb}, \Sterm{aaa}, \Sterm{aab},\ldots$
+\smallskip
+\pause
+
+\emph{Beweis} (die gleiche Idee, aber etwas formaler):\\
+\begin{itemize}
+\item Laut Definition ist $\Sigma^* = \Sigma^0 \cup \Sigma^1 \cup \Sigma^2 \cup \ldots = \bigcup_{i\geq 0} \Sigma^0$.\\
+\item Jede der Mengen $\Sigma^i$ ist endlich (es gibt nur endlich viele Wörter der Länge $i$).\\
+\item Es gibt abzählbar viele Mengen $\Sigma^i$ (eine für jede natürliche \ghost{Zahl)}.\\
+\item Eine abzählbare Vereinigung endlicher Mengen ist abzählbar.\\
+\item Also ist $\Sigma^*$ abzählbar.\qed
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Wie viele Sprachen gibt es?}
+
+\pause
+
+\theobox{Satz: Es gibt \redalert{überabzählbar viele} Sprachen über jedem beliebigen Alphabet $\Sigma$.}
+\pause
+
+\emph{Beweis:}
+\begin{itemize}
+\item Die Menge aller Wörter \alert{$\Sigma^*$ ist abzählbar unendlich}, selbst wenn $\Sigma$ nur ein Symbol enthält.
+\item Eine Sprache ist eine beliebige Teilmenge von $\Sigma^*$.
+\item Die Menge aller Sprachen über $\Sigma$ ist die Menge aller Teilmengen (\alert{Potenzmenge}) von $\Sigma^*$.
+\item Die Kardinalität der Potenzmenge ist immer größer als die der Menge selbst (\alert{Satz von Cantor}).
+\item Also gibt es überabzählbar viele Sprachen.\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Aus Kardinalitäten lernen}
+
+\emph{Zusammenfassung:} Über jedem beliebigen Alphabet $\Sigma$ gibt es
+\begin{itemize}
+\item \redalert{abzählbar} viele Wörter
+\item \redalert{überabzählbar} viele Sprachen
+\end{itemize}
+\bigskip\pause
+
+\emph{Beobachtung:} Wir beschreiben Sprachen mit "`Wörtern"':
+\begin{itemize}
+\item Natürlichsprachliche Texte sind Wörter
+\item Computerprogramme sind Wörter
+\item Mathematische Formeln sind Wörter
+\end{itemize}
+Es gibt \redalert{viel mehr} Sprachen als Texte, Programme oder \ghost{Formeln!}
+\pause
+\bigskip
+
+\theobox{Satz: Fast alle Sprachen können in keiner Weise endlich beschrieben werden.
+Fast alle Sprachen werden durch kein Computerprogramm korrekt erkannt.}
+
+Ein starker Satz, aber er gibt uns keine Hinweise, welche Sprachen man wie beschreiben kann.
+Zum Beispiel gibt es mathematisch beschreibbare Sprachen, für die es kein Computerprogramm gibt.
 
 \end{frame}
 
@@ -660,21 +730,23 @@ Ausdrücke der Form $(\{\epsilon\}\cup \Slang{L})$ beschreiben optionale Bestand
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-The relational model is very versatile
+Formale Sprachen sind für die Informatik sehr wichtig
 \bigskip
 
-Relational algebra allows us to define queries with operators
+Grundbegriffe: Alphabet, Wort, Sprache, Konkatenation, Präfix/Suffix/Infix, $\epsilon$, $\Sigma^*$, Operationen auf Sprachen
 \bigskip
 
-Many operators exist, not all are really needed (see exercise)
+Nicht alle Sprachen sind mathematisch beschreibbar oder durch Computer entscheidbar
 \bigskip
 
-Open questions:
+\anybox{yellow}{
+Offene Fragen:
 \begin{itemize}
-\item What does this have to do with logic? (next lecture)
-\item How hard is it to actually answer such queries? (complexity)
-\item How can we study the expressiveness of query languages?
+\item Welche Arten von Sprachen können wir beschreiben oder implementieren? %(nächste Vorlesung)
+\item Wie genau sehen die Beschreibungen oder Implementierungen aus?
+\item Wie kommt Berechnung ins Spiel?
 \end{itemize}
+}
 
 \end{frame}
 
