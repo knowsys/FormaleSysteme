@@ -658,78 +658,73 @@ und $\Slang{Ziffer}=\{\Sterm{0}\}\cup \Slang{ZifferAb1}$.\\[1ex]
 
 Ausdrücke der Form $(\{\epsilon\}\cup \Slang{L})$ beschreiben optionale Bestandteile.
 }
-
-
 \end{frame}
 
 
-\begin{frame}\frametitle{Wie viele Wörter gibt es?}
+\begin{frame}\frametitle{Rechenregeln (1)}
 
-\pause
-
-\theobox{Satz: Es gibt \redalert{abzählbar viele} Wörter über jedem Alphabet $\Sigma$. Jede Sprache ist also entweder endlich oder abzählbar unendlich.}
-\pause
-
-\emph{Idee:} Zum "`Abzählen"' reihen wir die Wörter in $\Sigma^*$ der Länge nach auf, beginnend mit den kurzen Wörtern.\\
-Zum Beispiel: $\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba}, \Sterm{bb}, \Sterm{aaa}, \Sterm{aab},\ldots$
-\smallskip
-\pause
-
-\emph{Beweis} (die gleiche Idee, aber etwas formaler):\\
-\begin{itemize}
-\item Laut Definition ist $\Sigma^* = \Sigma^0 \cup \Sigma^1 \cup \Sigma^2 \cup \ldots = \bigcup_{i\geq 0} \Sigma^0$.\\
-\item Jede der Mengen $\Sigma^i$ ist endlich (es gibt nur endlich viele Wörter der Länge $i$).\\
-\item Es gibt abzählbar viele Mengen $\Sigma^i$ (eine für jede natürliche \ghost{Zahl)}.\\
-\item Eine abzählbare Vereinigung endlicher Mengen ist abzählbar.\\
-\item Also ist $\Sigma^*$ abzählbar.\qed
-\end{itemize}
-
-
-\end{frame}
-
-\begin{frame}\frametitle{Wie viele Sprachen gibt es?}
-
-\pause
-
-\theobox{Satz: Es gibt \redalert{überabzählbar viele} Sprachen über jedem beliebigen Alphabet $\Sigma$.}
-\pause
-
-\emph{Beweis:}
-\begin{itemize}
-\item Die Menge aller Wörter \alert{$\Sigma^*$ ist abzählbar unendlich}, selbst wenn $\Sigma$ nur ein Symbol enthält.
-\item Eine Sprache ist eine beliebige Teilmenge von $\Sigma^*$.
-\item Die Menge aller Sprachen über $\Sigma$ ist die Menge aller Teilmengen (\alert{Potenzmenge}) von $\Sigma^*$.
-\item Die Kardinalität der Potenzmenge ist immer größer als die der Menge selbst (\alert{Satz von Cantor}).
-\item Also gibt es überabzählbar viele Sprachen.\qed
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Aus Kardinalitäten lernen}
-
-\emph{Zusammenfassung:} Über jedem beliebigen Alphabet $\Sigma$ gibt es
-\begin{itemize}
-\item \redalert{abzählbar} viele Wörter
-\item \redalert{überabzählbar} viele Sprachen
-\end{itemize}
-\bigskip\pause
-
-\emph{Beobachtung:} Wir beschreiben Sprachen mit "`Wörtern"':
-\begin{itemize}
-\item Natürlichsprachliche Texte sind Wörter
-\item Computerprogramme sind Wörter
-\item Mathematische Formeln sind Wörter
-\end{itemize}
-Es gibt \redalert{viel mehr} Sprachen als Texte, Programme oder \ghost{Formeln!}
-\pause
+Es gelten viele Rechenregeln für Operationen auf Sprachen.
 \bigskip
 
-\theobox{Satz: Fast alle Sprachen können in keiner Weise endlich beschrieben werden.
-Fast alle Sprachen werden durch kein Computerprogramm korrekt erkannt.}
+Sprachen sind Mengen -- es gelten die Gesetze der Mengenlehre.
+\bigskip
 
-Ein starker Satz, aber er gibt uns keine Hinweise, welche Sprachen man wie beschreiben kann.
-Zum Beispiel gibt es mathematisch beschreibbare Sprachen, für die es kein Computerprogramm gibt.
+\theobox{%
+Für Sprachen $\Slangsub{L}{1}$, $\Slangsub{L}{2}$, $\Slang{K}$ über einem
+gemeinsamen Alphabet $\Sigma$ gilt:%
+\begin{itemize}
+\item $\Slangsub{L}{1}\cap\Slangsub{L}{2} = \Slangsub{L}{2}\cap\Slangsub{L}{1}$ \textcolor{devilscss}{(Kommutativgesetz $\cap$)}
+\item $\Slangsub{L}{1}\cup\Slangsub{L}{2} = \Slangsub{L}{2}\cup\Slangsub{L}{1}$ \textcolor{devilscss}{(Kommutativgesetz $\cup$)}
+\item $\Slang{K}\cup (\Slangsub{L}{1}\cap\Slangsub{L}{2}) = (\Slang{K}\cup\Slangsub{L}{1})\cap(\Slang{K}\cup\Slangsub{L}{2})$ \textcolor{devilscss}{(Distributivgesetz $\cup$ über $\cap$)}
+\item $\Slang{K}\cap(\Slangsub{L}{1}\cup\Slangsub{L}{2}) = (\Slang{K}\cap\Slangsub{L}{1})\cup(\Slang{K}\cap\Slangsub{L}{2})$ \textcolor{devilscss}{(Distributivgesetz $\cap$ über $\cup$)}
+\item $\Slangsub{L}{1}\cup\Slangsub{L}{2} = \overline{\overline{\Slangsub{L}{1}}\cap\overline{\Slangsub{L}{2}}}$ \textcolor{devilscss}{(De Morgansches Gesetz 1)}
+\item $\Slangsub{L}{1}\cap\Slangsub{L}{2} = \overline{\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}}$ \textcolor{devilscss}{(De Morgansches Gesetz 2)}
+\end{itemize}
+}
 
+\end{frame}
+
+\renewcommand{\mytab}[1]{\ghost{#1}\phantom{$\Slang{K}^* = (\Slang{K}\setminus\{\epsilon\})^* = \Slang{K}^+\cup\{\epsilon\}$ }}
+\begin{frame}\frametitle{Rechenregeln (2)}
+
+Es gelten weitere Gesetze für die zusätzlichen Sprachoperationen.
+\bigskip
+
+\theobox{%
+Für Sprachen $\Slangsub{L}{1}$, $\Slangsub{L}{2}$, $\Slang{K}$ über einem
+gemeinsamen Alphabet $\Sigma$ gilt:%
+\begin{itemize}
+\item  $\left.\begin{array}{@{}l}
+\Slang{K}\circ(\Slangsub{L}{1}\cup\Slangsub{L}{2}) = (\Slang{K}\circ\Slangsub{L}{1})\cup(\Slang{K}\circ\Slangsub{L}{2})\\
+(\Slangsub{L}{1}\cup\Slangsub{L}{2})\circ \Slang{K} = (\Slangsub{L}{1}\circ\Slang{K})\cup(\Slangsub{L}{2}\circ\Slang{K})
+\end{array}\color{devilscss}\right\}\text{\textcolor{devilscss}{Distributivgesetze $\circ$/$\cup$}}$
+\item \redalert{Achtung: Distributivgesetze $\circ$/$\cap$ gelten nicht!}
+\item \mytab{$\Slang{K}=\Slang{K}\circ\{\epsilon\}=\{\epsilon\}\circ\Slang{K}$} \textcolor{devilscss}{($\{\epsilon\}$ neutrales Element zu $\circ$)}
+\item \mytab{$\Slang{K}\circ\emptyset=\emptyset\circ\Slang{K}=\emptyset$} \textcolor{devilscss}{($\emptyset$ absorbierendes Element zu $\circ$)}
+\item \mytab{$\Slang{K}^+ = \Slang{K}^*\circ\Slang{K} = \Slang{K}\circ\Slang{K}^*$}
+\item \mytab{$\Slang{K}^* = \Slang{K}^+\cup\{\epsilon\}= (\Slang{K}\setminus\{\epsilon\})^*$}
+% 
+% \item $\Slangsub{L}{1}\cap\Slangsub{L}{2} = \Slangsub{L}{2}\cap\Slangsub{L}{1}$ \textcolor{devilscss}{(Kommutativgesetz $\cap$)}
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Rechenregeln beweisen?}
+
+\emph{Behauptung:} $\Slang{K}\circ(\Slangsub{L}{1}\cup\Slangsub{L}{2}) = (\Slang{K}\circ\Slangsub{L}{1})\cup(\Slang{K}\circ\Slangsub{L}{2})$
+\bigskip
+
+\anybox{gray}{
+\emph{Beweis:} Wir schauen uns einfach die Definitionen der jeweiligen Operationen an.
+\begin{align*}
+\Slang{K}\circ(\Slangsub{L}{1}\cup\Slangsub{L}{2}) & =\{wv\mid w\in\Slang{K};\; v\in(\Slangsub{L}{1}\cup\Slangsub{L}{2})\} \\
+	& = \{wv\mid w\in\Slang{K};\; v\in\Slangsub{L}{1}\text{ oder } v\in\Slangsub{L}{2}\} \\
+	& = \{wv\mid w\in\Slang{K};\; v\in\Slangsub{L}{1}\} \cup \{wv\mid w\in\Slang{K};\; v\in\Slangsub{L}{2}\}\\
+	& = (\Slang{K}\circ\Slangsub{L}{1})\cup(\Slang{K}\circ\Slangsub{L}{2})
+\end{align*}
+\textcolor{devilscss}{(Allgemein gilt: jede Operation, die "`punktweise"' auf einer Menge arbeitet, distribuiert über $\cup$)}
+\qed}
 \end{frame}
 
 % Grundbegriffe: Alphabet, Wort, leeres Wort, Konkatenation, Menge aller Woerter, Sprache
@@ -758,17 +753,18 @@ Zum Beispiel gibt es mathematisch beschreibbare Sprachen, für die es kein Compu
 Formale Sprachen sind für die Informatik sehr wichtig
 \bigskip
 
-Grundbegriffe: Alphabet, Wort, Sprache, Konkatenation, Präfix/Suffix/Infix, $\epsilon$, $\Sigma^*$, Operationen auf Sprachen
+Grundbegriffe: Alphabet, Wort, Sprache, Konkatenation, Präfix/Suffix/Infix, $\epsilon$, $\Sigma^*$
 \bigskip
 
-Nicht alle Sprachen sind mathematisch beschreibbar oder durch Computer entscheidbar
+Es gibt eine Reihe von Operationen auf Sprachen, mit denen man rechnen kann
+% Nicht alle Sprachen sind mathematisch beschreibbar oder durch Computer entscheidbar
 \bigskip
 
 \anybox{yellow}{
 Offene Fragen:
 \begin{itemize}
-\item Welche Arten von Sprachen können wir beschreiben oder implementieren? %(nächste Vorlesung)
-\item Wie genau sehen die Beschreibungen oder Implementierungen aus?
+\item Wie viele Wörter und wie viele Sprachen gibt es eigentlich?
+\item Wie kann man Sprachen beschreiben oder implementieren? %(nächste Vorlesung)
 \item Wie kommt Berechnung ins Spiel?
 \end{itemize}
 }
