@@ -86,7 +86,7 @@
 \newcommand{\printtoc}{
 \begin{tabular}{r@{$\quad$}l}
 \highlight{1}{1.} & \highlight{1}{Willkommen/Einleitung formale Sprachen}\\[\myspace]
-\highlight{2}{2.} & \highlight{2}{Grammatiken und die Chompsky-Hierarchie}\\[\myspace]
+\highlight{2}{2.} & \highlight{2}{Grammatiken und die Chomsky-Hierarchie}\\[\myspace]
 \highlight{3}{3.} & \highlight{3}{Complexity of query answering}\\[\myspace]
 \highlight{4}{4.} & \highlight{4}{Complexity of FO query answering}\\[\myspace]
 \highlight{5}{5.} & \highlight{5}{Conjunctive queries}\\[\myspace]
@@ -120,6 +120,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \definecolor{lightgreen}{HTML}{55FF55}
 \definecolor{darkred}{HTML}{CC4411}
 \definecolor{darkblue}{HTML}{176FC0}%{1133AA}
+\definecolor{nightblue}{HTML}{2010A0}%{1133AA}
 \definecolor{alert}{HTML}{176FC0}
 \definecolor{darkgreen}{HTML}{36AB14}
 \definecolor{strongyellow}{HTML}{FFE219}
@@ -133,6 +134,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \newcommand{\squote}{\texttt{"}} % straight quote
 \newcommand{\Sterm}[1]{\ensuremath{\mathtt{\textcolor{purple}{#1}}}}    % letters in alphabets
 \newcommand{\Snterm}[1]{\textsf{\textcolor{darkblue}{#1}}} % nonterminal symbols
+\newcommand{\Sntermsub}[2]{\Snterm{#1}_{\Snterm{#2}}} % nonterminal symbols
 \newcommand{\Slang}[1]{\textbf{\textcolor{black}{#1}}}    % languages
 \newcommand{\Slangsub}[2]{\Slang{#1}_{\Slang{#2}}}    % languages
 % Code
@@ -141,6 +143,8 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \newcommand{\Scomment}[1]{\textcolor{gray}{#1}}    % comment in program listings
 
 \newcommand{\narrowcentering}[1]{\mbox{}\hfill#1\hfill\mbox{}}
+
+\newcommand{\defeq}{\mathrel{:=}}
 
 %%% Slide layout commands:
 

@@ -613,6 +613,7 @@ Man kann mit Sprachen "`rechnen"' um neue Sprachen zu bilden:
 \begin{itemize}
 \item \mytab{\redalert{Vereinigung:}} $\Slangsub{L}{1}\cup\Slangsub{L}{2}$
 \item \mytab{\redalert{Schnitt:}} $\Slangsub{L}{1}\cap\Slangsub{L}{2}$
+% \item \mytab{\redalert{Differenz:}} $\Slangsub{L}{1}\setminus\Slangsub{L}{2}$
 \item \mytab{\redalert{Komplement:}} $\overline{\Slang{L}}=\Sigma^*\setminus\Slang{L}$
 \hspace{2mm}\begin{minipage}[t]{4.3cm}{\footnotesize (nur sinnvoll, wenn das\\ Alphabet $\Sigma$ klar festgelegt ist!)}\end{minipage}
 \item \mytab{\redalert{Produkt:}} $\Slangsub{L}{1}\circ\Slangsub{L}{2} = \{ w_1 w_2 \mid w_1\in\Slangsub{L}{1}, w_2\in\Slangsub{L}{2}\}$
@@ -638,9 +639,11 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \item Der Produktoperator wird oft eingespart:\\ statt $\Slangsub{L}{1}\circ\Slangsub{L}{2}$ schreiben wir $\Slangsub{L}{1}\Slangsub{L}{2}$\\
 {\footnotesize\textcolor{devilscss}{Hinweis: Manche Autoren verwenden $\cdot$ statt $\circ$.}}
 %
-\item Ein zusätzlicher \redalert{Plus-Operator} ist manchmal praktisch: $\Slang{L}^+= \bigcup_{i\geq 1} \Slang{L}^i$
+\item Ein \redalert{Plus-Operator} ist manchmal praktisch: $\Slang{L}^+= \bigcup_{i\geq 1} \Slang{L}^i$
 %
-\item Klammern einsparen: Kleene-Stern $^*$ und Plus $^+$ binden immer am stärksten, gefolgt von $\circ$, $\cap$ und $\cup$
+\item Die \redalert{Differenz} ist indirekt ausdrückbar: $\Slangsub{L}{1}\setminus\Slangsub{L}{2} = \Slangsub{L}{1}\cap\overline{\Slangsub{L}{2}}$
+%
+\item Klammern einsparen: Kleene-Stern $^*$ und Plus $^+$ binden immer am stärksten, gefolgt von $\circ$, $\cap$, $\cup$ und $\setminus$
 \end{itemize}
 
 {\footnotesize Manchmal sind Klammern und $\circ$ aber zur Lesbarkeit trotzdem hilfreich!}
@@ -650,11 +653,9 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \examplebox{Beispiel:
 Die Menge aller gültigen Schreibweisen für Dezimalzahlen kann wie folgt definiert werden:\\[1.5ex]
 
-\narrowcentering{$ \Slang{Dezimalzahl} =  \Big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\Big) \circ \Big(\{\Sterm{0}\}\cup \Slang{ZifferAb1}^+\Big) \circ \Big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Ziffer}^+ \Big) $}\\[1.5ex]
+\narrowcentering{$ \Slang{Dezimalzahl} =  \Big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\Big) \circ \Big(\{\Sterm{0}\}\cup (\Slang{Z}\setminus\{\Sterm{0}\})\circ\Slang{Z}^*\Big) \circ \Big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Z}^+ \Big) $}\\[1.5ex]
 
-mit $\Slang{ZifferAb1}=\{\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$
-und $\Slang{Ziffer}=\{\Sterm{0}\}\cup \Slang{ZifferAb1}$.\\[1ex]
-% \smallskip
+mit $\Slang{Z}=\{\Sterm{0},\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$.\\[1ex]
 
 Ausdrücke der Form $(\{\epsilon\}\cup \Slang{L})$ beschreiben optionale Bestandteile.
 }
