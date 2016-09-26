@@ -10,7 +10,7 @@
 
 \maketitle
 
-\sectionSlide{Rückblick}
+\sectionSlideNoHandout{Rückblick}
 
 \begin{frame}\frametitle{Wiederholung}
 
@@ -63,7 +63,7 @@ Zum Beispiel: $\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba
 
 \emph{Beweis} (die gleiche Idee, aber etwas formaler):\\
 \begin{itemize}
-\item Laut Definition ist $\Sigma^* = \Sigma^0 \cup \Sigma^1 \cup \Sigma^2 \cup \ldots = \bigcup_{i\geq 0} \Sigma^0$.\\
+\item Laut Definition ist $\Sigma^* = \Sigma^0 \cup \Sigma^1 \cup \Sigma^2 \cup \ldots = \bigcup_{i\geq 0} \Sigma^i$.\\
 \item Jede der Mengen $\Sigma^i$ ist endlich (es gibt nur endlich viele Wörter der Länge $i$).\\
 \item Es gibt abzählbar viele Mengen $\Sigma^i$ (eine für jede natürliche \ghost{Zahl)}.\\
 \item Eine abzählbare Vereinigung endlicher Mengen ist abzählbar.\\
@@ -190,7 +190,7 @@ Die Elemente von $\Sigma$ nennt man auch \redalert{Terminalsymbole}, die Element
 }
 
 Die zuvor verwendete Schreibweise $w\to v_1\mid v_2 \mid \ldots \mid v_n$ ist eine Abkürzung für die Produktionsregeln
-$w\to v_1, w\to v_2,\ldots w\to v_n$.
+$w\to v_1, w\to v_2,\ldots, w\to v_n$.
 
 \end{frame}
 
@@ -276,17 +276,17 @@ wobei $n\geq 1$ und $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ beliebige Wörter sind.
 Insbesondere gilt $u\Rightarrow^* u$ für alle $u\in (V\cup\Sigma)^*$ (Fall $n=1$).
 }
 
-\textcolor{devilscss}{Anmerkung: Der Begriff "`Herleitungsrelation"' ist auch gebräuchlich. Wir verwenden "`Ableitung"' und "`Herleitung"' synonym.}
+{\footnotesize \textcolor{devilscss}{Anmerkung: Der Begriff "`Herleitungsrelation"' ist auch gebräuchlich. Wir verwenden "`Ableitung"' und "`Herleitung"' synonym.\\
+Anmerkung 2: Manche Autoren schreiben $\vdash$ statt $\Rightarrow$.}}
 
 \end{frame}
 
 \begin{frame}\frametitle{Definition: Sprache einer Grammatik}
 
-\defbox{Sei $\tuple{V,\Sigma,P,S}$ eine Grammatik. 
-Die \redalert{von $G$ erzeugte Sprache $\textbf{L}(G)$} besteht aus allen Wörtern über $\Sigma$, die
+\defbox{Die \redalert{von einer Grammatik $G=\tuple{V,\Sigma,P,S}$ erzeugte Sprache $\textbf{L}(G)$} besteht aus allen Wörtern über $\Sigma$, die
 man von $S$ ableiten kann:\\[1ex]
 \narrowcentering{$\Slang{L}(G) = \{ w\in\Sigma^* \mid S\Rightarrow^* w \}$}
-}
+}\pause
 
 \emph{Vereinfachung:} Für einfache Beispiele nehmen wir ab jetzt an, dass alle Großbuchstaben Variablen und
 alle Kleinbuchstaben Terminalsymbole sind, wobei $\Snterm{S}$ die Startvariable ist.
@@ -678,6 +678,7 @@ $P'\defeq P'\cup\{S'\to S,S'\to\epsilon\}$.
 Falls $S\notin V_\epsilon$, dann verwenden wir einfach $S'\defeq S$ als Startsymbol.
 \end{itemize}
 }
+{\footnotesize (\redalert{CFG} steht für \redalert{context-free grammar} und wird oft als Abkürzung \ghost{verwendet)}}
 
 \end{frame}
 
@@ -686,7 +687,7 @@ Falls $S\notin V_\epsilon$, dann verwenden wir einfach $S'\defeq S$ als Startsym
 Die Variablen $\Snterm{A}\in V$ mit $\Snterm{A}\Rightarrow^* \epsilon$ kann man leicht rekursiv finden:\medskip
 
 \codebox{
-Eingabe: kontextfreie Grammatik (\redalert{CFG}) $G=\tuple{V,\Sigma,S,P}$\\
+Eingabe: kontextfreie Grammatik $G=\tuple{V,\Sigma,S,P}$\\
 Ausgabe: $V_\epsilon$ für diese Grammatik
 \begin{itemize}
 \item Intialisiere $V_\epsilon\defeq \{ \Snterm{A}\mid \Snterm{A}\to\epsilon \in P\}$
@@ -722,14 +723,14 @@ Schritt 2: $V_\epsilon= \{\Snterm{A},\Snterm{C},\Snterm{B},\Snterm{S}\}$ -- Term
 \narrowcentering{$\Snterm{S}\to \Sterm{b}\Snterm{B}\Sterm{z}$
 	\hfill $\Snterm{B}\to \Snterm{B}\Sterm{z}\Snterm{B}$
 	\hfill $\Snterm{B}\to \epsilon$}
-}\pause
+}\bigskip\pause
 
-$V_\epsilon= \{\Snterm{B}\}$\pause
+$V_\epsilon= \{\Snterm{B}\}$\medskip\pause
 
 \ghost{\hspace{3.6cm}\begin{minipage}{6cm}
 \codebox{
 \begin{itemize}
-\item Initialisiere $P' \defeq P$ und $V'\defeq V$
+\item Initialisiere $P' \defeq P$
 % 
 \item Entferne alle $\epsilon$-Regeln aus $P'$
 \item Solange es in $P'$ eine Regel $\Snterm{B}\to x\Snterm{A}y$ gibt, mit\\[1ex]
@@ -738,10 +739,10 @@ $V_\epsilon= \{\Snterm{B}\}$\pause
 %
 wähle eine solche Regel und setze $P'\defeq P'\cup \{\Snterm{B}\to xy\}$
 \end{itemize}}
-\end{minipage}}
-\begin{minipage}[b]{3cm}
+\end{minipage}}%
+\begin{minipage}[b]{3cm}%
 $
-\begin{array}{rl}
+\begin{array}{@{}rl}
 P' = \pause\{ & \Snterm{S}\to \Sterm{b}\Snterm{B}\Sterm{z},\\
 		& \Snterm{B}\to \Snterm{B}\Sterm{z}\Snterm{B},\\
 		& \ghost{$\Snterm{B}\to \epsilon,$}\pause\hspace{-2mm}\rotatebox{5}{\rule[0.3ex]{13mm}{1pt}}\\\pause

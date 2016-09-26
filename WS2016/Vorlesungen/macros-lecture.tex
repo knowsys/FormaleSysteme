@@ -31,7 +31,7 @@
 % \usepackage{times}
 \usepackage{txfonts}
 
-\usepackage{smartdiagram}
+\usepackage{tikz}
 \usetikzlibrary{arrows,positioning}
 % Inspired by http://www.texample.net/tikz/examples/hand-drawn-lines/
 \usetikzlibrary{decorations.pathmorphing}
@@ -150,6 +150,12 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 
 \newcommand{\sectionSlide}[1]{
 \frame{\begin{center}
+\LARGE
+#1
+\end{center}}
+}
+\newcommand{\sectionSlideNoHandout}[1]{
+\frame<handout:0>{\begin{center}
 \LARGE
 #1
 \end{center}}
