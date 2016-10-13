@@ -463,6 +463,26 @@ $\;$\rotatebox{90}{\tiny Ministerio de Cultura de la Nación}
 
 \end{frame}
 
+\begin{frame}\frametitle{}
+
+\begin{minipage}{4.5cm}
+\includegraphics[width=2.5cm]{images/Noam-Chomsky-2015}
+$\;$\rotatebox{90}{\tiny Ministerio de Cultura de la Nación}
+\rotatebox{90}{\tiny 2015, CC-BY-SA 2.0}
+% \bigskip
+
+"`This world is full of suffering, distress, violence and catastrophes.
+\\Students must decide: does something concern you or not? I say: look around, analyze the problems,
+ask yourself what you can do and set out on the work."' [ZEIT Campus, 2011]
+\end{minipage}\pause
+\hspace{5mm}\ghost{\begin{minipage}{6.0cm}
+\includegraphics[width=5.9cm]{a2}
+\end{minipage}}\rule[-3cm]{0px}{3px}
+
+
+
+\end{frame}
+
 \begin{frame}\frametitle{Die Chomsky-Hierarchie}
 
 \defbox{
@@ -581,14 +601,14 @@ Allgemein können Typ-1-Sprachen in unserer Definition nie das leere Wort enthal
 \begin{frame}\frametitle{Typ 1 mit $\epsilon$-Regeln}
 
 Wir erweitern unsere Definition wie folgt:
-\defbox{Eine Grammatik $G=\tuple{V,\Sigma,S,P}$ ist von Typ 1 (kontextsensitiv), wenn eine der folgenden Bedingungen gilt:
+\defbox{Eine Grammatik $G=\tuple{V,\Sigma,P,S}$ ist von Typ 1 (kontextsensitiv), wenn eine der folgenden Bedingungen gilt:
 \begin{enumerate}[(1)]
 \item Alle Regeln $w\to v$ erfüllen die Bedingung $|w|\leq|v|$ (ursprüngliche Definition)
 %
 \item Es gibt eine Regel $S\to\epsilon$ und alle anderen Regeln $w\to v$ erfüllen
 	zwei Bedingungen:
 	\begin{enumerate}[(a)]
-	\item $|w|\leq|v|$
+	\item $|w|\leq|v|$ (insbesondere ist also $v\neq\epsilon$)
 	\item $S$ kommt nicht in $v$ vor
 	\end{enumerate}
 	(Sonderfall mit $\epsilon$-Regeln)
@@ -621,7 +641,7 @@ ist nicht kontextsensitiv, nicht einmal mit $\epsilon$-Erweiterung.
 
 \medskip\pause
 
-\defbox{ Eine kontextfreie Grammatik $G=\tuple{V,\Sigma,S,P}$ ist \redalert{$\epsilon$-frei},
+\defbox{ Eine kontextfreie Grammatik $G=\tuple{V,\Sigma,P,S}$ ist \redalert{$\epsilon$-frei},
 wenn eine der folgenden Bedingungen gilt:
 \begin{enumerate}[(1)]
 \item Es gibt keine Regel der Form $\Snterm{A}\to\epsilon$
@@ -649,8 +669,8 @@ wenn eine der folgenden Bedingungen gilt:
 Der folgende Algorithmus kann $\epsilon$-Regeln eliminieren.
 
 \codebox{
-Eingabe: kontextfreie Grammatik (\redalert{CFG}) $G=\tuple{V,\Sigma,S,P}$\\
-Ausgabe: $\epsilon$-freie CFG $G'=\tuple{V',\Sigma,S',P'}$ mit $\Slang{L}(G')=\Slang{L}(G)$
+Eingabe: kontextfreie Grammatik (\redalert{CFG}) $G=\tuple{V,\Sigma,P,S}$\\
+Ausgabe: $\epsilon$-freie CFG $G'=\tuple{V',\Sigma,P',S'}$ mit $\Slang{L}(G')=\Slang{L}(G)$
 % \medskip
 % 
 \begin{itemize}
@@ -687,7 +707,7 @@ Falls $S\notin V_\epsilon$, dann verwenden wir einfach $S'\defeq S$ als Startsym
 Die Variablen $\Snterm{A}\in V$ mit $\Snterm{A}\Rightarrow^* \epsilon$ kann man leicht rekursiv finden:\medskip
 
 \codebox{
-Eingabe: kontextfreie Grammatik $G=\tuple{V,\Sigma,S,P}$\\
+Eingabe: kontextfreie Grammatik $G=\tuple{V,\Sigma,P,S}$\\
 Ausgabe: $V_\epsilon$ für diese Grammatik
 \begin{itemize}
 \item Intialisiere $V_\epsilon\defeq \{ \Snterm{A}\mid \Snterm{A}\to\epsilon \in P\}$
