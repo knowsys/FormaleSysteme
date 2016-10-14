@@ -332,6 +332,28 @@ Endlicher Automat $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ mit
 
 \end{frame}
 
+\begin{frame}\frametitle{Ist mein Computer ein DFA?}
+
+Beobachtungen:
+\begin{itemize}
+\item Computer haben endlich viel Speicher, können also nur endlich viele Zustände einnehmen
+\item Programme verändern Speicher nach festen Regeln, die man als Übergangsfunktion auffassen könnte
+\end{itemize}
+
+\redalert{Sind alle Computer DFAs?}
+\pause
+
+\bigskip
+Jein.
+\begin{itemize}
+\item Zustandsmenge und Übergangsfunktion extrem groß\\
+$\leadsto$ keine praktisch nützliche Beschreibung für ganze \ghost{Computer}
+\item Computerprogramme verhalten sich systematisch, unabhängig von der Speichergröße\\
+$\leadsto$ DFA-Übergänge können diese Systematik nicht gut \ghost{abbilden}
+\end{itemize}
+
+\end{frame}
+
 \begin{frame}\frametitle{Die Sprache eines DFA}
 
 % Wir können die Übergangsfunktion von Symbolen auf Wörter erweitern:
