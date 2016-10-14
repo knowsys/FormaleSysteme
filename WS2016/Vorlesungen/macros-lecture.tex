@@ -31,6 +31,10 @@
 % \usepackage{times}
 \usepackage{txfonts}
 
+% \usepackage[perpage]{footmisc} % reset footnote counter on each page -- fails with beamer (footnotes gone)
+\usepackage{perpage}  % reset footnote counter on each page
+\MakePerPage{footnote}
+
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning}
 % Inspired by http://www.texample.net/tikz/examples/hand-drawn-lines/
@@ -61,6 +65,12 @@
 \tikzset{every shadow/.style={fill=none,shadow xshift=0pt,shadow yshift=0pt}}
 % \tikzset{module/.append style={top color=\col,bottom color=\col}}
 
+% Use to make Tikz attributes with Beamer overlays
+% http://tex.stackexchange.com/a/6155
+\tikzset{onslide/.code args={<#1>#2}{%
+  \only<#1>{\pgfkeysalso{#2}} 
+}}
+
 %%% Title -- always set this first
 
 \newcommand{\defineTitle}[3]{
@@ -87,7 +97,7 @@
 \begin{tabular}{r@{$\quad$}l}
 \highlight{1}{1.} & \highlight{1}{Willkommen/Einleitung formale Sprachen}\\[\myspace]
 \highlight{2}{2.} & \highlight{2}{Grammatiken und die Chomsky-Hierarchie}\\[\myspace]
-\highlight{3}{3.} & \highlight{3}{Complexity of query answering}\\[\myspace]
+\highlight{3}{3.} & \highlight{3}{Endliche Automaten}\\[\myspace]
 \highlight{4}{4.} & \highlight{4}{Complexity of FO query answering}\\[\myspace]
 \highlight{5}{5.} & \highlight{5}{Conjunctive queries}\\[\myspace]
 \highlight{6}{6.} & \highlight{6}{Tree-like conjunctive queries}\\[\myspace]
@@ -145,6 +155,8 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \newcommand{\narrowcentering}[1]{\mbox{}\hfill#1\hfill\mbox{}}
 
 \newcommand{\defeq}{\mathrel{:=}}
+
+\newcommand{\Smach}[1]{\ensuremath{\mathcal{#1}}}    % machines
 
 %%% Slide layout commands:
 
