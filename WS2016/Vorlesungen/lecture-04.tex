@@ -8,6 +8,20 @@
 
 \begin{document}
 
+% \begin{frame}\frametitle{Dresden in Zahlen}
+% 
+% \begin{tabular}{rrl}
+% Einwohner:& 543,825 &{\tiny(2014)}\\
+% Studenten TUD:& 35.961 &{\tiny(Ende 2015)}\\
+% --- davon Informatik:& 1.699 &{\tiny(Ende 2015)}\\
+% Beschäftigte TUD:& 7.768 &{\tiny(Ende 2014)}\\
+% Teilnehmer "`Pegida"' 16.10.2016: & 8.500 &{\tiny(minimal 6.500)}\\
+% Teilnehmer "`Herz statt Hetze"' 17.10.2016: & 3.400 &{\tiny(minimal 3.000)}\\
+% Einschreibungen an der TUD seit 2014: & -1.671 &{\tiny(-18.9\%)}\\
+% \end{tabular}
+% 
+% \end{frame}
+
 \maketitle
 
 \sectionSlideNoHandout{Rückblick}
@@ -126,8 +140,8 @@ Ein \redalert{Lauf} eines NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ für ein
 ist eine Folge von Zuständen $q_0\ldots q_m$, so dass gilt:
 \begin{itemize}
 \item $q_0\in Q_0$
-\item $q_{i+1}\in \delta{\sigma_i,q_i}$ für alle $0\leq i<m$ 
-\item (1) $m=|w|=n$ oder (2) $m<n$ und $\delta(\sigma_m,q_m)=\emptyset$
+\item $q_{i+1}\in \delta(q_i,\sigma_i)$ für alle $0\leq i<m$ 
+\item (1) $m=|w|=n$ oder (2) $m<n$ und $\delta(q_m,\sigma_m)=\emptyset$
 \end{itemize}
 Ein Lauf heißt \redalert{akzeptierend}, falls $m=n$ und $q_n\in F$. Andernfalls
 heißt der Lauf \redalert{verwerfend}.
@@ -515,7 +529,7 @@ mit $\delta_{\textsf{NFA}}(q,\Sterm{a}) = \{\delta(q,\Sterm{a})\}$.\qed
 \pause
 
 Die Umkehrung dieses Satzes gilt allerdings auch:
-\theobox{Satz: Jede von einem NFA akzeptierbare Sprache auch von einen DFA akzeptiert.}
+\theobox{Satz: Jede von einem NFA akzeptierbare Sprache wird auch von einen DFA akzeptiert.}
 
 In diesem Sinne sind NFA nicht ausdrucksstärker als DFA -- wie kann das sein?
 
@@ -610,9 +624,9 @@ wie folgt:%
 
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
-\onslide<2->{\node (s12) [circle,onslide={<3->{double}},draw=black,thick] at (0,0) {$q_0,q_1$};}
-\onslide<2->{\node (s1) [circle,draw=black,thick] at (3,0) {$q_0$};}
-\onslide<2->{\node (s2) [onslide={<3->{double}},circle,draw=black,thick] at (3,-2) {$q_1$};}
+\onslide<2->{\node (s12) [rectangle,rounded corners=1.5ex,onslide={<3->{double}},draw=black,thick] at (0,0) {$\{q_0,q_1\}$};}
+\onslide<2->{\node (s1) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,0) {$\{q_0\}$};}
+\onslide<2->{\node (s2) [onslide={<3->{double}},rectangle,rounded corners=1.5ex,draw=black,thick] at (3,-2) {$\{q_1\}$};}
 \onslide<2->{\node (s0) [circle,draw=black,thick] at (0,-2) {$\emptyset$};}
 %,onslide={<1>{color=white}}
 \onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](0,1) edge (s12);}
@@ -646,9 +660,9 @@ Der Automat aus dem vorherigen Beispiel kann vereinfacht \ghost{werden:}
 
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
-\node (s12) [double,circle,draw=black,thick] at (0,0) {$q_0,q_1$};
-\node (s1) [circle,draw=black,thick] at (3,0) {$q_0$};
-\onslide<-2>{\node (s2) [double,circle,draw=black,thick,onslide={<2>{draw=darkred}}] at (3,-2) {$q_1$};}
+\node (s12) [double,rectangle,rounded corners=1.5ex,draw=black,thick] at (0,0) {$\{q_0,q_1\}$};
+\node (s1) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,0) {$\{q_0\}$};
+\onslide<-2>{\node (s2) [double,rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<2>{draw=darkred}}] at (3,-2) {$\{q_1\}$};}
 \onslide<-4>{\node (s0) [circle,draw=black,thick,onslide={<4>{draw=darkred}}] at (0,-2) {$\emptyset$};}
 %,onslide={<1>{color=white}}
 \path[->,line width=0.5mm](0,1) edge (s12);
