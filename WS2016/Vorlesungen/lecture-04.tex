@@ -1,0 +1,898 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{4}{Nichtdeterministische Endliche Automaten}{20. Oktober 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}\frametitle{Wiederholung}
+
+\begin{itemize}
+\item Grammatiken können Sprachen beschreiben und sie grob in Typen unterteilen
+\item Typ-3-Grammatiken \alert{generieren} reguläre Sprachen
+\item Deterministische endliche Automaten \alert{erkennen} reguläre \ghost{Sprachen}
+\item Nichtdeterministische endliche Automaten verallgemeinern die Definition der Übergangsfunktion:\\ der Automat "`rät"', welcher Übergang der richtige ist
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Wiederholung: NFA}
+
+\defbox{
+Ein \redalert{nichtdeterministischer endlicher Automat} (international: "`\alert{NFA}"') 
+\Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
+den folgenden Bestandteilen:
+\begin{itemize}
+\item $Q$: endliche Menge von \redalert{Zuständen}
+\item $\Sigma$: Alphabet
+\item $\delta$: \redalert{Übergangsfunktion}, eine totale Funktion $Q\times\Sigma \to 2^Q$, wobei $2^Q$ die Potenzmenge von $Q$ ist
+\item $Q_0$: Menge möglicher \redalert{Startzustände} $Q_0\subseteq Q$
+\item $F$: Menge von \redalert{Endzuständen} $F\subseteq Q$
+\end{itemize}
+}
+\medskip
+
+\alert{Notation:} Wir schreiben statt $q'\in\delta(q,\Sterm{a})$ auch $q\stackrel{\Sterm{a}}{\to}q'$.
+
+\end{frame}
+
+\newcommand{\highlightTerm}[2]{%
+\only<#1>{%
+% 	\ghost{\textcolor‎{strongyellow}{\rule{1em}{2ex}}}%
+	\ghost{{\color{strongyellow}\rule[-0.5ex]{0.5em}{2.5ex}}}%
+}%
+\only<#1>{%
+	\ghost{%
+		\Sterm{%
+			\textcolor{darkblue}{%
+% 				\colorbox{strongyellow}{%
+					#2%
+% 				}%
+			}%
+		}%
+	}%
+}%
+\invisible<#1>{\Sterm{#2}}%
+}
+
+\begin{frame}\frametitle{Beispiel: NFA}
+\doodlebox{darkgreen}{%
+Beispiel:
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick,onslide={<2,3,7,8,9>{fill=strongyellow}}] at (0,0) {q1};
+\node (s2) [double,circle,draw=black,thick,onslide={<4,10>{fill=strongyellow}}] at (3,0) {q2};
+%
+\path[->,line width=0.5mm,onslide={<2,7>{dashed,darkred}}](-1,0) edge (s1);
+\path[->,line width=0.5mm,onslide={<3,8>{dashed,darkred}}](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm,onslide={<9>{dashed,darkred}}](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm,onslide={<4,10>{dashed,darkred}}](s1) edge node[above] {\Sterm{1}} (s2);
+\end{tikzpicture}%
+\hspace{1cm}
+\begin{minipage}[t]{3cm}
+$\delta(q_1,\Sterm{0}) = \{q_1\}$\\
+$\delta(q_1,\Sterm{1}) = \{q_1,q_2\}$\\
+$\delta(q_2,\Sterm{0}) = \emptyset$\\
+$\delta(q_2,\Sterm{1}) = \emptyset$
+\end{minipage}
+}
+\bigskip
+
+\visible<2->{%
+\begin{tabular}{lll}
+\emph{Wort} & \emph{Zustandsfolge} & \emph{Ergebnis}\\
+\highlightTerm{3}{0}%
+\highlightTerm{4}{1}%
+\highlightTerm{5}{1}%
+&
+\visible<2->{$q_1$}
+\visible<3->{$q_1$}
+\visible<4->{$q_2$}
+\visible<5->{?}
+& \visible<6->{\alert{abgelehnt} (fehlender Übergang)}\\
+%
+\visible<7->{%
+\highlightTerm{8}{0}%
+\highlightTerm{9}{1}%
+\highlightTerm{10}{1}%
+}
+&
+\visible<7->{$q_1$}
+\visible<8->{$q_1$}
+\visible<9->{$q_1$}
+\visible<10->{$q_2$}
+& \visible<11->{\alert{akzeptiert}}\\
+\end{tabular}}
+\medskip
+
+\visible<12->{$\leadsto$ \Sterm{011} wird nichtdeterministisch akzeptiert}
+
+\end{frame}
+
+\sectionSlide{Die Sprache eines NFA}
+
+\begin{frame}\frametitle{Läufe eines NFA}
+
+\defbox{
+Ein \redalert{Lauf} eines NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ für ein Wort $w=\sigma_1\cdots\sigma_n$
+ist eine Folge von Zuständen $q_0\ldots q_m$, so dass gilt:
+\begin{itemize}
+\item $q_0\in Q_0$
+\item $q_{i+1}\in \delta{\sigma_i,q_i}$ für alle $0\leq i<m$ 
+\item (1) $m=|w|=n$ oder (2) $m<n$ und $\delta(\sigma_m,q_m)=\emptyset$
+\end{itemize}
+Ein Lauf heißt \redalert{akzeptierend}, falls $m=n$ und $q_n\in F$. Andernfalls
+heißt der Lauf \redalert{verwerfend}.
+}
+
+$\leadsto$ Ein DFA hat genau einen Lauf für jedes Wort.\\
+\hspace{1cm} Er akzeptiert wenn dieser Lauf akzeptierend ist.\\[2ex]
+
+$\leadsto$ Ein NFA kann für ein Wort mehrere Läufe haben.\\
+\hspace{1cm} Er akzeptiert wenn einer dieser Läufe akzeptierend ist.
+
+\end{frame}
+
+\begin{frame}\frametitle{Sprache eines NFA}
+
+\defbox{
+Die \redalert{Sprache eines NFA} $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ ist die Menge aller
+Wörter $w$ für die $\Smach{M}$ einen akzeptierenden Lauf hat.
+}\pause
+
+\doodlebox{darkgreen}{%
+Beispiel:
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick,onslide={<3,4,5,6>{fill=strongyellow}}] at (0,0) {q1};
+\node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+%
+\path[->,line width=0.5mm,onslide={<3>{dashed,darkred}}](-1,0) edge (s1);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm,onslide={<5,6>{dashed,darkred}}](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+\end{tikzpicture}%
+\hspace{1cm}
+\begin{minipage}[t]{3cm}
+$\delta(q_1,\Sterm{0}) = \{q_1\}$\\
+$\delta(q_1,\Sterm{1}) = \{q_1,q_2\}$\\
+$\delta(q_2,\Sterm{0}) = \emptyset$\\
+$\delta(q_2,\Sterm{1}) = \emptyset$
+\end{minipage}
+}
+\smallskip
+
+\begin{tabular}{lll}
+\emph{Wort} & \emph{Lauf} & \emph{Ergebnis}\\
+\Sterm{011}
+&
+$q_1$
+$q_1$
+$q_2$
+& \alert{verwerfend} (zu kurz)\\
+%
+\Sterm{011}
+&
+$q_1$
+$q_1$
+$q_1$
+$q_2$
+& \alert{akzeptierend}\\
+%
+\highlightTerm{4}{0}%
+\highlightTerm{5}{1}%
+\highlightTerm{6}{1}%
+&
+\visible<3->{$q_1$}
+\visible<4->{$q_1$}
+\visible<5->{$q_1$}
+\visible<6->{$q_1$}
+& \visible<7->{\alert{verwerfend} (kein Endzustand)}\\
+\end{tabular}
+\bigskip
+
+\narrowcentering{\visible<8->{$\Slang{L}(\Smach{M})= \{\Sterm{0},\Sterm{1}\}^* \circ \{\Sterm{1}\}$}}
+
+\end{frame}
+
+% Syntaxdiagram
+
+\begin{frame}\frametitle{NFA zur Darstellung von Syntaxdiagrammen}
+
+\begin{center}
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+% \node at (0,3) {Bezeichner:};
+%
+\node (b1) [rounded corners,draw=black,thick,onslide={<2>{fill=strongyellow}}] at (1,2) {\Snterm{Buchstabe}};
+\node (b2) [rounded corners,draw=black,thick,onslide={<2>{fill=lightgreen}}] at (4,1) {\Snterm{Buchstabe}};
+\node (z)[rounded corners,draw=black,thick,onslide={<2>{fill=lightpurple}}] at (4,0) {\Snterm{Ziffer}};
+% \draw[decorate,thick] (0,0) -- (0,3) -- (3,3);
+\draw [->,line width=0.5mm,onslide={<2>{alert}}] (-1,2) -> (b1);
+\draw [->,line width=0.5mm,onslide={<2>{darkred}}] (b1) -> (6,2);
+\draw [->,rounded corners=2mm,line width=0.5mm,onslide={<2>{darkred}}] (b2) -- (2.5,1) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm,onslide={<2>{darkred}}] (z) -- (2.5,0) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm,onslide={<2>{darkred}}] (5.5,2) -- (5.5,1) -> (b2);
+\draw [->,rounded corners=2mm,line width=0.5mm,onslide={<2>{darkred}}] (5.5,2) -- (5.5,0) -> (z);
+\end{tikzpicture}
+\end{center}
+
+Übersetzung in NFA:
+\begin{itemize}
+\item zusammenhängende Linienbereiche werden Zustände
+\item Knoten werden Übergänge
+\end{itemize}
+
+\visible<2->{%
+\begin{center}
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick,onslide={<2>{fill=alert}}] at (0,0) {$q_0$};
+\node (s2) [double,circle,draw=black,thick,onslide={<2>{fill=darkred}}] at (3,0) {$q_1$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm,onslide={<2>{strongyellow}}](s1) edge node[above] {\Snterm{Buchstabe}} (s2);
+\path[->,line width=0.5mm,onslide={<2>{lightgreen}}](s2) edge [loop above] node[above] {\Snterm{Buchstabe}} (s2);
+\path[->,line width=0.5mm,onslide={<2>{lightpurple}}](s2) edge [loop below] node[below] {\Snterm{Ziffer}} (s2);
+\end{tikzpicture}
+\end{center}}
+\visible<3->{}
+
+\end{frame}
+
+\begin{frame}\frametitle{Syntaxdiagramme und Nichtdeterminismus}
+
+Das folgende Beispiel führt zu einem NFA, der kein DFA ist:
+
+\begin{center}
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+% \node at (0,3) {Bezeichner:};
+%
+\node (b1) [rounded corners,draw=black,thick] at (7,2) {\Snterm{Buchstabe}};
+\node (b2) [rounded corners,draw=black,thick] at (4,1) {\Snterm{Buchstabe}};
+\node (z)[rounded corners,draw=black,thick] at (4,0) {\Snterm{Ziffer}};
+% \draw[decorate,thick] (0,0) -- (0,3) -- (3,3);
+\draw [->,line width=0.5mm] (b1) -> (8.5,2);
+\draw [->,line width=0.5mm] (2,2) -> (b1);
+\draw [->,rounded corners=2mm,line width=0.5mm] (b2) -- (2.5,1) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (z) -- (2.5,0) -> (2.5,2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (5.5,2) -- (5.5,1) -> (b2);
+\draw [->,rounded corners=2mm,line width=0.5mm] (5.5,2) -- (5.5,0) -> (z);
+\end{tikzpicture}
+\end{center}
+\bigskip
+
+Entsprechender NFA:
+
+\begin{center}
+\begin{tikzpicture}
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [double,circle,draw=black,thick] at (3,0) {$q_1$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {\Snterm{Buchstabe}} (s2);
+\path[->,line width=0.5mm](s1) edge [loop above] node[above] {\Snterm{Buchstabe}} (s1);
+\path[->,line width=0.5mm](s1) edge [loop below] node[below] {\Snterm{Ziffer}} (s1);
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Verallgemeinerte NFA-Übergangsfunktion}
+
+Wie beim DFA können wir auch bei einem NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ eine erweiterte Übergangsfunktion 
+definieren, die ganze Wörter \ghost{einliest}
+\medskip
+
+Zuerst erweitern wir $\delta$ auf \alert{Mengen von Zuständen:}
+
+\defbox{Für eine Zustandsmenge $R\subseteq Q$ und ein Terminalsymbol $\Sterm{a}$ sei
+\[\delta(R,\Sterm{a})=\bigcup_{q\in R}\delta(q,\Sterm{a}).\]
+}\pause
+
+Dann erweitern wir $\delta$ von einzelnen Symbolen zu \alert{beliebigen \ghost{Wörtern:}}
+
+\defbox{%Wir definieren eine Funktion $\delta: 2^Q\times \Sigma^* \to 2^Q$:\\
+Für eine Zustandsmenge $R\subseteq Q$ und ein Wort $w\in\Sigma^*$ sei $\delta(R,w)$ die Menge aller Zustände,
+die man erreichen kann, wenn man in einem Zustand aus $R$ beginnt und das Wort $w$ einliest, formal:
+\begin{itemize}
+\item $\delta(R,\epsilon)= R$
+% \item $\delta(R,\Sterm{a})=\bigcup_{q\in R}\delta(q,\Sterm{a})$
+\item $\delta(R,\Sterm{a}v)= \delta(\delta(R,\Sterm{a}),v)$
+\end{itemize}
+
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+\doodlebox{darkgreen}{%
+Beispiel:
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {q1};
+\node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+\end{tikzpicture}%
+\hspace{1cm}
+\begin{minipage}[t]{3cm}
+$\delta(q_1,\Sterm{0}) = \{q_1\}$\\
+$\delta(q_1,\Sterm{1}) = \{q_1,q_2\}$\\
+$\delta(q_2,\Sterm{0}) = \emptyset$\\
+$\delta(q_2,\Sterm{1}) = \emptyset$
+\end{minipage}
+}
+
+Die Menge der Startzustände ist $Q_0=\{q_1\}$.
+\bigskip
+
+Dann gilt:
+\begin{align*}
+\delta(Q_0,\Sterm{0}) &= \delta(q_1,\Sterm{0}) = \{q_1\}\\[1ex]
+\delta(Q_0,\Sterm{1}) &= \delta(q_1,\Sterm{1}) = \{q_1,q_2\}\\[1ex]
+\delta(Q_0,\Sterm{10}) &= \delta(\delta(Q_0,\Sterm{1}),\Sterm{0}) = \delta(\{q_1,q_2\},\Sterm{0})\\
+	&= \delta(q_1,\Sterm{0})\cup  \delta(q_2,\Sterm{0}) = \{q_1\}\cup\emptyset =\{q_1\}\\[1ex]
+\delta(Q_0,\Sterm{01}) &= \delta(\delta(Q_0,\Sterm{0}),\Sterm{1}) = \delta(\{q_1\},\Sterm{1}) = \{q_1,q_2\}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Sprache eines NFA (2. Version)}
+
+Die erweiterte Übergangsfunktion hilft bei der Definition der Sprache, die ein NFA akzeptiert:
+\bigskip
+
+\defbox{
+Die \redalert{Sprache eines NFA} $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ ist die Menge\\[1ex]
+\narrowcentering{$\Slang{L}(\Smach{M}) = \{w\in\Sigma^*\mid \delta(Q_0,w)\cap F \neq \emptyset\}$}
+}
+
+Die Bedingung \alert{"`$\delta(Q_0,w)\cap F \neq \emptyset$"'} bedeutet:\\[1ex] \alert{"`mindestens einer der Zustände, die man durch Einlesen von $w$ von einem Startzustand aus erreichen kann, ist ein Endzustand."'}
+% \medskip
+% \redalert{das ist gleichbedeutend mit:}
+% \medskip
+%  \alert{"`es gibt eine Folge von Zuständen, die man durch nichtdeterministische."'}
+
+\bigskip
+
+\emph{Behauptung:} Diese Variante stimmt mit der vorherigen (mit akzeptierenden Läufen) überein.
+
+% 
+% \doodlebox{darkgreen}{%
+% Beispiel:
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {q1};
+% \node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+% %
+% \path[->,line width=0.5mm](-1,0) edge (s1);
+% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+% \path[->,line width=0.5mm](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+% \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+% \end{tikzpicture}%
+% \hspace{1cm}
+% \begin{minipage}[t]{3cm}
+% ~\\
+% $\Slang{L}(\Smach{M})= \{\Sterm{0},\Sterm{1}\}^* \circ \{\Sterm{1}\}$\\
+% ~\\
+% ~
+% \end{minipage}
+% }
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Äquivalenz der Sprachdefinitionen für NFAs}
+
+Sei $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ NFA und $w=\sigma_1\cdots\sigma_n\in\Sigma^*$ ein Wort.\\[1ex]
+
+\emph{Behauptung:} Es gibt einen akzeptierenden Lauf für $w$ genau dann wenn
+$\delta(Q_0,w)\cap F \neq \emptyset$.\\[1ex]\pause
+
+\emph{Beweis "`$\Rightarrow$"':}
+Angenommen es gibt einen akzeptierenden Lauf $q_0\ldots q_n$ für $w$.\pause
+\begin{itemize}
+\item Dann ist $q_n\in F$.\pause
+\item Wir behaupten $q_n\in \delta(Q_0,w)$ \textcolor{devilscss}{(damit folgt $\delta(Q_0,w)\cap F \neq \emptyset$)}\pause
+\item Wir zeigen die stärkere Behauptung $q_i\in \delta(Q_0,\sigma_1\cdots\sigma_i)$ für alle $0\leq i\leq n$
+mittels Induktion über $|w|$\pause:
+\begin{itemize}
+\item Induktionsanfang: Für $i=0$ gilt $q_0\in Q_0 = \delta(Q_0,\epsilon)$\pause
+\item Induktionshypothese: die Behauptung gelte für $i$\pause
+\item Induktionsschritt: für $i+1$ gilt:\\
+	$q_i\in \delta(Q_0,\sigma_1\cdots\sigma_i)$ \textcolor{devilscss}{(Induktionshypothese)}\\
+	$q_{i+1}\in\delta(q_i,\sigma_{i+1})$ \textcolor{devilscss}{(laut Definition eines Laufs)}\\
+	$q_{i+1}\in\delta(\delta(Q_0,\sigma_1\cdots\sigma_i),\sigma_{i+1})=\delta(Q_0,\sigma_1\cdots\sigma_i\sigma_{i+1})$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Äquivalenz der Sprachdefinitionen für NFAs}
+
+Sei $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ NFA und $w=\sigma_1\cdots\sigma_n\in\Sigma^*$ ein Wort.\\[1ex]
+
+\emph{Behauptung:} Es gibt einen akzeptierenden Lauf für $w$ genau dann wenn
+$\delta(Q_0,w)\cap F \neq \emptyset$.\\[1ex]
+
+\emph{Beweis "`$\Leftarrow$"':}
+Angenommen $\delta(Q_0,w)\cap F \neq \emptyset$.\pause
+\begin{itemize}
+\item Wir ermitteln einen akzeptierenden Lauf $q_0\ldots q_n$ für $w$\pause
+\item Dazu gehen wir rückwärts vor:
+\begin{itemize}
+\item Wähle $q_n\in F\cap\delta(Q_0,w)$
+\item Für alle $i=n,\ldots,1$:\\
+Wähle $q_{i-1}\in\delta(Q_0,\sigma_0\cdots\sigma_{i-1})$, so dass $q_i\in\delta(q_{i-1},\sigma_i) $ 
+\end{itemize}\pause
+\item Dies ist ein Lauf, da $q_0\in\delta(Q_0,\epsilon)=Q_0$ und alle Übergänge erlaubt sind.
+\item Es ist ein akzeptierender Lauf, da $q_n\in F$.\qed
+\end{itemize}
+\end{frame}
+
+% Wort-Ubergaenge
+% epsilon-Ubergaenge
+% \begin{frame}\frametitle{Automaten mit Wortübergängen}
+% 
+% Eine weitere Variante endlicher Automaten:
+% 
+% \defbox{
+% Ein \redalert{nichtdeterministischer endlicher Automat mit Wortübergängen} 
+% \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
+% den folgenden Teilen:
+% \begin{itemize}
+% \item \textcolor{devilscss}{$Q$: endliche Menge von Zuständen}
+% \item \textcolor{devilscss}{$\Sigma$: Alphabet}
+% \item $\Delta$: Übergangsrelation, eine \alert{endliche} Relation $\Delta\subseteq Q\times\Sigma^* \times 2^Q$
+% \item \textcolor{devilscss}{$Q_0$: Menge möglicher {Startzustände} $Q_0\subseteq Q$}
+% \item \textcolor{devilscss}{$F$: Menge von {Endzuständen} $F\subseteq Q$}
+% \end{itemize}
+% }
+% 
+% \doodlebox{darkgreen}{%
+% Beispiel:
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+% \node (s2) [double,circle,draw=black,thick] at (3,0) {$q_1$};
+% %
+% \path[->,line width=0.5mm](-1,0) edge (s1);
+% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{aa}} (s1);
+% \path[->,line width=0.5mm](s2) edge [loop above] node[right] {\Sterm{bb}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+% \end{tikzpicture}%
+% \hspace{5mm}
+% \begin{minipage}[t]{3.5cm}
+% $\Delta = \{\tuple{q_0,\Sterm{aa},q_0},$\\ $\tuple{q_0,\epsilon,q_1},\allowbreak\tuple{q_1,\Sterm{bb},q_1}\}$\\[1ex]
+% Akzeptierte Sprache\only<1>{?}\visible<2->{:}\\
+% \visible<2->{$\{\Sterm{aa}\}^* \circ \{\Sterm{bb}\}^*$}
+% \end{minipage}
+% }
+% 
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{Wortübergänge machen NFAs nicht stärker}
+% 
+% \theobox{Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+% 
+% 
+% 
+% \end{frame}
+
+% \begin{frame}\frametitle{}
+% 
+% \end{frame}
+
+% Potenzmengenkonstruktion
+
+\sectionSlide{NFA vs. DFA}
+
+\begin{frame}\frametitle{Vergleich DFA -- NFA}
+
+Offensichtlich sind NFAs allgemeiner als DFAs:
+
+\theobox{Satz: Jeder DFA kann als NFA aufgefasst werden. Daher wird jede von einem DFA akzeptierbare Sprache auch von einen NFA akzeptiert.}
+
+\emph{Beweis:} Für jeden DFA  $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ gibt es
+einen entsprechenden NFA $\Smach{M}'=\tuple{Q,\Sigma,\delta_{\textsf{NFA}},\{q_0\},F}$
+mit $\delta_{\textsf{NFA}}(q,\Sterm{a}) = \{\delta(q,\Sterm{a})\}$.\qed
+\bigskip
+\pause
+
+Die Umkehrung dieses Satzes gilt allerdings auch:
+\theobox{Satz: Jede von einem NFA akzeptierbare Sprache auch von einen DFA akzeptiert.}
+
+In diesem Sinne sind NFA nicht ausdrucksstärker als DFA -- wie kann das sein?
+
+\end{frame}
+
+\begin{frame}\frametitle{NFAs als DFAs -- Idee}
+
+Die verallgemeinerte NFA-Übergangsfunktion bildet \redalert{Mengen von Zuständen} auf
+\redalert{Mengen von Zuständen} ab:
+\[\delta(R,\Sterm{a})=\bigcup_{q\in R}\delta(q,\Sterm{a}).\]
+% \medskip
+
+\alert{"`Wenn der Automat in einem der Zustände $R$ ist und $\Sterm{a}$ liest, so ist er anschließend in einem der Zustände der Menge $\delta(R,\Sterm{a})$."'}
+\medskip
+
+Dieser Übergang zwischen Mengen möglicher Zustände ist an sich deterministisch.
+\bigskip
+
+$\leadsto$ wir können einen NFA deterministisch simulieren, indem wir die Menge der möglichen Zustände berechnen
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Potenzmengenkonstruktion}
+
+\defbox{Für einen NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ definieren wir den \redalert{Potenzmengen-DFA} 
+$\Smach{M}_{\textsf{DFA}}=\tuple{Q_{\textsf{DFA}},\Sigma,\delta_{\textsf{DFA}},q_0,F_{\textsf{DFA}}}$
+wie folgt:%
+\begin{itemize}
+\item $Q_{\textsf{DFA}}=2^Q$ (Potenzmenge von $Q$)
+\item $\delta_{\textsf{DFA}}(R,\Sterm{a})=\bigcup_{q\in R}\delta(q,\Sterm{a})$
+\item $q_0=Q_0$
+\item $F_{\textsf{DFA}}=\{R\in 2^Q\mid R\cap F \neq \emptyset\}$
+\end{itemize}
+}
+\smallskip
+
+\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+
+(Beweis später)\hspace{5cm}\ghost{\raisebox{-1.7cm}{\includegraphics[height=2cm]{images/Rabin-Scott}~\rotatebox{90}{\tiny Andrej Bauer, CC-BY-SA 2.5}}}
+\vspace{1.5cm}
+
+\hspace{7cm} \ghost{{\tiny Michael Oser Rabin~~~~~~Dana Scott}}
+
+% 
+% Beispiel:
+% 
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {q1};
+% \node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+% %
+% \path[->,line width=0.5mm](-1,0) edge (s1);
+% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+% \path[->,line width=0.5mm](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+% \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+% \end{tikzpicture}\hfill
+% %
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {$\{q1\}$};
+% \node (s12) [double,circle,draw=black,thick] at (3,0) {$\{q1,q2\}$};
+% \node (s0) [circle,draw=black,thick] at (0,-1.7) {$\emptyset$};
+% \node (s2) [double,circle,draw=black,thick] at (3,-1.7) {$\{q2\}$};
+% %
+% \path[->,line width=0.5mm](-1,0) edge (s1);
+% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{0}} (s1);
+% \path[->,line width=0.5mm](s12) edge [loop above] node[left] {\Sterm{1}} (s12);
+% % \path[->,line width=0.5mm](s1) edge [loop below] node[right] {\Sterm{1}} (s1);
+% % \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+% \end{tikzpicture}
+
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel Potenzmengenkonstruktion}
+
+\begin{minipage}{5cm}
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick,onslide={<5,6,9,10>{fill=strongyellow}}] at (0,0) {$q_0$};
+\node (s2) [double,circle,draw=black,thick,onslide={<3,7,8,9,10>{fill=strongyellow}}] at (3,0) {$q_1$};
+%
+\path[->,line width=0.5mm,onslide={<4,10>{dashed,darkred}}](0,1) edge (s1);
+\path[->,line width=0.5mm,onslide={<4,10>{dashed,darkred}}](3,1) edge (s2);
+\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](s1) edge [loop below] node[left] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm,bend left,onslide={<6>{dashed,darkred}}](s1) edge node[above] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,bend left,onslide={<7,9>{dashed,darkred}}](s2) edge node[above] {\Sterm{0}} (s1);
+% \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
+\end{tikzpicture}
+\bigskip
+
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\onslide<2->{\node (s12) [circle,onslide={<3->{double}},draw=black,thick] at (0,0) {$q_0,q_1$};}
+\onslide<2->{\node (s1) [circle,draw=black,thick] at (3,0) {$q_0$};}
+\onslide<2->{\node (s2) [onslide={<3->{double}},circle,draw=black,thick] at (3,-2) {$q_1$};}
+\onslide<2->{\node (s0) [circle,draw=black,thick] at (0,-2) {$\emptyset$};}
+%,onslide={<1>{color=white}}
+\onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](0,1) edge (s12);}
+\onslide<10->{\path[->,line width=0.5mm,onslide={<10>{dashed,darkred}}](s12) edge [loop left] node[left] {\Sterm{1}} (s12);}
+\onslide<9->{\path[->,line width=0.5mm,bend left,onslide={<9>{dashed,darkred}}](s12) edge node[above] {\Sterm{0}} (s1);}
+\onslide<6->{\path[->,line width=0.5mm,bend left,onslide={<6>{dashed,darkred}}](s1) edge node[above] {\Sterm{1}} (s12);}
+\onslide<7->{\path[->,line width=0.5mm,onslide={<7>{dashed,darkred}}](s2) edge node[left] {\Sterm{0}} (s1);}
+\onslide<5->{\path[->,line width=0.5mm,onslide={<5>{dashed,darkred}}](s1) edge node[below] {\Sterm{0}} (s0);}
+\onslide<8->{\path[->,line width=0.5mm,onslide={<8>{dashed,darkred}}](s2) edge node[below] {\Sterm{1}} (s0);}
+\onslide<11->{\path[->,line width=0.5mm,onslide={<11>{dashed,darkred}}](s0) edge [loop left] node[left] {\Sterm{0},\Sterm{1}} (s0);}
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{4cm}
+\onslide<5->{$\delta_{\textsf{DFA}}(\{q_0\},\Sterm{0}) = \emptyset$}\\
+\onslide<6->{$\delta_{\textsf{DFA}}(\{q_0\},\Sterm{1}) = \{q_0,q_1\}$}\\
+\onslide<7->{$\delta_{\textsf{DFA}}(\{q_1\},\Sterm{0}) = \{q_0\}$}\\
+\onslide<8->{$\delta_{\textsf{DFA}}(\{q_1\},\Sterm{1}) = \emptyset$}\\
+\onslide<9->{$\delta_{\textsf{DFA}}(\{q_0,q_1\},\Sterm{0}) = \{q_0\}$}\\
+\onslide<10->{$\delta_{\textsf{DFA}}(\{q_0,q_1\},\Sterm{1}) = \{q_0,q_1\}$}\\
+\onslide<11->{$\delta_{\textsf{DFA}}(\emptyset,\Sterm{0}) = \emptyset$}\\
+\onslide<11->{$\delta_{\textsf{DFA}}(\emptyset,\Sterm{1}) = \emptyset$}
+\bigskip
+
+\onslide<12->{Erkannte Sprache:\\ $\{\Sterm{1}\}^* \circ (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*)^*$}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Vereinfachung Potenzmengenkonstruktion}
+
+Der Automat aus dem vorherigen Beispiel kann vereinfacht \ghost{werden:}
+
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s12) [double,circle,draw=black,thick] at (0,0) {$q_0,q_1$};
+\node (s1) [circle,draw=black,thick] at (3,0) {$q_0$};
+\onslide<-2>{\node (s2) [double,circle,draw=black,thick,onslide={<2>{draw=darkred}}] at (3,-2) {$q_1$};}
+\onslide<-4>{\node (s0) [circle,draw=black,thick,onslide={<4>{draw=darkred}}] at (0,-2) {$\emptyset$};}
+%,onslide={<1>{color=white}}
+\path[->,line width=0.5mm](0,1) edge (s12);
+\path[->,line width=0.5mm](s12) edge [loop left] node[left] {\Sterm{1}} (s12);
+\path[->,line width=0.5mm,bend left](s12) edge node[above] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm,bend left](s1) edge node[above] {\Sterm{1}} (s12);
+\onslide<-2>{\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](s2) edge node[left] {\Sterm{0}} (s1);}
+\onslide<-4>{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s1) edge node[below] {\Sterm{0}} (s0);}
+\onslide<-2>{\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](s2) edge node[below] {\Sterm{1}} (s0);}
+\onslide<-4>{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s0) edge [loop left] node[left] {\Sterm{0},\Sterm{1}} (s0);}
+\end{tikzpicture}
+
+\pause
+\begin{itemize}
+\item Zustand $\{q_1\}$ ist unerreichbar\pause\pause
+\item Zustand $\emptyset$ kann nicht verlassen werden (irrelevant für akzeptierende Läufe)\pause
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Potenzmengenkonstruktion "`on the fly"'}
+
+Vermeidung unnötiger Zustände durch schrittweise Konstruktion vom Startzustand:
+\medskip
+
+\begin{minipage}{5cm}%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [double,circle,draw=black,thick] at (0,0) {$q_1$};
+\node (s2) [circle,draw=black,thick] at (3,0) {$q_2$};
+\node (s3) [circle,draw=black,thick] at (0,-2) {$q_3$};
+%
+\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](0,1) edge (s1);
+\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](3,1) edge (s2);
+\path[->,line width=0.5mm,onslide={<3,7>{dashed,darkred}}](s1) edge node[above] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm,bend left,onslide={<3,4>{dashed,darkred}}](s2) edge node[above] {\Sterm{0}} (s3);
+\path[->,line width=0.5mm,bend left,onslide={<3,7>{dashed,darkred}}](s1) edge node[left] {\Sterm{0}} (s3);
+\path[->,line width=0.5mm,bend left,onslide={<5,6,8>{dashed,darkred}}](s3) edge node[left] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm,onslide={<5,6,8>{dashed,darkred}}](s3) edge [loop below] node[below] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\bigskip
+
+\onslide<12->{
+\begin{itemize}
+\item Erreichbarer Teil spart drei Zustände ein
+\item Zustand $\emptyset$ wie zuvor unnötig
+\end{itemize}
+}
+\end{minipage}
+%
+\begin{minipage}{4cm}
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\onslide<2->{\node (s12) [double,rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<2>{fill=strongyellow}}] at (0,0) {~$\{q_1,q_2\}$~\mbox{}};}
+\onslide<9->{\node (s0) [circle,draw=black,thick,onslide={<9>{fill=strongyellow}}] at (3,0) {$\emptyset$};}
+\onslide<3->{\node (s32) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<3>{fill=strongyellow}}] at (0,-2) {~$\{q_2,q_3\}$~\mbox{}};}
+\onslide<4->{\node (s3) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<4>{fill=strongyellow}}] at (3,-2) {~$\{q_3\}$~\mbox{}};}
+\onslide<5->{\node (s31) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<5>{fill=strongyellow}}] at (1.5,-4) {~$\{q_1,q_3\}$~\mbox{}};}
+%
+\onslide<2->{\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](0,1) edge (s12);}
+\onslide<10->{\path[->,line width=0.5mm,onslide={<10>{dashed,darkred}}](s12) edge node[above] {\Sterm{1}} (s0);}
+\onslide<11->{\path[->,line width=0.5mm,onslide={<11>{dashed,darkred}}](s0) edge [loop above] node[above] {\Sterm{0},\Sterm{1}} (s0);}
+\onslide<3->{\path[->,line width=0.5mm,onslide={<3>{dashed,darkred}}](s12) edge node[right] {\Sterm{0}} (s32);}
+\onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s32) edge node[above] {\Sterm{0}} (s3);}
+\onslide<9->{\path[->,line width=0.5mm,onslide={<9>{dashed,darkred}}](s3) edge node[right] {\Sterm{0}} (s0);}
+\onslide<5->{\path[->,line width=0.5mm,onslide={<5>{dashed,darkred}}](s3) edge node[above] {\Sterm{1}} (s31);}
+\onslide<8->{\path[->,line width=0.5mm,onslide={<8>{dashed,darkred}}](s32) edge node[above] {\Sterm{1}} (s31);}
+\onslide<7->{\path[->,line width=0.5mm,bend left,onslide={<7>{dashed,darkred}}](s31) edge node[left] {\Sterm{0}} (s32);}
+\onslide<6->{\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](s31) edge [loop right] node[right] {\Sterm{1}} (s31);}
+\end{tikzpicture}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Potenzmengenkonstruktion: Korrektheit}
+
+\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+
+\emph{Beweis:} Wir nutzen die Korrespondenz der verallgemeinerten Übergangsfunktionen aus. Zuerst zeigen wir,
+dass für jedes Wort $w\in\Sigma^*$ und jede Zustandsmenge $R$ gilt: $\delta_{\textsf{DFA}}(R,w) = \delta(R,w)$.\pause
+\medskip
+
+\alert{Induktionsanfang:}
+\begin{enumerate}[(1)]
+\item $\delta_{\textsf{DFA}}(R,\epsilon) = R = \delta(R,\epsilon)$\pause
+\item $\delta_{\textsf{DFA}}(R,\Sterm{a}) = \bigcup_{q\in R}\delta(q,\Sterm{a}) = \delta(R,\Sterm{a})$\pause
+\end{enumerate}\medskip
+
+\alert{Induktionshypothese:} $\delta_{\textsf{DFA}}(R,v) = \delta(R,v)$ für Wörter $v$ mit $|v|<|w|$\\[1ex]
+\alert{Induktionsschritt:}
+\begin{enumerate}[(3)]
+\item $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta_{\textsf{DFA}}(\delta_{\textsf{DFA}}(R,\Sterm{a}),v)$\\\pause
+\hspace{1.58cm}${}= \delta_{\textsf{DFA}}(\delta(R,\Sterm{a}),v)$ \hspace{1cm}(wegen (2))\\\pause
+\hspace{1.58cm}${}= \delta(\delta(R,\Sterm{a}),v)$ \hspace{1.45cm}(Induktionshypothese)\\\pause
+\hspace{1.58cm}${}= \delta(R,\Sterm{a}v)$
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Potenzmengenkonstruktion: Korrektheit (2)}
+
+\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+
+\emph{Beweis (Fortsetzung):} Wir haben gezeigt: $\delta_{\textsf{DFA}}(R,w) = \delta(R,w)$.\pause
+\medskip
+
+Damit ergibt sich, für beliebige Wörter $w\in\Sigma^*$:\medskip
+
+\begin{tabular}{l@{~~~ gdw. ~~~}l}
+$w\in \Slang{L}(\Smach{M})$ & \pause$\delta(Q_0,w)\cap F \neq \emptyset$ \\\pause
+	& $\delta_{\textsf{DFA}}(Q_0,w)\cap F \neq \emptyset$ \\\pause
+	& $\delta_{\textsf{DFA}}(Q_0,w)\in F_{\textsf{DFA}}$ \\\pause
+	& $w\in \Slang{L}(\Smach{M}_{\textsf{DFA}})$
+\end{tabular}
+
+\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Größenvergleich}
+
+Der DFA eines NFA hat $2^{|Q|}$ -- also exponentiell viele -- Zustände.\\
+Auch "`on the fly"' lässt sich das im Allgemeinen nicht vermeiden.
+\medskip
+
+Beispiel: "`Wörter mit \Sterm{1} an drittletzter Stelle"'
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (sx) [circle,draw=black,thick] at (0,0) {$s$};
+\node (s1) [circle,draw=black,thick] at (2,0) {$q_1$};
+\node (s2) [circle,draw=black,thick] at (4,0) {$q_2$};
+\node (s3) [double,circle,draw=black,thick] at (6,0) {$q_3$};
+%
+\path[->,line width=0.5mm](-1,0) edge (sx);
+\path[->,line width=0.5mm](sx) edge [loop below] node[below] {\Sterm{0},\Sterm{1}} (sx);
+\path[->,line width=0.5mm](sx) edge node[above] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {\Sterm{0},\Sterm{1}} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {\Sterm{0},\Sterm{1}} (s3);
+\end{tikzpicture}}
+\vspace{-5mm}
+
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (sx) [rectangle,rounded corners=1.5ex,draw=black,thick] at (0,0) {$\{s\}$};
+\node (sx1) [rectangle,rounded corners=1.5ex,draw=black,thick] at (0,-1) {$\{s,q_1\}$};
+\node (sx2) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,-2) {$\{s,q_2\}$};
+\node (sx12) [rectangle,rounded corners=1.5ex,draw=black,thick] at (-3,-2) {$\{s,q_1,q_2\}$};
+\node (sx3) [rectangle,rounded corners=1.5ex,double,draw=black,thick] at (4.5,-3) {$\{s,q_3\}$};
+\node (sx13) [rectangle,rounded corners=1.5ex,double,draw=black,thick] at (1.5,-3) {$~\{s,q_1,q_3\}~$};
+\node (sx23) [rectangle,rounded corners=1.5ex,double,draw=black,thick] at (-1.5,-3) {$\{s,q_2,q_3\}$};
+\node (sx123) [rectangle,rounded corners=1.5ex,double,draw=black,thick] at (-4.5,-3) {$\{s,q_1,q_2,q_3\}$};
+%
+\path[->,line width=0.5mm](-1,0) edge (sx);
+\path[->,line width=0.5mm](sx) edge [loop above] node[right] {\Sterm{0}} (sx);
+\path[->,line width=0.5mm](sx) edge node[right] {\Sterm{1}} (sx1);
+%
+\path[->,line width=0.5mm](sx1) edge node[above] {\Sterm{0}} (sx2);
+\path[->,line width=0.5mm](sx2) edge node[above] {\Sterm{0}} (sx3);
+%
+\path[->,line width=0.5mm](sx2) edge node[below, xshift=5pt, yshift=3pt] {\Sterm{1}} (sx13);
+%
+\path[->,line width=0.5mm](sx1) edge node[above] {\Sterm{1}} (sx12);
+\path[->,line width=0.5mm](sx12) edge node[right, yshift=5pt] {\Sterm{0}} (sx23);
+%
+\path[->,line width=0.5mm](sx12) edge node[left, yshift=5pt] {\Sterm{1}} (sx123);
+%
+%
+\path[->,line width=0.5mm](sx123) edge [in=260,out=280,loop] node[left] {\Sterm{1}} (sx123);
+\path[->,line width=0.5mm](sx123) edge node[above] {\Sterm{0}} (sx23);
+%
+\path[->,line width=0.5mm](sx23) edge node[above] {\Sterm{1}} (sx13);
+\path[->,line width=0.5mm,bend right=20](sx23) edge node[above, yshift=-2pt] {\Sterm{0}} (sx3);
+%
+\path[->,line width=0.5mm,bend right](sx13) edge node[below] {\Sterm{1}} (sx12);
+\path[->,line width=0.5mm,bend left](sx13) edge node[above] {\Sterm{0}} (sx2);
+%
+\path[->,line width=0.5mm,bend right=35](sx3) edge node[above] {\Sterm{0}} (sx);
+\path[->,line width=0.5mm,bend right=35](sx3) edge node[above] {\Sterm{1}} (sx1);
+%
+% \path[->,line width=0.5mm](sx) edge [loop above] node[above] {\Sterm{0},\Sterm{1}} (sx);
+% \path[->,line width=0.5mm](sx) edge node[above] {\Sterm{1}} (s1);
+% \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{0},\Sterm{1}} (s2);
+% \path[->,line width=0.5mm](s2) edge node[above] {\Sterm{0},\Sterm{1}} (s3);
+\end{tikzpicture}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Größenvergleich (2)}
+
+Allgemein kann man für jede Zahl $n\geq 1$ die Sprache $\Slang{L}_n= \{\Sterm{0},\Sterm{1}\}^* \Sterm{1} \{\Sterm{0},\Sterm{1}\}^{n-1} $ betrachten ("`Wörter mit \Sterm{1} an $n$-letzter Stelle"')
+\medskip
+
+Es gilt:
+\begin{itemize}
+\item Es gibt einen NFA mit $n+1$ Zuständen, der $\Slang{L}_n$ erkennt.
+\item Jeder DFA, der $\Slang{L}_n$ erkennt, hat mindestens $2^n$ Zustände.
+\end{itemize}
+
+\bigskip
+
+\emph{Schlussfolgerung:}\\
+\alert{NFAs können exponentiell kompakter sein als äquivalente DFAs.}
+
+\end{frame}
+% 
+% \begin{frame}\frametitle{}
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{}
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{}
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+\redalert{Nichtdeterministische endliche Automaten} (NFA) vereinfachen die Modellierung, z.B. die direkte Darstellung von Syntaxdiagrammen
+\bigskip
+
+\redalert{Rabin/Scott:} DFAs und NFAs erkennen die selben Sprachen\\
+\textcolor{devilscss}{(Potenzmengenkonstruktion)}
+\bigskip
+
+% \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
+% \bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wir wollten noch zeigen: alle regulären Sprachen sind durch DFAs erkennbar -- wie?
+\item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
+\item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}

@@ -68,7 +68,7 @@
 % Use to make Tikz attributes with Beamer overlays
 % http://tex.stackexchange.com/a/6155
 \tikzset{onslide/.code args={<#1>#2}{%
-  \only<#1>{\pgfkeysalso{#2}} 
+  \only<#1| handout:0>{\pgfkeysalso{#2}} 
 }}
 
 %%% Title -- always set this first
@@ -127,6 +127,7 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 \definecolor{redhighlights}{HTML}{FFAA66}
 \definecolor{lightblue}{HTML}{55AAFF}
 \definecolor{lightred}{HTML}{FF5522}
+\definecolor{lightpurple}{HTML}{DD77BB}
 \definecolor{lightgreen}{HTML}{55FF55}
 \definecolor{darkred}{HTML}{CC4411}
 \definecolor{darkblue}{HTML}{176FC0}%{1133AA}
