@@ -1,0 +1,701 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{5}{Automaten \& Grammatiken / Abschlusseigenschaften}{24. Oktober 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+% Diagram mit Uebersetzungen reg Gram, DFA, NFA
+% TODO Maybe add overlays
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=26mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=21mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (3,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (6,-4) {NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+\node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+% \path[myarrow=devilscss,-,bend left=20](reg.0) edge[->] (nfa);
+% \node (regnfalabel) [decorate,myboxlabel=] at (7.2,-2.1) {"`$q_1\to\Sterm{a}q_2$"' $\leadsto$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=] at (3,-3.0) {\footnotesize DFAs sind spezielle NFAs};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=] at (3,-5.0) {\footnotesize Potenzmengen\-konstruktion};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (6,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=10mm] at (6.9,-5.3) {\footnotesize dualer Graph};
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Von regulären Grammatiken zu NFAs}
+% Direkt zur Definition; Idee wurde schon motiviert und kann bei Wiederholung genannt werden
+% NFA fuer G heisst $\Smach{M}_G$
+
+\theobox{
+Satz: Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
+der regulären Sprachen.
+}
+
+\emph{Beweis:} Wir können nun die noch fehlende Richtung dieser Behauptung zeigen:\\[0.5ex]
+Für jede reguläre Grammatik $G$ gibt es einen NFA $\Smach{M}_G$, welcher die selbe Sprache akzeptiert (d.h., $\Slang{L}(G)=\Slang{L}(\Smach{M}_G)$).\smallskip\pause
+
+\codebox{Für $G=\tuple{V,\Sigma,P,\Snterm{S}}$ ergibt sich $\Smach{M}_G=\tuple{Q,\Sigma,\delta,Q_0,F}$ wie folgt:
+\begin{itemize}
+\item $Q\defeq V\cup\{q_f\}$\pause
+\item $Q_0\defeq \{\Snterm{S}\}$\pause
+\item $F\defeq \{q_f\}\cup \{\Snterm{A}\in V\mid {\Snterm{A}\to\epsilon} \in P\}$\pause 
+\item $\delta(\Snterm{A},\Sterm{c})\defeq\{\Snterm{B}\mid {\Snterm{A}\to\Sterm{c}\Snterm{B}}\in P\} \cup \{q_f\mid {\Snterm{A}\to\Sterm{c}}\in P\}$
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+%notfalls einfach on CB Folie 10/25 18ff
+
+Wir betrachten eine reguläre Grammatik mit den folgenden sechs Regeln:
+%
+\begin{align*}
+\Snterm{S} &\to \Sterm{1} \mid \Sterm{0}\Snterm{A}\\
+\Snterm{A} &\to \Sterm{0}\mid \Sterm{1} \mid \Sterm{1}\Snterm{A} \mid \epsilon
+\end{align*}
+
+Entsprechender NFA:
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\onslide<2->{\node (s) [circle,draw=black,thick] at (0,0) {$\Snterm{S}$};
+\node (a) [circle,draw=black,thick,onslide={<3->{double}}] at (3,0) {$\Snterm{A}$};
+\node (qf) [circle,draw=black,thick,onslide={<3->{double}}] at (1.5,-1.5) {$q_f$};}
+%
+\onslide<2->{\path[->,line width=0.5mm](-1,0) edge (s);}
+\onslide<5->{\path[->,line width=0.5mm,onslide={<5>{dashed,darkred}}](s) edge node[above] {\Sterm{0}} (a);}
+\onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s) edge node[below] {\Sterm{1}} (qf);}
+\onslide<7->{\path[->,line width=0.5mm,onslide={<7>{dashed,darkred}}](a) edge [loop right] node[right] {\Sterm{1}} (a);}
+\onslide<6->{\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](a) edge node[below,xshift=6pt] {\Sterm{0}, \Sterm{1}} (qf);}
+\end{tikzpicture}}
+\bigskip
+
+\onslide<8->{Dargestellte Sprache: $\{\Sterm{1}\}\cup (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*\circ\{\epsilon,\Sterm{0}\})$}
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheit}
+% Zuerst esp. Fall, dann Behauptung fuer Woerter in Sigma+
+
+\theobox{
+Satz: Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
+der regulären Sprachen.
+}
+
+\emph{Beweis:} Wir behaupten, dass $\Slang{L}(G)=\Slang{L}(\Smach{M}_G)$, d.h. für jedes
+Wort $w\in\Sigma^*$ soll gelten: $w\in\Slang{L}(G)$ gdw. $w\in\Slang{L}(\Smach{M}_G)$.
+\medskip\pause
+
+Der Sonderfall $w=\epsilon$ ist ziemlich einfach:\pause
+\medskip
+
+\begin{tabular}{r@{~~gdw.~~}l}
+$\epsilon\in\Slang{L}(G)$ & $\Snterm{S}\to\epsilon\in P$ \\\pause
+	& $\Snterm{S}\in F$\\\pause
+	& $\epsilon\in\Slang{L}(\Smach{M}_G)$ \\
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{$\Slang{L}(G)\subseteq\Slang{L}(\Smach{M}_G)$}
+% Fallunterscheidung moegliche Ableitungen (mit oder ohne eps Regel am Schluss)
+% Gleicher akzeptierender Lauf in beiden Faellen
+
+Wir zeigen noch $w\in\Slang{L}(G)$ gdw. $w\in\Slang{L}(\Smach{M}_G)$ für den Fall $|w|\geq 1$.\\[1ex]
+
+"`$\Rightarrow$"' Angenommen $w\in\Slang{L}(G)$ mit $w=\sigma_1\cdots\sigma_n$ und $n\geq 1$.\pause\\[1ex]
+
+Es gibt zwei mögliche Herleitungen für $w$:\\[1ex]
+
+(1) $\Snterm{S}\Rightarrow \Sterm{a_1}\Sntermsub{B}{1} \Rightarrow \ldots \Rightarrow
+\Sterm{a_1\cdots a_{n-1}}\Sntermsub{B}{n-1}\Rightarrow \Sterm{a_1\cdots a_{n-1}a_n}$\\[1ex]
+(2) \ghost{$\Snterm{S}\Rightarrow \Sterm{a_1}\Sntermsub{B}{1} \Rightarrow\ldots \Rightarrow\Sterm{a_1\cdots a_{n-1}}\Sntermsub{B}{n-1}\Rightarrow \Sterm{a_1\cdots a_{n-1}a_n} \Sntermsub{B}{n} \Rightarrow \Sterm{a_1\cdots a_n}$}
+\bigskip\pause
+
+In Fall (1) wurden Regeln der folgenden Form angewendet:\\[1ex]
+\narrowcentering{$\Snterm{S}\to \Sterm{a_1}\Sntermsub{B}{1}$\hfill $\Sntermsub{B}{1}\to \Sterm{a_2}\Sntermsub{B}{2}$\hfill \ldots \hfill$\Sntermsub{B}{n-1}\to \Sterm{a_n}$}\pause\\[1ex]
+Also hat $\Smach{M}_G$ die folgenden Übergänge: \\[1ex]
+\narrowcentering{$\Snterm{S}\stackrel{\Sterm{a_1}}{\to}\Sntermsub{B}{1}$\hfill $\Sntermsub{B}{1}\stackrel{\Sterm{a_2}}{\to}\Sntermsub{B}{2}$\hfill \ldots \hfill$\Sntermsub{B}{n-1}\stackrel{\Sterm{a_n}}{\to} q_f$}\\[1ex]
+\pause
+
+Also ist $\Snterm{S}\Sntermsub{B}{1}\Sntermsub{B}{2}\ldots\Sntermsub{B}{n-1}q_f$ ein akzeptierender Lauf von $\Smach{M}_G$
+und $\Smach{M}_G$ akzeptiert das Wort $w$.\\[1ex]
+
+Fall (2) ist ähnlich, wobei der Lauf auf $\Sntermsub{B}{n}$ endet und $\Sntermsub{B}{n}\in F$.
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{$\Slang{L}(G)\supseteq\Slang{L}(\Smach{M}_G)$}
+% Ist analog; kurze Anmerkung dazu reicht
+
+Wir zeigen noch $w\in\Slang{L}(G)$ gdw. $w\in\Slang{L}(\Smach{M}_G)$ für den Fall $|w|\geq 1$.\\[1ex]
+
+"`$\Leftarrow$"' Angenommen $w\in\Slang{L}(\Smach{M}_G)$ mit $w=\sigma_1\cdots\sigma_n$ und $n\geq 1$.\pause\\[2ex]
+
+Beweis analog zur vorangegangenen Richtung; grob skizziert:
+\begin{itemize}
+\item $w$ hat einen akzeptierenden Lauf in $\Smach{M}_G$
+\item wir betrachten die möglichen Formen solcher Läufe
+\item in jedem Fall finden wir entsprechende NFA-Übergänge
+\item daraus ergeben sich geeignete Grammatikregeln, um $w$ abzuleiten
+\end{itemize}
+
+\qed
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=26mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=21mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (3,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (6,-4) {NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+\node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=darkred,-,bend left=20](reg.0) edge[->] (nfa);
+\node (regnfalabel) [decorate,myboxlabel=] at (7.2,-2.1) {"`$q_1\to\Sterm{a}q_2$"' $\leadsto$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=] at (3,-3.0) {\footnotesize DFAs sind spezielle NFAs};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=] at (3,-5.0) {\footnotesize Potenzmengen\-konstruktion};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (6,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=10mm] at (6.9,-5.3) {\footnotesize dualer Graph};
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Automaten mit Wortübergängen}
+
+% Eine weitere Variante endlicher Automaten:
+
+\defbox{
+Ein \redalert{nichtdeterministischer endlicher Automat mit Wortübergängen} 
+\Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\Delta,Q_0,F}$ mit
+den folgenden Teilen:
+\begin{itemize}
+\item \textcolor{devilscss}{$Q$: endliche Menge von Zuständen}
+\item \textcolor{devilscss}{$\Sigma$: Alphabet}
+\item $\Delta$: Übergangsrelation, eine \alert{endliche} Relation $\Delta\subseteq Q\times\Sigma^* \times 2^Q$
+\item \textcolor{devilscss}{$Q_0$: Menge möglicher {Startzustände} $Q_0\subseteq Q$}
+\item \textcolor{devilscss}{$F$: Menge von {Endzuständen} $F\subseteq Q$}
+\end{itemize}
+}
+Die Sprache solcher Automaten wird wie bei NFAs definiert, nur dass in
+einem Schritt beliebige Wörter gelesen werden können.
+
+\pause
+
+\doodlebox{darkgreen}{%
+Beispiel:\hspace{-5mm}
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (1.5,0) {$q_1$};
+\node (s3) [circle,draw=black,thick] at (1.5,1.4) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (0,1.4) {$q_3$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{na}} (s1);
+% \path[->,line width=0.5mm](s2) edge [loop above] node[right] {\Sterm{bb}} (s2);
+\path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+\path[->,line width=0.5mm](s2) edge node[right] {\Sterm{ba}} (s3);
+\path[->,line width=0.5mm](s3) edge node[above] {\Sterm{tman}} (s4);
+\end{tikzpicture}%
+\hspace{3mm}
+\begin{minipage}[t]{5.7cm}
+$\Delta = \{\tuple{q_0,\Sterm{na},q_0}, \tuple{q_0,\epsilon,q_1}, \tuple{q_1,\Sterm{ba},q_2}\},$\\ $\tuple{q_1,\Sterm{tman},q_2}\}$\\[1ex]
+Akzeptierte Sprache\only<1>{?}\visible<2->{:}\\
+\visible<2->{$\{\Sterm{na}\}^* \circ \{\Sterm{batman}\}$}
+\end{minipage}
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Wortübergänge machen NFAs nicht stärker}
+
+\theobox{Satz: Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+\pause
+
+\emph{Beweis:} Wir eliminieren zunächst Wortübergänge für Wörter $w\neq\epsilon$.\medskip
+\pause
+
+Gegeben jeden Übergang $q\stackrel{w}{\to}q'$ mit $w=\Sterm{a_1}\cdots \Sterm{a_n}$ und $n\geq 2$:\\
+\begin{itemize}
+\item Führe $n-1$ neue Zustände $p_1,\ldots,p_{n-1}$ ein.
+\item Ersetze $q\stackrel{w}{\to}q'$ durch Übergänge $q\stackrel{\Sterm{a_1}}{\to}p_1$, $p_1\stackrel{\Sterm{a_2}}{\to}p_2$, \ldots, \ghost{$p_{n-1}\stackrel{\Sterm{a_n}}{\to}q'$.}
+\end{itemize}
+Es ist leicht zu sehen, dass diese Umformung korrekt ist.
+\bigskip
+
+Dadurch erhalten wir einen NFA, in dem nur noch zwei Formen von Übergängen vorkommen:
+$q_1\stackrel{\Sterm{a}}{\to}q_2$ und $q_1\stackrel{\epsilon}{\to}q_2$.
+
+\end{frame}
+
+\begin{frame}\frametitle{$\epsilon$-Übergänge machen NFA nicht stärker}
+
+\defbox{Ein NFA mit Wortübergängen, bei dem alle Übergänge die Form
+$q_1\stackrel{\Sterm{a}}{\to}q_2$ oder $q_1\stackrel{\epsilon}{\to}q_2$ haben, wird
+\redalert{$\epsilon$-NFA} genannt.
+}
+
+Um den vorigen Beweis abzuschließen müssen wir noch zeigen:
+
+\theobox{Satz: Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+
+\emph{Beweis:} Sei $\epstrastar$ der reflexive, transitive Abschluss von $\stackrel{\epsilon}{\to}$, d.h. die Menge aller Zustandspaare $\tuple{q,q'}\in Q^2$ für die es Übergänge $q=p_0\stackrel{\epsilon}{\to} p_1\stackrel{\epsilon}{\to}\ldots\stackrel{\epsilon}{\to}p_n=q'$ gibt, mit $n\geq 0$.
+\medskip
+
+Für einen $\epsilon$-NFA $\Smach{M}=\tuple{Q,\Sigma,\Delta,Q_0,F}$ definieren wir einen NFA
+$\Smach{M}'=\tuple{Q,\Sigma,\delta,Q_0',F}$ wobei
+\begin{itemize}
+\item $\delta(q,\Sterm{a})=\{ q'\mid q\stackrel{\Sterm{a}}{\to}r\epstrastar q'\text{ für ein }r\in Q\}$
+\item $Q_0'=\{q\mid q_0\epstrastar q\text{ für ein }q_0\in Q\}$
+\end{itemize}
+Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.
+
+% Eliminierung mit transitiver Hülle der eps Transitionen
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel: Eliminierung von Wortübergängen}
+
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (1.5,0) {$q_1$};
+\node (s3) [circle,draw=black,thick] at (1.5,1.4) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (0,1.4) {$q_3$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm,onslide={<3>{dashed,darkred}}](s1) edge [loop above] node[left] {\Sterm{na}} (s1);
+% \path[->,line width=0.5mm](s2) edge [loop above] node[right] {\Sterm{bb}} (s2);
+\path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](s2) edge node[right] {\Sterm{ba}} (s3);
+\path[->,line width=0.5mm,onslide={<5>{dashed,darkred}}](s3) edge node[above] {\Sterm{tman}} (s4);
+\end{tikzpicture}%
+\hspace{1cm}
+% 
+\onslide<2->{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (3,0) {$q_1$};
+\node (s3) [circle,draw=black,thick] at (3,3) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (0,3) {$q_3$};
+\onslide<8->{\node (crossmark) at (1.5,0) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
+%
+% \path[->,line width=0.5mm](s2) edge node[right] {\Sterm{ba}} (s3);
+\onslide<4->{\node (p1) [circle,draw=black,thick] at (3,1.5) {$p_2$};
+\path[->,line width=0.5mm](s2) edge node[right] {\Sterm{b}} (p1);
+\path[->,line width=0.5mm](p1) edge node[right] {\Sterm{a}} (s3);}
+% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{na}} (s1);
+\onslide<3->{\node (p5) [circle,draw=black,thick] at (0,1.5) {$p_1$};
+\path[->,line width=0.5mm,bend left](s1) edge node[left] {\Sterm{n}} (p5);
+\path[->,line width=0.5mm,bend left,onslide={<7>{dashed,darkred}}](p5) edge node[right] {\Sterm{a}} (s1);}
+% \path[->,line width=0.5mm](s3) edge node[above] {\Sterm{tman}} (s4);
+\onslide<5->{\node (p2) [circle,draw=black,thick] at (3,4.5) {$p_3$};
+\node (p3) [circle,draw=black,thick] at (1.5,4.5) {$p_4$};
+\node (p4) [circle,draw=black,thick] at (0,4.5) {$p_5$};
+\path[->,line width=0.5mm](s3) edge node[right] {\Sterm{t}} (p2);
+\path[->,line width=0.5mm](p2) edge node[above] {\Sterm{m}} (p3);
+\path[->,line width=0.5mm](p3) edge node[above] {\Sterm{a}} (p4);
+\path[->,line width=0.5mm](p4) edge node[right] {\Sterm{n}} (s4);}
+%
+\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](-1,0) edge (s1);
+\onslide<6->{\path[->,line width=0.5mm](3,-1) edge (s2);}
+\path[->,line width=0.5mm,devilscss,dotted,onslide={<6,7>{dashed,darkred}}](s1) edge node[above] {$\epsilon$} (s2);
+\onslide<7->{\path[->,line width=0.5mm](p5) edge node[above] {\Sterm{a}} (s2);}
+\end{tikzpicture}}%
+
+\ghost{\raisebox{0mm}{\hspace{4.5cm}\onslide<6-8>{$\epstrastar = \{\tuple{q_0,q_1}\}$}}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Korrektheit (1)}
+% beide Richtungen einzeln, durch Abbildung der Läufe
+
+Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
+
+\emph{Beweis:} Richtung $\Slang{L}(\Smach{M})\supseteq\Slang{L}(\Smach{M}')$.\pause
+
+\begin{itemize}
+\item Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in \Slang{L}(\Smach{M'})$ und $p_0p_1\ldots p_n$ ein akzeptierender Lauf für $w$ in $\Smach{M'}$\pause
+\item Dann gibt es in $\Smach{M}'$ Übergänge:
+\[ p_0\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}p_n\]\pause
+\item Dann gilt in $\Smach{M}$:
+\[ q_0\epstrastar p_0\stackrel{\Sterm{a_1}}{\to}q_1\epstrastar p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}q_n\epstrastar p_n\]\pause
+\item Es ist $q_0\in Q_0$ (da $p_0\in Q_0'$) und $p_n\in F$, also hat $\Smach{M}$ einen akzeptierenden Lauf der Form $q_0\ldots p_0q_1\ldots p_1\ldots q_n\ldots p_n$.\pause
+\end{itemize}
+Also ist $w\in\Slang{L}(\Smach{M})$.
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Korrektheit (2)}
+% beide Richtungen einzeln, durch Abbildung der Läufe
+
+Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
+
+\emph{Beweis:} Richtung $\Slang{L}(\Smach{M})\subseteq\Slang{L}(\Smach{M}')$.
+
+\begin{itemize}
+\item Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in \Slang{L}(\Smach{M})$.
+\item Dann gibt es einen akzeptierenden Lauf mit Übergängen der Form
+\[ q_0\epstrastar p_0\stackrel{\Sterm{a_1}}{\to}q_1\epstrastar p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}q_n\epstrastar p_n\]
+\item Dann gibt es in $\Smach{M}'$ Übergänge:
+\[ p_0\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}p_n\]
+\item Dies führt zu einem akzeptierenden Lauf in $\Smach{M}'$.
+\end{itemize}
+Also ist $w\in\Slang{L}(\Smach{M})$.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{$\epsilon$-NFA: Variationen}
+% Anmerkung zur Variation im Beweis, speziell bezüglich beidseitiger esp Eliminierung (wie bei FB)
+
+Die Konstruktion im Beweis "`verlängert"' normale Übergänge "`nach rechts"' durch Anhängen von $\epsilon$-Transitionen.
+\medskip
+
+\narrowcentering{%
+\scalebox{0.7}{%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (2,0) {$q_1$};
+\node (s3) [circle,draw=black,thick] at (4,0) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (6,0) {$q_3$};
+%
+\path[->,line width=0.5mm](0,-0.8) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {$\Sterm{a}$} (s3);
+\path[->,line width=0.5mm](s3) edge node[above] {$\epsilon$} (s4);
+%
+\path[->,line width=0.5mm,darkred,dotted](2,-0.8) edge (s2);
+\path[->,line width=0.5mm, bend right,darkred,dotted](s2) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+% \path[->,line width=0.5mm, bend right](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
+% \path[->,line width=0.5mm, bend right=40](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\end{tikzpicture}}}
+\bigskip
+
+Man kann alternative Konstruktionen für den Beweis angeben:
+\begin{itemize}
+\item \alert{"`Verlängerung nach links"':} $\epsilon$-Transitionen vor normalen Übergängen; Anfangszustände werden beibehalten; dafür werden Endzustände mit $\epsilon$-Transitionen erweitert\medskip
+
+\narrowcentering{%
+\scalebox{0.7}{%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (2,0) {$q_1$};
+\node (s3) [double,circle,draw=darkred,thick] at (4,0) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (6,0) {$q_3$};
+%
+\path[->,line width=0.5mm](0,-0.8) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {$\Sterm{a}$} (s3);
+\path[->,line width=0.5mm](s3) edge node[above] {$\epsilon$} (s4);
+%
+% \path[->,line width=0.5mm, bend right](s2) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\path[->,line width=0.5mm, bend right,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
+% \path[->,line width=0.5mm, bend right=40](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\end{tikzpicture}}}
+\item \alert{"`Verlängerung in beide Richtungen"':} $\epsilon$-Transitionen vor und nach normalen Übergängen; Anfangs- und Endzustände können beibehalten werden.\medskip
+
+\narrowcentering{%
+\scalebox{0.7}{%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (s2) [circle,draw=black,thick] at (2,0) {$q_1$};
+\node (s3) [circle,draw=black,thick] at (4,0) {$q_2$};
+\node (s4) [double,circle,draw=black,thick] at (6,0) {$q_3$};
+%
+\path[->,line width=0.5mm](0,-0.8) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {$\Sterm{a}$} (s3);
+\path[->,line width=0.5mm](s3) edge node[above] {$\epsilon$} (s4);
+%
+\path[->,line width=0.5mm, bend right,darkred,dotted](s2) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\path[->,line width=0.5mm, bend right,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
+\path[->,line width=0.5mm, bend right=40,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\end{tikzpicture}}}
+\end{itemize}
+
+\end{frame}
+
+\sectionSlide{Abschlusseigenschaften}
+
+\newcommand{\mytabnote}[2]{\ghost{#1}\hspace{2cm}{\textcolor{devilscss}{(#2)}}}
+\begin{frame}\frametitle{Abschlusseigenschaften regulärer Sprachen}
+
+Reguläre Sprachen sind unter zahlreichen Operationen abgeschlossen:
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[({A}1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}\pause
+
+\emph{Beweisidee:} Für jede Operation auf Sprachen entwickeln wir eine entsprechende
+\alert{Operation auf Automaten}. Dadurch konstruieren wir Automaten, welche die
+gesuchte Sprache erkennen (daher muss die Sprache regulär sein).
+
+% Satz: Abschluss unter cup cap circ compl *
+% Erläuterung
+% Beweisplan (via Automaten)
+
+\end{frame}
+
+\begin{frame}\frametitle{Vereinigung von NFAs}
+% Operator kann mit cup+ bezeichnet werden
+
+Ein NFA zur Vereinigung von zwei NFAs ist leicht zu finden:
+
+\defbox{Gegeben seien zwei NFAs $\Smach{M}_1=\tuple{Q_1,\Sigma,\delta_1,Q_{0,1},F_1}$ und $\Smach{M}_2=\tuple{Q_2,\Sigma,\delta_2,Q_{0,2},F_2}$ mit $Q_1\cap Q_2=\emptyset$ (o.B.d.A.). 
+\medskip
+
+Der \redalert{Vereinigungsautomat $\Smach{M}_1\oplus\Smach{M}_2$} ist
+gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta_{12},Q_{0,1}\cup Q_{0,2},F_1\cup F_2}$ wobei\\[1ex]
+\narrowcentering{$\delta_{12}(q,\Sterm{a}) = \left\{\begin{array}{lr}
+	\delta_1(q,\Sterm{a}) & \text{ falls $q\in Q_1$}\\
+	\delta_2(q,\Sterm{a}) & \text{ falls $q\in Q_2$}
+\end{array}\right.$}
+}\pause
+
+Das folgende Ergebnis ist leicht zu sehen:
+
+\theobox{Satz: $\Slang{L}(\Smach{M}_1\oplus\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cup\Slang{L}(\Smach{M}_2)$.
+}
+
+Also sind reguläre Sprachen unter Vereinigung abgeschlossen.
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+Die Vereinigung der NFAs\bigskip
+
+{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,double] at (0,0) {$q_1$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$q_2$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$q_3$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}
+\hfill und\hfill 
+\begin{tikzpicture}[baseline={(p1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (0,0) {$p_1$};
+\node (p2) [circle,draw=black,thick,double] at (2,0) {$p_2$};
+%
+\path[->,line width=0.5mm](0,1) edge (p1);
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+\end{tikzpicture}
+}\bigskip
+
+ergibt den NFA \ldots\pause\bigskip
+
+{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,double] at (0,0) {$q_1$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$q_2$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$q_3$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}
+\hfill 
+\begin{tikzpicture}[baseline={(p1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (0,0) {$p_1$};
+\node (p2) [circle,draw=black,thick,double] at (2,0) {$p_2$};
+%
+\path[->,line width=0.5mm](0,1) edge (p1);
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+\end{tikzpicture}
+}\bigskip
+
+\pause{}Akzeptierte Sprache: $\{\Sterm{1}\Sterm{0}\}^*\cup (\{\Sterm{0}\Sterm{1}\}^*\circ\{\Sterm{0}\})=
+\{\epsilon,\Sterm{0}\} \circ \{\Sterm{1}\Sterm{0}\}^* $
+
+\end{frame}
+
+\begin{frame}\frametitle{Schnitte mit Automaten}
+% Ziel und Idee angeben
+\end{frame}
+
+\begin{frame}\frametitle{Der Produktautomat}
+% Einfuehren fuer NFAs
+% Notation koennte umkreistes \times verwenden
+% Anschliessend beobachten, dass das auch fuer DFAs geht
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+% Notfalls Folie CB 25-10 95ff
+\end{frame}
+
+\begin{frame}\frametitle{Beiweis der Korrektheit des Produktautomaten}
+% Notation, Uebersicht
+\end{frame}
+
+\begin{frame}\frametitle{Inklusion PD-Sprache in Schnitt}
+\end{frame}
+
+\begin{frame}\frametitle{Inklusion Schnitt in PD-Sprache}
+\end{frame}
+
+\begin{frame}\frametitle{Komplementoperator für DFAs}
+% Idee einfuehren, Beispiel, unzureichenden Beweis angeben bzw. Beweis nutzen um Fehler zu finden (totaler DFA noetig)
+\end{frame}
+
+\begin{frame}\frametitle{Komplementoperator für NFAs}
+% Diskussion warum das auch nicht geht, mit Beispiel
+\end{frame}
+
+\begin{frame}\frametitle{Vereinigung von DFAs}
+% Diskussion; zwei Ideen via Determinisierung cup NFA und via DeMorgan
+\end{frame}
+
+\begin{frame}\frametitle{Vereinigungsoperator für DFAs}
+% direkte Konstruktion als modifiziertes Produkt ueber totalen DFAs
+% Ev. noch eine Folei fuer die Konstruktino mit partiellen DFA,
+%   aber das hat keinen grossen Mehrwert vgl. mit vorheriger Konstruktion totaler DFA
+\end{frame}
+
+% Fuer Abschluss unter circ und * brauchen wie esp NFA
+
+
+\begin{frame}\frametitle{Konkatenation von NFAs}
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschluss unter Kleene-Stern}
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+% 
+% \redalert{Nichtdeterministische endliche Automaten} (NFA) vereinfachen die Modellierung, z.B. die direkte Darstellung von Syntaxdiagrammen
+% \bigskip
+% 
+% \redalert{Rabin/Scott:} DFAs und NFAs erkennen die selben Sprachen\\
+% \textcolor{devilscss}{(Potenzmengenkonstruktion)}
+% \bigskip
+% 
+% % \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
+% % \bigskip
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Wir wollten noch zeigen: alle regulären Sprachen sind durch DFAs erkennbar -- wie?
+% \item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
+% \item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
+% \end{itemize}
+% }
+% 
+\end{frame}
+
+
+\end{document}

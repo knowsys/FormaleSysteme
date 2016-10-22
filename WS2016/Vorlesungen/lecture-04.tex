@@ -1,10 +1,13 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+% \documentclass[onlymath]{beamer}
+\documentclass[onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
 \defineTitle{4}{Nichtdeterministische Endliche Automaten}{20. Oktober 2016}
+
+% Note: Eher kurze Vorlesung;
+% man sollte den abschließenden Beweis der Übersetzung reg Gram. -> NFA hier noch unterbringen
 
 \begin{document}
 
@@ -457,60 +460,6 @@ Wähle $q_{i-1}\in\delta(Q_0,\sigma_0\cdots\sigma_{i-1})$, so dass $q_i\in\delta
 \item Es ist ein akzeptierender Lauf, da $q_n\in F$.\qed
 \end{itemize}
 \end{frame}
-
-% Wort-Ubergaenge
-% epsilon-Ubergaenge
-% \begin{frame}\frametitle{Automaten mit Wortübergängen}
-% 
-% Eine weitere Variante endlicher Automaten:
-% 
-% \defbox{
-% Ein \redalert{nichtdeterministischer endlicher Automat mit Wortübergängen} 
-% \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
-% den folgenden Teilen:
-% \begin{itemize}
-% \item \textcolor{devilscss}{$Q$: endliche Menge von Zuständen}
-% \item \textcolor{devilscss}{$\Sigma$: Alphabet}
-% \item $\Delta$: Übergangsrelation, eine \alert{endliche} Relation $\Delta\subseteq Q\times\Sigma^* \times 2^Q$
-% \item \textcolor{devilscss}{$Q_0$: Menge möglicher {Startzustände} $Q_0\subseteq Q$}
-% \item \textcolor{devilscss}{$F$: Menge von {Endzuständen} $F\subseteq Q$}
-% \end{itemize}
-% }
-% 
-% \doodlebox{darkgreen}{%
-% Beispiel:
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (s1) [circle,draw=black,thick] at (0,0) {$q_0$};
-% \node (s2) [double,circle,draw=black,thick] at (3,0) {$q_1$};
-% %
-% \path[->,line width=0.5mm](-1,0) edge (s1);
-% \path[->,line width=0.5mm](s1) edge [loop above] node[left] {\Sterm{aa}} (s1);
-% \path[->,line width=0.5mm](s2) edge [loop above] node[right] {\Sterm{bb}} (s2);
-% \path[->,line width=0.5mm](s1) edge node[above] {$\epsilon$} (s2);
-% \end{tikzpicture}%
-% \hspace{5mm}
-% \begin{minipage}[t]{3.5cm}
-% $\Delta = \{\tuple{q_0,\Sterm{aa},q_0},$\\ $\tuple{q_0,\epsilon,q_1},\allowbreak\tuple{q_1,\Sterm{bb},q_1}\}$\\[1ex]
-% Akzeptierte Sprache\only<1>{?}\visible<2->{:}\\
-% \visible<2->{$\{\Sterm{aa}\}^* \circ \{\Sterm{bb}\}^*$}
-% \end{minipage}
-% }
-% 
-% \end{frame}
-% 
-% 
-% \begin{frame}\frametitle{Wortübergänge machen NFAs nicht stärker}
-% 
-% \theobox{Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
-% 
-% 
-% 
-% \end{frame}
-
-% \begin{frame}\frametitle{}
-% 
-% \end{frame}
 
 % Potenzmengenkonstruktion
 
