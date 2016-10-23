@@ -511,6 +511,7 @@ Man kann alternative Konstruktionen für den Beweis angeben:
 \sectionSlide{Abschlusseigenschaften}
 
 \newcommand{\mytabnote}[2]{\ghost{#1}\hspace{2cm}{\textcolor{devilscss}{(#2)}}}
+\newcommand{\myhitabnote}[2]{\ghost{#1}\hspace{2cm}{\textcolor{darkred}{#2}}}
 \begin{frame}\frametitle{Abschlusseigenschaften regulärer Sprachen}
 
 Reguläre Sprachen sind unter zahlreichen Operationen abgeschlossen:
@@ -518,7 +519,7 @@ Reguläre Sprachen sind unter zahlreichen Operationen abgeschlossen:
 \theobox{
 Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
 folgenden Ausdrücke reguläre Sprachen:
-\begin{enumerate}[({A}1)]
+\begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
 \item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
@@ -618,6 +619,22 @@ ergibt den NFA \ldots\pause\bigskip
 
 \pause{}Akzeptierte Sprache: $\{\Sterm{1}\Sterm{0}\}^*\cup (\{\Sterm{0}\Sterm{1}\}^*\circ\{\Sterm{0}\})=
 \{\epsilon,\Sterm{0}\} \circ \{\Sterm{1}\Sterm{0}\}^* $
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschluss unter Schnitt}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \myhitabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
 
 \end{frame}
 
@@ -752,66 +769,345 @@ Analoge Schlussfolgerungen in entgegengesetzter Richtung.\qed
 
 \end{frame}
 
+\begin{frame}\frametitle{Abschluss unter Komplement}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \myhitabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
+
 \begin{frame}\frametitle{Komplementoperator für DFAs}
 
 \emph{Idee:} Wir können DFA komplementieren, indem wir akzeptierende und verwerfende Zustände vertauschen.
 \bigskip
 
-\emph{Beispiel:}
+\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ sei $\overline{\Smach{M}}$ der\\
+DFA $\tuple{Q,\Sigma,\delta,q_0,Q\setminus F}$.}
+\bigskip
 
 
+\emph{Beispiel:}\medskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,1) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[above] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}\hspace{5mm}$\leadsto$\hspace{5mm}%
+%
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick,double] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,1) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[above] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}\medskip
+
+"`Wörter mit gerader Anzahl \Sterm{0}"'\hfill"`Wörter mit ungerader Anzahl \Sterm{0}"'
 
 % Idee einfuehren, Beispiel, unzureichenden Beweis angeben bzw. Beweis nutzen um Fehler zu finden (totaler DFA noetig)
 
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheitsbeweis Komplementierung}
+
+\theobox{Satz: Für jeden DFA gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}\pause
+
+\emph{Beweis:} "`$\Slang{L}(\overline{\Smach{M}}) \subseteq \overline{\Slang{L}(\Smach{M})}$"'~~
+Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\Slang{L}(\overline{\Smach{M}})$.\pause
+\begin{itemize}
+\item Dann gibt es einen akzeptierenden Lauf $q_0q_1\ldots q_n$ für $w$ in $\overline{\Smach{M}}$.\pause
+\item Dann ist $q_n\in Q\setminus F$.\pause
+\item Dann ist $q_0q_1\ldots q_n$ ein verwerfender Lauf für $w$ in $\Smach{M}$.\pause
+\end{itemize}
+Also ist $w\notin{\Slang{L}(\Smach{M})}$, d.h. $w\in\overline{\Slang{L}(\Smach{M})}$.\pause
+\bigskip
+
+"`$\Slang{L}(\overline{\Smach{M}}) \supseteq \overline{\Slang{L}(\Smach{M})}$"'~~
+Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
+
+\begin{itemize}
+\item Dann hat $\Smach{M}$ einen verwerfenden Lauf $p_0p_1\ldots p_n$ für $w$\pause
+\item Dann ist (1) $p_n\notin F$ oder (2) $n<|w|$\pause
+\item In Fall (1) ist $p_0p_1\ldots p_n$ ein akzeptierender Lauf für $w$ in $\overline{\Smach{M}}$\pause
+\item In Fall (2) \ldots ?\pause
+\end{itemize}
+
+\narrowcentering{\redalert{Der Satz ist falsch!}}
 
 \end{frame}
 
-\begin{frame}\frametitle{Komplementoperator für NFAs}
+\begin{frame}\frametitle{Gegenbeispiel}
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (c) [circle,draw=black,thick] at (0,0) {$C$};
+\node (d) [circle,draw=black,thick,double] at (0,-2) {$D$};
+%
+\path[->,line width=0.5mm](-1,0) edge (c);
+\path[->,line width=0.5mm](c) edge node[right] {\Sterm{1}} (d);
+\path[->,line width=0.5mm](c) edge [loop right] node[right] {\Sterm{0}} (c);
+\path[->,line width=0.5mm](d) edge [loop right] node[right] {\Sterm{1}} (d);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}\hspace{5mm}$\leadsto$\hspace{5mm}%
+%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (c) [circle,draw=black,thick,double] at (0,0) {$C$};
+\node (d) [circle,draw=black,thick] at (0,-2) {$D$};
+%
+\path[->,line width=0.5mm](-1,0) edge (c);
+% \path[->,line width=0.5mm](-1,-2) edge (d);
+\path[->,line width=0.5mm](c) edge node[right] {\Sterm{1}} (d);
+\path[->,line width=0.5mm](c) edge [loop right] node[right] {\Sterm{0}} (c);
+\path[->,line width=0.5mm](d) edge [loop right] node[right] {\Sterm{1}} (d);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}\bigskip
+
+
+\onslide<2->{\narrowcentering{Wörter der Form $\Sterm{0}^*\Sterm{1}^+$\hfill \onslide<3->{Wörter der Form $\Sterm{0}^*$}}}
+\bigskip
+
+\onslide<3->{Das Wort $\Sterm{010}$ zum Beispiel wird von keinem der beiden Automaten erkannt.}
+\bigskip
+
+\onslide<3->{\narrowcentering{\alert{$\leadsto$ keine komplementären Sprachen}}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrekte Komplementierung}
 % Diskussion warum das auch nicht geht, mit Beispiel
+
+\theobox{Satz: Für jeden DFA \alert{mit totaler Übergangsfunktion} gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}
+
+\emph{Beweis:} Wie vorher für den falschen Satz, aber diesmal kann der Problemfall (2) der Rückrichtung nicht auftreten.
+\bigskip
+
+Daraus folgt der Abschluss regulärer Sprachen unter Komplement, da wir jeden DFA mit totalen Übergängen ausstatten können.
+\bigskip\pause
+
+\anybox{devilscss}{
+\emph{Auch NFAs dürfen nicht direkt komplementiert werden:}
+\begin{itemize}
+\item DFAs sind NFAs: unser Gegenbeispiel trifft weiterhin zu
+\item Selbst NFAs, in denen jeder Zustand für jedes Symbol mindestens einen Folgezustand hat, können nicht so einfach komplementiert werden (Übung)
+\end{itemize}
+}
+
 \end{frame}
 
-\begin{frame}\frametitle{Vereinigung von DFAs}
-% Diskussion; zwei Ideen via Determinisierung cup NFA und via DeMorgan
-\end{frame}
 
-\begin{frame}\frametitle{Vereinigungsoperator für DFAs}
-% direkte Konstruktion als modifiziertes Produkt ueber totalen DFAs
-% Ev. noch eine Folei fuer die Konstruktino mit partiellen DFA,
-%   aber das hat keinen grossen Mehrwert vgl. mit vorheriger Konstruktion totaler DFA
-\end{frame}
+% \begin{frame}\frametitle{Vereinigung von DFAs}
+% % Diskussion; zwei Ideen via Determinisierung cup NFA und via DeMorgan
+% \end{frame}
+% 
+% \begin{frame}\frametitle{Vereinigungsoperator für DFAs}
+% % direkte Konstruktion als modifiziertes Produkt ueber totalen DFAs
+% % Ev. noch eine Folei fuer die Konstruktino mit partiellen DFA,
+% %   aber das hat keinen grossen Mehrwert vgl. mit vorheriger Konstruktion totaler DFA
+% \end{frame}
 
-% Fuer Abschluss unter circ und * brauchen wie esp NFA
+\begin{frame}\frametitle{Abschluss unter Konkatenation}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \myhitabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
 
 
 \begin{frame}\frametitle{Konkatenation von NFAs}
+
+\emph{Idee:} Wir können Automaten hintereinanderhängen, indem wir von Endzuständen des ersten
+zu Startzuständen des zweiten \ghost{wechseln.}\\
+$\leadsto$ besonders elegant geht das mit $\epsilon$-Transitionen
+\bigskip
+
+\defbox{Gegeben seien zwei NFAs $\Smach{M}_1=\tuple{Q_1,\Sigma,\delta_1,Q_{0,1},F_1}$ und $\Smach{M}_2=\tuple{Q_2,\Sigma,\delta_2,Q_{0,2},F_2}$ mit $Q_1\cap Q_2=\emptyset$ (o.B.d.A.). 
+\medskip
+
+Der \redalert{Konkatenationsautomat $\Smach{M}_1\odot\Smach{M}_2$} ist ein $\epsilon$-NFA 
+gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta,Q_{0,1},F_2}$ wobei\\[1ex]
+\narrowcentering{$\delta(q,\Sterm{a}) = \left\{\begin{array}{l@{~}r}
+	\delta_1(q,\Sterm{a}) & \text{ falls $q\in Q_1$}\\
+	\delta_2(q,\Sterm{a}) & \text{ falls $q\in Q_2$}
+\end{array}\right.$%
+\hfill
+$\delta(q,\epsilon) = \left\{\begin{array}{l@{~}r}
+	Q_{0,1} & \text{ falls $q\in F_1$}\\
+	\emptyset & \text{ andernfalls}
+\end{array}\right.$}
+}
+% \bigskip
+
+$\Smach{M}_1\odot\Smach{M}_2$ simuliert also zunächst $\Smach{M}_1$. In jedem Endzustand aus $F_1$ entscheidet
+$\Smach{M}_1\odot\Smach{M}_2$ nichtdeterministisch, diese Simulation fortzusetzen oder mit der Simulation von $\Smach{M}_2$ zu beginnen.
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel Konkatenation}
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[above] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}\hspace{10mm}%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double] at (0,0) {$C$};
+\node (b) [circle,draw=black,thick] at (3,0) {$D$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[above] {\Sterm{1}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{0}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}
+}
+
+"`Wörter mit gerader Anzahl \Sterm{0}"'\hfill"`Wörter mit gerader Anzahl \Sterm{1}"'\pause
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,1) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[below] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+
+% \draw[help lines] (0,0) grid (7,2);
+\node (c) [circle,draw=black,thick,double] at (5,0) {$C$};
+\node (d) [circle,draw=black,thick] at (8,0) {$D$};
+%
+\path[->,line width=0.5mm, bend left=35](a.45) edge node[below] {$\epsilon$} (c);
+\path[->,line width=0.5mm, bend left](c) edge node[above] {\Sterm{1}} (d);
+\path[->,line width=0.5mm, bend left](d) edge node[above] {\Sterm{1}} (c);
+\path[->,line width=0.5mm](c) edge [loop below] node[below] {\Sterm{0}} (c);
+\path[->,line width=0.5mm](d) edge [loop below] node[below] {\Sterm{0}} (d);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}
+}
+
+\narrowcentering{(Übung: Welche Wörter akzeptiert dieser Automat \alert{nicht}?)}\pause
+\bigskip
+
+\theobox{Satz: Für alle $\epsilon$-NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
+$\Slang{L}(\Smach{M}_1\cdot \Smach{M}_2)=\Slang{L}(\Smach{M}_1)\circ\Slang{L}(\Smach{M}_2)$.}
+
+Der Beweis ist einfach und analog zu den bisher gezeigten.
 
 \end{frame}
 
 \begin{frame}\frametitle{Abschluss unter Kleene-Stern}
 
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \myhitabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschluss unter Kleene-Stern}
+
+\emph{Idee:} Der Kleene-Stern ist eine verallgemeinterte Konkatenation, bei der ein Automat rekursiv hinter sich selbst gehangen wird.
+\bigskip
+
+
+\defbox{Gegeben sei ein NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$. 
+% \medskip
+% 
+Der Automat {$\Smach{M}^*$} ist ein $\epsilon$-NFA 
+gegeben durch $\tuple{Q',\Sigma,\delta',Q_0',F'}$ wobei
+\begin{itemize}
+\item $Q'=Q\cup\{q_\epsilon\}$ (wobei $q_\epsilon\notin Q$ o.B.d.A.)
+\item $\delta'(q,\Sterm{a})=\delta(q,\Sterm{a})$ für alle $q\in Q,\Sterm{a}\in\Sigma$ und\\
+	$\delta'(q_f,\epsilon)=Q_0$ für alle $q_f\in F$
+\item $Q_0'=Q_0\cup\{q_\epsilon\}$
+\item $F'=F\cup\{q_\epsilon\}$
+\end{itemize}
+}\medskip
+
+\theobox{Satz: $\Slang{L}(\Smach{M}^*)=\Slang{L}(\Smach{M})^*$.}
+
+Der Beweis ist einfach und analog zu den bisher gezeigten.
+
 \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
-% 
-% \redalert{Nichtdeterministische endliche Automaten} (NFA) vereinfachen die Modellierung, z.B. die direkte Darstellung von Syntaxdiagrammen
+
+\redalert{NFAs}, \redalert{DFAs}, \redalert{$\epsilon$-NFAs}, und \redalert{NFAs mit Wortübergängen} beschreiben die selbe Klasse der regulären Sprachen.
+\bigskip
+
+Reguläre Sprachen sind \redalert{abgeschlossen unter} $\cap$, $\cup$, $\overline{~}$, $\circ$, ${}^*$ und allen davon ableitbaren Operatoren.
+\bigskip
+
+Den Sprachoperationen entsprechen \redalert{Operationen auf Automaten}. Manche erfordern bestimmte Typen von Automaten.
+\bigskip
+
+% \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
 % \bigskip
-% 
-% \redalert{Rabin/Scott:} DFAs und NFAs erkennen die selben Sprachen\\
-% \textcolor{devilscss}{(Potenzmengenkonstruktion)}
-% \bigskip
-% 
-% % \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
-% % \bigskip
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Wir wollten noch zeigen: alle regulären Sprachen sind durch DFAs erkennbar -- wie?
-% \item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
-% \item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
-% \end{itemize}
-% }
-% 
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
+\item Welche Sprachen sind nicht regulär?
+\item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
+\end{itemize}
+}
+
 \end{frame}
 
 
