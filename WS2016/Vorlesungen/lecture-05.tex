@@ -623,30 +623,147 @@ ergibt den NFA \ldots\pause\bigskip
 
 \begin{frame}\frametitle{Schnitte mit Automaten}
 % Ziel und Idee angeben
+
+\alert{Gegeben:} Automaten $\Smach{M}_1$ und $\Smach{M}_2$\\[1ex]
+\alert{Gesucht:} Automat $\Smach{M}$ mit $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$
+\bigskip
+
+\emph{Idee:}
+\begin{itemize}
+\item Verarbeite Eingabe gleichzeitig synchron auf beiden Automaten
+\item Akzeptiere, wenn beide Automaten akzeptieren
+\end{itemize}
+$\leadsto$ \alert{Produktautomat}
+
 \end{frame}
 
 \begin{frame}\frametitle{Der Produktautomat}
 % Einfuehren fuer NFAs
 % Notation koennte umkreistes \times verwenden
 % Anschliessend beobachten, dass das auch fuer DFAs geht
+
+\emph{Erinnerung:} Gegeben Mengen $A$ und $B$ bezeichnet $A\times B$ die Menge aller möglichen Paare von Elementen aus $A$ und $B$, d.h. $A\times B=\{\tuple{a,b}\mid a\in A, b\in B\}$.
+\medskip
+
+\defbox{Gegeben seien zwei NFAs $\Smach{M}_1=\tuple{Q_1,\Sigma,\delta_1,Q_{0,1},F_1}$ und $\Smach{M}_2=\tuple{Q_2,\Sigma,\delta_2,Q_{0,2},F_2}$. 
+\medskip
+
+Der \redalert{Produktautomat $\Smach{M}_1\otimes\Smach{M}_2$} ist
+gegeben durch $\tuple{Q_1\times Q_2,\Sigma,\delta,Q_{0,1}\times Q_{0,2},F_1\times F_2}$ wobei\\[1ex]
+\narrowcentering{$\delta(\tuple{q_1,q_2},\Sterm{a}) =\delta_1(q_1,\Sterm{a})\times\delta_2(q_2,\Sterm{a})$}
+}\pause
+
+Wir werden zeigen, dass dies der gesuchte Automat ist:
+
+\theobox{Satz: $\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$.
+}
+
+Also sind reguläre Sprachen unter Schnitten abgeschlossen.
+\bigskip
+
+\emph{Beobachtung:} Wenn $|A|=|B|=1$, dann ist $|A\times B|=1$. Also ist der Produktautomat von DFAs ebenfalls ein DFA.
+
 \end{frame}
 
-\begin{frame}\frametitle{Beispiel}
-% Notfalls Folie CB 25-10 95ff
+\begin{frame}[t]\frametitle{Beispiel}
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double,onslide={<5>{fill=strongyellow}}] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](0,1) edge (a);
+\path[->,line width=0.5mm, bend left,onslide={<6,8>{dashed,darkred}}](a) edge node[above] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left,onslide={<10,12>{dashed,darkred}}](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm,onslide={<7,9>{dashed,darkred}}](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm,onslide={<11,13>{dashed,darkred}}](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}
+%
+\hfill
+%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (c) [circle,draw=black,thick] at (0,0) {$C$};
+\node (d) [circle,draw=black,thick,double,onslide={<5>{fill=strongyellow}}] at (0,-2) {$D$};
+%
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](-1,0) edge (c);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](-1,-2) edge (d);
+\path[->,line width=0.5mm,onslide={<6,7,10,11>{dashed,darkred}}](c) edge node[right] {\Sterm{0}, \Sterm{1}} (d);
+\path[->,line width=0.5mm,onslide={<6,10>{dashed,darkred}}](c) edge [loop right] node[right] {\Sterm{0}} (c);
+\path[->,line width=0.5mm,onslide={<9,13>{dashed,darkred}}](d) edge [loop right] node[right] {\Sterm{1}} (d);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}
+
+\onslide<1>{\narrowcentering{Sprachen?}}
+
+\onslide<2->{\narrowcentering{"`Wörter mit gerader Anzahl \Sterm{0}"'\hfill "`Wörter ohne Infix \Sterm{10}"'}}
+\bigskip
+
+\onslide<3->{%
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (ac) [circle,draw=black,thick] at (0,0) {$\tuple{A,C}$};
+\node (ad) [circle,draw=black,thick,onslide={<5->{double}},onslide={<5>{fill=strongyellow}}] at (0,-2) {$\tuple{A,D}$};
+\node (bc) [circle,draw=black,thick] at (3,0) {$\tuple{B,C}$};
+\node (bd) [circle,draw=black,thick] at (3,-2) {$\tuple{B,D}$};
+%
+\onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](-1,1) edge (ac);}
+\onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](-1,-1) edge (ad);}
+\onslide<6->{\path[->,line width=0.5mm, bend left,onslide={<6>{dashed,darkred}}](ac) edge node[above] {\Sterm{0}} (bc);}
+\onslide<10->{\path[->,line width=0.5mm, bend left,onslide={<10>{dashed,darkred}}](bc) edge node[above] {\Sterm{0}} (ac);}
+%
+\onslide<10->{\path[->,line width=0.5mm,onslide={<10>{dashed,darkred}}](bc.240) edge node[below,xshift=7mm,yshift=3mm] {\Sterm{0}} (ad.35);}
+\onslide<11->{\path[->,line width=0.5mm,onslide={<11>{dashed,darkred}}](bc) edge node[right] {\Sterm{1}} (bd);}
+\onslide<6->{
+\path[-,line width=1.1mm,white,shorten >=3mm,shorten <=3mm](ac.300) edge (bd.135);
+\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](ac.300) edge node[below,xshift=-7mm,yshift=3mm] {\Sterm{0}} (bd.135);
+}
+\onslide<7->{\path[->,line width=0.5mm,onslide={<7>{dashed,darkred}}](ac) edge node[right] {\Sterm{1}} (ad);}
+%
+\onslide<13-14>{\path[->,line width=0.5mm,onslide={<13>{dashed,darkred}}](bd) edge [loop right] node[right] {\Sterm{1}} (bd);}
+\onslide<9->{\path[->,line width=0.5mm,onslide={<9>{dashed,darkred}}](ad) edge [loop right] node[right] {\Sterm{1}} (ad);}
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}}
+
 \end{frame}
 
-\begin{frame}\frametitle{Beiweis der Korrektheit des Produktautomaten}
-% Notation, Uebersicht
-\end{frame}
+\begin{frame}\frametitle{Beweis der Korrektheit des Produktautomaten}
 
-\begin{frame}\frametitle{Inklusion PD-Sprache in Schnitt}
-\end{frame}
+"`$\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2) \subseteq \Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$"'~~ Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2)$.\pause
+\begin{itemize}
+\item Also gibt es einen akzeptierenden Lauf $\tuple{q_1^0,q_2^0}\tuple{q_1^1,q_2^1}\ldots\tuple{q_1^n,q_2^n}$\pause
+\item Dann gilt:
+\begin{itemize}
+\item $\tuple{q_1^0,q_2^0}\in Q_{0,1}\times Q_{0,2}$, also $q_1^0\in Q_{0,1}$ und $q_2^0\in Q_{0,2}$
+\item $\tuple{q_1^n,q_2^n}\in F_1\times F_2$, also $q_1^n\in F_1$ und $q_2^n\in F_2$
+\item $\tuple{q_1^i,q_2^i}\in \delta(\tuple{q_1^{i-1},q_2^{i-1}},\Sterm{a_i})$,\\ also
+$q_1^i\in \delta_1(q_1^{i-1},\Sterm{a_i})$ und $q_2^i\in \delta_2(q_2^{i-1},\Sterm{a_i})$\pause
+\end{itemize}
+\item Daher sind $q_1^0 q_1^1 \ldots q_1^n$ und $q_2^0 q_2^1 \ldots q_2^n$ akzeptierende Läufe von $\Smach{M}_1$ und $\Smach{M}_1$.\pause
+\end{itemize}
+Also ist $w\in\Slang{L}(\Smach{M}_1)$ und $w\in\Slang{L}(\Smach{M}_2)$.\pause
+\bigskip
 
-\begin{frame}\frametitle{Inklusion Schnitt in PD-Sprache}
+"`$\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2) \supseteq \Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$"'~~
+Analoge Schlussfolgerungen in entgegengesetzter Richtung.\qed
+
 \end{frame}
 
 \begin{frame}\frametitle{Komplementoperator für DFAs}
+
+\emph{Idee:} Wir können DFA komplementieren, indem wir akzeptierende und verwerfende Zustände vertauschen.
+\bigskip
+
+\emph{Beispiel:}
+
+
+
 % Idee einfuehren, Beispiel, unzureichenden Beweis angeben bzw. Beweis nutzen um Fehler zu finden (totaler DFA noetig)
+
+
 \end{frame}
 
 \begin{frame}\frametitle{Komplementoperator für NFAs}
