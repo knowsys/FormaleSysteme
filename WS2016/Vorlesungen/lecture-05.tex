@@ -153,7 +153,7 @@ $\epsilon\in\Slang{L}(G)$ & $\Snterm{S}\to\epsilon\in P$ \\\pause
 
 Wir zeigen noch $w\in\Slang{L}(G)$ gdw. $w\in\Slang{L}(\Smach{M}_G)$ für den Fall $|w|\geq 1$.\\[1ex]
 
-"`$\Rightarrow$"' Angenommen $w\in\Slang{L}(G)$ mit $w=\sigma_1\cdots\sigma_n$ und $n\geq 1$.\pause\\[1ex]
+"`$\Rightarrow$"' Angenommen $w\in\Slang{L}(G)$ mit $w=\Sterm{a_1}\cdots\Sterm{a_n}$ und $n\geq 1$.\pause\\[1ex]
 
 Es gibt zwei mögliche Herleitungen für $w$:\\[1ex]
 
@@ -288,7 +288,7 @@ Beispiel:\hspace{-5mm}
 \end{tikzpicture}%
 \hspace{3mm}
 \begin{minipage}[t]{5.7cm}
-$\Delta = \{\tuple{q_0,\Sterm{na},q_0}, \tuple{q_0,\epsilon,q_1}, \tuple{q_1,\Sterm{ba},q_2}\},$\\ $\tuple{q_1,\Sterm{tman},q_2}\}$\\[1ex]
+$\Delta = \{\tuple{q_0,\Sterm{na},q_0}, \tuple{q_0,\epsilon,q_1}, \tuple{q_1,\Sterm{ba},q_2},$\\ $\tuple{q_2,\Sterm{tman},q_3}\}$\\[1ex]
 Akzeptierte Sprache\only<2>{?}\visible<3->{:}\\
 \visible<3->{$\{\Sterm{na}\}^* \circ \{\Sterm{batman}\}$}
 \end{minipage}
@@ -432,7 +432,7 @@ Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
 \[ p_0\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}p_n\]
 \item Dies führt zu einem akzeptierenden Lauf in $\Smach{M}'$.
 \end{itemize}
-Also ist $w\in\Slang{L}(\Smach{M})$.\qed
+Also ist $w\in\Slang{L}(\Smach{M}')$.\qed
 
 \end{frame}
 
@@ -523,9 +523,9 @@ folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
-\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
 \item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
-\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
 \end{enumerate}
 }\pause
 
@@ -631,9 +631,9 @@ folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \myhitabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
-\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
 \item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
-\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
 \end{enumerate}
 }
 
@@ -778,9 +778,9 @@ folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
-\item \myhitabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \myhitabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
 \item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
-\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
 \end{enumerate}
 }
 
@@ -850,9 +850,9 @@ Also ist $w\notin{\Slang{L}(\Smach{M})}$, d.h. $w\in\overline{\Slang{L}(\Smach{M
 Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
 
 \begin{itemize}
-\item Dann hat $\Smach{M}$ einen verwerfenden Lauf $p_0p_1\ldots p_n$ für $w$\pause
-\item Dann ist (1) $p_n\notin F$ oder (2) $n<|w|$\pause
-\item In Fall (1) ist $p_0p_1\ldots p_n$ ein akzeptierender Lauf für $w$ in $\overline{\Smach{M}}$\pause
+\item Dann hat $\Smach{M}$ einen verwerfenden Lauf $p_0p_1\ldots p_m$ für $w$\pause
+\item Dann ist (1) $p_m\notin F$ oder (2) $m<|w|$\pause
+\item In Fall (1) ist $p_0p_1\ldots p_m$ ein akzeptierender Lauf für $w$ in $\overline{\Smach{M}}$\pause
 \item In Fall (2) \ldots ?\pause
 \end{itemize}
 
@@ -939,9 +939,9 @@ folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
-\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
 \item \myhitabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
-\item \mytabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
 \end{enumerate}
 }
 
@@ -950,7 +950,7 @@ folgenden Ausdrücke reguläre Sprachen:
 
 \begin{frame}\frametitle{Konkatenation von NFAs}
 
-\emph{Idee:} Wir können Automaten hintereinanderhängen, indem wir von Endzuständen des ersten
+\emph{Idee:} Wir können Automaten hintereinander hängen, indem wir von Endzuständen des ersten
 zu Startzuständen des zweiten \ghost{wechseln.}\\
 $\leadsto$ besonders elegant geht das mit $\epsilon$-Transitionen
 \bigskip
@@ -1038,7 +1038,7 @@ $\Smach{M}_1\odot\Smach{M}_2$ nichtdeterministisch, diese Simulation fortzusetze
 \bigskip
 
 \theobox{Satz: Für alle NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
-$\Slang{L}(\Smach{M}_1\cdot \Smach{M}_2)=\Slang{L}(\Smach{M}_1)\circ\Slang{L}(\Smach{M}_2)$.}
+$\Slang{L}(\Smach{M}_1\odot \Smach{M}_2)=\Slang{L}(\Smach{M}_1)\circ\Slang{L}(\Smach{M}_2)$.}
 
 Der Beweis ist einfach und analog zu den bisher gezeigten.
 
@@ -1052,9 +1052,9 @@ folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
-\item \mytabnote{$\overline{\Slangsub{L}{1}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
 \item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
-\item \myhitabnote{$\Slangsub{L}{1}^*$}{Abschluss unter Kleene-Stern}
+\item \myhitabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
 \end{enumerate}
 }
 
