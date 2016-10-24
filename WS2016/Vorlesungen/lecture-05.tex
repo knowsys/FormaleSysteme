@@ -120,7 +120,7 @@ Entsprechender NFA:
 \end{tikzpicture}}
 \bigskip
 
-\onslide<8->{Dargestellte Sprache: $\{\Sterm{1}\}\cup (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*\circ\{\epsilon,\Sterm{0}\})$}
+\onslide<8->{Dargestellte Sprache: $\{\Sterm{1}\}\cup (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*\circ\{\Sterm{1},\Sterm{0}\})$}
 
 \end{frame}
 
@@ -260,7 +260,7 @@ den folgenden Teilen:
 \begin{itemize}
 \item \textcolor{devilscss}{$Q$: endliche Menge von Zuständen}
 \item \textcolor{devilscss}{$\Sigma$: Alphabet}
-\item $\Delta$: Übergangsrelation, eine \alert{endliche} Relation $\Delta\subseteq Q\times\Sigma^* \times 2^Q$
+\item $\Delta$: Übergangsrelation, eine \alert{endliche} Relation $\Delta\subseteq Q\times\Sigma^* \times Q$
 \item \textcolor{devilscss}{$Q_0$: Menge möglicher {Startzustände} $Q_0\subseteq Q$}
 \item \textcolor{devilscss}{$F$: Menge von {Endzuständen} $F\subseteq Q$}
 \end{itemize}
@@ -305,7 +305,7 @@ Akzeptierte Sprache\only<2>{?}\visible<3->{:}\\
 \emph{Beweis:} Wir eliminieren zunächst Wortübergänge für Wörter $w\neq\epsilon$.\medskip
 \pause
 
-Gegeben jeden Übergang $q\stackrel{w}{\to}q'$ mit $w=\Sterm{a_1}\cdots \Sterm{a_n}$ und $n\geq 2$:\\
+Für jeden Übergang $q\stackrel{w}{\to}q'$ mit $w=\Sterm{a_1}\cdots \Sterm{a_n}$ und $n\geq 2$:\\
 \begin{itemize}
 \item Führe $n-1$ neue Zustände $p_1,\ldots,p_{n-1}$ ein.
 \item Ersetze $q\stackrel{w}{\to}q'$ durch Übergänge $q\stackrel{\Sterm{a_1}}{\to}p_1$, $p_1\stackrel{\Sterm{a_2}}{\to}p_2$, \ldots, \ghost{$p_{n-1}\stackrel{\Sterm{a_n}}{\to}q'$.}
@@ -368,7 +368,6 @@ Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.
 \node (s2) [circle,draw=black,thick] at (3,0) {$q_1$};
 \node (s3) [circle,draw=black,thick] at (3,3) {$q_2$};
 \node (s4) [double,circle,draw=black,thick] at (0,3) {$q_3$};
-\onslide<8->{\node (crossmark) at (1.5,0) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
 %
 % \path[->,line width=0.5mm](s2) edge node[right] {\Sterm{ba}} (s3);
 \onslide<4->{\node (p1) [circle,draw=black,thick] at (3,1.5) {$p_2$};
@@ -391,13 +390,15 @@ Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.
 \onslide<6->{\path[->,line width=0.5mm](3,-1) edge (s2);}
 \path[->,line width=0.5mm,devilscss,dotted,onslide={<6,7>{dashed,darkred}}](s1) edge node[above] {$\epsilon$} (s2);
 \onslide<7->{\path[->,line width=0.5mm](p5) edge node[above] {\Sterm{a}} (s2);}
+%
+\onslide<8->{\node (crossmark) at (1.5,0) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
 \end{tikzpicture}}%
 
-\ghost{\raisebox{0mm}{\hspace{4.5cm}\onslide<6-8>{$\epstrastar = \{\tuple{q_0,q_1}\}$}}}
+\ghost{\raisebox{0mm}{\hspace{3.0cm}\onslide<6-8>{$\epstrastar = \{\tuple{q_0,q_1}\}\cup\{\tuple{q,q}\mid q\in Q\}$}}}
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Korrektheit (1)}
+\begin{frame}[t]\frametitle{Korrektheit $\epsilon$-NFA $\leadsto$ NFA (1)}
 % beide Richtungen einzeln, durch Abbildung der Läufe
 
 Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
@@ -416,12 +417,12 @@ Also ist $w\in\Slang{L}(\Smach{M})$.
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Korrektheit (2)}
+\begin{frame}[t]\frametitle{Korrektheit $\epsilon$-NFA $\leadsto$ NFA (2)}
 % beide Richtungen einzeln, durch Abbildung der Läufe
 
 Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
 
-\emph{Beweis:} Richtung $\Slang{L}(\Smach{M})\subseteq\Slang{L}(\Smach{M}')$.
+\emph{Beweis:} Richtung $\Slang{L}(\Smach{M})\subseteq\Slang{L}(\Smach{M}')$.\pause
 
 \begin{itemize}
 \item Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in \Slang{L}(\Smach{M})$.
@@ -517,7 +518,7 @@ Man kann alternative Konstruktionen für den Beweis angeben:
 Reguläre Sprachen sind unter zahlreichen Operationen abgeschlossen:
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -625,7 +626,7 @@ ergibt den NFA \ldots\pause\bigskip
 \begin{frame}\frametitle{Abschluss unter Schnitt}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -772,7 +773,7 @@ Analoge Schlussfolgerungen in entgegengesetzter Richtung.\qed
 \begin{frame}\frametitle{Abschluss unter Komplement}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -933,7 +934,7 @@ Daraus folgt der Abschluss regulärer Sprachen unter Komplement, da wir jeden DF
 \begin{frame}\frametitle{Abschluss unter Konkatenation}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -965,7 +966,7 @@ gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta,Q_{0,1},F_2}$ wobei\\[1ex]
 \end{array}\right.$%
 \hfill
 $\delta(q,\epsilon) = \left\{\begin{array}{l@{~}r}
-	Q_{0,1} & \text{ falls $q\in F_1$}\\
+	Q_{0,2} & \text{ falls $q\in F_1$}\\
 	\emptyset & \text{ andernfalls}
 \end{array}\right.$}
 }
@@ -1036,7 +1037,7 @@ $\Smach{M}_1\odot\Smach{M}_2$ nichtdeterministisch, diese Simulation fortzusetze
 \narrowcentering{(Übung: Welche Wörter akzeptiert dieser Automat \alert{nicht}?)}\pause
 \bigskip
 
-\theobox{Satz: Für alle $\epsilon$-NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
+\theobox{Satz: Für alle NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
 $\Slang{L}(\Smach{M}_1\cdot \Smach{M}_2)=\Slang{L}(\Smach{M}_1)\circ\Slang{L}(\Smach{M}_2)$.}
 
 Der Beweis ist einfach und analog zu den bisher gezeigten.
@@ -1046,7 +1047,7 @@ Der Beweis ist einfach und analog zu den bisher gezeigten.
 \begin{frame}\frametitle{Abschluss unter Kleene-Stern}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann sind auch die
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -1061,7 +1062,7 @@ folgenden Ausdrücke reguläre Sprachen:
 
 \begin{frame}\frametitle{Abschluss unter Kleene-Stern}
 
-\emph{Idee:} Der Kleene-Stern ist eine verallgemeinterte Konkatenation, bei der ein Automat rekursiv hinter sich selbst gehangen wird.
+\emph{Idee:} Der Kleene-Stern ist eine verallgemeinerte Konkatenation, bei der ein Automat rekursiv hinter sich selbst gehängt wird.
 \bigskip
 
 
