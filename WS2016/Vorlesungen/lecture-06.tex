@@ -1,0 +1,542 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{6}{Reguläre Ausdrücke}{27. Oktober 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\newcommand{\myscale}{0.6}
+\newcommand{\myhisymb}[1]{\boldsymbol{\textcolor{darkblue}{#1}}}
+
+\begin{frame}\frametitle{Wiederholung: Operationen auf Automaten}
+
+\begin{tabular}{@{\hspace{-1cm}}cr@{~~~${}={}$~~~}l}
+$\myhisymb{\cup}$ & 
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$C$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}}
+${}\myhisymb{{}\oplus{}}{}$ 
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(p1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (0,0) {$D$};
+\node (p2) [circle,draw=black,thick,double] at (2,0) {$E$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (p1);
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+\end{tikzpicture}}
+&
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$C$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}}
+~\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(p1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (0,0) {$D$};
+\node (p2) [circle,draw=black,thick,double] at (2,0) {$E$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (p1);
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+\end{tikzpicture}}
+\\[3.5ex]
+%
+%
+$\myhisymb{\cap}$ &
+\scalebox{\myscale}{\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,1) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[above] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop below] node[below] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop below] node[below] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}
+%
+${}\myhisymb{{}\otimes{}}{}$ 
+%
+\scalebox{\myscale}{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (c) [circle,draw=black,thick] at (0,0) {$C$};
+\node (d) [circle,draw=black,thick,double] at (0,-2) {$D$};
+%
+\path[->,line width=0.5mm](-1,0) edge (c);
+\path[->,line width=0.5mm](-1,-2) edge (d);
+\path[->,line width=0.5mm](c) edge node[right] {\Sterm{0}, \Sterm{1}} (d);
+\path[->,line width=0.5mm](c) edge [loop right] node[right] {\Sterm{0}} (c);
+\path[->,line width=0.5mm](d) edge [loop right] node[right] {\Sterm{1}} (d);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}
+&
+\scalebox{\myscale}{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (ac) [rectangle,rounded corners=1.5ex,draw=black,thick] at (0,0) {$\tuple{A,C}$};
+\node (ad) [rectangle,rounded corners=1.5ex,draw=black,thick,double] at (0,-2) {$\tuple{A,D}$};
+\node (bc) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,0) {$\tuple{B,C}$};
+\node (bd) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,-2) {$\tuple{B,D}$};
+%
+{\path[->,line width=0.5mm](-0.5,0.7) edge (ac);}
+{\path[->,line width=0.5mm](-0.5,-1.3) edge (ad);}
+{\path[->,line width=0.5mm, bend left](ac) edge node[below] {\Sterm{0}} (bc);}
+{\path[->,line width=0.5mm, bend left](bc) edge node[above] {\Sterm{0}} (ac);}
+%
+{\path[->,line width=0.5mm](bc.240) edge node[below,xshift=7mm,yshift=3mm] {\Sterm{0}} (ad.35);}
+{\path[->,line width=0.5mm](bc) edge node[right] {\Sterm{1}} (bd);}
+{
+\path[-,line width=1.1mm,white,shorten >=3mm,shorten <=3mm](ac.300) edge (bd.135);
+\path[->,line width=0.5mm](ac.300) edge node[below,xshift=-7mm,yshift=3mm] {\Sterm{0}} (bd.135);
+}
+{\path[->,line width=0.5mm](ac) edge node[right] {\Sterm{1}} (ad);}
+%
+{\path[->,line width=0.5mm](bd) edge [loop right] node[right] {\Sterm{1}} (bd);}
+{\path[->,line width=0.5mm](ad) edge [loop right] node[right] {\Sterm{1}} (ad);}
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}
+\\[13mm]
+%
+%
+$\myhisymb{\overline{\phantom{L}}}$ & 
+$\overline{%
+\scalebox{\myscale}{\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[below] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop left] node[left] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop right] node[right] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}}$
+&
+\scalebox{\myscale}{\begin{tikzpicture}[baseline={(a.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$A$};
+\node (b) [circle,draw=black,thick,double] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (a);
+\path[->,line width=0.5mm, bend left](a) edge node[below] {\Sterm{0}} (b);
+\path[->,line width=0.5mm, bend left](b) edge node[above] {\Sterm{0}} (a);
+\path[->,line width=0.5mm](a) edge [loop left] node[left] {\Sterm{1}} (a);
+\path[->,line width=0.5mm](b) edge [loop right] node[right] {\Sterm{1}} (b);
+% ,onslide={<7>{dashed,darkred}}
+\end{tikzpicture}}
+\\[6mm]
+%
+%
+$\myhisymb{\circ}$ & 
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,double] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$C$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}}
+${}\myhisymb{{}\odot{}}{}$ 
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(p1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (0,0) {$D$};
+\node (p2) [circle,draw=black,thick,double] at (2,0) {$E$};
+%
+\path[->,line width=0.5mm](0,1) edge (p1);
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+\end{tikzpicture}}
+&
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick] at (4,0) {$C$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[below,xshift=5pt] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above,xshift=-5pt] {\Sterm{1}} (q2);
+
+% \draw[help lines] (0,0) grid (7,2);
+\node (p1) [circle,draw=black,thick] at (5,0) {$D$};
+\node (p2) [circle,draw=black,thick,double] at (7,0) {$E$};
+%
+\path[->,line width=0.5mm, bend left](p1) edge node[above] {\Sterm{0}} (p2);
+\path[->,line width=0.5mm, bend left](p2) edge node[above] {\Sterm{1}} (p1);
+%
+\path[->,line width=0.5mm, bend left](q1) edge node[above] {$\epsilon$} (p1);
+\path[->,line width=0.5mm](q3) edge node[below] {$\epsilon$} (p1);
+\end{tikzpicture}}
+\\[3.5ex]
+%
+% 
+${}^{\myhisymb{*}}$ & 
+$\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$C$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+\end{tikzpicture}}^{\myhisymb{*}}$
+&
+\scalebox{\myscale}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$B$};
+\node (q3) [circle,draw=black,thick,double] at (4,0) {$C$};
+\node (qf) [circle,draw=black,thick,double] at (6,0) {$q_f$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{1}} (q2);
+\path[->,line width=0.5mm, bend left](q2) edge node[above] {\Sterm{0}} (q3);
+\path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
+%
+\path[->,line width=0.5mm, bend left](q3) edge node[below] {$\epsilon$} (q1);
+\path[->,line width=0.5mm](qf) edge [loop right] node[right] {$\epsilon$} (qf);
+\end{tikzpicture}}
+\\
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{}
+
+~\hfill
+\includegraphics[height=8.5cm]{a3}
+\hfill~
+% \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
+
+\end{frame}
+
+% 
+% \begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+% 
+% \begin{tikzpicture}[
+% 	decoration=penciline, decorate,
+% 	node distance = 7mm and 9mm,
+% 	mybox/.style args = {#1/#2}{
+% 		draw=#1,% line color
+% 		fill=#2,% fill color
+% % 		rounded corners,
+% 		thick,
+% 		text width=26mm, minimum height=12mm, inner sep=1mm, 
+% 		align=flush center
+% 	},
+% 	myboxlabel/.style args = {}{
+% 		draw=devilscss,% line color
+% 		fill=strongyellow!40,% fill color
+% % 		rounded corners,
+% 		thick,
+% 		text width=21mm, minimum height=10mm, inner sep=1.5mm, 
+% 		align=flush center
+% 	},
+% 	myarrow/.style args = {#1}{
+% 		line width=0.8mm,
+% 		draw=#1,%line color
+% 		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+% 		->,
+% 		shorten >=0.5mm, shorten <=0.1mm
+% 	}
+% ]
+% \pgfmathsetseed{7729}
+% % \draw[help lines] (0,0) grid (5,5);
+% \node (reg) [decorate,mybox=black/cyan!40] at (3,-0.6) {reguläre Grammatik};
+% \node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+% \node (nfa) [decorate,mybox=black/cyan!40] at (6,-4) {NFA};
+% %
+% \path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+% %
+% % \path[myarrow=devilscss,-,bend left=20](reg.0) edge[->] (nfa);
+% % \node (regnfalabel) [decorate,myboxlabel=] at (7.2,-2.1) {"`$q_1\to\Sterm{a}q_2$"' $\leadsto$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+% %
+% \draw[myarrow=devilscss](dfa.10)--(nfa.170);
+% \node (dfanfalabel) [decorate,myboxlabel=] at (3,-3.0) {\footnotesize DFAs sind spezielle NFAs};
+% %
+% \draw[myarrow=devilscss](nfa.190)--(dfa.350);
+% \node (nfadfalabel) [decorate,myboxlabel=] at (3,-5.0) {\footnotesize Potenzmengen\-konstruktion};
+% %
+% \node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (6,-6.5) {\footnotesize Syntax\-diagramm};
+% \draw[myarrow=devilscss,<->](sd)--(nfa);
+% \node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=10mm] at (6.9,-5.3) {\footnotesize dualer Graph};
+% \end{tikzpicture}
+% 
+% \end{frame}
+
+\sectionSlide{Reguläre Ausdrücke}
+
+\begin{frame}\frametitle{Endliche Sprachen}
+
+Eine einfache Beobachtung:
+
+\theobox{Satz: Jede endliche Sprache ist regulär.}\pause
+
+\emph{Beweis:} Man kann eine beliebige endliche Sprache $\{w_1,\ldots, w_n\}$ durch einen
+NFA mit Wortübergängen erkennen:\medskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick,double] at (4,0) {$B$};
+\node (label) [draw=white] at (2,-0.1) {$\ldots$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm, bend left=45](q1) edge node[above] {$w_1$} (q2);
+\path[->,line width=0.5mm, bend left=15](q1) edge node[above] {$w_2$} (q2);
+\path[->,line width=0.5mm, bend right=35](q1) edge node[above] {$w_n$} (q2);
+\end{tikzpicture}}\medskip
+
+Wie in der letzten Vorlesung gezeigt, kann dieser in einen NFA umgeformt werden.
+Jeder NFA akzeptiert eine reguläre Sprache.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Sprachen konstruieren?}
+
+Wir haben gesehen:\\[1ex]
+
+\anybox{purple}{%
+\vspace{-1.5ex}
+\begin{itemize}%
+\item Jede endliche Sprache ist regulär
+\item Durch Anwendung von $\cap$, $\cup$, $\overline{\phantom{L}}$, $\circ$ und ${}^*$ entstehen aus regulären Sprachen immer wieder reguläre Sprachen.
+\end{itemize}
+}
+\medskip
+
+Eine natürliche Frage ist also:\\[1ex]
+
+\anybox{strongyellow}{Welche regulären Sprachen kann man durch Anwendung von $\cap$, $\cup$, $\overline{\phantom{L}}$, $\circ$ und ${}^*$ aus endlichen Sprachen konstruieren? }
+\smallskip
+\pause
+
+\narrowcentering{{\Large\redalert{Alle!}}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die kleinste $(\cup,\circ,{}^*)$-abgeschlossene Klasse}
+
+Überraschender Weise sind $\cap$ und $\overline{\phantom{L}}$ nicht einmal nötig!
+
+\theobox{Satz: Alle regulären Sprachen können durch Anwendung von $\cup$, $\circ$ und ${}^*$ aus endlichen Sprachen konstruiert werden.}
+
+Mit $\circ$ und $\cup$ kann man jede endliche Sprache leicht aus den Sprachen $\emptyset$, $\{\epsilon\}$ und $\{\Sterm{a}\}$ ($\Sterm{a}\in\Sigma$) konstruieren.\pause
+\medskip
+
+Mit den bekannten Abschlusseigenschaften erhält man also:
+
+\theobox{Satz: Die Klasse der regulären Sprachen ist die kleinste Klasse von Sprachen mit den folgenden Eigenschaften:
+\begin{itemize}
+\item Sie enthält die Sprachen $\emptyset$, $\{\epsilon\}$ und $\{\Sterm{a}\}$ für alle $\Sterm{a}\in\Sigma$
+\item Sie ist abgeschlossen unter den Operatoren $\cup$, $\circ$ und ${}^*$
+\end{itemize}}\pause
+
+\emph{Beweisplan:} 
+\begin{itemize}
+\item Definiere diese Klasse syntaktisch: \redalert{reguläre Ausdrücke}
+\item Zeige, dass diese genau die regulären Sprachen darstellen
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Reguläre Ausdrücke}
+
+% % Das bedeutet, weder $\cap$ noch $\overline{~}$ sind wirklich nötig!
+% \bigskip
+% 
+Das motiviert die Einführung einer eigenen Syntax:
+
+\defbox{Die Menge der \redalert{regulärer Ausdrücke} über einem Alphabet $\Sigma$ ist induktiv\footnote{D.h. die Menge der regulären Ausdrücke ist die kleinste Menge,\\ welche die Bedingungen erfüllt.} wie folgt definiert:
+\begin{itemize}
+\item $\emptyset$ ist ein regulärer Ausdruck
+\item $\epsilon$ ist ein regulärer Ausdruck
+\item $\Sterm{a}$ ist ein regulärer Ausdruck für jedes $\Sterm{a}\in\Sigma$
+\item Wenn $\alpha$ und $\beta$ reguläre Ausdrücke sind,\\dann sind auch $(\alpha\beta)$, $(\alpha\mid\beta)$ und $(\alpha)^*$ reguläre Ausdrücke
+\end{itemize}
+}
+
+Anmerkung: Manchmal werden $(\alpha+\beta)$ statt $(\alpha\mid\beta)$ und $(\alpha\circ\beta)$ oder $(\alpha\cdot\beta)$ statt $(\alpha\beta)$ verwendet
+
+\examplebox{Beispiele regulärer Ausdrücke sind $(\Sterm{a}(\Sterm{b})^*)$ oder auch $((((\epsilon\mid \epsilon))^*)^*$.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Reguläre Ausdrücke als formale Sprache}
+
+Man kann die Menge der regulären Ausdrücke über dem Alphabet $\Sigma=\{\sigma_1, \ldots, \sigma_n\}$
+auch als kontextfreie Grammatik über dem Alphabet $\Sigma\cup\{\Sterm{\emptyset},\Sterm{\epsilon},\Sterm{(},\Sterm{)},\Sterm{\mid},\Sterm{{}^*}\}$ beschreiben:
+% 
+\begin{align*}
+ \Snterm{S} & \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Snterm{A} \mid \Sterm{(}\Snterm{S}\Snterm{S}\Sterm{)} \mid \Sterm{(}\Snterm{S}\Sterm{\mid}\Snterm{S}\Sterm{)}\mid \Sterm{(}\Snterm{S}\Sterm{)}\Sterm{{}^*}\\
+ \Snterm{A} & \to \sigma_1\mid \ldots \mid \sigma_n
+\end{align*}\pause
+
+Solche Notationen werden in der Praxis oft weiter vereinfacht:
+
+\begin{itemize}
+\item Endliche Mengen als Nichtterminale:
+\[\Snterm{S} \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Sigma \mid \Sterm{(}\Snterm{S}\Snterm{S}\Sterm{)} \mid \Sterm{(}\Snterm{S}\Sterm{\mid}\Snterm{S}\Sterm{)}\mid \Sterm{(}\Snterm{S}\Sterm{)}\Sterm{{}^*}\]
+%
+\item Mehrere Nichtterminale als Hinweis auf unterschiedliche Ausdrücke:
+\[\alpha \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Sigma \mid \Sterm{(}\alpha\beta\Sterm{)} \mid \Sterm{(}\alpha\,\Sterm{\mid}\,\beta\Sterm{)}\mid \Sterm{(}\alpha\Sterm{)}\Sterm{{}^*}\]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Semantik regulärer Ausdrücke}
+
+Reguläre Ausdrücke beschreiben die erwarteten Sprachen:
+
+\defbox{Die \redalert{Sprache eines regulären Ausdrucks} $\alpha$ wird mit $\Slang{L}(\alpha)$
+bezeichnet und rekursiv definiert:
+\begin{itemize}
+\item $\Slang{L}(\emptyset)=\emptyset$
+\item $\Slang{L}(\epsilon)=\{\epsilon\}$
+\item $\Slang{L}(\Sterm{a})=\{\Sterm{a}\}$ für jedes $\Sterm{a}\in\Sigma$
+\item $\Slang{L}((\alpha\beta))=\Slang{L}(\alpha)\circ\Slang{L}(\beta)$
+\item $\Slang{L}((\alpha\mid\beta))=\Slang{L}(\alpha)\cup\Slang{L}(\beta)$
+\item $\Slang{L}((\alpha)^*)=\Slang{L}(\alpha)^*$
+\end{itemize}
+}\medskip
+
+\examplebox{Beispiel: $\Slang{L}(((\Sterm{ab}))^*)=(\Slang{L}((\Sterm{ab})))^*=
+(\Slang{L}(\Sterm{a})\circ\Slang{L}(\Sterm{b}))^*= (\{\Sterm{a}\}\circ\{\Sterm{b}\})^* = \{\Sterm{ab}\}^*$}
+
+\end{frame}
+
+\begin{frame}\frametitle{Vereinfachte Klammerung}
+
+Reguläre Ausdrücke können durch Klammerungsregeln vereinfacht werden:
+\alert{${}^*$ bindet stärker als Konkatenation bindet stärker als $\mid$}
+\medskip
+
+\examplebox{
+Beispiel: $\Sterm{a}\Sterm{b}^*\mid \Sterm{b}\Sterm{c}$ ist kurz für $((\Sterm{a}(\Sterm{b})^*)\mid (\Sterm{b}\Sterm{c}))$
+}
+\pause
+
+Konkatenation und Alternative sind assoziativ:
+\[
+\Slang{L}((\alpha(\beta\gamma))) = \Slang{L}(((\alpha\beta)\gamma)) \qquad
+\Slang{L}((\alpha\mid(\beta\mid\gamma))) = \Slang{L}(((\alpha\mid\beta)\mid\gamma))
+\]
+Daher ist es unproblematisch, dass die Klammerregeln die Reihenfolge nicht spezifizieren.
+
+\examplebox{Beispiel: $\Sterm{101010}$ könnte für genau 42 verschiedene reguläre Ausdrücke stehen, unter anderem
+für $(((((\Sterm{1}\Sterm{0})\Sterm{1})\Sterm{0})\Sterm{1})\Sterm{0})$, $((\Sterm{1}\Sterm{0})((\Sterm{1}\Sterm{0})(\Sterm{1}\Sterm{0})))$ und $(\Sterm{1}((\Sterm{0}((\Sterm{1}\Sterm{0})\Sterm{1}))\Sterm{0}))$.
+% {\tiny 42 ist die größte Zahl $n$, deren Binärdarstellung genau $n$ reguläre Ausdrücke kodiert.}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kurzschreibweisen für reguläre Ausdrücke}
+
+Man kann eine Reihe von Kurzschreibweisen definieren:
+\begin{itemize}
+\item $\alpha^+$ ist kurz für $\alpha(\alpha)^*$ 
+\item $\alpha?$ ist kurz für $(\alpha\mid\epsilon)$ 
+\item $\alpha\{n,m\}$ mit $0\leq n\leq m$ ist kurz für $(\underbrace{\alpha\ldots\alpha}_{\text{$n$-mal}}\mid\ldots\mid\underbrace{\alpha\ldots\alpha}_{\text{$m$-mal}})$ 
+\end{itemize}
+\bigskip\pause
+
+\anybox{gray}{%
+Implementierungen regulärer Ausdrücke bieten auch Kurzformen für Alternativen einzelner Symbole ("`Character Classes"'):
+\begin{itemize}
+\item \texttt{.}: beliebiges Symbol, d.h. $\sigma_1\mid\ldots\mid\sigma_n$ falls $\Sigma=\{\sigma_1,\ldots,\sigma_n\}$
+\item \texttt{[$\theta_1\cdots\theta_\ell$]}: beliebiges Symbol aus einer Liste, d.h. $\theta_1\mid\ldots\mid\theta_\ell$
+\item \texttt{[\^{}$\theta_1\cdots\theta_\ell$]}: beliebiges Symbol \alert{nicht} aus einer Liste, d.h. $\sigma_1\mid\ldots\mid\sigma_\ell$ mit $\{\sigma_1,\ldots,\sigma_\ell\}=\Sigma\setminus\{\theta_1,\ldots,\theta_\ell\}$
+\item Weitere Kurzformen für praktisch wichtige Fälle, z.B. \texttt{\textbackslash s} oder \texttt{[:blank:]} für Leerzeichen, \texttt{\textbackslash d} oder \texttt{[:digit:]} für Ziffern
+\end{itemize}}
+
+\redalert{Theoretiker meiden Kurzformen {\tiny(mehr Formen = mehr Fälle in Beweisen und Definitionen)}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Regexps in der Praxis}
+
+Reguläre Ausdrücke sind von großer praktischer Bedeutung
+\begin{itemize}
+\item Mustererkennung in Texten (Pattern Matching)
+\item Lexer/Tokenizer
+\item Suche nach Muster in Datenbanken
+\item \ldots
+\end{itemize}
+
+Unterschiede zur reinen Lehre:
+\begin{itemize}
+\item \alert{Pattern Matching:} (1) spezifiziere eine Sprache (Suchwörter) und (2) finde deren Vorkommen (Matches) in einem längeren Wort (Text) $\leadsto$ Möglichkeiten zur Steuerung des zweiten Teils nötig (z.B. \emph{greedy} vs. \emph{lazy} matching)
+\item \alert{Referenzen:} praktische Implementierungen erlauben es meist, Teile eines Matches im Muster wieder zu verwenden $\leadsto$ keine reguläre Sprache mehr
+\item \alert{Escaping:} Unterscheidung von Steuerzeichen (Metazeichen) und Alphabetssymbolen ist praktisch aufwändig
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+% 
+% \redalert{NFAs}, \redalert{DFAs}, \redalert{$\epsilon$-NFAs}, und \redalert{NFAs mit Wortübergängen} beschreiben die selbe Klasse der regulären Sprachen.
+% \bigskip
+% 
+% Reguläre Sprachen sind \redalert{abgeschlossen unter} $\cap$, $\cup$, $\overline{~}$, $\circ$, ${}^*$ und allen davon ableitbaren Operatoren.
+% \bigskip
+% 
+% Den Sprachoperationen entsprechen \redalert{Operationen auf Automaten}. Manche erfordern bestimmte Typen von Automaten.
+% \bigskip
+% 
+% % \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
+% % \bigskip
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
+% \item Welche Sprachen sind nicht regulär?
+% \item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
+% \end{itemize}
+% }
+
+\end{frame}
+
+
+\end{document}

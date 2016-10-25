@@ -70,6 +70,9 @@
 \tikzset{onslide/.code args={<#1>#2}{%
   \only<#1| handout:0>{\pgfkeysalso{#2}} 
 }}
+\tikzset{onslideprint/.code args={<#1>#2}{%
+  \only<#1>{\pgfkeysalso{#2}} 
+}}
 
 %%% Title -- always set this first
 

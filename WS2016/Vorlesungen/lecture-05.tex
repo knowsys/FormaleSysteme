@@ -109,8 +109,8 @@ Entsprechender NFA:
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
 \onslide<2->{\node (s) [circle,draw=black,thick] at (0,0) {$\Snterm{S}$};
-\node (a) [circle,draw=black,thick,onslide={<3->{double}}] at (3,0) {$\Snterm{A}$};
-\node (qf) [circle,draw=black,thick,onslide={<3->{double}}] at (1.5,-1.5) {$q_f$};}
+\node (a) [circle,draw=black,thick,onslideprint={<3->{double}}] at (3,0) {$\Snterm{A}$};
+\node (qf) [circle,draw=black,thick,onslideprint={<3->{double}}] at (1.5,-1.5) {$q_f$};}
 %
 \onslide<2->{\path[->,line width=0.5mm](-1,0) edge (s);}
 \onslide<5->{\path[->,line width=0.5mm,onslide={<5>{dashed,darkred}}](s) edge node[above] {\Sterm{0}} (a);}
@@ -728,7 +728,7 @@ Also sind reguläre Sprachen unter Schnitten abgeschlossen.
 \begin{tikzpicture}[baseline={(current bounding box.center)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (ac) [circle,draw=black,thick] at (0,0) {$\tuple{A,C}$};
-\node (ad) [circle,draw=black,thick,onslide={<5->{double}},onslide={<5>{fill=strongyellow}}] at (0,-2) {$\tuple{A,D}$};
+\node (ad) [circle,draw=black,thick,onslideprint={<5->{double}},onslide={<5>{fill=strongyellow}}] at (0,-2) {$\tuple{A,D}$};
 \node (bc) [circle,draw=black,thick] at (3,0) {$\tuple{B,C}$};
 \node (bd) [circle,draw=black,thick] at (3,-2) {$\tuple{B,D}$};
 %
