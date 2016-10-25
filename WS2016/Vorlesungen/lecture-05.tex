@@ -1,5 +1,5 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+% \documentclass[onlymath]{beamer}
+\documentclass[onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
@@ -120,7 +120,7 @@ Entsprechender NFA:
 \end{tikzpicture}}
 \bigskip
 
-\onslide<8->{Dargestellte Sprache: $\{\Sterm{1}\}\cup (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*\circ\{\Sterm{1},\Sterm{0}\})$}
+\onslide<8->{Dargestellte Sprache: $\{\Sterm{1}\}\cup (\{\Sterm{0}\}\circ \{\Sterm{1}\}^*\circ\{\epsilon,\Sterm{0}\})$}
 
 \end{frame}
 
@@ -485,7 +485,10 @@ Man kann alternative Konstruktionen für den Beweis angeben:
 \path[->,line width=0.5mm, bend right,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
 % \path[->,line width=0.5mm, bend right=40](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
 \end{tikzpicture}}}
-\item \alert{"`Verlängerung in beide Richtungen"':} $\epsilon$-Transitionen vor und nach normalen Übergängen; Anfangs- und Endzustände können beibehalten werden.\medskip
+\item \alert{"`Verlängerung in beide Richtungen"':} $\epsilon$-Transitionen vor und nach normalen Übergängen; Anfangs- und Endzustände können beibehalten werden$^*$
+% \hspace{3cm}\ghost{\raisebox{-1cm}{\begin{minipage}{3cm}
+% {\baselineskip=0.2ex \lineskip=0pt.\medskip
+% \end{minipage}}}
 
 \narrowcentering{%
 \scalebox{0.7}{%
@@ -503,8 +506,9 @@ Man kann alternative Konstruktionen für den Beweis angeben:
 %
 \path[->,line width=0.5mm, bend right,darkred,dotted](s2) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
 \path[->,line width=0.5mm, bend right,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
-\path[->,line width=0.5mm, bend right=40,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
-\end{tikzpicture}}}
+\path[->,line width=0.5mm, bend right=35,darkred,dotted](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
+\end{tikzpicture}}}\\[-1ex]
+{\tiny *) Ausnahme: Anfangszustände mit $\epsilon$-Pfad zu einem Endzustand werden Endzustand}
 \end{itemize}
 
 \end{frame}
