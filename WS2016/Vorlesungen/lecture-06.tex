@@ -239,12 +239,84 @@ $\scalebox{\myscale}{%
 
 \end{frame}
 
-\begin{frame}\frametitle{}
+\begin{frame}\frametitle{NFAs mit Wortübergängen}
 
 ~\hfill
-\includegraphics[height=8.5cm]{a3}
+\includegraphics[height=6.5cm]{a3}
 \hfill~
 % \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\mbox{}\hspace{-1cm}%
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (2,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (4,-4) {NFA};
+% \node (re) [decorate,mybox=black/cyan!40] at (6,-0.6) {regulärer Ausdruck};
+\node (enfa) [decorate,mybox=black/cyan!40] at (8,-4) {$\epsilon$-NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.340) edge[->] (nfa.110);
+\path[myarrow=devilscss,-,bend right=20](nfa.130) edge[->] (reg.320);
+\node (regnfalabel) [decorate,myboxlabel=] at (1.6,-1.9) {\footnotesize"`$q_1\to\Sterm{a}q_2$"' $\Leftrightarrow$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (1.95,-3.3) {\scalebox{0.8}{"`DFA${}\subseteq{}$NFA"'}};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=,text width=13mm] at (2.1,-5.0) {\footnotesize Potenzm.\-konstr.};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (4,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=19mm] at (5.3,-5.4) {\footnotesize dualer Graph};
+%%
+% \path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
+%
+% \path[myarrow=devilscss,-,bend left=20,onslide={<2>{darkred}}](re.0) edge[->] (enfa);
+%
+\draw[myarrow=devilscss](enfa.190)--(nfa.350);
+\draw[myarrow=devilscss](nfa.10)--(enfa.170);
+\node (nfaenfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (5.95,-3.3) {\scalebox{0.75}{"`NFA${}\subseteq{}${}$\epsilon$-NFA"'}};
+\node (enfanfalabel) [decorate,myboxlabel=,text width=13mm, minimum height=5mm] at (6.1,-4.6) {\footnotesize $\epsilon$-Elim.};
+%
+% \onslide<1>{\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\2) explizit};}
+% \onslide<2->{\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize \redalert{1) komposit.}\\2) explizit};}
+%
+% \node (reenfalabel) [decorate,myboxlabel=,align=flush left,text width=18mm,inner sep=1mm] at (5.6,-2.0) {\footnotesize 1) Ersetzung\\2) Dyn. Prog.};
+\end{tikzpicture}
 
 \end{frame}
 
@@ -624,6 +696,14 @@ Wir bezeichnen mit \redalert{$\textsf{elim}_\epsilon(\Smach{M})$} den NFA, der a
 
 \end{frame}
 
+
+\begin{frame}\frametitle{Beispiel}
+
+TODO
+
+\end{frame}
+
+
 \begin{frame}\frametitle{Korrektheit der Kompositionsmethode}
 
 \theobox{Satz: Für jeden regulären Ausdruck $\alpha$ gilt $\Slang{L}(\alpha)=\Slang{L}(\Smach{M}(\alpha))$.}
@@ -647,6 +727,91 @@ Formal ist der Beweis eine \alert{strukturelle Induktion}: wir konstruieren unse
 % 	\mbox{}\hfill{\scalebox{0.8}{(1) Korrektheit der Operation $\odot$; (2) Korrektheit der $\epsilon$-Eliminierung}}\\[0.7ex]\pause
 Die Fälle $\alpha=(\beta\mid\gamma)$ und $\alpha=(\beta)^*$ sind analog.\qed
 \end{itemize}
+
+\end{frame}
+
+% \begin{frame}\frametitle{Größe des komponierten NFA}
+% 
+% TODO
+% 
+% \end{frame}
+
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\mbox{}\hspace{-1cm}%
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (2,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (4,-4) {NFA};
+\node (re) [decorate,mybox=black/cyan!40] at (6,-0.6) {regulärer Ausdruck};
+\node (enfa) [decorate,mybox=black/cyan!40] at (8,-4) {$\epsilon$-NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.340) edge[->] (nfa.110);
+\path[myarrow=devilscss,-,bend right=20](nfa.130) edge[->] (reg.320);
+\node (regnfalabel) [decorate,myboxlabel=] at (1.6,-1.9) {\footnotesize"`$q_1\to\Sterm{a}q_2$"' $\Leftrightarrow$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (1.95,-3.3) {\scalebox{0.8}{"`DFA${}\subseteq{}$NFA"'}};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=,text width=13mm] at (2.1,-5.0) {\footnotesize Potenzm.\-konstr.};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (4,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=19mm] at (5.3,-5.4) {\footnotesize dualer Graph};
+%%
+\path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
+%
+\path[myarrow=devilscss,-,bend left=20,onslide={<2>{darkred}}](re.0) edge[->] (enfa);
+%
+\draw[myarrow=devilscss](enfa.190)--(nfa.350);
+\draw[myarrow=devilscss](nfa.10)--(enfa.170);
+\node (nfaenfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (5.95,-3.3) {\scalebox{0.75}{"`NFA${}\subseteq{}${}$\epsilon$-NFA"'}};
+\node (enfanfalabel) [decorate,myboxlabel=,text width=13mm, minimum height=5mm] at (6.1,-4.6) {\footnotesize $\epsilon$-Elim.};
+%
+\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\2) explizit};
+\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\\redalert{2) explizit}};
+%
+\node (reenfalabel) [decorate,myboxlabel=,align=flush left,text width=18mm,inner sep=1mm] at (5.6,-2.0) {\footnotesize 1) Ersetzung\\2) Dyn. Prog.};
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}\frametitle{Explizite Konstruktion von NFA}
+
+\redalert{An dieser Stelle wird die Konstruktion erklärt, bei der man von einem NFA ausgeht, dessen Kanten mit regulären Ausdrücken beschriftet sind und diese dann schrittweise zerlegt.}
 
 \end{frame}
 
