@@ -248,60 +248,6 @@ $\scalebox{\myscale}{%
 
 \end{frame}
 
-% 
-% \begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
-% 
-% \begin{tikzpicture}[
-% 	decoration=penciline, decorate,
-% 	node distance = 7mm and 9mm,
-% 	mybox/.style args = {#1/#2}{
-% 		draw=#1,% line color
-% 		fill=#2,% fill color
-% % 		rounded corners,
-% 		thick,
-% 		text width=26mm, minimum height=12mm, inner sep=1mm, 
-% 		align=flush center
-% 	},
-% 	myboxlabel/.style args = {}{
-% 		draw=devilscss,% line color
-% 		fill=strongyellow!40,% fill color
-% % 		rounded corners,
-% 		thick,
-% 		text width=21mm, minimum height=10mm, inner sep=1.5mm, 
-% 		align=flush center
-% 	},
-% 	myarrow/.style args = {#1}{
-% 		line width=0.8mm,
-% 		draw=#1,%line color
-% 		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
-% 		->,
-% 		shorten >=0.5mm, shorten <=0.1mm
-% 	}
-% ]
-% \pgfmathsetseed{7729}
-% % \draw[help lines] (0,0) grid (5,5);
-% \node (reg) [decorate,mybox=black/cyan!40] at (3,-0.6) {reguläre Grammatik};
-% \node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
-% \node (nfa) [decorate,mybox=black/cyan!40] at (6,-4) {NFA};
-% %
-% \path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
-% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
-% %
-% % \path[myarrow=devilscss,-,bend left=20](reg.0) edge[->] (nfa);
-% % \node (regnfalabel) [decorate,myboxlabel=] at (7.2,-2.1) {"`$q_1\to\Sterm{a}q_2$"' $\leadsto$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
-% %
-% \draw[myarrow=devilscss](dfa.10)--(nfa.170);
-% \node (dfanfalabel) [decorate,myboxlabel=] at (3,-3.0) {\footnotesize DFAs sind spezielle NFAs};
-% %
-% \draw[myarrow=devilscss](nfa.190)--(dfa.350);
-% \node (nfadfalabel) [decorate,myboxlabel=] at (3,-5.0) {\footnotesize Potenzmengen\-konstruktion};
-% %
-% \node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (6,-6.5) {\footnotesize Syntax\-diagramm};
-% \draw[myarrow=devilscss,<->](sd)--(nfa);
-% \node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=10mm] at (6.9,-5.3) {\footnotesize dualer Graph};
-% \end{tikzpicture}
-% 
-% \end{frame}
 
 \sectionSlide{Reguläre Ausdrücke}
 
@@ -508,6 +454,198 @@ Unterschiede zur reinen Lehre:
 \item \alert{Pattern Matching:} (1) spezifiziere eine Sprache (Suchwörter) und (2) finde deren Vorkommen (Matches) in einem längeren Wort (Text) $\leadsto$ Möglichkeiten zur Steuerung des zweiten Teils nötig (z.B. \emph{greedy} vs. \emph{lazy} matching)
 \item \alert{Referenzen:} praktische Implementierungen erlauben es meist, Teile eines Matches im Muster wieder zu verwenden $\leadsto$ keine reguläre Sprache mehr
 \item \alert{Escaping:} Unterscheidung von Steuerzeichen (Metazeichen) und Alphabetssymbolen ist praktisch aufwändig
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Äquivalenz regulärer Ausdrücke}
+
+\defbox{Zwei reguläre Ausdrücke $\alpha$ und $\beta$ sind \redalert{äquivalent},
+in Symbolen $\alpha\equiv\beta$, wenn $\Slang{L}(\alpha)=\Slang{L}(\beta)$.}
+\medskip
+
+\examplebox{%
+Typische Rechenregeln der Sprachoperationen gelten analog:
+\begin{align*}
+\alpha\mid\beta &\equiv \beta\mid\alpha
+	& \epsilon\alpha &\equiv \alpha\epsilon\equiv\alpha\\
+\alpha(\beta\mid\gamma) &\equiv \alpha\beta\mid\alpha\gamma
+	& \emptyset\alpha &\equiv \alpha\emptyset\equiv\emptyset\\
+(\beta\mid\gamma)\alpha &\equiv \beta\alpha\mid\gamma\alpha
+	& \emptyset\mid\alpha &\equiv \alpha\mid\emptyset\equiv\alpha\\
+\epsilon^* &\equiv \epsilon
+	& \emptyset^* &\equiv\emptyset
+\end{align*}}
+
+\end{frame}
+
+\sectionSlide{Von Regulären Ausdrücken zu Automaten}
+
+\begin{frame}\frametitle{Zielstellung}
+
+\emph{Behauptung:} Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn es einen regulären
+Ausdruck $\alpha$ gibt mit $\Slang{L}(\alpha)=\Slang{L}$.
+\medskip
+
+\emph{Beweis (Plan):} 
+\begin{itemize}
+\item Teilbehauptung 1: \alert{Für jeden regulären Ausdruck $\alpha$ gibt es einen NFA $\Smach{M}$, so dass  $\Slang{L}(\alpha)=\Slang{L}(\Smach{M})$}\\[1ex]
+Zwei mögliche Beweismethoden:
+\begin{enumerate}[(1)]
+\item Kompositionelle Methode
+\item Explizite Konstruktion
+\end{enumerate}
+\item Teilbehauptung 2: \alert{Für jeden NFA $\Smach{M}$ gibt es einen regulären Ausdruck $\alpha$, so dass  $\Slang{L}(\alpha)=\Slang{L}(\Smach{M})$}\\[1ex]
+Zwei mögliche Beweismethoden:
+\begin{enumerate}[(1)]
+\item Ersetzungsmethode
+\item Dynamische Programmierung
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\mbox{}\hspace{-1cm}%
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (2,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (4,-4) {NFA};
+\node (re) [decorate,mybox=black/cyan!40] at (6,-0.6) {regulärer Ausdruck};
+\node (enfa) [decorate,mybox=black/cyan!40] at (8,-4) {$\epsilon$-NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.340) edge[->] (nfa.110);
+\path[myarrow=devilscss,-,bend right=20](nfa.130) edge[->] (reg.320);
+\node (regnfalabel) [decorate,myboxlabel=] at (1.6,-1.9) {\footnotesize"`$q_1\to\Sterm{a}q_2$"' $\Leftrightarrow$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (1.95,-3.3) {\scalebox{0.8}{"`DFA${}\subseteq{}$NFA"'}};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=,text width=13mm] at (2.1,-5.0) {\footnotesize Potenzm.\-konstr.};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (4,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=19mm] at (5.3,-5.4) {\footnotesize dualer Graph};
+%%
+\path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
+%
+\path[myarrow=devilscss,-,bend left=20,onslide={<2>{darkred}}](re.0) edge[->] (enfa);
+%
+\draw[myarrow=devilscss](enfa.190)--(nfa.350);
+\draw[myarrow=devilscss](nfa.10)--(enfa.170);
+\node (nfaenfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (5.95,-3.3) {\scalebox{0.75}{"`NFA${}\subseteq{}${}$\epsilon$-NFA"'}};
+\node (enfanfalabel) [decorate,myboxlabel=,text width=13mm, minimum height=5mm] at (6.1,-4.6) {\footnotesize $\epsilon$-Elim.};
+%
+\onslide<1>{\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\2) explizit};}
+\onslide<2->{\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize \redalert{1) komposit.}\\2) explizit};}
+%
+\node (reenfalabel) [decorate,myboxlabel=,align=flush left,text width=18mm,inner sep=1mm] at (5.6,-2.0) {\footnotesize 1) Ersetzung\\2) Dyn. Prog.};
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Rekursive Komposition von $\epsilon$-NFA}
+
+Die Struktur regulärer Ausdrücke kann mit Operationen auf Automaten direkt abgebildet werden.
+\medskip\pause
+
+\alert{Für einen Ausdruck $\alpha$ definieren wir rekursiv den $\epsilon$-NFA $\Smach{M}(\alpha)$:}
+\medskip
+
+\emph{Grundfälle:}
+\begin{itemize}
+\item Wenn $\alpha=\emptyset$ dann $\Smach{M}(\alpha)={}$ \scalebox{1}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\end{tikzpicture}}
+%
+\item Wenn $\alpha=\epsilon$ dann $\Smach{M}(\alpha)={}$ \scalebox{1}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick, double] at (0,0) {$A$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\end{tikzpicture}}
+\item Wenn $\alpha=\Sterm{a}$ dann $\Smach{M}(\alpha)={}$ \scalebox{1}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$B$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{a}} (q2);
+\end{tikzpicture}}
+\end{itemize}\pause
+
+\emph{Rekursive Fälle:}
+Wir bezeichnen mit \redalert{$\textsf{elim}_\epsilon(\Smach{M})$} den NFA, der aus einem $\epsilon$-NFA $\Smach{M}$ durch Eliminierung der $\epsilon$-Übergänge entsteht.
+\begin{itemize}
+\item Wenn $\alpha=(\beta\gamma)$ dann $\Smach{M}(\alpha)=\textsf{elim}_\epsilon(\Smach{M}(\beta)\odot\Smach{M}(\gamma))$
+\item Wenn $\alpha=(\beta\mid\gamma)$ dann $\Smach{M}(\alpha)=\Smach{M}(\beta)\oplus\Smach{M}(\gamma)$
+\item Wenn $\alpha=(\beta)^*$ dann $\Smach{M}(\alpha)=\textsf{elim}_\epsilon(\Smach{M}(\beta)^*)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheit der Kompositionsmethode}
+
+\theobox{Satz: Für jeden regulären Ausdruck $\alpha$ gilt $\Slang{L}(\alpha)=\Slang{L}(\Smach{M}(\alpha))$.}
+\pause
+
+\emph{Beweis:} Die Gleichheit folgt aus der Definition von $\Slang{L}(\alpha)$ und der Korrektheit der Operationen auf Automaten und der $\epsilon$-Eliminierung.\pause
+\medskip
+
+Formal ist der Beweis eine \alert{strukturelle Induktion}: wir konstruieren unsere Argumentation entlang der Struktur regulärer Ausdrücke.\pause
+\begin{itemize}
+\item \alert{Induktionsanfang:} Für die Grundfälle $\alpha=\emptyset$, $\alpha=\epsilon$ und $\alpha=\Sterm{a}$ ist die Behauptung leicht zu sehen\pause
+\item \alert{Induktionshypothese (IH):} Die Behauptung wurde bereits für $\beta$ und $\gamma$ gezeigt, d.h. $\Slang{L}(\beta)=\Slang{L}(\Smach{M}(\beta))$ und $\Slang{L}(\gamma)=\Slang{L}(\Smach{M}(\gamma))$\pause
+\item \alert{Induktionsschritt:} Im Fall $\alpha=(\beta\gamma)$ gilt:
+% 
+\begin{align*}
+	\Slang{L}(\alpha) &\stackrel{\text{Def.}}{=}\Slang{L}(\beta)\circ\Slang{L}(\gamma)\stackrel{\text{IH}}{=}\Slang{L}(\Smach{M}(\beta))\circ\Slang{L}(\Smach{M}(\gamma))\\
+	& \stackrel{\text{(1)}}{=} \Slang{L}(\Smach{M}(\beta)\odot\Smach{M}(\gamma))\stackrel{\text{(2)}}{=}\Slang{L}(\textsf{elim}_\epsilon(\Smach{M}(\beta)\odot\Smach{M}(\gamma)))\stackrel{\text{Def.}}{=}\Slang{L}(\Smach{M}(\alpha)).\\[-0.5ex]
+	& ~~~~~\scalebox{0.8}{(1) Korrektheit der Operation $\odot$; (2) Korrektheit der $\epsilon$-Eliminierung}
+\end{align*}%\vspace{-6mm}
+% 
+% 	\mbox{}\hfill{\scalebox{0.8}{(1) Korrektheit der Operation $\odot$; (2) Korrektheit der $\epsilon$-Eliminierung}}\\[0.7ex]\pause
+Die Fälle $\alpha=(\beta\mid\gamma)$ und $\alpha=(\beta)^*$ sind analog.\qed
 \end{itemize}
 
 \end{frame}
