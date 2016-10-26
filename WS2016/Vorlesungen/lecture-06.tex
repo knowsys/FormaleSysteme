@@ -813,7 +813,122 @@ Die Fälle $\alpha=(\beta\mid\gamma)$ und $\alpha=(\beta)^*$ sind analog.\qed
 % 
 % \redalert{An dieser Stelle wird die Konstruktion erklärt, bei der man von einem NFA ausgeht, dessen Kanten mit regulären Ausdrücken beschriftet sind und diese dann schrittweise zerlegt.}
 
+\emph{Idee:}
+\begin{itemize}
+\item Beginne mit einem "`NFA mit RegExp-Übergängen"', bei dem Kanten mit regulären Ausdrücken beschriftet sind
+\item Eliminiere diese Übergänge schrittweise, ähnlich wie beim Eliminieren von Wortübergängen
+\end{itemize}
+\bigskip
 
+Es ist einfacher, das für reguläre Ausdrücke zu tun, die kein $\emptyset$ enthalten
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Eliminierung von $\emptyset$}
+
+Der folgende einfache Algorithmus erzeugt reguläre Ausdrücke ohne innere Vorkommen von $\emptyset$:\medskip
+
+\codebox{
+\emph{Eingabe:} regulärer Ausdruck $\alpha$\\
+\emph{Ausgabe:} äquivalenter regulärer Ausdruck $\beta$ ohne $\emptyset$\\(falls $\Slang{L}(\alpha)\neq \emptyset$) oder $\emptyset$ (falls $\Slang{L}(\alpha)= \emptyset$)\\[1ex]
+
+Wende die folgenden Ersetzungsregeln erschöpfend auf Teilausdrücke von $\alpha$ an:
+\begin{itemize}
+\item $(\gamma\mid\emptyset) \mapsto \gamma$ und $(\emptyset\mid\gamma) \mapsto \gamma$ 
+\item $(\gamma\emptyset) \mapsto \emptyset$ und $(\emptyset\gamma) \mapsto \emptyset$
+\item $(\emptyset)^* \mapsto \epsilon$
+\end{itemize}
+Gib das Ergebnis dieser Ersetzungen aus.
+}\medskip
+
+Die Korrektheit des Algorithmus folgt aus der Korrektheit der angewendeten Ersetzungsregeln
+
+\end{frame}
+
+\begin{frame}\frametitle{Explizite Konstruktion von NFAs}
+
+Für den Ausdruck $\emptyset$ können wir einen NFA direkt angeben (wie vorn); andernfalls gehen wir wie folgt vor:
+\bigskip
+
+\emph{Gegeben:} regulärer Ausdruck $\alpha$ ohne $\emptyset$\pause
+\medskip
+
+Initialisierung: $\Smach{M}_{\alpha}={}$ \scalebox{1}{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$B$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\alpha$} (q2);
+\end{tikzpicture}}\\[1ex]
+
+Solange es in $\Smach{M}_{\alpha}$ Übergänge $q\stackrel{\beta}{\to}p$ gibt, die mit einem Ausdruck $\beta\notin \{\epsilon\}\cup\Sigma$ beschriftet sind, wende eine der 
+folgenden Regeln an:\pause
+%
+\begin{itemize}
+\item  Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (q2) [circle,draw=black,thick,double] at (1.5,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$(\gamma_1\gamma_2)$} (q2);
+\end{tikzpicture}
+durch 
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (r) [circle,draw=black,thick,double] at (1.5,0) {$r$};
+\node (q2) [circle,draw=black,thick,double] at (3,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\gamma_1$} (r);
+\path[->,line width=0.5mm](r) edge node[above] {$\gamma_2$} (q2);
+\end{tikzpicture}\pause
+%
+\item Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above,xshift=-3pt] {$(\gamma_1\mid\gamma_2)$} (q2);
+\end{tikzpicture}
+durch 
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm,bend left=20](q1) edge node[above] {$\gamma_1$} (q2);
+\path[->,line width=0.5mm, bend right=20](q1) edge node[above] {$\gamma_2$} (q2);
+\end{tikzpicture}\pause
+%
+\item  Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (q2) [circle,draw=black,thick,double] at (1.5,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$(\gamma)^*$} (q2);
+\end{tikzpicture}
+durch 
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q$};
+\node (r) [circle,draw=black,thick,double] at (1.5,0) {$r$};
+\node (q2) [circle,draw=black,thick,double] at (3,0) {$p$};
+%
+\path[->,line width=0.5mm](-0.7,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\epsilon$} (r);
+\path[->,line width=0.5mm](r) edge node[above] {$\epsilon$} (q2);
+\path[->,line width=0.5mm](r) edge [loop above] node[left] {$\gamma$} (r);
+\end{tikzpicture}
+
+\end{itemize}
 
 
 \end{frame}
