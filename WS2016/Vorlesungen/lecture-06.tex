@@ -699,7 +699,59 @@ Wir bezeichnen mit \redalert{$\textsf{elim}_\epsilon(\Smach{M})$} den NFA, der a
 
 \begin{frame}\frametitle{Beispiel}
 
-TODO
+Regulärer Ausdruck: $\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$
+\bigskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+\onslide<2->{\draw[dotted] (-0.8,-0.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{a}$}(2.5,0.7);}
+\onslide<3->{\draw[dotted] (-0.8,-2.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{b}$}(2.5,-1.3);}
+\onslide<4->{\draw[dotted] (3.2,-2.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{a}$}(6.5,-1.3);}
+\onslide<5->{\draw[dotted] (3.0,-4.7) rectangle node[above,yshift=-1.85cm,xshift=-1.6cm] {$\Sterm{a}^*$}(6.7,-1.0);}
+\onslide<6->{\draw[dotted] (-1.0,-5.3) rectangle node[above,yshift=-2.25cm,xshift=-3.6cm] {$\Sterm{b}\Sterm{a}^*$}(6.9,-0.8);}
+\onslide<7->{\draw[dotted] (-1.2,-5.8) rectangle node[above,yshift=-3.45cm,xshift=-3.6cm] {$\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$}(7.2,1.0);}
+%
+\onslide<2->{
+\node (a1) [circle,draw=black,thick] at (0,0) {$1$};
+\node (a2) [circle,draw=black,thick,double] at (2,0) {$2$};
+\path[->,line width=0.5mm](-0.7,0) edge (a1);
+\path[->,line width=0.5mm](a1) edge node[above] {\Sterm{a}} (a2);
+}
+%
+\onslide<4->{
+\node (a12) [circle,draw=black,thick] at (4,-2) {$5$};
+\node (a22) [circle,draw=black,thick,double] at (6,-2) {$6$};
+\onslide<-5>{\path[->,line width=0.5mm](3.3,-2) edge (a12);}
+\path[->,line width=0.5mm](a12) edge node[above] {\Sterm{a}} (a22);
+}
+%
+\onslide<5->{
+\node (af2) [circle,draw=black,thick,double] at (4,-4) {$q_f$};
+\onslide<-5>{\path[->,line width=0.5mm](3.3,-4) edge (af2);}
+\path[->,line width=0.5mm,bend right=75,onslideprint={<7->{dashed,gray}}](a22) edge node[below] {$\epsilon$} (a12);
+}
+%
+\onslide<3->{
+\node (b1) [circle,draw=black,thick] at (0,-2) {$3$};
+\node (b2) [circle,draw=black,thick,onslide={<-5>{double}}] at (2,-2) {$4$};
+\path[->,line width=0.5mm](-0.7,-2) edge (b1);
+\path[->,line width=0.5mm](b1) edge node[above] {\Sterm{b}} (b2);
+}
+%
+\onslide<6->{
+\path[->,line width=0.5mm,onslideprint={<7->{dashed,gray}}](b2) edge node[above] {$\epsilon$} (a12);
+\path[->,line width=0.5mm,onslideprint={<7->{dashed,gray}}](b2) edge node[above] {$\epsilon$} (af2);
+}
+%
+\onslide<7->{
+\path[->,line width=0.5mm,bend left](b1) edge node[above] {\Sterm{b}} (a12);
+\path[->,line width=0.5mm,bend right](b1) edge node[below] {\Sterm{b}} (af2);
+\path[->,line width=0.5mm](a12) edge [loop below] node[below] {\Sterm{a}} (a12);
+\node (cross1) at (3,-2) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+\node (cross2) at (3,-3) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+\node (cross2) at (5,-1.3) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+}
+\end{tikzpicture}}
 
 \end{frame}
 
@@ -935,33 +987,173 @@ durch
 
 \begin{frame}\frametitle{Beispiel}
 
-TODO
+Regulärer Ausdruck: $\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$
+\bigskip
+
+\narrowcentering{\onslide<2->{%
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s) [circle,draw=black,thick] at (0,0) {$1$};
+\node (e) [circle,draw=black,thick,double] at (5,0) {$2$};
+\onslide<4->{\node (m) [circle,draw=black,thick] at (2.5,-2) {$3$};}
+\onslide<5->{\node (k) [circle,draw=black,thick] at (5,-2) {$4$};}
+%
+\path[->,line width=0.5mm](-0.7,0) edge (s);
+%
+\onslide<2>{\path[->,line width=0.5mm](s) edge node[above] {$\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$} (e);}
+%
+\onslide<3->{\path[->,line width=0.5mm,bend left](s) edge node[above] {$\Sterm{a}$} (e);}
+\onslide<3>{\path[->,line width=0.5mm,bend right](s) edge node[above] {$\Sterm{b}\Sterm{a}^*$} (e);}
+%
+\onslide<4->{\path[->,line width=0.5mm,bend right](s) edge node[above] {$\Sterm{b}$} (m);}
+\onslide<4>{\path[->,line width=0.5mm,bend right](m) edge node[above] {$\Sterm{a}^*$} (e);}
+%
+\onslide<5->{\path[->,line width=0.5mm,onslideprint={<6->{dashed,gray}}](m) edge node[above] {$\epsilon$} (k);}
+\onslide<5->{\path[->,line width=0.5mm,onslideprint={<6->{dashed,gray}}](k) edge node[right] {$\epsilon$} (e);}
+\onslide<5->{\path[->,line width=0.5mm](k) edge [loop right] node[right] {\Sterm{a}} (k);}
+%
+\onslide<6->{\path[->,line width=0.5mm,bend right=60](s) edge node[below] {$\Sterm{b}$} (k);}
+\onslide<6->{\path[->,line width=0.5mm,bend right=45](s) edge node[below] {$\Sterm{b}$} (e);}
+\onslide<6->{\path[->,line width=0.5mm,bend right=45](k) edge node[right] {$\Sterm{a}$} (e);}
+\onslide<6->{\node (cross1) at (3.8,-2) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
+\onslide<6->{\node (cross2) at (5,-1) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
+\end{tikzpicture}}}
+\bigskip
+
+\onslide<6->{$\epsilon$-Übergänge können wie gewohnt eliminiert werden, um einen NFA zu erhalten}
+
+\end{frame}
+
+\begin{frame}\frametitle{Vergleich NFA-Konstruktionen}
+
+\narrowcentering{Ausdruck: $\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$}\smallskip
+
+\narrowcentering{
+\begin{tabular}{@{}l@{~~~~}l@{}}
+\alert{Kompositioneller Ansatz} & \alert{Expliziter Ansatz} \\[2ex]
+\scalebox{0.7}{%
+\begin{tikzpicture}[baseline={(b1.base)}]
+% {\draw[dotted] (-0.8,-0.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{a}$}(2.5,0.7);}
+% {\draw[dotted] (-0.8,-2.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{b}$}(2.5,-1.3);}
+% {\draw[dotted] (3.2,-2.7) rectangle node[above,yshift=-0.75cm,xshift=-1.5cm] {$\Sterm{a}$}(6.5,-1.3);}
+% {\draw[dotted] (3.0,-4.7) rectangle node[above,yshift=-1.85cm,xshift=-1.6cm] {$\Sterm{a}^*$}(6.7,-1.0);}
+% {\draw[dotted] (-1.0,-5.3) rectangle node[above,yshift=-2.25cm,xshift=-3.6cm] {$\Sterm{b}\Sterm{a}^*$}(6.9,-0.8);}
+% {\draw[dotted] (-1.2,-5.8) rectangle node[above,yshift=-3.45cm,xshift=-3.6cm] {$\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$}(7.2,1.0);}
+%
+{
+\node (a1) [circle,draw=black,thick] at (0,0) {$1$};
+\node (a2) [circle,draw=black,thick,double] at (1.5,0) {$2$};
+\path[->,line width=0.5mm](-0.7,0) edge (a1);
+\path[->,line width=0.5mm](a1) edge node[above] {\Sterm{a}} (a2);
+}
+%
+{
+\node (a12) [circle,draw=black,thick] at (3,-1.5) {$5$};
+\node (a22) [circle,draw=black,thick,double] at (4.5,-1.5) {$6$};
+% \onslide<-5>{\path[->,line width=0.5mm](3.3,-2) edge (a12);}
+\path[->,line width=0.5mm](a12) edge node[above] {\Sterm{a}} (a22);
+}
+%
+{
+\node (af2) [circle,draw=black,thick,double] at (3,-3) {$q_f$};
+% \onslide<-5>{\path[->,line width=0.5mm](3.3,-4) edge (af2);}
+% \path[->,line width=0.5mm,bend right=75,onslideprint={<7->{dashed,gray}}](a22) edge node[below] {$\epsilon$} (a12);
+}
+%
+{
+\node (b1) [circle,draw=black,thick] at (0,-1.5) {$3$};
+\node (b2) [circle,draw=black,thick] at (1.5,-1.5) {$4$};
+\path[->,line width=0.5mm](-0.7,-1.5) edge (b1);
+\path[->,line width=0.5mm](b1) edge node[below] {\Sterm{b}} (b2);
+}
+%
+% \onslide<6->{
+% \path[->,line width=0.5mm,onslideprint={<7->{dashed,gray}}](b2) edge node[above] {$\epsilon$} (a12);
+% \path[->,line width=0.5mm,onslideprint={<7->{dashed,gray}}](b2) edge node[above] {$\epsilon$} (af2);
+% }
+%
+{
+\path[->,line width=0.5mm,bend left](b1) edge node[above] {\Sterm{b}} (a12);
+\path[->,line width=0.5mm,bend right](b1) edge node[below] {\Sterm{b}} (af2);
+\path[->,line width=0.5mm](a12) edge [loop below] node[below] {\Sterm{a}} (a12);
+% \node (cross1) at (3,-2) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+% \node (cross2) at (3,-3) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+% \node (cross2) at (5,-1.3) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};
+}
+\end{tikzpicture}}
+&
+\scalebox{0.7}{%
+\begin{tikzpicture}[baseline={(m.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s) [circle,draw=black,thick] at (0,0) {$1$};
+\node (e) [circle,draw=black,thick,double] at (3,0) {$2$};
+{\node (m) [circle,draw=black,thick] at (1.5,-1) {$3$};}
+{\node (k) [circle,draw=black,thick] at (3,-1.5) {$4$};}
+%
+\path[->,line width=0.5mm](0,0.7) edge (s);
+%
+%
+{\path[->,line width=0.5mm,bend left=20](s) edge node[above] {$\Sterm{a}$} (e);}
+%
+{\path[->,line width=0.5mm,bend right](s) edge node[above] {$\Sterm{b}$} (m);}
+%
+% {\path[->,line width=0.5mm,onslideprint={<6->{dashed,gray}}](m) edge node[above] {$\epsilon$} (k);}
+% {\path[->,line width=0.5mm,onslideprint={<6->{dashed,gray}}](k) edge node[right] {$\epsilon$} (e);}
+{\path[->,line width=0.5mm](k) edge [loop right] node[right] {\Sterm{a}} (k);}
+%
+{\path[->,line width=0.5mm,bend right=60](s) edge node[below] {$\Sterm{b}$} (k);}
+{\path[->,line width=0.5mm,bend right=20](s) edge node[above] {$\Sterm{b}$} (e);}
+{\path[->,line width=0.5mm,bend right=45](k) edge node[right] {$\Sterm{a}$} (e);}
+% \onslide<6->{\node (cross1) at (3.8,-2) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
+% \onslide<6->{\node (cross2) at (5,-1) {\Huge$\textcolor{darkred}{\boldsymbol{\times}}$};}
+\end{tikzpicture}}
+\\
+\footnotesize Linear viele Zustände${}^*$
+&
+\footnotesize Linear viele Zustände${}^*$
+\\[-.5ex]
+\footnotesize Meist etwas größer
+&
+\footnotesize Meist etwas kleiner
+\\[1ex]
+\begin{minipage}{5cm}
+\footnotesize Korrektheitsbeweis aus\newline Abschlusseigenschaften
+\end{minipage}
+&
+\begin{minipage}{5cm}
+\footnotesize Korrektheitsbeweis erfordert\newline neue Argumentation
+\end{minipage}
+\\
+\footnotesize Fast ohne Löschen (außer $\epsilon$-Übergänge)
+&
+\footnotesize Übergänge werden oft gelöscht
+\end{tabular}}
+
+{\footnotesize ${}^*$) Bzgl. Länge des reg. Ausdrucks bzw. bzgl. Anzahl seiner Operationen}
 
 \end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
-% 
-% \redalert{NFAs}, \redalert{DFAs}, \redalert{$\epsilon$-NFAs}, und \redalert{NFAs mit Wortübergängen} beschreiben die selbe Klasse der regulären Sprachen.
-% \bigskip
-% 
-% Reguläre Sprachen sind \redalert{abgeschlossen unter} $\cap$, $\cup$, $\overline{~}$, $\circ$, ${}^*$ und allen davon ableitbaren Operatoren.
-% \bigskip
-% 
-% Den Sprachoperationen entsprechen \redalert{Operationen auf Automaten}. Manche erfordern bestimmte Typen von Automaten.
-% \bigskip
-% 
-% % \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
-% % \bigskip
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
-% \item Welche Sprachen sind nicht regulär?
-% \item Wir haben gesehen, dass man Automaten manchmal vereinfachen kann -- geht das noch besser?
-% \end{itemize}
-% }
+
+\redalert{Reguläre Ausdrücke} sind eine praktisch wichtige Methode zur Beschreibung (beliebiger) regulärer Sprachen
+\bigskip
+
+Die \redalert{kompositionelle Methode} wendet Automaten-Operationen an, um aus einem regulären Ausdruck einen
+NFA zu erzeugen
+\bigskip
+
+Die \redalert{explizite Methode} verwendet Übergänge mit regulären Ausdrücken, die schrittweise expandiert werden
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie kommt man zurück von NFA zu regulärem Ausdruck?
+\item Welche Sprachen sind nicht regulär?
+\item Wie kann man Automaten systematisch vereinfachen?
+\end{itemize}
+}
 
 \end{frame}
 
