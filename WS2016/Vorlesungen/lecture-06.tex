@@ -357,7 +357,7 @@ Wir haben gesehen:\\[1ex]
 \anybox{purple}{%
 \vspace{-1.5ex}
 \begin{itemize}%
-\item Jede endliche Sprache ist regulär
+\item Jede endliche Sprache ist regulär.
 \item Durch Anwendung von $\cap$, $\cup$, $\overline{\phantom{L}}$, $\circ$ und ${}^*$ entstehen aus regulären Sprachen immer wieder reguläre Sprachen.
 \end{itemize}
 }
@@ -444,7 +444,7 @@ Solche Notationen werden in der Praxis oft weiter vereinfacht:
 
 \begin{frame}\frametitle{Semantik regulärer Ausdrücke}
 
-Reguläre Ausdrücke beschreiben die erwarteten Sprachen:
+Reguläre Ausdrücke beschreiben die erwarteten Sprachen:\medskip
 
 \defbox{Die \redalert{Sprache eines regulären Ausdrucks} $\alpha$ wird mit $\Slang{L}(\alpha)$
 bezeichnet und rekursiv definiert:
@@ -456,7 +456,7 @@ bezeichnet und rekursiv definiert:
 \item $\Slang{L}((\alpha\mid\beta))=\Slang{L}(\alpha)\cup\Slang{L}(\beta)$
 \item $\Slang{L}((\alpha)^*)=\Slang{L}(\alpha)^*$
 \end{itemize}
-}\medskip
+}\medskip\pause
 
 \examplebox{Beispiel: $\Slang{L}(((\Sterm{ab}))^*)=(\Slang{L}((\Sterm{ab})))^*=
 (\Slang{L}(\Sterm{a})\circ\Slang{L}(\Sterm{b}))^*= (\{\Sterm{a}\}\circ\{\Sterm{b}\})^* = \{\Sterm{ab}\}^*$}
@@ -519,7 +519,7 @@ Reguläre Ausdrücke sind von großer praktischer Bedeutung
 \item Lexer/Tokenizer
 \item Suche nach Muster in Datenbanken
 \item \ldots
-\end{itemize}
+\end{itemize}\pause
 
 Unterschiede zur reinen Lehre:
 \begin{itemize}
