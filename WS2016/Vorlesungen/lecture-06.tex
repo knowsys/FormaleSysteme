@@ -232,7 +232,8 @@ $\scalebox{\myscale}{%
 \path[->,line width=0.5mm, bend left](q3) edge node[above] {\Sterm{1}} (q2);
 %
 \path[->,line width=0.5mm, bend left](q3) edge node[below] {$\epsilon$} (q1);
-\path[->,line width=0.5mm](qf) edge [loop right] node[right] {$\epsilon$} (qf);
+% \path[->,line width=0.5mm](qf) edge [loop right] node[right] {$\epsilon$} (qf);
+\path[->,line width=0.5mm](6,0.7) edge (qf);
 \end{tikzpicture}}
 \\
 \end{tabular}
@@ -917,19 +918,19 @@ folgenden Regeln an:\pause
 \item  Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (q2) [circle,draw=black,thick,double] at (1.5,0) {$p$};
+\node (q2) [circle,draw=black,thick] at (1.5,0) {$p$};
 %
-\path[->,line width=0.5mm](-0.7,0) edge (q1);
+% \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm](q1) edge node[above] {$(\gamma_1\gamma_2)$} (q2);
 \end{tikzpicture}
 durch 
 \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (r) [circle,draw=black,thick,double] at (1.5,0) {$r$};
-\node (q2) [circle,draw=black,thick,double] at (3,0) {$p$};
+\node (r) [circle,draw=black,thick] at (1.5,0) {$r$};
+\node (q2) [circle,draw=black,thick] at (3,0) {$p$};
 %
-\path[->,line width=0.5mm](-0.7,0) edge (q1);
+% \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm](q1) edge node[above] {$\gamma_1$} (r);
 \path[->,line width=0.5mm](r) edge node[above] {$\gamma_2$} (q2);
 \end{tikzpicture}\pause
@@ -937,18 +938,18 @@ durch
 \item Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (q2) [circle,draw=black,thick,double] at (2,0) {$p$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$p$};
 %
-\path[->,line width=0.5mm](-0.7,0) edge (q1);
+% \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm](q1) edge node[above,xshift=-3pt] {$(\gamma_1\mid\gamma_2)$} (q2);
 \end{tikzpicture}
 durch 
 \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (q2) [circle,draw=black,thick,double] at (2,0) {$p$};
+\node (q2) [circle,draw=black,thick] at (2,0) {$p$};
 %
-\path[->,line width=0.5mm](-0.7,0) edge (q1);
+% \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm,bend left=20](q1) edge node[above] {$\gamma_1$} (q2);
 \path[->,line width=0.5mm, bend right=20](q1) edge node[above] {$\gamma_2$} (q2);
 \end{tikzpicture}\pause
@@ -956,17 +957,17 @@ durch
 \item  Ersetze \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (q2) [circle,draw=black,thick,double] at (1.5,0) {$p$};
+\node (q2) [circle,draw=black,thick] at (1.5,0) {$p$};
 %
-\path[->,line width=0.5mm](-0.7,0) edge (q1);
+% \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm](q1) edge node[above] {$(\gamma)^*$} (q2);
 \end{tikzpicture}
 durch 
 \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (q1) [circle,draw=black,thick] at (0,0) {$q$};
-\node (r) [circle,draw=black,thick,double] at (1.5,0) {$r$};
-\node (q2) [circle,draw=black,thick,double] at (3,0) {$p$};
+\node (r) [circle,draw=black,thick] at (1.5,0) {$r$};
+\node (q2) [circle,draw=black,thick] at (3,0) {$p$};
 %
 \path[->,line width=0.5mm](-0.7,0) edge (q1);
 \path[->,line width=0.5mm](q1) edge node[above] {$\epsilon$} (r);
