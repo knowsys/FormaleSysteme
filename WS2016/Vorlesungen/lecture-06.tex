@@ -417,7 +417,7 @@ Das motiviert die Einführung einer eigenen Syntax:
 
 Anmerkung: Manchmal werden $(\alpha+\beta)$ statt $(\alpha\mid\beta)$ und $(\alpha\circ\beta)$ oder $(\alpha\cdot\beta)$ statt $(\alpha\beta)$ verwendet
 
-\examplebox{Beispiele regulärer Ausdrücke sind $(\Sterm{a}(\Sterm{b})^*)$ oder auch $((((\epsilon\mid \epsilon))^*)^*$.}
+\examplebox{Beispiele regulärer Ausdrücke sind $(\Sterm{a}(\Sterm{b})^*)$ oder auch $(((\epsilon\mid \epsilon))^*)^*$.}
 
 \end{frame}
 
@@ -841,7 +841,7 @@ Die Fälle $\alpha=(\beta\mid\gamma)$ und $\alpha=(\beta)^*$ sind analog.\qed
 %%
 \path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
 %
-\path[myarrow=devilscss,-,bend left=20,onslide={<2>{darkred}}](re.0) edge[->] (enfa);
+\path[myarrow=devilscss,-,bend left=20,darkred](re.0) edge[->] (enfa);
 %
 \draw[myarrow=devilscss](enfa.190)--(nfa.350);
 \draw[myarrow=devilscss](nfa.10)--(enfa.170);
