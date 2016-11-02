@@ -27,6 +27,13 @@
 
 \begin{frame}\frametitle{Wiederholung: Reguläre Ausdrücke}
 
+\begin{itemize}
+\item Reguläre Ausdrücke als Syntax für Sprachen, die durch Operationen aus endlichen Sprachen gebildet werden
+\item Grundformen: $\emptyset$, $\epsilon$, $\Sterm{a}$ für alle $\Sterm{a}\in\Sigma$
+\item Operationen: Konkatenation, Alternative ($\mid$), Kleene-Stern (${}^*$)
+\item Viele weitere Ausdrucksmittel in praktischen "`RegExps"'
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}\frametitle{Kleene's Theorem}
@@ -663,12 +670,15 @@ Die Umwandlung NFA $\leadsto$ regulärer Ausdruck ist also wie folgt:
 
 \end{frame}
 
+\newcommand{\Lijk}[3]{\ensuremath{\Slang{L}^{#3}[#1,#2]}}
+\newcommand{\alphaijk}[3]{\ensuremath{\alpha^{#3}[#1,#2]}}
+
 \begin{frame}\frametitle{Dynamische Ermittlung von $\alpha_{q,p}$}
 
 \emph{Gegeben:} NFA  $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$\\[1ex]
 \emph{Annahme:} Zustände sind nummeriert: $Q=\{q_1,\ldots,q_n\}$ (o.b.d.A.)\\[1ex]
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Slang{L}_{i,j}^k$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 \begin{itemize}
 \item es gibt einen Lauf $q_i\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_{\ell-1}}}{\to}p_{\ell-1}\stackrel{\Sterm{a_\ell}}{\to}q_j$, wobei
@@ -676,16 +686,16 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 \end{itemize}
 }
 
-\emph{Gesucht:} Reguläre Ausdrücke $\alpha^k_{i,j}$ mit $\Slang{L}(\alpha^k_{i,j})=\Slang{L}_{i,j}^k$.
+\emph{Gesucht:} Reguläre Ausdrücke $\alphaijk{i}{j}{k}$ mit $\Slang{L}(\alphaijk{i}{j}{k})=\Lijk{i}{j}{k}$.
 \medskip
 
-\alert{Wir wollen dynamische Programmierung anwenden, um $\alpha^k_{i,j}$ für immer größere Werte $k$ zu berechnen.}
+\alert{Wir wollen dynamische Programmierung anwenden, um $\alphaijk{i}{j}{k}$ für immer größere Werte $k$ zu berechnen.}
 
 \end{frame}
 
 \begin{frame}[t]\frametitle{Der Fall $k=n$}
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Slang{L}_{i,j}^k$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 \begin{itemize}
@@ -697,14 +707,14 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 Für $k=n$ ist die zweite Bedingung immer erfüllt, da $\{q_1,\ldots,q_n\}=Q$\\[1ex]
 % 
-$\leadsto$ $\Slang{L}_{i,j}^n$ ist die Menge aller Wörter "`zwischen"' $q_i$ und $q_j$\\[1ex]
+$\leadsto$ $\Lijk{i}{j}{n}$ ist die Menge aller Wörter "`zwischen"' $q_i$ und $q_j$\\[1ex]
 %
-$\leadsto$ $\alpha_{i,j}^n = \alpha_{q_i,q_j}$ sind die regulären Ausdrücke, aus denen wir letztlich die Lösung ermitteln wollen
+$\leadsto$ $\alphaijk{i}{j}{n} = \alpha_{q_i,q_j}$ sind die regulären Ausdrücke, aus denen wir letztlich die Lösung ermitteln wollen
 \end{frame}
 
 \begin{frame}[t]\frametitle{Der Fall $k=0$}
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Slang{L}_{i,j}^k$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 \begin{itemize}
@@ -716,20 +726,20 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 Für $k=0$ kann die zweite Bedingung für keinen Zustand $p_i$ erfüllt werden\\[1ex]
 % 
-$\leadsto$ $\Slang{L}_{i,j}^0$ beruht nur auf Läufen ohne Zwischenzustände
+$\leadsto$ $\Lijk{i}{j}{0}$ beruht nur auf Läufen ohne Zwischenzustände
 % 
 \begin{itemize}
 \item Falls $i\neq j$, dann kommen nur Läufe $q_i\stackrel{\Sterm{a}}{\to}q_j$ in Frage
 \item Falls $i=j$, dann kommen Läufe $q_i\stackrel{\Sterm{a}}{\to}q_i$ ($w=\Sterm{a}$) oder $q_i$ ($w=\epsilon$) in Frage
 \end{itemize}
 % 
-$\leadsto$ reguläre Ausdrücke $\alpha_{i,j}^0$ können direkt aus $\Smach{M}$ abgelesen werden
+$\leadsto$ reguläre Ausdrücke $\alphaijk{i}{j}{0}$ können direkt aus $\Smach{M}$ abgelesen werden
 
 \end{frame}
 
-\begin{frame}\frametitle{Die regulären Ausdrücke $\alpha_{i,j}^0$}
+\begin{frame}\frametitle{Die regulären Ausdrücke $\alphaijk{i}{j}{0}$}
 
-Für $k=0$ können wir $\alpha_{i,j}^0$ direkt aus $\Smach{M}$ ablesen:
+Für $k=0$ können wir $\alphaijk{i}{j}{0}$ direkt aus $\Smach{M}$ ablesen:
 \bigskip
 
 \codebox{
@@ -737,57 +747,210 @@ Sei $\{\Sterm{a_1},\ldots,\Sterm{a_m}\}=\{\Sterm{a}\in\Sigma\mid q_i\stackrel{\S
 
 \begin{itemize}
 \item Falls $i\neq j$, dann ist
-\[\alpha_{i,j}^0 = \Sterm{a_1}\mid\ldots\mid\Sterm{a_m}\]
+\[\alphaijk{i}{j}{0} = \Sterm{a_1}\mid\ldots\mid\Sterm{a_m}\]
 \item Falls $i=j$, dann ist
-\[\alpha_{i,j}^0 = \Sterm{a_1}\mid\ldots\mid\Sterm{a_m}\mid\epsilon\]
+\[\alphaijk{i}{j}{0} = \Sterm{a_1}\mid\ldots\mid\Sterm{a_m}\mid\epsilon\]
 \end{itemize}
 }
 
 \end{frame}
 
-\begin{frame}\frametitle{Die regulären Ausdrücke $\alpha_{i,j}^{k+1}$}
+\begin{frame}\frametitle{Die regulären Ausdrücke $\alphaijk{i}{j}{k+1}$}
 
-Zur Bestimmung von $\alpha_{i,j}^{k+1}$ verwenden wir Ausdrücke $\alpha_{i',j'}^{k}$
+Zur Bestimmung von $\alphaijk{i}{j}{k+1}$ verwenden wir Ausdrücke $\alphaijk{i'}{j'}{k}$
 \bigskip
 
-\defbox{\begin{itemize}
+\defbox{\vspace{-0.5ex}\begin{itemize}
 \item es gibt einen Lauf $q_i\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_{\ell-1}}}{\to}p_{\ell-1}\stackrel{\Sterm{a_\ell}}{\to}q_j$, wobei
-\item für jeden Zwischenzustand $p_i$ mit $i\in\{1,\ldots,\ell-1\}$ gilt $p_i\in\{q_1,\ldots,q_k\}$
+\item für jedes $p_i$ mit $i\in\{1,\ldots,\ell-1\}$ gilt $p_i\in\{q_1,\ldots,q_k\}$
 \end{itemize}
 }
 
 $\leadsto$ zwei Möglichkeiten für Läufe bei $k+1$:
-\begin{itemize}
+\begin{enumerate}[(1)]
 \item kein $p_i$ ist $q_{k+1}$, d.h. $p_i\in\{q_1,\ldots,q_k\}$
-\item einige $p_i$ sind $q_{k+1}$; dann kann der Lauf dargestellt werden als
+\item einige $p_i$ sind $q_{k+1}$; dann hat der Lauf die Form:
+\end{enumerate}
+\[ %q_i \{q_1,\ldots,q_k \}^* q_{k+1} \big( \{q_1,\ldots,q_k \}^* q_{k+1}\big)^* \{q_1,\ldots,q_k \}^*q_j
+\begin{array}{@{}r@{}r@{}c@{}r@{}c@{}r@{}c@{}l@{}}
+&
+q_i & \textcolor{black}{\{q_1,\ldots,q_k \}^*} & q_{k+1}\big( &  \textcolor{black}{\{q_1,\ldots,q_k \}^*}q_{k+1}  & \big)^* & \textcolor{black}{\{q_1,\ldots,q_k \}^*} & q_j \\
+{\footnotesize\text{Teilläufe:}} &
+    & {\footnotesize\text{\textcolor{darkred}{$q_i\to q_{k+1}$}}} &  ( & {\footnotesize\text{\textcolor{darkblue}{$q_{k+1}\to q_{k+1}$}}} & )^* & {\footnotesize\text{\textcolor{darkgreen}{$q_{k+1}\to q_j$}}} & \\
+\end{array}
+\]
 % \[ q_i\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_{\ell-1}}}{\to}p_{\ell-1}\stackrel{\Sterm{a_\ell}}{\to}q_j \]
-\end{itemize}
+% \medskip
+
+Daher gilt:
+\codebox{\vspace{-1.5ex}
+\[\alphaijk{i}{j}{k+1} = \underbrace{\alphaijk{i}{j}{k}}_{\text{Fall (1)}} \mid \underbrace{\big( \textcolor{darkred}{\alphaijk{i}{k+1}{k}} (\textcolor{darkblue}{\alphaijk{k+1}{k+1}{k}})^* \textcolor{darkgreen}{\alphaijk{k+1}{j}{k}} \big)}_{\text{Fall (2)}}\]
+}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel: Dynamische Programmierung (1)}
+
+\begin{minipage}{3.2cm}
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick,onslide={<2-4>{fill=strongyellow}}] at (0,0) {$1$};
+\node (q2) [circle,draw=black,thick,double,onslide={<5-7>{fill=strongyellow}}] at (2,0) {$2$};
+\node (q3) [circle,draw=black,thick,double,onslide={<8>{fill=strongyellow}}] at (0,-1.7) {$3$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm,onslide={<3>{dashed,darkred}}](q1) edge node[above] {\Sterm{a}} (q2);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](q1) edge node[right] {\Sterm{c}} (q3);
+\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](q2) edge [loop below] node[below] {\Sterm{b}} (q2);
+%
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{3cm}
+Fall $k=0$:\\\pause
+\begin{tabular}{@{}r@{}lr@{}lr@{}l@{}}
+$\alphaijk{1}{1}{0}$ & ${}=\epsilon$\pause
+	& $\alphaijk{1}{2}{0}$ & ${}=\Sterm{a}$\pause
+	& $\alphaijk{1}{3}{0}$ & ${}=\Sterm{c}$ \\\pause
+$\alphaijk{2}{1}{0}$ & ${}=\emptyset$\pause
+	& $\alphaijk{2}{2}{0}$ & ${}=\Sterm{b}\mid\epsilon$\pause
+	& $\alphaijk{2}{3}{0}$ & ${}=\emptyset$ \\\pause
+$\alphaijk{3}{1}{0}$ & ${}=\emptyset$
+	& $\alphaijk{3}{2}{0}$ & ${}=\emptyset$
+	& $\alphaijk{3}{3}{0}$ & ${}=\epsilon$ \\
+\end{tabular}
+\end{minipage}\pause\pause\bigskip
+
+Fall $k=1$:\\[1ex]
+\begin{tabular}{@{}r@{}l@{}l}
+$\alphaijk{1}{1}{1}$ & ${}=\underbrace{\alphaijk{1}{1}{0}}_{\epsilon} \mid \underbrace{( \alphaijk{1}{1}{0} ( \alphaijk{1}{1}{0} )^* \alphaijk{1}{1}{0})}_{\epsilon \epsilon^* \epsilon}$
+& ${}\equiv \epsilon$\\\pause
+$\alphaijk{1}{2}{1}$ & ${}=\underbrace{\alphaijk{1}{2}{0}}_{\Sterm{a}} \mid \underbrace{( \alphaijk{1}{1}{0} ( \alphaijk{1}{1}{0} )^* \alphaijk{1}{2}{0})}_{\epsilon \epsilon^* \Sterm{a}}$
+& ${}\equiv \Sterm{a}$\\\pause
+\ldots & \multicolumn{2}{l}{$\;$ \alert{syntaktische, aber keine semantische Änderungen}}
+\end{tabular}
 \medskip
 
-Daher gilt: \[\alpha_{i,j}^{k+1} = \alpha_{i,j}^{k} \mid \big( \alpha_{i,k+1}^{k} (\alpha_{k+1,k+1}^{k})^* \alpha_{k+1,j}^{k} \big)\]
+\[ \alphaijk{i}{j}{1}\equiv\alphaijk{i}{j}{0}\]
+{\footnotesize(Grund: es gibt keine Pfade zu $1$ oder von $1$ zu $1$)}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel: Dynamische Programmierung (2)}
+
+\begin{minipage}{3.2cm}
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$1$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$2$};
+\node (q3) [circle,draw=black,thick,double] at (0,-1.7) {$3$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{a}} (q2);
+\path[->,line width=0.5mm](q1) edge node[right] {\Sterm{c}} (q3);
+\path[->,line width=0.5mm](q2) edge [loop below] node[below] {\Sterm{b}} (q2);
+%
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{3cm}
+Fall $k=1$:\\
+\begin{tabular}{@{}r@{}lr@{}lr@{}l@{}}
+$\alphaijk{1}{1}{1}$ & ${}\equiv\epsilon$
+	& $\alphaijk{1}{2}{1}$ & ${}\equiv\Sterm{a}$
+	& $\alphaijk{1}{3}{1}$ & ${}\equiv\Sterm{c}$ \\
+$\alphaijk{2}{1}{1}$ & ${}\equiv\emptyset$
+	& $\alphaijk{2}{2}{1}$ & ${}\equiv\Sterm{b}\mid\epsilon$
+	& $\alphaijk{2}{3}{1}$ & ${}\equiv\emptyset$ \\
+$\alphaijk{3}{1}{1}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{2}{1}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{3}{1}$ & ${}\equiv\epsilon$ \\
+\end{tabular}
+\end{minipage}\bigskip
+
+Fall $k=2$:\pause\\[1ex]
+\begin{tabular}{@{}r@{}l@{}l}
+$\alphaijk{1}{1}{2}$ & ${}=\alphaijk{1}{1}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{1}{1})$
+& ${}= \epsilon \mid (\Sterm{a}\Sterm{b}^*\emptyset) \equiv \epsilon$\\\pause
+$\alphaijk{1}{2}{2}$ & ${}=\alphaijk{1}{2}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{2}{0})$
+& ${}= \Sterm{a} \mid (\Sterm{a}(\Sterm{b}\mid\epsilon)^*(\Sterm{b}\mid\epsilon)) \equiv \Sterm{a}\Sterm{b}^*$\\\pause
+$\alphaijk{1}{3}{2}$ & ${}=\alphaijk{1}{3}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{3}{1})$
+& ${}= \Sterm{c}\mid (\Sterm{a}\Sterm{b}^*\emptyset) \equiv \Sterm{c}$\\\pause
+& \ldots
+\end{tabular}
+\bigskip 
+
+\narrowcentering{%
+\begin{tabular}{@{}r@{}lr@{}lr@{}l@{}}
+$\alphaijk{2}{1}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{2}{2}{2}$ & ${}\equiv\Sterm{b}^*$
+	& $\alphaijk{2}{3}{2}$ & ${}\equiv\emptyset$ \\
+$\alphaijk{3}{1}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{2}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{3}{2}$ & ${}\equiv\epsilon$ \\
+\end{tabular}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel: Dynamische Programmierung (3)}
+
+\begin{minipage}{3.2cm}
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$1$};
+\node (q2) [circle,draw=black,thick,double] at (2,0) {$2$};
+\node (q3) [circle,draw=black,thick,double] at (0,-1.7) {$3$};
+%
+\path[->,line width=0.5mm](0,0.7) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {\Sterm{a}} (q2);
+\path[->,line width=0.5mm](q1) edge node[right] {\Sterm{c}} (q3);
+\path[->,line width=0.5mm](q2) edge [loop below] node[below] {\Sterm{b}} (q2);
+%
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{3cm}
+Fall $k=2$:\\
+\begin{tabular}{@{}r@{}lr@{}lr@{}l@{}}
+$\alphaijk{1}{1}{2}$ & ${}\equiv\epsilon$
+	& $\alphaijk{1}{2}{2}$ & ${}\equiv\Sterm{a}\Sterm{b}^*$
+	& $\alphaijk{1}{3}{2}$ & ${}\equiv\Sterm{c}$ \\
+$\alphaijk{2}{1}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{2}{2}{2}$ & ${}\equiv\Sterm{b}^*$
+	& $\alphaijk{2}{3}{2}$ & ${}\equiv\emptyset$ \\
+$\alphaijk{3}{1}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{2}{2}$ & ${}\equiv\emptyset$
+	& $\alphaijk{3}{3}{2}$ & ${}\equiv\epsilon$ \\
+\end{tabular}
+\end{minipage}\bigskip
+
+Fall $k=3$:\pause\\[1ex]
+\alert{syntaktische, aber keine semantische Änderungen:}
+\[ \alphaijk{i}{j}{3}\equiv\alphaijk{i}{j}{2}\]
+{\footnotesize(Grund: es gibt keine Pfade von $3$ zu $3$)}\pause
+\bigskip
+
+Damit sind alle $\alphaijk{i}{j}{3}=\alphaijk{i}{j}{n}$ bestimmt und wir erhalten den folgenden regulären Ausdruck für den Automaten:
+\[ \alphaijk{1}{2}{3}\mid\alphaijk{1}{3}{3}\equiv \redalert{\Sterm{a}\Sterm{b}^* \mid \Sterm{c}}\]
 
 \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-% \redalert{Reguläre Ausdrücke} sind eine praktisch wichtige Methode zur Beschreibung (beliebiger) regulärer Sprachen
-% \bigskip
-% 
-% Die \redalert{kompositionelle Methode} wendet Automaten-Operationen an, um aus einem regulären Ausdruck einen
-% NFA zu erzeugen
-% \bigskip
-% 
-% Die \redalert{explizite Methode} verwendet Übergänge mit regulären Ausdrücken, die schrittweise expandiert werden
-% \bigskip
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Wie kommt man zurück von NFA zu regulärem Ausdruck?
-% \item Welche Sprachen sind nicht regulär?
-% \item Wie kann man Automaten systematisch vereinfachen?
-% \end{itemize}
-% }
+\redalert{Reguläre Ausdrücke} sind eine praktisch wichtige Methode zur Beschreibung (beliebiger) regulärer Sprachen
+\bigskip
+
+Die \redalert{Ersetzungsmethode} definiert und löst ein Gleichungssystem, um aus einem NFA einen regulären Ausdruck zu erzeugen
+\bigskip
+
+Die \redalert{Methode der dynamischen Programmierung} berechnet reguläre Ausdrücke für Wörter "`zwischen"' Zustandspaaren, wobei immer größere Teilmengen von Zwischenzuständen verwendet werden dürfen
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie aufwändig sind diese Umformungen im schlimmsten Fall?
+\item Welche Sprachen sind nicht regulär?
+\item Wie kann man Automaten systematisch vereinfachen?
+\end{itemize}
+}
 
 \end{frame}
 
