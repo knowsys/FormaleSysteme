@@ -374,7 +374,7 @@ Problem: rekursive Gleichungen lassen sich so nicht vereinfachen \ldots\pause
 \begin{frame}\frametitle{Beispiel: Gleichungssysteme Lösen}
 
 \ghost{\hspace{5.5cm}\raisebox{-3.5cm}{\begin{minipage}{4cm}\onslide<5->{%
-\theobox{\alert{Regel von Arden}:\\ Aus $\alpha\equiv \beta\alpha\mid\gamma$ mit $\epsilon\notin\Slang{L}(\gamma)$ folgt $\alpha\equiv\beta^*\gamma$.}}
+\theobox{\alert{Regel von Arden}:\\ Aus $\alpha\equiv \beta\alpha\mid\gamma$ mit $\epsilon\notin\Slang{L}(\beta)$ folgt $\alpha\equiv\beta^*\gamma$.}}
 \end{minipage}}}
 
 \begin{minipage}{5cm}
@@ -870,7 +870,7 @@ Fall $k=2$:\pause\\[1ex]
 \begin{tabular}{@{}r@{}l@{}l}
 $\alphaijk{1}{1}{2}$ & ${}=\alphaijk{1}{1}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{1}{1})$
 & ${}= \epsilon \mid (\Sterm{a}\Sterm{b}^*\emptyset) \equiv \epsilon$\\\pause
-$\alphaijk{1}{2}{2}$ & ${}=\alphaijk{1}{2}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{2}{0})$
+$\alphaijk{1}{2}{2}$ & ${}=\alphaijk{1}{2}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{2}{1})$
 & ${}= \Sterm{a} \mid (\Sterm{a}(\Sterm{b}\mid\epsilon)^*(\Sterm{b}\mid\epsilon)) \equiv \Sterm{a}\Sterm{b}^*$\\\pause
 $\alphaijk{1}{3}{2}$ & ${}=\alphaijk{1}{3}{1} \mid ( \alphaijk{1}{2}{1} ( \alphaijk{2}{2}{1} )^* \alphaijk{2}{3}{1})$
 & ${}= \Sterm{c}\mid (\Sterm{a}\Sterm{b}^*\emptyset) \equiv \Sterm{c}$\\\pause
