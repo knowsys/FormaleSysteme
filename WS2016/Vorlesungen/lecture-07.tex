@@ -79,7 +79,7 @@ Heute: "`endlicher Automat $\leadsto$ regulärer Ausdruck"'
 		fill=#2,% fill color
 % 		rounded corners,
 		thick,
-		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		text width=18mm, minimum height=12mm, inner sep=1mm,
 		align=flush center
 	},
 	myboxlabel/.style args = {}{
@@ -87,7 +87,7 @@ Heute: "`endlicher Automat $\leadsto$ regulärer Ausdruck"'
 		fill=strongyellow!40,% fill color
 % 		rounded corners,
 		thick,
-		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		text width=17mm, minimum height=10mm, inner sep=1.5mm,
 		align=flush center
 	},
 	myarrow/.style args = {#1}{
@@ -412,9 +412,9 @@ $\leadsto$ regulärer Ausdruck für NFA ist $\sum_{q\in Q_0}\alpha_q = \alpha_1$
 
 \end{frame}
 
-% 
+%
 % \begin{frame}\frametitle{Beispiel: Gleichungssysteme Lösen}
-% 
+%
 % \begin{minipage}{5cm}
 % \begin{tikzpicture}[baseline={(q1.base)}]
 % % \draw[help lines] (0,0) grid (7,2);
@@ -439,14 +439,14 @@ $\leadsto$ regulärer Ausdruck für NFA ist $\sum_{q\in Q_0}\alpha_q = \alpha_1$
 % (3)&& \alpha_C &\equiv \Sterm{b}\alpha_B \mid\epsilon
 % \end{align*}
 % \end{minipage}\pause
-% 
+%
 % \begin{tabular}{rll}
 % $(4)$ & $\alpha_A \equiv (\Sterm{a} \mid \Sterm{b}\Sterm{b})\alpha_B \mid \Sterm{b}$ & $(3)$ in $(1)$\\\pause
 % %
-% $(5)$ & $\alpha_B \equiv \Sterm{a}\alpha_A \mid\Sterm{a}(\Sterm{b}\alpha_B \mid\epsilon) \mid\Sterm{b}\alpha_B \equiv 
+% $(5)$ & $\alpha_B \equiv \Sterm{a}\alpha_A \mid\Sterm{a}(\Sterm{b}\alpha_B \mid\epsilon) \mid\Sterm{b}\alpha_B \equiv
 % \Sterm{a}\alpha_A \mid (\Sterm{ab}\mid\Sterm{b})\alpha_B  \mid \Sterm{a}$ & $(3)$ in $(2)$\\\pause
 % %
-% $(6)$ & 
+% $(6)$ &
 % $\alpha_B \equiv \Sterm{a}((\Sterm{a} \mid \Sterm{b}\Sterm{b})\alpha_B \mid \Sterm{b}) \mid (\Sterm{ab}\mid\Sterm{b})\alpha_B  \mid \Sterm{a}$ & $(4)$ in $(5)$\\
 % & $\phantom{\alpha_B}\equiv (\Sterm{aa} \mid \Sterm{abb}\mid\Sterm{ab}\mid\Sterm{b})\alpha_B \mid \Sterm{ab}  \mid \Sterm{a}$
 % \\\pause
@@ -463,7 +463,7 @@ $\leadsto$ regulärer Ausdruck für NFA ist $\sum_{q\in Q_0}\alpha_q = \alpha_1$
 % $\alpha_C \equiv \Sterm{b}(\Sterm{aa} \mid \Sterm{abb}\mid\Sterm{ab}\mid\Sterm{b})^* (\Sterm{ab}  \mid \Sterm{a}) \mid\epsilon$
 % & $(6)$ in $(3)$
 % \end{tabular}
-% 
+%
 % \end{frame}
 
 \begin{frame}\frametitle{Korrektheit der Ersetzungsregel (1)}
@@ -486,7 +486,7 @@ Wir zeigen die beiden Richtungen der geforderten Gleichheit einzeln.
 {\tiny \alert{${}^*$ nach Dean N. Arden der das Resultat 1961 publizierte; auch bekannt als "`Lemma von Arden"'}}
 
 % Über DN Arden gibt es sonst wenig verbriefte Informationen. DBLP listet nur diese einzige Publikation.
-% Wikipedia hat keine Artikel zu seiner Person. Auch ein Bild konnte ich nicht finden. 
+% Wikipedia hat keine Artikel zu seiner Person. Auch ein Bild konnte ich nicht finden.
 % Das Resultat selbst ist von historischer Bedeutung, da es eine der ersten Ergebnisse zu Fixpunkt-Berechnungen in
 % der Informatik darstellt.
 
@@ -586,7 +586,7 @@ Die Umwandlung NFA $\leadsto$ regulärer Ausdruck ist also wie folgt:
 		fill=#2,% fill color
 % 		rounded corners,
 		thick,
-		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		text width=18mm, minimum height=12mm, inner sep=1mm,
 		align=flush center
 	},
 	myboxlabel/.style args = {}{
@@ -594,7 +594,7 @@ Die Umwandlung NFA $\leadsto$ regulärer Ausdruck ist also wie folgt:
 		fill=strongyellow!40,% fill color
 % 		rounded corners,
 		thick,
-		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		text width=17mm, minimum height=10mm, inner sep=1.5mm,
 		align=flush center
 	},
 	myarrow/.style args = {#1}{
@@ -664,7 +664,7 @@ Die Umwandlung NFA $\leadsto$ regulärer Ausdruck ist also wie folgt:
 
 \emph{Dann gilt:}
 \begin{align*}
-\Slang{L}(\Smach{M}) &=\bigcup_{q\in Q_0} \bigcup_{p\in F} \Slang{L}(\alpha_{q,p}) 
+\Slang{L}(\Smach{M}) &=\bigcup_{q\in Q_0} \bigcup_{p\in F} \Slang{L}(\alpha_{q,p})
 	=  \Slang{L}\left(\sum_{q\in Q_0} \sum_{p\in F} \alpha_{q,p}\right)
 \end{align*}
 
@@ -678,7 +678,7 @@ Die Umwandlung NFA $\leadsto$ regulärer Ausdruck ist also wie folgt:
 \emph{Gegeben:} NFA  $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$\\[1ex]
 \emph{Annahme:} Zustände sind nummeriert: $Q=\{q_1,\ldots,q_n\}$ (o.b.d.A.)\\[1ex]
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 \begin{itemize}
 \item es gibt einen Lauf $q_i\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_{\ell-1}}}{\to}p_{\ell-1}\stackrel{\Sterm{a_\ell}}{\to}q_j$, wobei
@@ -695,7 +695,7 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 \begin{frame}[t]\frametitle{Der Fall $k=n$}
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 \begin{itemize}
@@ -706,7 +706,7 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 % \medskip
 
 Für $k=n$ ist die zweite Bedingung immer erfüllt, da $\{q_1,\ldots,q_n\}=Q$\\[1ex]
-% 
+%
 $\leadsto$ $\Lijk{i}{j}{n}$ ist die Menge aller Wörter "`zwischen"' $q_i$ und $q_j$\\[1ex]
 %
 $\leadsto$ $\alphaijk{i}{j}{n} = \alpha_{q_i,q_j}$ sind die regulären Ausdrücke, aus denen wir letztlich die Lösung ermitteln wollen
@@ -714,7 +714,7 @@ $\leadsto$ $\alphaijk{i}{j}{n} = \alpha_{q_i,q_j}$ sind die regulären Ausdrück
 
 \begin{frame}[t]\frametitle{Der Fall $k=0$}
 
-\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als 
+\defbox{Gegeben $\Smach{M}$, Zahlen $i,j\in\{1,\ldots,n\}$ und eine Zahl $k\in\{0,1,\ldots,n\}$ definieren wir die Sprache $\Lijk{i}{j}{k}$ als
 die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 
 \begin{itemize}
@@ -725,14 +725,14 @@ die Menge aller Wörter $w=\Sterm{a_1}\cdots\Sterm{a_\ell}$ für die gilt:
 % \medskip
 
 Für $k=0$ kann die zweite Bedingung für keinen Zustand $p_i$ erfüllt werden\\[1ex]
-% 
+%
 $\leadsto$ $\Lijk{i}{j}{0}$ beruht nur auf Läufen ohne Zwischenzustände
-% 
+%
 \begin{itemize}
 \item Falls $i\neq j$, dann kommen nur Läufe $q_i\stackrel{\Sterm{a}}{\to}q_j$ in Frage
 \item Falls $i=j$, dann kommen Läufe $q_i\stackrel{\Sterm{a}}{\to}q_i$ ($w=\Sterm{a}$) oder $q_i$ ($w=\epsilon$) in Frage
 \end{itemize}
-% 
+%
 $\leadsto$ reguläre Ausdrücke $\alphaijk{i}{j}{0}$ können direkt aus $\Smach{M}$ abgelesen werden
 
 \end{frame}
@@ -876,7 +876,7 @@ $\alphaijk{1}{3}{2}$ & ${}=\alphaijk{1}{3}{1} \mid ( \alphaijk{1}{2}{1} ( \alpha
 & ${}= \Sterm{c}\mid (\Sterm{a}\Sterm{b}^*\emptyset) \equiv \Sterm{c}$\\\pause
 & \ldots
 \end{tabular}
-\bigskip 
+\bigskip
 
 \narrowcentering{%
 \begin{tabular}{@{}r@{}lr@{}lr@{}l@{}}
