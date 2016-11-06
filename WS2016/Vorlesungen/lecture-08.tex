@@ -1,0 +1,499 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{8}{Minimale Automaten}{7. November 2016}
+\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\mbox{}\hspace{-0cm}%
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (2,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (4,-4) {NFA};
+\node (re) [decorate,mybox=black/cyan!40] at (6,-0.6) {regulärer Ausdruck};
+\node (enfa) [decorate,mybox=black/cyan!40] at (8,-4) {$\epsilon$-NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.340) edge[->] (nfa.110);
+\path[myarrow=devilscss,-,bend right=20](nfa.130) edge[->] (reg.320);
+\node (regnfalabel) [decorate,myboxlabel=] at (1.6,-1.9) {\footnotesize"`$q_1\to\Sterm{a}q_2$"' $\Leftrightarrow$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (1.95,-3.3) {\scalebox{0.8}{"`DFA${}\subseteq{}$NFA"'}};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=,text width=13mm] at (2.1,-5.0) {\footnotesize Potenzm.\-konstr.};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (4,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=19mm] at (5.3,-5.4) {\footnotesize dualer Graph};
+%%
+\path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
+%
+\path[myarrow=devilscss,-,bend left=20](re.0) edge[->] (enfa);
+%
+\draw[myarrow=devilscss](enfa.190)--(nfa.350);
+\draw[myarrow=devilscss](nfa.10)--(enfa.170);
+\node (nfaenfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (5.95,-3.3) {\scalebox{0.75}{"`NFA${}\subseteq{}${}$\epsilon$-NFA"'}};
+\node (enfanfalabel) [decorate,myboxlabel=,text width=13mm, minimum height=5mm] at (6.1,-4.6) {\footnotesize $\epsilon$-Elim.};
+%
+\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\2) explizit};
+
+%
+{\node (reenfalabel) [decorate,myboxlabel=,align=flush left,text width=18mm,inner sep=1mm] at (5.6,-2.0) {\footnotesize 1) Ersetzung\\2) Dyn. Prog.};}
+\end{tikzpicture}
+
+\end{frame}
+
+\sectionSlide{Minimierung von Automaten}
+
+\begin{frame}\frametitle{Automaten verkleinern}
+
+Wir haben bereits Methoden kennengelernt, um Automaten zu vereinfachen:
+\begin{itemize}
+\item Entfernen von Zuständen, die von keinem Anfangszustand aus erreichbar sind
+\item Entfernen von Zuständen, von denen aus kein Endzustand erreicht werden kann
+\end{itemize}
+\bigskip
+
+\alert{Erhalten wir damit den kleinstmöglichen äquivalenten Automaten?}\bigskip\pause
+
+\redalert{Nein} -- ein einfaches Gegenbeispiel:\bigskip
+
+\examplebox{Beispiel: Sei $\Smach{M}$ ein endlicher Automat, bei dem alle Zustände erreichbar sind und
+einen Endustand erreichen können. Der Vereinigungsautomat\footnote{Hierbei müssen die Zustände einer Kopie von $\Smach{M}$ umbenannt werden.} $\Smach{M}\oplus\Smach{M}$ akzeptiert die selbe Sprache, hat nur erreichbare Zustände, aber die doppelte Zustandszahl.
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Ein interessanteres Beispiel}
+
+Der Vereinigungsautomat ist immer ein NFA. Nichtdeterminismus macht es einfach, nicht-minimale Automaten zu finden.
+\medskip
+
+Interessanter sind nicht-minimale DFAs:\medskip
+
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (s2) [circle,draw=black,thick,double] at (3,0) {$B$};
+\node (s3) [circle,draw=black,thick] at (1.5,1.5) {$C$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+\path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s3) edge [loop below] node[below] {\Sterm{1}} (s3);
+\end{tikzpicture}}\pause
+
+Dieser DFA hat keine offensichtlich überflüssigen Zustände, aber der folgende kleinere DFA erkennt die selbe Sprache $\Sterm{1}^*\Sterm{0}$:\medskip
+
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (s2) [circle,draw=black,thick,double] at (3,0) {$B$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s1) edge [loop below] node[below] {\Sterm{1}} (s1);
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Automaten minimieren?}
+
+\alert{Wie kann man Automaten weiter minimieren?}
+\bigskip
+
+\emph{Beobachtungen:}
+\begin{itemize}
+\item Zur Erkennung von Wörtern muss der Automat nur seinen aktuellen Zustand kennen
+\item Wichtig ist, wohin man vom aktuellen Zustand aus gelangt, wenn man das restliche Wort einliest
+\item Es ist nicht relevant, auf welchem Weg man zu diesem Zustand gelangt ist
+\end{itemize}\medskip\pause
+
+\emph{Idee:} Zwei Zustände sind gleichwertig, wenn man ausgehend von beiden Zuständen die selbe Sprache akzeptieren kann
+\bigskip
+
+$\leadsto$ Gleichwertige Zustände könnten verschmolzen werden \ldots
+
+\end{frame}
+
+\begin{frame}\frametitle{Äquivalenz von Zuständen}
+
+\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ und einen Zustand $q\in Q$ sei $\Smach{M}_q=\tuple{Q,\Sigma,\delta,q,F}$ der abgewandelte DFA mit Startzustand $q$.\medskip
+
+Zwei Zustände $q_1,q_2\in Q$ sind \redalert{$\Smach{M}$-äquivalent}, in Symbolen \redalert{$q\sim_{\Smach{M}}p$}, wenn gilt:\\
+\narrowcentering{$\Slang{L}(\Smach{M}_{q_1}) = \Slang{L}(\Smach{M}_{q_2})$}\\[1ex]
+das heißt wenn für jedes Wort $w\in\Sigma^*$ gilt:\\[1ex]
+\narrowcentering{$\delta(q_1,w)\in F$ genau dann wenn $\delta(q_2,w)\in F$.}
+}
+Wenn der Automat $\Smach{M}$ klar ist, schreiben wir einfach $\sim$ statt $\sim_{\Smach{M}}$.
+\medskip\pause
+
+\doodlebox{darkgreen}{%
+Beispiel:\rule{0pt}{3ex}
+\begin{tikzpicture}[baseline={(s3.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (s2) [circle,draw=black,thick,double] at (2,0) {$B$};
+\node (s3) [circle,draw=black,thick] at (1,1) {$C$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+\path[->,line width=0.5mm](s3) edge node[left] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s3) edge [loop right] node[right] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\hspace{3mm}
+\begin{minipage}[t]{4.7cm}
+$\Slang{L}(\Smach{M}_{A}) = \{\Sterm{1}\}^* \{\Sterm{0}\} = \Slang{L}(\Smach{M}_{C})$\\
+$\Slang{L}(\Smach{M}_{B}) = \{\epsilon\}$\\[1ex]
+$\leadsto$ $A\sim C$\\
+\end{minipage}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Eigenschaften von $\sim_{\Smach{M}}$}
+
+\defbox{ Definition (kurz): $q\sim_{\Smach{M}}p$ genau dann wenn $\Slang{L}(\Smach{M}_{q_1}) = \Slang{L}(\Smach{M}_{q_2})$.}%
+\smallskip\pause
+
+Damit sehen wir leicht:
+\begin{itemize}
+\item $\sim$ ist \alert{reflexiv}: $q\sim q$
+\item $\sim$ ist \alert{symmetrisch}: wenn $q_1\sim q_2$ dann $q_2\sim q_1$
+\item $\sim$ ist \alert{transitiv}: wenn $q_1\sim q_2$ und $q_2\sim q_3$ dann $q_1\sim q_3$
+\end{itemize}
+(jeweils für alle $q,q_1,q_2,q_3\in Q$)
+\medskip
+
+\theobox{Eigenschaft: $\sim$ ist eine \redalert{Äquivalenzrelation}.}%
+\smallskip\pause
+
+Außerdem gilt für alle $\Sterm{a}\in\Sigma$
+\begin{itemize}
+\item wenn $q_1\sim q_2$ dann $\delta(q_1,\Sterm{a})\sim\delta(q_2,\Sterm{a})$,
+falls diese Übergänge definiert sind {\tiny (daher nehmen wir im Folgenden oft eine totale Übergangsfunktion an)}
+\end{itemize}
+\smallskip
+
+\theobox{Eigenschaft: $\sim$ ist verträglich mit der Übergangsfunktion.}
+\smallskip
+
+\end{frame}
+
+\newcommand{\simquot}[1]{#1/_{\!\!{\sim}}}
+
+\begin{frame}\frametitle{Notation für Äquivalenzrelationen}
+
+Wir verwenden die bei Äquivalenzen üblichen Begriffe:
+\medskip
+
+\defbox{%
+Wir schreiben \redalert{$[q]_{\sim}$} für die \redalert{$\sim$-Äquivalenzklasse} von $q$, d.h.\\[1ex]
+%
+\narrowcentering{$[q]_{\sim}=\{p\in Q\mid q\sim p\}$.}\\[1ex]
+%
+Für eine Menge $P\subseteq Q$ schreiben 
+wir \redalert{$\simquot{P\!}$} für den \redalert{Quotienten} von $P$ und $\sim$:\\[1ex]
+\narrowcentering{$\simquot{P\!} = \{[p]_{\sim}\mid p\in P \}.$}\\
+{\tiny (Die Quotientenbildung heißt Faktorisierung; sie entspricht dem "`Verschmelzen"' äquivalenter Zustände.)}
+}
+Wie immer gilt:
+\begin{itemize}
+\item Wenn $q_1\sim q_2$ dann $[q_1]_{\sim}=[q_2]_{\sim}$
+\item Unterschiedliche Äquivalenzklassen sind disjunkt, d.h. $[q_1]_{\sim}\neq [q_2]_{\sim}$ impliziert $[q_1]_{\sim}\cap [q_2]_{\sim}=\emptyset$
+\item Die Äquivalenzklassen partitionieren $Q$, d.h. $Q$ ist die Vereinigung der (disjunkten) Klassen
+\end{itemize}
+% Offensichtlich gibt es nur endlich viele Äquivalenzklassen, da $Q$ endlich ist
+
+\end{frame}
+
+\begin{frame}\frametitle{Der Quotientenautomat}
+
+Wir vereinfachen Automaten, indem wir äquivalente Zustände verschmelzen:
+
+\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ mit totaler Übergangsfunktion ist der 
+\redalert{Quotientenautomat $\simquot{\Smach{M}}$} gegeben durch
+$\simquot{\Smach{M}}=\tuple{\simquot{Q},\Sigma,\delta_{\sim},[q_0]_{\sim_{\Smach{M}}},\simquot{F\!}}$ wobei gilt:%
+\begin{itemize}
+\item $\simquot{Q} = \{[q]_{\sim}\mid q\in Q\}$
+\item $\delta_{\sim}([q]_{\sim},\Sterm{a}) = [\delta(q,\Sterm{a})]_{\sim}$
+\item $\simquot{F\!} = \{[q]_{\sim}\mid q\in F\}$
+\end{itemize}
+}\pause
+
+Diese Definition ergibt Sinn, da gilt:
+\begin{itemize}
+\item wenn $[q]_{\sim}=[p]_{\sim}$ dann $[\delta(q,\Sterm{a})]_{\sim_{\Smach{M}}}=[\delta(p,\Sterm{a})]_{\sim_{\Smach{M}}}$ (Verträglichkeit von $\sim$ und $\delta$; benötigt totale Übergangsfunktion)
+\item wenn $[q]_{\sim}=[p]_{\sim}$ dann ~~$q\in F$ gdw. $p\in F$ ~~(Übung)
+\end{itemize}
+$\leadsto$ Definition unabhängig vom gewählten Repräsentanten von $[q]_{\sim}$
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Beispiel}
+
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+\draw[dashed,fill=strongyellow!30] (-0.8,-0.9) rectangle node[above,yshift=-1.50cm,xshift=-0.0cm] {\footnotesize$[A]_\sim = [C]_\sim =\{A,C\}$}(2.0,2.0);
+\draw[dashed,fill=strongyellow!30] (2.2,-0.9) rectangle node[above,yshift=-1cm,xshift=-0.0cm] {\footnotesize$[B]_\sim =\{B\}$}(3.6,1.0);
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$A$};
+\node (s2) [circle,draw=black,thick,double] at (3,0) {$B$};
+\node (s3) [circle,draw=black,thick] at (1.5,1.5) {$C$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+\path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}}\pause\bigskip
+
+\narrowcentering{Es ergibt sich der folgende Quotientenautomat:}\medskip
+
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,thick] at (0,0) {$\{A,C\}$};
+\node (s2) [circle,draw=black,thick,double] at (3,0) {$\{B\}$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+\path[->,line width=0.5mm](s1) edge [loop above] node[above] {\Sterm{1}} (s1);
+\end{tikzpicture}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Korrektheit Quotientenautomat}
+
+\theobox{Satz: Für jeden totalen DFA $\Smach{M}$ gilt $\Slang{L}(\Smach{M})=\Slang{L}(\simquot{\Smach{M}})$.}
+
+\emph{Beweis:}
+Für alle $w\in\Sigma^*$ gilt:
+\[\begin{array}{l@{~~\text{ gdw. }~~}ll}
+ w\in \Slang{L}(\Smach{M})
+	& \delta(q_0,w)\in F & \textcolor{devilscss}{\text{laut Definition}}\\\pause
+	& [\delta(q_0,w)]_\sim\in \simquot{F} & \textcolor{devilscss}{\text{wie zuvor bemerkt (Übung)}} \\\pause
+	& \delta_\sim([q_0]_\sim,w)\in \simquot{F} & \textcolor{devilscss}{\text{Lemma $\varheartsuit$}}\\\pause
+	& w\in \Slang{L}(\simquot{\Smach{M}}) & \textcolor{devilscss}{\text{laut Definition}}
+\end{array}
+\]\pause
+
+\codebox{Lemma $\varheartsuit$: Für beliebige $q\in Q$ und $w\in\Sigma^*$ gilt:\\[1ex]
+\narrowcentering{$[\delta(q,w)]_\sim = \delta_\sim([q]_\sim,w)$.}}
+
+Beweis durch Induktion über $|w|$ (Übung)\qed
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Berechnung von $\sim_{\Smach{M}}$}
+
+\alert{Wie kann man $\sim_{\Smach{M}}$ praktisch ermitteln?}
+\bigskip 
+
+Zuvor bemerkten wir:
+\theobox{\vspace{-1ex}
+\begin{enumerate}[(1)]
+\item Wenn $q_1\sim q_2$ dann $q_1\in F$ gdw. $q_2 \in F$
+\item Wenn $q_1\sim q_2$ dann $\delta(q_1,\Sterm{a})\sim\delta(q_2,\Sterm{a})$
+\end{enumerate}}%
+\bigskip 
+
+Umgekehrt gilt also:
+\theobox{\vspace{-1ex}
+\begin{enumerate}[(1')]
+\item Wenn $q_1\in F$ und $q_2 \notin F$ dann $q_1\not\sim q_2$
+\item Wenn $\delta(q_1,\Sterm{a})\not\sim\delta(q_2,\Sterm{a})$ dann $q_1\not\sim q_2$
+\end{enumerate}}%
+\bigskip 
+
+Tatsächlich ist $\not\sim$ die \alert{kleinste Relation}, die (1') und (2') erfüllt.
+\medskip
+
+$\leadsto$ Wir können $\not\sim$ (und damit auch $\sim$) durch rekursive Anwendung der Regeln (1') und (2') berechnen
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Algorithmus zur Berechnung von $\sim_{\Smach{M}}$}
+
+\codebox{%
+\emph{Eingabe:} DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$\\
+\emph{Ausgabe:} $\sim_{\Smach{M}}$\\%[1ex]
+%
+\begin{itemize}
+\item Initialisiere ${\not\sim}\defeq\emptyset$
+\item (Regel 1) Für jedes Paar von Zuständen $\tuple{q,p}\in Q\times Q$:\\
+	falls $q\in F$ und $p\notin F$, dann "`speichere $q\not\sim p$"'
+	% ${\not\sim}\defeq{\not\sim}\cup\{\tuple{q,p},\tuple{p,q}\}$
+\item (Regel 2) Für jedes Paar $\tuple{q,p}\in Q\times Q\setminus {\not\sim}$ und jedes $\Sterm{a}\in\Sigma$:\\
+	falls $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ dann
+	dann "`speichere $q\not\sim p$"'
+% 	${\not\sim}\defeq{\not\sim}\cup\{\tuple{q,p},\tuple{p,q}\}$
+\item Wiederhole die Anwendung von Regel 2 solange, bis es keine Änderungen mehr gibt
+\item Das Ergebnis ist $(Q\times Q)\setminus {\not\sim}$
+\end{itemize}
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Darstellung von $\not\sim$ im Algorithmus}
+
+Die Anweisung "`speichere $q\not\sim p$"' könnte umgesetzt werden als:\\[1ex]
+\narrowcentering{${\not\sim}\defeq{\not\sim}\cup\{\tuple{q,p},\tuple{p,q}\}$}
+\bigskip
+
+Es ist aber nicht nötig, alle Paare in ${\not\sim}$ einzeln zu speichern:
+\begin{itemize}
+\item $\not\sim$ ist irreflexiv, d.h. man muss $q\not\sim q$ nicht betrachten
+\item $\not\sim$ ist symmetrisch, d.h. man muss jeweils nur entweder $q\not\sim p$ oder $p\not\sim q$ betrachten\pause
+\end{itemize}
+$\leadsto$ Halb-Tabelle genügt zum Eintragen der möglichen Paare\medskip
+
+\examplebox{
+\begin{minipage}{6cm}\begin{flushleft}
+Beispiel: Für einen DFA mit Zuständen $Q=\{A,B,C,D,E\}$ genügt eine Tabelle mit zehn Feldern (statt $5^2=25$).\\[1ex]
+
+{\tiny (dazu reihen wir Zustände vertikal in umgekehrter Reihenfolge)}
+\end{flushleft}
+\end{minipage}
+\narrowcentering{\scalebox{0.8}{%
+\begin{tabular}{c|c|c|c|c|}
+ \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+ E &   &   &   &    \\\cline{2-5}
+ D &   &   &        \\\cline{2-4} 
+ C &   &            \\\cline{2-3}
+ B &                \\\cline{2-2}
+\end{tabular}}}
+}
+
+\end{frame}
+
+\newcommand{\hicell}[1]{\only<#1|handout:0>{\cellcolor{strongyellow}}}
+\newcommand{\upcell}[2]{\only<#1|handout:0>{\cellcolor{strongyellow}}\only<#1->{#2}}
+\newcommand{\locell}[1]{\only<#1|handout:0>{\cellcolor{darkgreen!20}}}
+
+\begin{frame}\frametitle{Beispiel Quotientenautomat}
+
+\begin{minipage}{7cm}
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s0) [circle,draw=black,thick,onslide={<2,6,7,13-15,18,19>{fill=strongyellow}}] at (0,0) {$A$};
+\node (s1) [circle,draw=black,thick,onslide={<3,8-10,16-19>{fill=strongyellow}}] at (2,0) {$B$};
+\node (s2) [circle,draw=black,thick,onslide={<4,11-17>{fill=strongyellow}}] at (1.0,1.5) {$C$};
+\node (s3) [circle,draw=black,thick,onslide={<5-12>{fill=strongyellow}}] at (3,1.5) {$D$};
+\node (s4) [circle,draw=black,thick,double,onslide={<2-5>{fill=strongyellow}}] at (4,0) {$E$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s0);
+\path[->,line width=0.5mm,onslide={<7,14,19>{dashed,darkred}}](s0) edge node[below] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm,onslide={<9,17,19>{dashed,darkred}}](s1) edge node[below] {\Sterm{0}} (s4);
+\path[->,line width=0.5mm,bend right,onslide={<10>{dashed,darkred}}](s1) edge node[right] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,onslide={<15>{dashed,darkred}}](s0) edge node[left] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,onslide={<15>{dashed,darkred}}](s2) edge[loop below,in=270,out=310,min distance=5mm] node[below] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,onslide={<12,14,17>{dashed,darkred}}](s2) edge node[above] {\Sterm{0}} (s3);
+\path[-,line width=0.5mm,onslide={<10>{dashed,darkred}}](s3) edge[bend right=75] (0,1.5)
+	 (0,1.5) edge[->] node[left] {\Sterm{1}} (s0);
+\path[->,line width=0.5mm,onslide={<7,9,12>{dashed,darkred}}](s3) edge node[above] {\Sterm{0}} (s4);
+\path[->,line width=0.5mm](s4) edge [loop right] node[right] {\Sterm{0},\Sterm{1}} (s4);
+\end{tikzpicture}}
+\end{minipage}%
+\begin{minipage}{2.9cm}
+\begin{enumerate}[(1)]
+\item $q\in F$ und $p\notin F$ impliziert $q\not\sim p$
+\item $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ impliziert $q\not\sim p$
+\end{enumerate}
+\end{minipage}
+\medskip
+
+Wir tragen in der Tabelle jeweils die Wörter ein, die $q\not\sim p$ zeigen:\medskip
+
+\begin{tabular}{c|c|c|c|c|}
+ \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+ E & \upcell{2}{$\epsilon$}  & \upcell{3}{$\epsilon$}\locell{7}  & \upcell{4}{$\epsilon$}  &  \upcell{5}{$\epsilon$}\locell{12}\locell{17} \\\cline{2-5}
+ D & \hicell{6}\upcell{7}{$\Sterm{0}$} & \hicell{8-10}\locell{14}  &  \hicell{11}\upcell{12}{$\Sterm{0}$} \\\cline{2-4} 
+ C & \locell{10}\hicell{13-15} & \hicell{16}\upcell{17}{$\Sterm{0}$}  \\\cline{2-3}
+ B & \hicell{18}\upcell{19}{$\Sterm{0}$}  \\\cline{2-2}
+\end{tabular}~~~
+\begin{minipage}{6cm}
+\only<20->{Weitere Abarbeitung von Regel (2) führt nicht mehr zu Änderungen
+\begin{align*}
+{\sim} ={}&\{ \tuple{B,D},\tuple{D,B},\tuple{A,C},\tuple{C,A}\}\cup{}\\
+	& \{\tuple{q,q}\mid q\in Q\}
+\end{align*}}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+% \redalert{Reguläre Ausdrücke} sind eine praktisch wichtige Methode zur Beschreibung (beliebiger) regulärer Sprachen
+% \bigskip
+% 
+% Die \redalert{Ersetzungsmethode} definiert und löst ein Gleichungssystem, um aus einem NFA einen regulären Ausdruck zu erzeugen
+% \bigskip
+% 
+% Die \redalert{Methode der dynamischen Programmierung} berechnet reguläre Ausdrücke für Wörter "`zwischen"' Zustandspaaren, wobei immer größere Teilmengen von Zwischenzuständen verwendet werden dürfen
+% \bigskip
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Wie aufwändig sind diese Umformungen im schlimmsten Fall?
+% \item Welche Sprachen sind nicht regulär?
+% \item Wie kann man Automaten systematisch vereinfachen?
+% \end{itemize}
+% }
+
+\end{frame}
+
+
+\end{document}
