@@ -420,7 +420,7 @@ Beispiel: Für einen DFA mit Zuständen $Q=\{A,B,C,D,E\}$ genügt eine Tabelle m
 \newcommand{\upcell}[2]{\only<#1|handout:0>{\cellcolor{strongyellow}}\only<#1->{#2}}
 \newcommand{\locell}[1]{\only<#1|handout:0>{\cellcolor{darkgreen!20}}}
 
-\begin{frame}\frametitle{Beispiel Quotientenautomat}
+\begin{frame}[t]\frametitle{Beispiel Quotientenautomat}
 
 \begin{minipage}{7cm}
 \narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
@@ -469,29 +469,320 @@ Wir tragen in der Tabelle jeweils die Wörter ein, die $q\not\sim p$ zeigen:\med
 \end{align*}}
 \end{minipage}
 
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel Quotientenautomat}
+
+\begin{minipage}{7cm}
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s0) [circle,draw=black,thick] at (0,0) {$A$};
+\node (s1) [circle,draw=black,thick] at (2,0) {$B$};
+\node (s2) [circle,draw=black,thick] at (1.0,1.5) {$C$};
+\node (s3) [circle,draw=black,thick] at (3,1.5) {$D$};
+\node (s4) [circle,draw=black,thick,double] at (4,0) {$E$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s0);
+\path[->,line width=0.5mm](s0) edge node[below] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s4);
+\path[->,line width=0.5mm,bend right](s1) edge node[right] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm](s0) edge node[left] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm](s2) edge[loop below,in=270,out=310,min distance=5mm] node[below] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {\Sterm{0}} (s3);
+\path[-,line width=0.5mm](s3) edge[bend right=75] (0,1.5)
+	 (0,1.5) edge[->] node[left] {\Sterm{1}} (s0);
+\path[->,line width=0.5mm](s3) edge node[above] {\Sterm{0}} (s4);
+\path[->,line width=0.5mm](s4) edge [loop right] node[right] {\Sterm{0},\Sterm{1}} (s4);
+\end{tikzpicture}}
+\end{minipage}%
+\bigskip
+
+Quotientenautomat:\medskip
+
+\narrowcentering{\begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s0) [circle,draw=black,thick] at (0,0) {$\{A,C\}$};
+\node (s1) [circle,draw=black,thick] at (2,0) {$\{B,D\}$};
+% \node (s2) [circle,draw=black,thick] at (1.0,1.5) {$C$};
+% \node (s3) [circle,draw=black,thick] at (3,1.5) {$D$};
+\node (s4) [circle,draw=black,thick,double] at (4,0) {$E$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s0);
+\path[->,line width=0.5mm,bend left](s0) edge node[above] {\Sterm{0}} (s1);
+\path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s4);
+% \path[->,line width=0.5mm,bend right](s1) edge node[right] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,bend left](s1) edge node[below] {\Sterm{1}} (s0);
+\path[->,line width=0.5mm](s0) edge[loop below] node[below] {\Sterm{1}} (s0);
+\path[->,line width=0.5mm](s4) edge [loop right] node[right] {\Sterm{0},\Sterm{1}} (s4);
+\end{tikzpicture}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Reduktion von Automaten}
+
+Wir können das bisher gezeigte zusammenfassen:
+
+\defbox{Sei $\Smach{M}$ ein DFA mit totaler Übergangsfunktion.
+Der \redalert{reduzierte Automat $\Smach{M}_r$} ergibt sich durch folgende Schritte:
+\begin{enumerate}[(1)]
+\item Entferne alle unerreichbaren Zustände aus $\Smach{M}$
+\item Berechne den Quotientenautomaten
+\end{enumerate}
+}\pause
+
+Dieses Verfahren erzeugt den gewünschten minimalen DFA:
+
+\theobox{Satz: $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}\pause
+
+Zudem stellt sich heraus, dass dieser minimale DFA eindeutig ist:
+
+\theobox{Satz: Alle minimalen DFA mit totaler Übergangsfunktion, die $\Slang{L}(\Smach{M})$ erkennen, sind bis auf Umbennenung von Zuständen gleich (sie sind \alert{isomorph}). Daher hängt $\Smach{M}_r$ nur von $\Slang{L}(\Smach{M})$ ab, nicht von $\Smach{M}$.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheit Minimalautomat}
+
+\theobox{Satz: $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}
+
+\emph{Beweisplan:}
+\begin{enumerate}[({Behauptung} 1)]
+\item $\Smach{M}_r$ erkennt $\Slang{L}(\Smach{M})$: Dies folgt aus der Korrektheit der Quotientenbildung bei Automaten
+\item $\Smach{M}_r$ ist minimal für diese Eigenschaft: Wir werden dies in mehreren Schritten zeigen:
+\begin{itemize}
+\item Wir konstruieren einen weiteren minimalen Automaten $\Smach{M}_{\Slang{L}}$ direkt aus $\Slang{L}$
+\item Wir zeigen, dass $\Smach{M}_{\Slang{L}}$ und $\Smach{M}_r$ bis auf Umbenennung von Zuständen gleich sind
+\end{itemize}
+Damit ist auch die behauptete Eindeutigkeit gezeigt.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Nerode-Rechtskongruenz}
+
+\defbox{Für eine Sprache $\Slang{L}\subseteq\Sigma^*$ ist die
+\redalert{Nerode-Rechtskongruenz} $\simeq_{\Slang{L}}$
+wie folgt definiert. Für Wörter $u,v\in\Sigma^*$ sei $u\simeq_{\Slang{L}}v$ wenn
+gilt:\\[1ex]
+\narrowcentering{für alle $w\in\Sigma^*$ gilt $uw\in\Slang{L}$ genau dann wenn $vw\in\Slang{L}$.}
+}
+Wenn $\Slang{L}$ klar ist, dann schreiben wir einfach $\simeq$ statt $\simeq_{\Slang{L}}$
+
+\pause\medskip
+
+\alert{Anders gesagt:} zwei Wörter $v$ und $u$ sind kongruent, wenn man in einem Wort das Präfix $v$ gegen $u$ vertauschen kann, ohne dass dies den Status des Worts bezüglich $\Slang{L}$ verändert
+\bigskip
+
+Dies kann mit der Idee der Zustandsäquivalenz verglichen werden:
+
+\theobox{(Rückblick) Für Zustände $p,q\in Q$ sei $q\sim q$ wenn gilt:\\[1ex]
+\narrowcentering{für alle $w\in\Sigma^*$ gilt $\delta(p,w)\in F$ genau dann wenn $\delta(q,w)\in F$.}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Eigenschaften von $\simeq$}
+
+\defbox{Definition (kurz): $u\simeq_{\Slang{L}}v$ wenn
+für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ genau dann wenn $vw\in\Slang{L}$.
+}%
+\smallskip\pause
+
+Damit sehen wir leicht:
+\begin{itemize}
+\item $\simeq$ ist \alert{reflexiv}: $u\sim u$
+\item $\simeq$ ist \alert{symmetrisch}: wenn $u\sim v$ dann $v\sim u$
+\item $\simeq$ ist \alert{transitiv}: wenn $u\sim v$ und $v\sim w$ dann $u\sim w$
+\end{itemize}
+(jeweils für alle $u,v,w\in \Sigma^*$)
+\medskip
+
+\theobox{Eigenschaft: $\simeq$ ist eine \redalert{Äquivalenzrelation}.}%
+\smallskip\pause
+
+Außerdem gilt für alle $w\in\Sigma^*$
+\begin{itemize}
+\item wenn $u\simeq v$ dann $uw\simeq vw$
+\end{itemize}
+\smallskip
+
+\theobox{Eigenschaft: $\simeq$ ist verträglich mit der Konkatenation von rechts.}%
+\smallskip
+
+Dies rechtfertigt die Bezeichnung \alert{Rechtskongruenz}.
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Beispiel}
+
+\examplebox{Die Sprache $\Slang{L}=\{\Sterm{a}\}^*\{\Sterm{b}\}^*$ hat die folgenden\\ Nerode-Äquivalenzklassen:
+
+\only<2->{
+\begin{itemize}
+\item $[\epsilon]_{\simeq} = \{\Sterm{a}\}^*$: für jedes $v\in[\epsilon]_{\simeq}$ ist $vw\in\Slang{L}$ gdw. $w\in\Slang{L}$
+\only<3->{\item $[\Sterm{b}]_{\simeq} = \Slang{L}$: für jedes $v\in[\Sterm{b}]_{\simeq}$ ist $vw\in\Slang{L}$ gdw. $w\in\{\Sterm{b}\}^*$}
+\only<4->{\item $[\Sterm{ba}]_{\simeq} = \Slang{L}$: für jedes $v\in[\Sterm{b}]_{\simeq}$ ist $vw\notin\Slang{L}$ für alle $w\in\Sigma^*$}
+\end{itemize}}
+}
+
+\only<5->{
+\examplebox{Die endliche Sprache $\Slang{L}=\{\Sterm{a},\Sterm{ab},\Sterm{ba}\}$ hat die folgenden\\ Nerode-Äquivalenzklassen:
+
+\only<6->{
+\begin{itemize}
+\item $[\epsilon]_{\simeq} = \{\epsilon\}$: $\epsilon w\in\Slang{L}$ gdw. $w\in\Slang{L}$
+\only<7->{\item $[\Sterm{a}]_{\simeq} = \{\Sterm{a}\}$: $\Sterm{a}w\in\Slang{L}$ gdw. $w\in\{\epsilon,\Sterm{b}\}$}
+\only<8->{\item $[\Sterm{ab}]_{\simeq} = \{\Sterm{ab},\Sterm{ba}\}$: für jedes $v\in[\Sterm{ab}]_{\simeq}$ ist $vw\in\Slang{L}$ gdw. $w=\epsilon$}
+\only<9->{\item $[\Sterm{b}]_{\simeq} = \Sigma^*\setminus\{\epsilon,\Sterm{a},\Sterm{ab},\Sterm{ba}\}$: für jedes $v\in[\Sterm{b}]_{\simeq}$ ist $vw\notin\Slang{L}$ für alle $w\in\Sigma^*$}
+\end{itemize}}
+}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel (2)}
+
+\examplebox{Die Sprache $\Slang{L}=\{\Sterm{a}^n \Sterm{b}^n\mid n\geq 0\}$ hat die folgenden\\ Nerode-Äquivalenzklassen:
+
+\only<2->{
+\begin{itemize}
+\item $[\epsilon]_{\simeq} = \{\epsilon\}$: $\epsilon w\in\Slang{L}$ gdw. $w\in\Slang{L}$
+\only<3->{\item $[\Sterm{a}]_{\simeq} = \{\Sterm{a}\}$: $\Sterm{a}w\in\Slang{L}$ gdw. $w\in\{\Sterm{a}^n \Sterm{b}^{n+1}\mid n\geq 0\}$}
+\only<4->{\item $[\Sterm{aa}]_{\simeq} = \{\Sterm{aa}\}$: $\Sterm{aa}w\in\Slang{L}$ gdw. $w\in\{\Sterm{a}^n \Sterm{b}^{n+2}\mid n\geq 0\}$}
+\only<5->{\item $[\Sterm{aaa}]_{\simeq} = \{\Sterm{aaa}\}$: $\Sterm{aaa}w\in\Slang{L}$ gdw. $w\in\{\Sterm{a}^n \Sterm{b}^{n+3}\mid n\geq 0\}$}
+\only<6->{\item \ldots unendlich viele Äquivalenzklassen $[\Sterm{a}^n]_{\simeq}=\{\Sterm{a}^n\}$}
+\end{itemize}
+}
+	\only<7->{Es gibt weitere Formen von Äquivalenzklassen, z.B. $[\Sterm{aab}]=\{\Sterm{a}^{n+1} \Sterm{b}^{n}\mid n\geq 0\}$.}
+}\bigskip
+
+\only<8->{$\leadsto$ $\Slang{L}=\{\Sterm{a}^n \Sterm{b}^n\mid n\geq 0\}$ hat unendlich viele Nerode-Äquivalenzklassen}
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen}
+
+\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+(Die Zahl der Äquivalenzklassen wird auch als \redalert{Index} bezeichnet)\medskip\pause
+
+\emph{Beweis:} Wir erhalten diese Eigenschaft aus der Darstellung von $\Slang{L}$ mit einem DFA.
+
+\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ definieren wir eine Relation $\simeq_{\Smach{M}}$ wie folgt.
+Für Wörter $u,v\in\Sigma^*$ sei $u\simeq_{\Smach{M}}v$ wenn gilt:\\[1ex]
+\narrowcentering{$\delta(q_0,u)=\delta(q_0,v)$.}
+}
+
+Offensichtlich ist $\simeq_{\Smach{M}}$ eine Äquivalenzrelation (Eigenschaften "`geerbt"' von $=$) mit endlichem Index (es gibt nur endlich viele Zustände).
+\medskip
+
+% Wir beweisen die Behauptung, indem wir zeigen:\\
+% wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$, d.h. ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.
+% \\
+% (denn dann hat $\simeq_{\Slang{L}}$ )
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (2)}
+
+\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+
+\emph{Beweis (Fortsetzung):} 
+Behauptung: ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$ das heißt\\[1ex]
+% 
+\narrowcentering{wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$}.\medskip
+
+Wir betrachten einen DFA $\Smach{M}$ mit $\Slang{L}=\Slang{L}(\Smach{M})$.\pause
+\begin{itemize}
+\item Seien $u,v\in\Sigma^*$ Wörter mit $u \simeq_{\Smach{M}} v$\pause
+\item Dann ist $\delta(q_0,u)=\delta(q_0,v)$\pause
+\item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)=\delta(q_0,vw)$\pause
+\item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)\in F$ gdw. $\delta(q_0,vw)\in F$\pause
+\item Dann gilt, für alle $w\in\Sigma^*$, $uw\in \Slang{L}(\Smach{M})$ gdw. $vw\in \Slang{L}(\Smach{M})$\pause
+\item Dann ist $u \simeq_{\Slang{L}(\Smach{M})} v$ und also $u \simeq_{\Slang{L}} v$
+\end{itemize}
+Damit ist die Behauptung gezeigt.
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (3)}
+
+\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+
+\emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$, d.h. dass ${\simeq_{\Smach{M}}}$ \alert{gröber} ist als ${\simeq_{\Slang{L}}}$.\pause
+\medskip
+
+\begin{enumerate}[$\leadsto$]
+\item Jede ${\simeq_{\Slang{L}}}$-Äquivalenzklasse besteht aus einer oder mehr ${\simeq_{\Smach{M}}}$-Äquivalenzklassen\pause
+\item Der Index von ${\simeq_{\Slang{L}}}$ ist kleiner oder gleich dem Index von ${\simeq_{\Smach{M}}}$\pause
+\item Der Index von ${\simeq_{\Slang{L}}}$ ist endlich \qed
+\end{enumerate}
+\medskip
+
+\textcolor{devilscss}{\footnotesize Anmerkung: Der letzte Teil ist eine allgemeine Eigenschaft aller Äquivalenzrelationen: wenn $R\subseteq S$, dann ist der Index von $R$ größer oder gleich dem Index von $S$.}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Der Satz von Myhill und Nerode}
+
+Das vorige Resultat kann noch verstärkt werden:
+
+\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\pause
+
+\emph{Beweis:}
+Die Richtung "`$\Rightarrow$"' haben wir soeben gezeigt.\pause\medskip
+
+Für die Richtung "`$\Leftarrow$"' zeigen wir, wie man einen DFA $\Smach{M}_{\Slang{L}}$ für $\Slang{L}$ erhalten kann, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.\pause
+
+\codebox{Der DFA $\Smach{M}_{\Slang{L}}=\tuple{Q,\Sigma,\delta,q_0,F}$ ist wie folgt definiert:
+\begin{itemize}
+\item $Q=\{[w]_\simeq\mid w\in\Sigma^*\}$ ist die (endliche) Menge der $\simeq$-Äquivalenzklassen
+\item $q_0=[\epsilon]_\simeq$
+\item $F=\{[w]_\simeq\mid w\in\Slang{L}\}$
+\item $\delta([w]_\simeq,\Sterm{a})=[w\Sterm{a}]_\simeq$
+\end{itemize}
+}\vspace{-1ex}
+{\tiny Anmerkung: Diese Definition von $F$ und $\delta$ ist zulässig, weil sie nicht vom gewählten Repräsentanten $w$ abhängt}\\[-1.5ex]{\tiny (da $\simeq$ eine Rechtskongruenz ist)}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Satz von Myhill und Nerode: Beweis}
+
+\emph{Beweis (Fortsetzung):} Wir müssen noch zeigen, dass $\Slang{L}=\Slang{L}(\Smach{M}_{\Slang{L}})$.
+%
+\[\begin{array}{r@{~\text{ gdw. }~}ll}
+w\in\Slang{L}(\Smach{M}_{\Slang{L}}) & \delta(q_0,w)\in F \\\pause
+	& \delta([\epsilon]_\simeq,w)\in F \\\pause
+	& [w]_\simeq\in F & \text{wegen $\delta([u],v)=[uv]$ }\\
+	\multicolumn{2}{c}{} & \text{(Induktion über $|v|$) }\\\pause
+	& w\in \Slang{L}
+\end{array}
+\]
+\qed
 
 \end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-% \redalert{Reguläre Ausdrücke} sind eine praktisch wichtige Methode zur Beschreibung (beliebiger) regulärer Sprachen
-% \bigskip
-% 
-% Die \redalert{Ersetzungsmethode} definiert und löst ein Gleichungssystem, um aus einem NFA einen regulären Ausdruck zu erzeugen
-% \bigskip
-% 
-% Die \redalert{Methode der dynamischen Programmierung} berechnet reguläre Ausdrücke für Wörter "`zwischen"' Zustandspaaren, wobei immer größere Teilmengen von Zwischenzuständen verwendet werden dürfen
-% \bigskip
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Wie aufwändig sind diese Umformungen im schlimmsten Fall?
-% \item Welche Sprachen sind nicht regulär?
-% \item Wie kann man Automaten systematisch vereinfachen?
-% \end{itemize}
-% }
+Im \redalert{Quotientenautomaten} werden äquivalente Zustände verschmolzen
+\bigskip
+
+\redalert{Äquivalente Zustände} in einem (totalen) DFA können rekursiv ermittelt werden
+\bigskip
+
+Der \redalert{Satz von Myhill und Nerode} charakterisiert reguläre Sprachen und liefert einen direkt konstruierten DFA für einen Sprache
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie geht es weiter mit dem Beweis der Eindeutigkeit des Minimalautomaten?
+\item Wie aufwändig sind die verschiedenen Konstruktionen auf regulären Sprachen?
+\item Welche Sprachen sind nicht regulär?
+\end{itemize}
+}
 
 \end{frame}
 
