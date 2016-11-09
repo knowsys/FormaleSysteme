@@ -164,10 +164,10 @@ $\leadsto$ Gleichwertige Zustände könnten verschmolzen werden \ldots
 
 \defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ und einen Zustand $q\in Q$ sei $\Smach{M}_q=\tuple{Q,\Sigma,\delta,q,F}$ der abgewandelte DFA mit Startzustand $q$.\medskip
 
-Zwei Zustände $q_1,q_2\in Q$ sind \redalert{$\Smach{M}$-äquivalent}, in Symbolen \redalert{$q\sim_{\Smach{M}}p$}, wenn gilt:\\
-\narrowcentering{$\Slang{L}(\Smach{M}_{q_1}) = \Slang{L}(\Smach{M}_{q_2})$}\\[1ex]
+Zwei Zustände $p,q\in Q$ sind \redalert{$\Smach{M}$-äquivalent}, in Symbolen \redalert{$p\sim_{\Smach{M}}q$}, wenn gilt:\\
+\narrowcentering{$\Slang{L}(\Smach{M}_{p}) = \Slang{L}(\Smach{M}_{q})$}\\[1ex]
 das heißt wenn für jedes Wort $w\in\Sigma^*$ gilt:\\[1ex]
-\narrowcentering{$\delta(q_1,w)\in F$ genau dann wenn $\delta(q_2,w)\in F$.}
+\narrowcentering{$\delta(p,w)\in F$ genau dann wenn $\delta(q,w)\in F$.}
 }
 Wenn der Automat $\Smach{M}$ klar ist, schreiben wir einfach $\sim$ statt $\sim_{\Smach{M}}$.
 \medskip\pause
@@ -198,7 +198,7 @@ $\leadsto$ $A\sim C$\\
 
 \begin{frame}\frametitle{Eigenschaften von $\sim_{\Smach{M}}$}
 
-\defbox{ Definition (kurz): $q\sim_{\Smach{M}}p$ genau dann wenn $\Slang{L}(\Smach{M}_{q_1}) = \Slang{L}(\Smach{M}_{q_2})$.}%
+\defbox{ Definition (kurz): $q\sim_{\Smach{M}}p$ genau dann wenn $\Slang{L}(\Smach{M}_{p}) = \Slang{L}(\Smach{M}_{q})$.}%
 \smallskip\pause
 
 Damit sehen wir leicht:
@@ -575,7 +575,7 @@ Wenn $\Slang{L}$ klar ist, dann schreiben wir einfach $\simeq$ statt $\simeq_{\S
 
 Dies kann mit der Idee der Zustandsäquivalenz verglichen werden:
 
-\theobox{(Rückblick) Für Zustände $p,q\in Q$ sei $q\sim q$ wenn gilt:\\[1ex]
+\theobox{(Rückblick) Für Zustände $p,q\in Q$ sei $p\sim q$ wenn gilt:\\[1ex]
 \narrowcentering{für alle $w\in\Sigma^*$ gilt $\delta(p,w)\in F$ genau dann wenn $\delta(q,w)\in F$.}
 }
 
@@ -590,9 +590,9 @@ für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ genau dann wenn $vw\in\Slang{L}$
 
 Damit sehen wir leicht:
 \begin{itemize}
-\item $\simeq$ ist \alert{reflexiv}: $u\sim u$
-\item $\simeq$ ist \alert{symmetrisch}: wenn $u\sim v$ dann $v\sim u$
-\item $\simeq$ ist \alert{transitiv}: wenn $u\sim v$ und $v\sim w$ dann $u\sim w$
+\item $\simeq$ ist \alert{reflexiv}: $u\simeq u$
+\item $\simeq$ ist \alert{symmetrisch}: wenn $u\simeq v$ dann $v\simeq u$
+\item $\simeq$ ist \alert{transitiv}: wenn $u\simeq v$ und $v\simeq w$ dann $u\simeq w$
 \end{itemize}
 (jeweils für alle $u,v,w\in \Sigma^*$)
 \medskip
@@ -709,7 +709,7 @@ Damit ist die Behauptung gezeigt.
 
 \theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
 
-\emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$, d.h. dass ${\simeq_{\Smach{M}}}$ \alert{gröber} ist als ${\simeq_{\Slang{L}}}$.\pause
+\emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$, d.h. dass ${\simeq_{\Smach{M}}}$ \alert{feiner} ist als ${\simeq_{\Slang{L}}}$.\pause
 \medskip
 
 \begin{enumerate}[$\leadsto$]
