@@ -1,0 +1,551 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{11}{Von regulären zu kontextfreien Sprachen}{17. November 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlide{Probleme auf Automaten}
+
+\begin{frame}\frametitle{Wiederholung}
+
+Einige wichtige Probleme für Automaten:\bigskip
+
+\begin{tabular}{@{}rll@{}}
+\emph{Problem} & \emph{Fragestellung} & \emph{Komplexität} \\[1ex]
+Leerheit & $\Slang{L}(\Smach{M})\stackrel{?}{=}\emptyset $  & polynomiell\\[1ex]
+Inklusion & $\Slang{L}(\Smach{M}_1)\stackrel{?}{\subseteq}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_2$ DFA\\
+	& & exponentiell falls $\Smach{M}_2$ NFA\\[1ex]
+Äquivalenz & $\Slang{L}(\Smach{M}_1)\stackrel{?}{=}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_1$ und $\Smach{M}_2$ DFA\\
+	& & exponentiell falls $\Smach{M}_1$ oder $\Smach{M}_2$ NFA
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Wortproblem für reguläre Sprachen}
+
+% \defbox{
+% Das \redalert{Wortproblem} für DFAs über Alphabet $\Sigma$:\\[1ex]
+% \emph{Eingabe:} ein DFA $\Smach{M}$ und ein Wort $w\in\Sigma^*$\\
+% \emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(\Smach{M})$ und "`nein"' wenn $w\notin\Slang{L}(\Smach{M})$
+% }
+
+\theobox{Das Wortproblem für DFAs kann in polynomieller Zeit entschieden werden.}\pause
+
+\emph{Beweis:} Es genügt, den DFA für $|w|$ Schritte zu simulieren und zu prüfen, ob danach ein
+Endzustand erreicht ist. Die Berechnung von $\delta(q,\Sterm{a})$ ist in
+polynomieller Zeit möglich -- die Details hängen davon ab, wie genau $\Smach{M}$ in der Eingabe kodiert wurde.
+\qed\pause
+
+\bigskip
+
+\theobox{Das Wortproblem für reguläre Sprachen kann in linearer Zeit $O(|w|)$ entschieden werden.}\pause
+
+\emph{Beweis:} Man kann den DFA als gegeben annehmen, so dass die Berechnung von $\delta(q,\Sterm{a})$ in 
+konstanter Zeit erfolgen kann. Die Simulation benötigt daher insgesamt $|w|$ Rechenschritte.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Wortproblem für NFAs}
+
+Was tun, wenn ein NFA gegeben ist?\pause
+\begin{enumerate}[{Variante} 1:]
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\\pause
+	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß\pause
+\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+	\onslide<0>{Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
+	Vereinigung linear vieler $\delta$-Ergebnismengen}
+\onslide<0>{
+\item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
+$\Smach{M}\cap \Smach{M}_w \neq\emptyset$}\\
+	Polynomieller Algorithmus: $\Smach{M}_w$ ist linear in $|w|$; Schnittmengen-DFA ist quadratisch groß;
+	Leerheitstest ist polynomiell in dieser Größe
+}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Details: Variante 2}
+
+\codebox{
+\emph{Eingabe:} NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ und Wort $w$\\
+\emph{Ausgabe:} Ist $w\in\Slang{L}(\Smach{M})$?
+\begin{itemize}
+	\item Initialisiere $Z\defeq Q_0$
+	\item Für jedes Symbol $\sigma_i$ in $w=\sigma_1\cdots\sigma_{|w|}$:\\
+		Berechne $Z\defeq \bigcup_{q\in Z}\delta(q,\sigma_i)$
+	\item Für alle $q\in F$:\\
+		Falls $q\in Z$: das Ergebnis ist "`ja"'
+	\item Falls kein $q\in F\cap Z$ gefunden wurde:  das Ergebnis ist "`nein"'
+\end{itemize}
+}
+
+Alle Teilberechnungen können in polynomieller Zeit ausgeführt werden,
+sofern $\Smach{M}$ "`vernünftig"' kodiert wird
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Wortproblem für NFAs}
+
+Was tun, wenn ein NFA gegeben ist?
+\begin{enumerate}[{Variante} 1:]
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\
+	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß
+\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+	Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
+	Vereinigung linear vieler $\delta$-Ergebnismengen\pause
+\item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
+$\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}\\
+	\onslide<0>{Polynomieller Algorithmus: $\Smach{M}_w$ ist linear in $|w|$; Schnittmengen-DFA ist quadratisch groß;
+	Leerheitstest ist polynomiell in dieser Größe}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Details: Variante 3}
+
+Der Automat $\Smach{M}_w$ für $w=\sigma_1\cdots\sigma_{|w|}$ ist leicht gefunden:
+\bigskip
+
+ \begin{tikzpicture}[baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s0) [circle,draw=black,thick] at (0,0) {$0$};
+\node (s1) [circle,draw=black,thick] at (2,0) {$1$};
+\node (s2) [circle,draw=black,thick] at (4,0) {$2$};
+\node (sdots) [circle,draw=white,thick] at (6,0) {$\ldots$};
+\node (sn) [circle,draw=black,thick,double] at (8,0) {$|w|$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s0);
+\path[->,line width=0.5mm](s0) edge node[above] {$\sigma_1$} (s1);
+\path[->,line width=0.5mm](s1) edge node[above] {$\sigma_2$} (s2);
+\path[->,line width=0.5mm](s2) edge node[above] {$\sigma_3$} (sdots);
+\path[->,line width=0.5mm](sdots) edge node[above] {$\sigma_n$} (sn);
+\end{tikzpicture}
+\bigskip
+
+\codebox{
+\emph{Eingabe:} NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ und Wort $w$\\
+\emph{Ausgabe:} Ist $w\in\Slang{L}(\Smach{M})$?
+\begin{enumerate}[(1)]
+	\item Konstruiere $\Smach{M}_w$
+	\item Berechne Produktautomat $\Smach{M}\otimes \Smach{M}_w$
+	\item Entscheide ob $\Slang(\Smach{M}\otimes \Smach{M}_w)\neq\emptyset$
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Wortproblem für NFAs}
+
+Was tun, wenn ein NFA gegeben ist?
+\begin{enumerate}[{Variante} 1:]
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\
+	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß
+\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+	Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
+	Vereinigung linear vieler $\delta$-Ergebnismengen
+\item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
+$\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}\\
+	Polynomieller Algorithmus: $\Smach{M}_w$ ist linear in $|w|$; Schnittmengen-DFA ist quadratisch groß;
+	Leerheitstest ist polynomiell in dieser Größe
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Wortproblem für NFAs -- Komplexität}
+
+\begin{enumerate}[{Variante} 1:]
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}
+\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}
+\item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
+$\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}
+\end{enumerate}
+
+Mit Variante 2 und 3 erhalten wir:\medskip
+
+\theobox{Satz: Das Wortproblem für NFAs kann in polynomieller Zeit entschieden werden.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Weitere Probleme für Automaten}
+
+% Wichtig ist auch der Vergleich zweier durch Automaten gegebener Sprachen:
+
+\defbox{
+Das \redalert{Endlichkeitsproblem} für FAs über Alphabet $\Sigma$ besteht darin, die folgende Funktion zu berechnen:\\[1ex]
+\emph{Eingabe:} ein FA $\Smach{M}$\\
+\emph{Ausgabe:} "`ja"' wenn $\Slang{L}(\Smach{M})$ endlich ist; andernfalls "`nein"'
+}\pause
+
+Idee wie Pumping-Lemma: unendliche Sprachen erfordern Zyklus\\
+$\leadsto$ suche nach Zyklen, die auf einem Pfad von einem Start- zu einem Endzustand liegen (polynomiell)\pause
+
+\defbox{
+Das \redalert{Universalitätsproblem} für FAs über Alphabet $\Sigma$ besteht darin, die folgende Funktion zu berechnen:\\[1ex]
+\emph{Eingabe:} ein FA $\Smach{M}$\\
+\emph{Ausgabe:} "`ja"' wenn $\Slang{L}(\Smach{M})=\Sigma^*$; andernfalls "`nein"'
+}\pause
+
+Komplement des Leerheitsproblems: $\Slang{L}(\Smach{M})=\Sigma^*$ wenn $\Slang{L}(\overline{\Smach{M}})=\emptyset$\\
+$\leadsto$ Komplexität abhängig von FA-Komplementierung
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung}
+
+Einige wichtige Probleme für Automaten:\bigskip
+
+\begin{tabular}{@{}rll@{}}
+\emph{Problem} & \emph{Fragestellung} & \emph{Komplexität} \\[1ex]
+Leerheit & $\Slang{L}(\Smach{M})\stackrel{?}{=}\emptyset$  & polynomiell\\[1ex]
+Inklusion & $\Slang{L}(\Smach{M}_1)\stackrel{?}{\subseteq}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_2$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}_2$ NFA\\[1ex]
+Äquivalenz & $\Slang{L}(\Smach{M}_1)\stackrel{?}{=}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_1$ und $\Smach{M}_2$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}_1$ oder $\Smach{M}_2$ NFA\\[1ex]
+Wortproblem & $w\stackrel{?}{\in}\Slang{L}(\Smach{M})$  & polynomiell\\[1ex]
+Universalität & $\Slang{L}(\Smach{M})\stackrel{?}{=}\Sigma^*$  & polynomiell falls $\Smach{M}$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}$ NFA\\[1ex]
+Endlichkeit & $\Slang{L}(\Smach{M})$ endlich? & polynomiell 
+\end{tabular}
+
+\end{frame}
+
+% \sectionSlide{Viereinhalb Wochen\\reguläre Sprachen}
+
+\frame{\begin{center}
+\LARGE
+Viereinhalb Wochen\\reguläre Sprachen
+\bigskip
+
+\normalsize
+auf sieben Folien
+\end{center}}
+
+\begin{frame}\frametitle{Die Chomsky-Hierarchie}
+
+\defbox{
+Die \redalert{Chomsky-Hierarchie} unterteilt Grammatiken in vier Stufen:
+\begin{itemize}
+\item \emph{Typ 0}: beliebige Grammatiken
+\item \emph{Typ 1}: \redalert{kontextsensitive Grammatiken}:\\
+	\begin{enumerate}[(a)]
+	\item Alle Regeln $w\to v$ erfüllen die Bedingung $|w|\leq|v|$.
+	\item Es gibt eine Regel $\Snterm{S}\to\epsilon$ und alle anderen Regeln $w\to v$ enthalten kein $\Snterm{S}$ in $v$ und erfüllen $|w|\leq|v|$.
+	\end{enumerate}
+\item \emph{Typ 2}: \redalert{kontextfreie Grammatiken}:\\
+	Alle Regeln haben die Form $\Snterm{A}\to v$ für eine Variable $\Snterm{A}$.
+\item \emph{Typ 3}: \redalert{reguläre Grammatiken}:\\
+	Alle Regeln haben eine der Formen
+	\[ \Snterm{A}\to \Sterm{c}\Snterm{B}\qquad \Snterm{A}\to \Sterm{c} \qquad \Snterm{A}\to \epsilon\]
+	wobei $\Snterm{A}$ und $\Snterm{B}$ Variablen sind und $\Sterm{c}$ ein Terminalsymbol ist.
+\end{itemize}
+
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Chomsky's Hierarchie ist eine Hierarchie}
+
+\begin{tikzpicture}[decoration=penciline, decorate]
+\node (nl) [decorate,draw=nightblue, text depth = 4cm, text width = \linewidth, fill=nightblue!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at (0,0) {Formale Sprachen};
+\node (n0) [decorate,draw=darkgreen, text depth = 3cm, text width = 8cm, fill=darkgreen!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]nl.center) {Typ-0-Sprachen};
+\node (n1) [decorate,draw=strongyellow, text depth = 2cm, text width = 6.7cm,  fill=strongyellow!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n0.center) {Kontextsensitive Sprachen (Typ 1)};
+\node (n2) [decorate,draw=orange, text depth = 1cm, text width = 5.4cm,  fill=orange!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n1.center) {Kontextfreie Sprachen (Typ 2)};
+\node (n3) [decorate,draw=red, fill=red!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n2.center) {Reguläre Sprachen (Typ 3)};
+\end{tikzpicture}
+% \bigskip
+
+(Dafür mussten wir Typ-1 erweitern und $\epsilon$-Regeln bei Typ-2 eliminieren.)
+
+\end{frame}
+
+\begin{frame}\frametitle{Automaten}
+
+Wir kennen mehrere \alert{Varianten endlicher Automaten}:
+\begin{itemize}
+\item \redalert{Deterministischer endlicher Automat (DFA)}
+	\begin{itemize}
+	\item mit totaler Übergangsfunktion
+	\end{itemize}
+\item \redalert{Nichtdeterministischer endlicher Automat (NFA)}
+	\begin{itemize}
+	\item mit $\epsilon$-Übergängen
+	\item mit Wortübergängen
+	\item mit Übergängen für reguläre Ausdrücke (nur für Umwandlung reg.\ Ausdruck $\to$ $\epsilon$-NFA)
+	\end{itemize}
+\end{itemize}\medskip
+
+Die \alert{Sprache eines Automaten} haben wir auf zwei Arten definiert
+\begin{itemize}
+\item Mithilfe einer verallgemeinerten Übergangsfunktion, die ganze Wörter einliest
+\item Durch akzeptierende Läufe, die einem Wort zugeordnet werden können
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\mbox{}\hspace{-0cm}%
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm,
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm,
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (2,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (4,-4) {NFA};
+\node (re) [decorate,mybox=black/cyan!40] at (6,-0.6) {regulärer Ausdruck};
+\node (enfa) [decorate,mybox=black/cyan!40] at (8,-4) {$\epsilon$-NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+% \node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.340) edge[->] (nfa.110);
+\path[myarrow=devilscss,-,bend right=20](nfa.130) edge[->] (reg.320);
+\node (regnfalabel) [decorate,myboxlabel=] at (1.6,-1.9) {\footnotesize"`$q_1\to\Sterm{a}q_2$"' $\Leftrightarrow$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (1.95,-3.3) {\scalebox{0.8}{"`DFA${}\subseteq{}$NFA"'}};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=,text width=13mm] at (2.1,-5.0) {\footnotesize Potenzm.\-konstr.};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (4,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=19mm] at (5.3,-5.4) {\footnotesize dualer Graph};
+%%
+\path[myarrow=devilscss,-,bend left=20](nfa.70) edge[->] (re.180);
+%
+\path[myarrow=devilscss,-,bend left=20](re.0) edge[->] (enfa);
+%
+\draw[myarrow=devilscss](enfa.190)--(nfa.350);
+\draw[myarrow=devilscss](nfa.10)--(enfa.170);
+\node (nfaenfalabel) [decorate,myboxlabel=,text width=16mm, minimum height=5mm,inner sep=1mm] at (5.95,-3.3) {\scalebox{0.75}{"`NFA${}\subseteq{}${}$\epsilon$-NFA"'}};
+\node (enfanfalabel) [decorate,myboxlabel=,text width=13mm, minimum height=5mm] at (6.1,-4.6) {\footnotesize $\epsilon$-Elim.};
+%
+\node (nfarelabel) [decorate,myboxlabel=,align=flush left,text width=17mm,inner sep=1mm] at (8.6,-0.7) {\footnotesize 1) komposit.\\2) explizit};
+
+%
+\node (reenfalabel) [decorate,myboxlabel=,align=flush left,text width=18mm,inner sep=1mm] at (5.6,-2.0) {\footnotesize 1) Ersetzung\\2) Dyn. Prog.};
+\end{tikzpicture}
+
+\end{frame}
+
+\newcommand{\simquot}[1]{#1/_{\!\!{\sim}}}
+
+\begin{frame}\frametitle{Umformungsalgorithmen (1)}
+
+\begin{tabular}{@{}rll@{}}
+\emph{Eingabe} & \emph{Ausgabe} & \emph{V.} \\
+kontextfreie Grammatik & $\epsilon$-freie kontextfreie Grammatik & 2\\
+DFA $\Smach{M}$ & totaler DFA $\Smach{M}_{\text{total}}$ & 3\\
+DFA $\Smach{M}$ & reguläre Grammatik $G_{\Smach{M}}$ & 3\\
+Syntaxdiagramm & NFA & 4\\
+NFA $\Smach{M}$ & Potenzmengen-DFA $\Smach{M}_{\text{DFA}}$ & 4\\
+reguläre Grammatik $G$ & NFA $\Smach{M}_G$ & 5\\
+NFA mit Wortübergängen & $\epsilon$-NFA & 5\\
+$\epsilon$-NFA $\Smach{M}$ & NFA $\textsf{elim}_\epsilon(\Smach{M})$ & 5
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{Umformungsalgorithmen (2)}
+
+\begin{tabular}{@{}rll@{}}
+\emph{Eingabe} & \emph{Ausgabe} & \emph{V.} \\
+NFAs $\Smach{M}_1$, $\Smach{M}_2$ & Vereinigungs-NFA $\Smach{M}_1\oplus\Smach{M}_2$ & 5\\
+NFAs/DFAs $\Smach{M}_1$, $\Smach{M}_2$ & Produkt-NFA/DFA $\Smach{M}_1\otimes\Smach{M}_2$ & 5\\
+totaler DFA $\Smach{M}$ & Komplement-DFA $\overline{\Smach{M}}$ & 5\\
+NFAs $\Smach{M}_1$, $\Smach{M}_2$ & $\epsilon$-NFA $\Smach{M}_1\odot\Smach{M}_2$ für Konkatenation & 5\\
+NFA $\Smach{M}$ & $\epsilon$-NFA $\Smach{M}^*$ für Kleene-Abschluss & 5\\
+regulärer Ausdruck & $\epsilon$-NFA (Komposition) & 6 \\
+regulärer Ausdruck & $\epsilon$-NFA (explizit) & 6 \\
+NFA & regulärer Ausdruck (Gleichungssystem) & 7 \\
+NFA & regulärer Ausdruck (dyn. Programmierung) & 7 \\
+totaler DFA $\Smach{M}$ & Quotienten-DFA $\simquot{\Smach{M}}$ & 8 \\
+totaler DFA $\Smach{M}$ & reduzierter DFA $\Smach{M}_r$ & 8
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{Reguläre Sprachen}
+
+\theobox{%
+Die Menge der regulären Sprachen ist \ldots
+
+\begin{itemize}
+\item die Menge genau all jener Sprachen \ldots 
+	\begin{itemize}
+	\item die von einer Typ-3-Grammatik beschrieben werden
+	\item die von einem DFA erkannt werden
+	\item die von einem NFA erkannt werden
+	\item die durch einen regulären Ausdruck beschrieben werden
+	\item die endlich viele Myhill-Nerode-Kongruenzklassen haben
+	\end{itemize}
+\item die kleinste Menge von Sprachen \ldots
+	\begin{itemize}
+	\item welche alle endlichen Sprachen enthält und unter $\cap$, $\cup$, $\overline{\phantom{L}}$, $\circ$ und ${}^*$ abgeschlossen ist
+	\item welche die Sprachen $\emptyset$, $\{\epsilon\}$ und $\{\Sterm{a}\}$ ($\Sterm{a}\in\Sigma$) enthält und unter $\cup$, $\circ$ und ${}^*$ abgeschlossen ist
+	\end{itemize}
+\end{itemize}}
+
+Alle endlichen Sprachen sind regulär (aber nicht umgekehrt)\\
+Alle regulären Sprachen erlauben Pumping (aber nicht umgekehrt)
+
+\end{frame}
+
+\sectionSlide{Kontextfreie Sprachen}
+
+\begin{frame}\frametitle{Kontextfreie Sprachen}
+
+Wir hatten kontextfreie Sprachen wie folgt definiert:
+
+\medskip
+\defbox{Eine \redalert{kontextfreie Grammatik} (oder \redalert{Typ-2-Grammatik} oder \redalert{CFG}) enthält nur Regeln der Form
+$\Snterm{A}\to v$, wobei $\Snterm{A}$ eine Variable ist.\medskip
+
+Eine  Sprache ist \redalert{kontextfrei} (oder \redalert{Typ 2}), wenn sie durch eine kontextfreie Grammatik dargestellt werden kann.
+}\medskip\pause
+
+Das genügt, um nichtreguläre Sprachen darzustellen:
+
+\examplebox{Beispiel: Die Sprache $\{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$ ist kontextfrei, da sie durch die folgende CFG dargestellt werden kann:
+\begin{align*}
+\Snterm{S} & \to \epsilon \mid \Sterm{a}\Snterm{S}\Sterm{b}
+\end{align*}
+{\footnotesize(Übung: Beweise, dass die Grammatik wirklich diese Sprache darstellt.)}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+CFGs eignen sich zur Darstellung vollständig geklammerter Ausdrücke.
+\bigskip
+
+\examplebox{Beispiel: Vollständig geklammerte reguläre Ausdrücke über Alphabet $\Sigma=\{\sigma_1, \ldots, \sigma_n\}$ sind als CFG über dem Alphabet $\Sigma\cup\{\Sterm{\emptyset},\Sterm{\epsilon},\Sterm{(},\Sterm{)},\Sterm{\mid},\Sterm{{}^*}\}$ darstellbar:
+\begin{align*}
+ \Snterm{S} & \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Snterm{A} \mid \Sterm{(}\Snterm{S}\Snterm{S}\Sterm{)} \mid \Sterm{(}\Snterm{S}\Sterm{\mid}\Snterm{S}\Sterm{)}\mid \Sterm{(}\Snterm{S}\Sterm{)}\Sterm{{}^*}\\
+ \Snterm{A} & \to \sigma_1\mid \ldots \mid \sigma_n
+\end{align*}
+}\bigskip
+
+Allgemein ist die Beschreibung korrekt geklammerter Ausdrücke für viele Sprachen sehr wichtig, nicht zuletzt für Programmiersprachen
+
+\end{frame}
+
+\begin{frame}[t,fragile]\frametitle{Beispiel Compiler}
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (n1) [decorate,mybox=black/cyan!40] at (0,6) {Quellprogramm};
+{
+\node (n2) [decorate,mybox=black/white] at (0,4.5) {Lexer};
+	\node (t2) [right=of n2,align=left] {\alert{lexikalische Analyse}\\erzeugt Folge von Tokens\\$\leadsto$ \redalert{reguläre Sprache}};
+\node (n3) [decorate,mybox=black/white] at (0,3) {Parser};
+	\node (t3) [right=of n3,align=left] {\alert{syntaktische Analyse}\\erzeugt Strukturbaum\\$\leadsto$ \redalert{kontextfreie Sprache}};
+\node (n4) [decorate,mybox=black/white] at (0,1.5) {$\ldots$};
+	\node (t4) [right=of n4,align=left] {Codeerzeugung,\\Optimierung,\ldots};
+}
+\node (n5) [decorate,mybox=black/cyan!40] at (0,0) {Programm in Zielsprache};
+%
+\draw[myarrow=black]    (n1) edge[decorate] (n2);
+{
+\draw[myarrow=black]    (n2) edge[decorate] (n3);
+\draw[myarrow=black]    (n3) edge[decorate] (n4);
+}
+\draw[myarrow=black]    (n4) edge[decorate] (n5);
+%
+{
+\draw[myarrowb=alert]    (t2) edge[decorate] (n2);
+\draw[myarrowb=alert]    (t3) edge[decorate] (n3);
+\draw[myarrowb=alert]    (t4) edge[decorate] (n4);
+}
+\end{tikzpicture}
+
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+% Es gibt viele \redalert{nicht-reguläre Sprachen}, was man mit verschiedenen Methoden beweisen kann (Myhill-Nerode, Abschlusseigenschaften, Pumping)
+% \bigskip
+% 
+% \redalert{$\{\Sterm{a}^n\Sterm{b}^n\mid  n\geq 0\}$ ist nicht regulär}, da FAs nicht zählen können
+% \bigskip
+% 
+% Algorithmische Probleme zu Automaten sind \redalert{Leerheit, Inklusion, Äquivalenz, Universalität, Endlichkeit} und das \redalert{Wortproblem}
+% \bigskip
+% 
+% Für DFAs können sie in polynomieller Zeit gelöst werden, für NFAs dagegen zum Teil nur in exponentieller
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Wir haben schon so viel über reguläre Sprachen gelernt -- könnten wir das bitte noch einmal alles zusammenfassen?
+% \item Und was ist mit kontextfreien Sprachen?
+% \end{itemize}
+% }
+
+\end{frame}
+
+
+\end{document}
