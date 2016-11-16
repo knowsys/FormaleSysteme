@@ -4,6 +4,8 @@
 \input{macros-lecture}
 \input{../macros}
 
+\usepackage{verbatim}
+
 \defineTitle{11}{Von regulären zu kontextfreien Sprachen}{17. November 2016}
 
 \begin{document}
@@ -464,6 +466,102 @@ Allgemein ist die Beschreibung korrekt geklammerter Ausdrücke für viele Sprach
 
 \end{frame}
 
+\begin{frame}[fragile]\frametitle{Ein praktisches Beispiel \ldots}
+
+\pause
+Kontextfreie Grammatik für XML 1.1 (in W3C EBNF):
+
+% \scalebox{0.3}{%
+% \tiny
+\linespread{0.6}
+\fontsize{2.3}{4}\selectfont
+\begin{verbatim}
+[1]   document          ::= prolog element Misc* - Char* RestrictedChar Char*
+[2]   Char              ::= [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF] /* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
+[2a]  RestrictedChar    ::= [#x1-#x8] | [#xB-#xC] | [#xE-#x1F] | [#x7F-#x84] | [#x86-#x9F]
+[3]   S                 ::= (#x20 | #x9 | #xD | #xA)+
+[4]   NameStartChar     ::= ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
+[4a]  NameChar          ::= NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] | [#x203F-#x2040]
+[5]   Name              ::= NameStartChar (NameChar)*
+[6]   Names             ::= Name (#x20 Name)*
+[7]   Nmtoken           ::= (NameChar)+
+[8]   Nmtokens          ::= Nmtoken (#x20 Nmtoken)*
+[9]   EntityValue       ::= '"' ([^%&"] | PEReference | Reference)* '"' | "'" ([^%&'] | PEReference | Reference)* "'"
+[10]  AttValue          ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"
+[11]  SystemLiteral     ::= ('"' [^"]* '"') | ("'" [^']* "'")
+[12]  PubidLiteral      ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
+[13]  PubidChar         ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
+[14]  CharData          ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
+[15]  Comment           ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+[16]  PI                ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
+[17]  PITarget          ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
+[18]  CDSect            ::= CDStart CData CDEnd
+[19]  CDStart           ::= '<![CDATA['
+[20]  CData             ::= (Char* - (Char* ']]>' Char*))
+[21]  CDEnd             ::= ']]>'
+[22]  prolog            ::= XMLDecl Misc* (doctypedecl Misc*)?
+[23]  XMLDecl           ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S?'?>'
+[24]  VersionInfo       ::= S 'version' Eq ("'" VersionNum "'" | '"' VersionNum '"')
+[25]  Eq                ::= S? '=' S?
+[26]  VersionNum        ::= '1.1'
+[27]  Misc              ::= Comment | PI | S
+[28]  doctypedecl       ::= '<!DOCTYPE' S Name (S ExternalID)? S? ('[' intSubset ']' S?)? '>'
+[28a] DeclSep           ::= PEReference | S
+[28b] intSubset         ::= (markupdecl | DeclSep)*
+[29]  markupdecl        ::= elementdecl | AttlistDecl | EntityDecl | NotationDecl | PI | Comment
+[30]  extSubset         ::= TextDecl? extSubsetDecl
+[31]  extSubsetDecl     ::= ( markupdecl | conditionalSect | DeclSep)*
+[32]  SDDecl            ::= #x20+ 'standalone' Eq (("'" ('yes' | 'no') "'") | ('"' ('yes' | 'no') '"'))
+(Productions 33 through 38 have been removed.)
+[39]  element           ::= EmptyElemTag
+[40]  STag              ::= '<' Name (S Attribute)* S? '>'
+[41]  Attribute         ::= Name Eq AttValue
+[42]  ETag              ::= '</' Name S? '>'
+[43]  content           ::= CharData? ((element | Reference | CDSect | PI | Comment) CharData?)*
+[44]  EmptyElemTag      ::= '<' Name (S Attribute)* S? '/>'
+[45]  elementdecl       ::= '<!ELEMENT' S Name S contentspec S? '>'
+[46]  contentspec       ::= 'EMPTY' | 'ANY' | Mixed | children
+[47]  children          ::= (choice | seq) ('?' | '*' | '+')?
+[48]  cp                ::= (Name | choice | seq) ('?' | '*' | '+')?
+[49]  choice            ::= '(' S? cp ( S? '|' S? cp )+ S? ')'
+[50]  seq               ::= '(' S? cp ( S? ',' S? cp )* S? ')'
+[51]  Mixed             ::= '(' S? '#PCDATA' (S? '|' S? Name)* S? ')*' | '(' S? '#PCDATA' S? ')'
+[52]  AttlistDecl       ::= '<!ATTLIST' S Name AttDef* S? '>'
+[53]  AttDef            ::= S Name S AttType S DefaultDecl
+[54]  AttType           ::= StringType | TokenizedType | EnumeratedType
+[55]  StringType        ::= 'CDATA'
+[56]  TokenizedType     ::= 'ID' | 'IDREF' | 'IDREFS' | 'ENTITY' | 'ENTITIES' | 'NMTOKEN' | 'NMTOKENS'
+[57]  EnumeratedType    ::= NotationType | Enumeration
+[58]  NotationType      ::= 'NOTATION' S '(' S? Name (S? '|' S? Name)* S? ')'
+[59]  Enumeration       ::= '(' S? Nmtoken (S? '|' S? Nmtoken)* S? ')'
+[60]  DefaultDecl       ::= '#REQUIRED' | '#IMPLIED' | (('#FIXED' S)? AttValue)
+[61]  conditionalSect   ::= includeSect | ignoreSect
+[62]  includeSect       ::= '<![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>'
+[63]  ignoreSect        ::= '<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
+[64]  ignoreSectContents::= Ignore ('<![' ignoreSectContents ']]>' Ignore)*
+[65]  Ignore            ::= Char* - (Char* ('<![' | ']]>') Char*)
+[66]  CharRef           ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
+[67]  Reference         ::= EntityRef | CharRef
+[68]  EntityRef         ::= '&' Name ';'
+[69]  PEReference       ::= '%' Name ';'
+[70]  EntityDecl        ::= GEDecl | PEDecl
+[71]  GEDecl            ::= '<!ENTITY' S Name S EntityDef S? '>'
+[72]  PEDecl            ::= '<!ENTITY' S '%' S Name S PEDef S? '>'
+[73]  EntityDef         ::= EntityValue| (ExternalID NDataDecl?)
+[74]  PEDef             ::= EntityValue | ExternalID
+[75]  ExternalID        ::= 'SYSTEM' S SystemLiteral | 'PUBLIC' S PubidLiteral S SystemLiteral
+[76]  NDataDecl         ::= S 'NDATA' S Name
+[77]  TextDecl          ::= '<?xml' VersionInfo? EncodingDecl S? '?>'
+[78]  extParsedEnt      ::= TextDecl? content - Char* RestrictedChar Char*
+[80]  EncodingDecl      ::= S 'encoding' Eq ('"' EncName '"' | "'" EncName "'" )
+[81]  EncName           ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
+[82]  NotationDecl      ::= '<!NOTATION' S Name S (ExternalID | PublicID) S? '>'
+[83]  PublicID          ::= 'PUBLIC' S PubidLiteral
+\end{verbatim}
+% }
+
+\end{frame}
+
 \begin{frame}[t,fragile]\frametitle{Beispiel Compiler}
 
 \begin{tikzpicture}[
@@ -522,28 +620,214 @@ Allgemein ist die Beschreibung korrekt geklammerter Ausdrücke für viele Sprach
 \end{frame}
 
 
+\begin{frame}\frametitle{Wiederholung: Ableitung}
 
+\defbox{Sei $\tuple{V,\Sigma,P,S}$ eine Grammatik.
+Die \redalert{1-Schritt-Ableitungsrelation} ist eine binäre Relation \redalert{$\Rightarrow$}
+zwischen Wörtern aus $(V\cup\Sigma)^*$, so dass $u \Rightarrow v$ genau dann wenn:\\[1ex]
+%
+\narrowcentering{$u=w_1\, x\, w_2 \text{ und } v=w_1\, y\, w_2 \text{ und es gibt eine Regel }x\to y\in P$}\\[1ex]
+%
+wobei $w_1,w_2,x,y\in (V\cup\Sigma)^*$ beliebige Wörter sind.}
+
+\medskip
+
+\defbox{%
+Die \redalert{Ableitungsrelation $\Rightarrow^*$} ist der reflexive, transitive Abschluss von
+$\Rightarrow$, das heißt $u \Rightarrow^* v$ genau dann wenn:\\[1ex]
+%
+\narrowcentering{$u=w_1\Rightarrow w_2\Rightarrow \ldots\Rightarrow w_{n-1}\Rightarrow w_n=v$}\\[1ex]
+% \narrowcentering{$u=w_1$ und $w_1\Rightarrow w_2$ und $\cdots{}$ und $w_{n-1}\Rightarrow w_n$ und $w_n=v$}\\[1ex]
+%
+wobei $n\geq 1$ und $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ beliebige Wörter sind.
+% \narrowcentering{es gibt Wörter $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ für $n\geq 1$, so dass}\\\narrowcentering{$u=w_1$, $v=w_n$ und $w_1\Rightarrow w_2\Rightarrow \ldots\Rightarrow w_n$}\\[1ex]
+%
+Insbesondere gilt $u\Rightarrow^* u$ für alle $u\in (V\cup\Sigma)^*$ (Fall $n=1$).
+}
+
+{\footnotesize \textcolor{devilscss}{Anmerkung: Der Begriff "`Herleitungsrelation"' ist auch gebräuchlich. Wir verwenden "`Ableitung"' und "`Herleitung"' synonym.\\
+Anmerkung 2: Manche Autoren schreiben $\vdash$ statt $\Rightarrow$.}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Beispiel}
+
+Die Grammatik
+% 
+\begin{align*}
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{T}\\
+\Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\\
+\Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}\\
+\Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+\end{align*}
+% 
+erzeugt zum Beispiel das Wort $\Sterm{(x*(y+z))}$ über die Ableitung:
+% 
+\begin{align*}
+\Snterm{S} &\Rightarrow \Snterm{M}
+	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{A}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}
+\end{align*}
+
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Ableitungen als Bäume}
+
+\begin{minipage}{4cm}
+Grammatik:
+\begin{align*}
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{T} &
+\Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)} \\
+\Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)} &
+\Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+\end{align*}
+
+Ableitung:
+\begin{align*}
+\Snterm{S} &\visible<2->{\Rightarrow \Snterm{M}}
+	\visible<3->{\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}}
+	\visible<4->{\Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Snterm{S}\Sterm{)}}\\
+	&\visible<5->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{S}\Sterm{)}}
+	\visible<6->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{A}\Sterm{)}}\\
+	&\visible<7->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}}
+	\visible<8->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}}\\
+	&\visible<9->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}}
+	\visible<10->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)}}\\
+	&\visible<11->{\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}}
+\end{align*}
+\end{minipage}\hfill
+\begin{minipage}{4.5cm}
+\begin{tikzpicture}[xscale=0.5,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+\visible<2->{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{M}};}
+\visible<3->{\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{*}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (3,-2) {\Snterm{S}};
+\node (s3b) [circle,draw=none,inner sep=1pt] at (6,-2) {\Sterm{)}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}};
+\node (s3y) [circle,draw=none,inner sep=1pt] at (-2,-2) {\Sterm{(}};}
+\visible<6->{\node (s4) [circle,draw=none,inner sep=1pt] at (3,-3) {\Snterm{A}};}
+\visible<4->{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}};}
+\visible<7->{\node (s5) [circle,draw=none,inner sep=1pt] at (3,-4) {\Sterm{+}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{S}};
+\node (s5b) [circle,draw=none,inner sep=1pt] at (5,-4) {\Sterm{)}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (2,-4) {\Snterm{S}};
+\node (s5y) [circle,draw=none,inner sep=1pt] at (1,-4) {\Sterm{(}};}
+\visible<5->{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{x}};}
+\visible<10->{\node (s6a) [circle,draw=none,inner sep=1pt] at (4,-5) {\Snterm{V}};}
+\visible<8->{\node (s6x) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{V}};}
+\visible<11->{\node (s7a) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{z}};}
+\visible<9->{\node (s7x) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{y}};}
+% \node (s2) [circle,draw=none] at (0,3) {\Sterm{*}};
+%
+\visible<2->{\path[-,line width=0.3mm](s1) edge (s2);}
+\visible<3->{\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+\path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+\path[-,line width=0.3mm](s2) edge (s3y);}
+\visible<4->{\path[-,line width=0.3mm](s3x) edge (s4z);}
+\visible<5->{\path[-,line width=0.3mm](s4z) edge (s5z);}
+\visible<6->{\path[-,line width=0.3mm](s3a) edge (s4);}
+\visible<7->{\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+\path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+\path[-,line width=0.3mm](s4) edge (s5y);}
+\visible<10->{\path[-,line width=0.3mm](s5a) edge (s6a);}
+\visible<8->{\path[-,line width=0.3mm](s5x) edge (s6x);}
+\visible<11->{\path[-,line width=0.3mm](s6a) edge (s7a);}
+\visible<9->{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Von Ableitung zu Ableitungsbaum}
+
+Sei $G=\tuple{V,\Sigma,P,S}$ eine Grammatik
+und sei $S=w_0\Rightarrow\allowbreak w_1 \Rightarrow\allowbreak \ldots \allowbreak\Rightarrow w_n$ eine Ableitung
+(mit $w_i\in (V\cup\Sigma)^*$ für alle $i\in\{1,\ldots,n\}$).
+\bigskip
+
+\codebox{%
+Wir erhalten den entsprechenden \redalert{Ableitungsbaum} wie folgt:
+\begin{itemize}
+\item Der Ableitungsbaum wird initialisiert mit einem einzigen Wurzelknoten $S$
+\item Der Baum wird schrittweise konstruiert. Nach $i$ Schritten ergeben die Blätter des Baumes --
+gelesen von links nach rechts -- immer genau $w_i$.
+% \item Die Konstruktion des Ableitungsbaums erfolgt schrittweise so, dass die aktuellen
+% Blätter des Baumes, von links nach rechts gelesen, immer die Symbole aus $V\cup $
+\item Wenn in einem Ableitungsschritt $w_i\Rightarrow w_{i+1}$ die Regel $V\to u$ angewendet wurde, dann erhält der Knoten
+für $V$ genau $|u|$ Kindknoten, die -- von links nach rechts -- mit den Symbolen aus $u$ beschriftet werden.
+\end{itemize}}
+% 
+% Formal gesehen ist der Ableitungsbaum also ein Baum mit )von links nach rechts) geordneten Kindknoten.
+% \bigskip
+
+Ableitungsbäume sind auch als \redalert{Syntaxbäume} oder \redalert{Parsebäume} bekannt
+
+\end{frame}
+
+\begin{frame}\frametitle{Anwendung Ableitungsbaum}
+
+Der Ableitungsbaum ist von großer praktischer Bedeutung, 
+da er die \alert{"`innere Struktur"'} eines Wortes einer kontextfreien Sprache
+repräsentiert
+\bigskip
+
+% \begin{enumerate}[$\leadsto$]
+% \item
+\anybox{purple}{%
+In der Praxis geht es meist nicht darum, zu prüfen, ob ein Wort in einer Sprache liegt, sondern darum, seine
+syntaktische Struktur zu ermitteln}%
+% \end{enumerate}
+\bigskip
+
+\emph{Beispiele:}
+\begin{itemize}
+\item Parsebäume in der \alert{Verarbeitung natürlicher Sprache} können Aufschluss über die Bedeutung eines Satzes geben
+\item Syntaxbäume in \alert{Programmiersprachen} sind die Grundlage zur inhaltlichen Interpretation des Codes
+\item Ableitungsbäume in \alert{Mark-Up-Sprachen} wie HTML oder XML sind entscheidend für die Adressierung von Elementen ("`DOM-Tree"')
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-% Es gibt viele \redalert{nicht-reguläre Sprachen}, was man mit verschiedenen Methoden beweisen kann (Myhill-Nerode, Abschlusseigenschaften, Pumping)
+Algorithmische Probleme zu Automaten sind \redalert{Leerheit, Inklusion, Äquivalenz, Universalität, Endlichkeit} und das \redalert{Wortproblem}\\[-0.5ex]
+\scalebox{0.75}{für einige von ihnen sind bei Verwendung von NFAs nur exponentielle Algorithmen bekannt}%
+\bigskip
+
+Wir kennen \redalert{viele Charakterisierungen für reguläre Sprachen}, die man mit zahlreichen Umformungen in Beziehung setzten kann\bigskip
+
+% Die wichtigsten Ideen und Methoden der Vorlesungen zu regulären Sprachen lassen sich auf wenigen Folien zusammenfassen, aber
 % \bigskip
-% 
-% \redalert{$\{\Sterm{a}^n\Sterm{b}^n\mid  n\geq 0\}$ ist nicht regulär}, da FAs nicht zählen können
-% \bigskip
-% 
-% Algorithmische Probleme zu Automaten sind \redalert{Leerheit, Inklusion, Äquivalenz, Universalität, Endlichkeit} und das \redalert{Wortproblem}
-% \bigskip
-% 
-% Für DFAs können sie in polynomieller Zeit gelöst werden, für NFAs dagegen zum Teil nur in exponentieller
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Wir haben schon so viel über reguläre Sprachen gelernt -- könnten wir das bitte noch einmal alles zusammenfassen?
-% \item Und was ist mit kontextfreien Sprachen?
-% \end{itemize}
-% }
+
+Wörter in \redalert{kontextfreien Sprachen} haben eine interessante innere Struktur, die wir durch \redalert{Ableitungsbäume} darstellen können\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie kann das Wortproblem bei kontextfreien Grammatiken gelöst werden?
+\item Haben kontextfreie Sprachen ein Berechnungsmodell?
+\item Wie sehen nicht-kontextfreie Sprachen aus und wie erkennt man sie?
+\end{itemize}
+}
 
 \end{frame}
 
