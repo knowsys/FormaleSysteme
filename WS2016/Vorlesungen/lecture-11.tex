@@ -126,7 +126,7 @@ Der Automat $\Smach{M}_w$ für $w=\sigma_1\cdots\sigma_{|w|}$ ist leicht gefunde
 \path[->,line width=0.5mm](s0) edge node[above] {$\sigma_1$} (s1);
 \path[->,line width=0.5mm](s1) edge node[above] {$\sigma_2$} (s2);
 \path[->,line width=0.5mm](s2) edge node[above] {$\sigma_3$} (sdots);
-\path[->,line width=0.5mm](sdots) edge node[above] {$\sigma_n$} (sn);
+\path[->,line width=0.5mm](sdots) edge node[above] {$\sigma_{|w|}$} (sn);
 \end{tikzpicture}
 \bigskip
 
@@ -656,7 +656,7 @@ Anmerkung 2: Manche Autoren schreiben $\vdash$ statt $\Rightarrow$.}}
 Die Grammatik
 % 
 \begin{align*}
-\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{T}\\
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V}\\
 \Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\\
 \Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}\\
 \Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
@@ -686,7 +686,7 @@ erzeugt zum Beispiel das Wort $\Sterm{(x*(y+z))}$ über die Ableitung:
 \begin{minipage}{4cm}
 Grammatik:
 \begin{align*}
-\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{T} &
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V} &
 \Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)} \\
 \Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)} &
 \Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
