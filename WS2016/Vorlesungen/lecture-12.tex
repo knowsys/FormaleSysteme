@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{12}{Das Wortproblem für Kontextfreie Sprachen}{21. November 2016}
+\defineTitle{12}{Das Wortproblem für kontextfreie Sprachen}{21. November 2016}
 
 \begin{document}
 
@@ -690,7 +690,7 @@ Teilwort $\Sterm{a_i}\cdots\Sterm{a_{j}}$, also das Infix der Länge $j-i+1$, we
 die gilt $\Snterm{A}\Rightarrow^* w_{i,j}$. Diese Menge nennen wir $V[i,j]$.
 \begin{itemize}
 \item Wir beginnen mit den kürzesten Teilwörtern ($i=j$)
-\item Für längere Wörter betrachten wir jede mögliche Zweiteilung $w_{i,\ell}=w_{i,k}w_{k+1,j}$ und suchen Regeln der Form $\Snterm{A}\to\Snterm{B}\Snterm{C}$ so dass $B\in V[i,k]$ und $C\in V[k+1,j]$
+\item Für längere Wörter betrachten wir jede mögliche Zweiteilung $w_{i,\ell}=w_{i,k}w_{k+1,j}$ und suchen Regeln der Form $\Snterm{A}\to\Snterm{B}\Snterm{C}$ so dass $\Snterm{B}\in V[i,k]$ und $\Snterm{C}\in V[k+1,j]$
 \end{itemize}
 Ist am Ende das Startsymbol $S\in V[1,|w|]$, dann liegt $w$ in der Sprache
 
@@ -798,25 +798,25 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
-\begin{frame}\frametitle{Komplexität}
-
-\alert{Wie komplex ist der CYK-Algorithmus?}
-\begin{itemize}
-\item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
-\item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
-\begin{itemize}
-\item polynomiell bezüglich der Größe der Grammatik
-\item konstant wenn die Grammatik vorher bekannt und fest ist
-\end{itemize}
-\end{itemize}\bigskip
-
-\theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
-
-\emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
-im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
-$w=\epsilon$ gesondert testen.
-
-\end{frame}
+% \begin{frame}\frametitle{Komplexität}
+% 
+% \alert{Wie komplex ist der CYK-Algorithmus?}
+% \begin{itemize}
+% \item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
+% \item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
+% \begin{itemize}
+% \item polynomiell bezüglich der Größe der Grammatik
+% \item konstant wenn die Grammatik vorher bekannt und fest ist
+% \end{itemize}
+% \end{itemize}\bigskip
+% 
+% \theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+% 
+% \emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
+% im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
+% $w=\epsilon$ gesondert testen.
+% 
+% \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
