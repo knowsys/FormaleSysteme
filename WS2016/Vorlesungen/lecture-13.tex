@@ -342,6 +342,96 @@ $w=\epsilon$ gesondert testen.
 
 \end{frame}
 
+\newcommand{\colcell}[2]{\only<#1|handout:0>{\cellcolor{#2}}}
+
+\begin{frame}\frametitle{Beispiel 2}
+
+\begin{minipage}{5.5cm}
+Grammatik:\\[1ex]
+$
+\Snterm{S}\to \Snterm{C}\Snterm{D}\mid \Sterm{a}\qquad\Snterm{D}\to \Snterm{S}\Snterm{E} \qquad \Snterm{C}\to \Snterm{A}\Snterm{B}$\\
+$\Snterm{E}\to \Snterm{B}\Snterm{A} \hspace{1.15cm} \Snterm{A} \to \Sterm{a}\hspace{0.97cm} \Snterm{B} \to \Sterm{b}
+% \\
+% \Snterm{N} \to \Snterm{P}\Snterm{Z}\qquad \Snterm{Z}\to \Sterm{a}\mid \Sterm{b}\mid \Sterm{c}
+$
+\end{minipage}\hspace{10mm}
+\begin{minipage}{2.5cm}
+Wort:\\[1ex] $w=\Sterm{ababababa}$\\
+\end{minipage}
+\bigskip
+
+% Berechnung der Mengen $V[i,j]$:\bigskip
+
+\narrowcentering{%
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{b}} & \MEC{\Sterm{a}} & \MEC{\Sterm{b}} & \MEC{\Sterm{a}}& \MEC{\Sterm{b}} & \MEC{\Sterm{a}} & \MEC{\Sterm{b}} & \MEC{\Sterm{a}}\\
+\cline{2-10}
+\Sterm{a}
+	& \upcell{2}{\Snterm{S}}\upcell{3}{,\Snterm{A}}\colcell{12,13}{purple!40}\colcell{21,22,30,31,38,39,44,45}{purple!20}
+		\colcell{49,50}{purple!10}\colcell{53,54}{purple!10}\colcell{56,57}{purple!10}
+		& \upcell{13}{\Snterm{C}}\colcell{21,22}{purple!40}\colcell{30,31}{purple!40}\colcell{38,39}{purple!30}
+			\colcell{44,45}{purple!30}\colcell{49,50}{purple!20}\colcell{53,54}{purple!20}\colcell{56,57}{purple!20}
+			& \upcell{22}{\Snterm{D}}\colcell{30,31}{purple!60}\colcell{38,39}{purple!40}\colcell{44,45}{purple!40}
+				\colcell{49,50}{purple!30}\colcell{53,54}{purple!30}\colcell{56,57}{purple!30}
+				& \upcell{31}{--}\colcell{38,39}{purple!50}\colcell{44,45}{purple!50}\colcell{49,50}{purple!40}
+					\colcell{53,54}{purple!40}\colcell{56,57}{purple!40}
+					& \upcell{39}{\Snterm{S}}\colcell{44,45}{purple!60}\colcell{49,50}{purple!50}\colcell{53,54}{purple!50}
+						\colcell{56,57}{purple!50}
+						& \upcell{45}{--}\colcell{49,50}{purple!60}\colcell{53,54}{purple!60}\colcell{56,57}{purple!60}
+							& \upcell{50}{\Snterm{D}}\colcell{53,54}{purple!70}\colcell{56,57}{purple!70}
+								& \upcell{54}{--}\colcell{56,57}{purple!80}
+									&  \upcell{57}{\Snterm{S}}\\\cline{2-10}
+\MEC{\Sterm{b}} &  
+		& \upcell{4}{\Snterm{B}}\phantom{,\Snterm{A}}\colcell{12,13}{purple!40}\colcell{23,24}{purple!20}
+				\colcell{32,33}{purple!20}
+			& \upcell{14}{\Snterm{E}}\colcell{21,22}{purple!20}\colcell{23,24}{purple!40}\colcell{32,33}{purple!40}
+				& \upcell{24}{--}\colcell{30,31}{purple!20}\colcell{32,33}{purple!60}
+					& \upcell{33}{--}\colcell{38,39}{purple!20}
+						& \upcell{40}{--}\colcell{44,45}{purple!20}
+							& \upcell{46}{--}\colcell{49,50}{purple!10}
+								& \upcell{51}{--}\colcell{53,54}{purple!10}
+									&  \upcell{55}{--}\colcell{56,57}{purple!10}\\\cline{3-10}
+ \MEC{\Sterm{a}} &\MEC{}   &
+			& \upcell{5}{\Snterm{S},\Snterm{A}}\colcell{21,22}{purple!40}
+				& \upcell{15}{\Snterm{C}}\colcell{23,24}{purple!20}\colcell{30,31}{purple!40}
+					& \upcell{25}{\Snterm{D}}\colcell{32,33}{purple!20}\colcell{38,39}{purple!30}
+						& \upcell{34}{--}\colcell{44,45}{purple!30}
+							& \upcell{41}{\Snterm{S}}\colcell{49,50}{purple!20}
+								& \upcell{47}{--}\colcell{53,54}{purple!20}
+									& \upcell{52}{\Snterm{D}}\colcell{56,57}{purple!20}\\\cline{4-10}
+ \MEC{\Sterm{b}} &\MEC{}   &\MEC{}   &   
+				& \upcell{6}{\Snterm{B}}\phantom{,\Snterm{A}}\colcell{23,24}{purple!40}\colcell{30,31}{purple!60}
+					& \upcell{16}{\Snterm{E}}\colcell{32,33}{purple!40}\colcell{38,39}{purple!40}
+						& \upcell{26}{--}\colcell{44,45}{purple!40}
+							& \upcell{35}{--}\colcell{49,50}{purple!30}
+								& \upcell{42}{--}\colcell{53,54}{purple!30}
+									& \upcell{48}{--}\colcell{56,57}{purple!30}\\\cline{5-10}
+ \MEC{\Sterm{a}} &\MEC{}   &\MEC{}   &\MEC{}   &
+ 					& \upcell{7}{\Snterm{S}, \Snterm{A}}\colcell{32,33}{purple!60}\colcell{38,39}{purple!50}
+						& \upcell{17}{\Snterm{C}}\colcell{44,45}{purple!50}
+							& \upcell{27}{\Snterm{D}}\colcell{49,50}{purple!40}
+								& \upcell{36}{--}\colcell{53,54}{purple!40}
+									& \upcell{43}{\Snterm{S}}\colcell{56,57}{purple!40}\\\cline{6-10}
+ \MEC{\Sterm{b}} &\MEC{}   &\MEC{}   &\MEC{}   &\MEC{} &
+						& \upcell{8}{\Snterm{B}}\phantom{,\Snterm{A}}\colcell{44,45}{purple!60}
+							& \upcell{18}{\Snterm{E}}\colcell{49,50}{purple!50}
+								& \upcell{28}{--}\colcell{53,54}{purple!50}
+									& \upcell{37}{--}\colcell{56,57}{purple!50} \\\cline{7-10}
+ \MEC{\Sterm{a}} &\MEC{}   &\MEC{}   &\MEC{}   &\MEC{}  &\MEC{}&
+							& \upcell{9}{\Snterm{S}, \Snterm{A}}\colcell{49,50}{purple!60}
+								& \upcell{19}{\Snterm{C}}\colcell{53,54}{purple!60}
+									& \upcell{29}{\Snterm{D}}\colcell{56,57}{purple!60}\\\cline{8-10}
+ \MEC{\Sterm{b}} &\MEC{}   &\MEC{}   &\MEC{}   &\MEC{}  &\MEC{} &\MEC{}&
+								& \upcell{10}{\Snterm{B}}\phantom{,\Snterm{A}}\colcell{53,54}{purple!70}
+									& \upcell{20}{\Snterm{E}}\colcell{56,57}{purple!70} \\\cline{9-10}
+ \MEC{\Sterm{a}} &\MEC{}   &\MEC{}   &\MEC{}   &\MEC{}  &\MEC{} &\MEC{} &\MEC{}&
+									& \upcell{11}{\Snterm{S},\Snterm{A}}\colcell{56,57}{purple!80} \\\cline{10-10}
+\end{tabular}}\\
+\ghost{\visible<58->{\raisebox{0.5cm}{\hspace{1.5cm}$S\in V[1,9]$ $\leadsto$ {$w$ kann erzeugt werden}}}}
+
+\end{frame}
+
 \sectionSlide{Das Pumping-Lemma für kontextfreie~Sprachen}
 
 \begin{frame}\frametitle{Rückblick: Pumpen regulärer Sprachen}
@@ -1218,7 +1308,7 @@ Auch hier hilft es, dass Ableitungsbäume binär sind:
 \begin{itemize}
 \item Ein Binärbaum der Tiefe $\ell$ hat maximal $2^\ell$ Blätter\pause
 \item Wir können annehmen, dass das obere doppelte Vorkommen der gewählten Variable maximal
-$|V|$ Schritte von der vorletzten Ebene (der letzten im inneren Binärbaum) entfernt ist\pause
+$|V|$ Schritte von der vorletzten Ebene (d.h. der letzten im inneren Binärbaum) entfernt ist\pause
 \item Also kann der Baum unterhalb dieses Vorkommens maximal $2^{|V|}=n$ Blätter haben (dies sind die Symbole in $vwx$)
 \end{itemize}
 
