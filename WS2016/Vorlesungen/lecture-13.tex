@@ -1,0 +1,1295 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{24. November 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick: Der CYK-Algorithmus}
+
+\newcommand{\Rightarrowstarquest}{\mathrel{{\stackrel{?}{\Rightarrow}}{}^*}}
+
+\begin{frame}\frametitle{CYK: Grundidee}
+
+Der CYK-Algorithmus arbeitet mit einer kontextfreien Grammatik $G$ in CNF.
+\bigskip
+
+\alert{Wie kann man prüfen, ob ein Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$ durch so eine Grammatik abgeleitet werden kann?}
+
+
+\begin{itemize}
+\item Falls $|w|=1$, dann ist $w\in\Sigma$ und es gilt:\\
+$w\in\Slang{L}(G)$ genau dann wenn es eine Regel $\Snterm{S}\to w$ in $G$ gibt
+\item Falls $|w|>1$, dann ist:\\
+$w\in\Slang{L}(G)$ genau dann wenn es eine Regel
+$\Snterm{S}\to\Snterm{A}\Snterm{B}$ und eine Zahl $i$ gibt, so dass gilt
+\[\Snterm{A}\Rightarrow^* \Sterm{a_1}\cdots\Sterm{a_i}\qquad\text{und}\qquad \Snterm{B}\Rightarrow^* \Sterm{a_{i+1}}\cdots\Sterm{a_n}\]
+\end{itemize}
+
+\emph{Idee:} Fall 2 reduziert das Problem $\Snterm{S}\Rightarrowstarquest w$ in zwei einfachere Probleme
+$\Snterm{A}\Rightarrowstarquest \Sterm{a_1}\cdots\Sterm{a_i}$ und $\Snterm{B}\Rightarrowstarquest \Sterm{a_{i+1}}\cdots\Sterm{a_n}$, die man allerdings für alle Regeln $\Snterm{S}\to\Snterm{A}\Snterm{B}$ und Indizes $i$ lösen muss
+
+\end{frame}
+
+\begin{frame}\frametitle{CYK: Praktische Umsetzung}
+
+\anybox{purple}{Notation: Für $w=\Sterm{a_1}\cdots\Sterm{a_n}$ schreiben wir $w_{i,j}$ für das
+Teilwort $\Sterm{a_i}\cdots\Sterm{a_{j}}$, also das Infix der Länge $j-i+1$, welches an Position $i$ beginnt.
+}
+
+\emph{Vorgehen:} Wir berechnen für jedes Teilwort $w_{i,j}$ die Menge aller Variablen $\Snterm{A}$, für
+die gilt $\Snterm{A}\Rightarrow^* w_{i,j}$. Diese Menge nennen wir $V[i,j]$.
+\begin{itemize}
+\item Wir beginnen mit den kürzesten Teilwörtern ($i=j$)
+\item Für längere Wörter betrachten wir jede mögliche Zweiteilung $w_{i,\ell}=w_{i,k}w_{k+1,j}$ und suchen Regeln der Form $\Snterm{A}\to\Snterm{B}\Snterm{C}$ so dass $\Snterm{B}\in V[i,k]$ und $\Snterm{C}\in V[k+1,j]$
+\end{itemize}
+Ist am Ende das Startsymbol $S\in V[1,|w|]$, dann liegt $w$ in der Sprache
+
+\end{frame}
+
+\newcommand{\MEC}[1]{\multicolumn{1}{c}{#1}}
+\begin{frame}\frametitle{Notation}
+
+% Je größer $i$, desto kürzer die mögliche Wortlänge $\ell$, denn $i+\ell \leq |w|$\\
+Für die Teilwörter $w_{i,j}$ gilt $i\leq j$\\
+$\leadsto$ Die Mengen $V[i,j]$ können als Dreiecksmatrix notiert werden
+\bigskip
+
+\emph{Beispiel:} Wir betrachten das Wort $w=\Sterm{a+b*c}$ der Länge $|w|=5$.\bigskip
+
+Darstellung der Mengen $V[i,j]$:\bigskip
+
+\narrowcentering{%
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	& $V[1,1]$ & $V[1,2]$ & $V[1,3]$ & $V[1,4]$ & $V[1,5]$ \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	           & $V[2,2]$ & $V[2,3]$ & $V[2,4]$ & $V[2,5]$ \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	                      & $V[3,3]$ & $V[3,4]$ & $V[3,5]$ \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	                                 & $V[4,4]$ & $V[4,5]$ \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	                                            & $V[5,5]$ \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}}
+
+\end{frame}
+
+\newcommand{\hicell}[1]{\only<#1|handout:0>{\cellcolor{strongyellow}}}
+\newcommand{\upcell}[2]{\only<#1|handout:0>{\cellcolor{strongyellow}}\visible<#1->{#2}}
+\newcommand{\locell}[1]{\only<#1|handout:0>{\cellcolor{darkgreen!20}}}
+\newcommand{\hicellstatic}[1]{}
+\newcommand{\upcellstatic}[2]{#2}
+\newcommand{\locellstatic}[1]{}
+
+\begin{frame}\frametitle{Beispiel}
+
+Grammatik:\\[1ex]
+$
+\Snterm{S}\to \Snterm{S}\Snterm{A}\mid \Snterm{S}\Snterm{M} \mid \Sterm{a}\mid \Sterm{b}\mid \Sterm{c}$\\
+$\Snterm{A}\to \Snterm{P}\Snterm{S} \qquad \Snterm{M} \to \Snterm{T}\Snterm{S}\qquad
+\Snterm{P}\to \Sterm{+} \qquad \Snterm{T} \to \Sterm{*}
+% \\
+% \Snterm{N} \to \Snterm{P}\Snterm{Z}\qquad \Snterm{Z}\to \Sterm{a}\mid \Sterm{b}\mid \Sterm{c}
+$\\[2ex]
+Wort: $w=\Sterm{a+b*c}$
+\bigskip
+
+Berechnung der Mengen $V[i,j]$:\bigskip
+
+\narrowcentering{%
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	& \hicellstatic{2}\upcellstatic{3}{$\Snterm{S}$}\locellstatic{10,20,21,31,40-41}
+		& \hicellstatic{9,10}\locellstatic{22,32,42}
+			& \hicellstatic{19,20,22}\upcellstatic{21}{$\Snterm{S}$}\locellstatic{33,43}
+				& \hicellstatic{30-33}\locellstatic{44}
+					& \hicellstatic{39-43}\upcellstatic{41}{$\Snterm{S}$} \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+		& \hicellstatic{4}\upcellstatic{5}{$\Snterm{P}$}\locellstatic{10,12-13,24,35-36}
+			& \hicellstatic{11,12}\upcellstatic{13}{$\Snterm{A}$}\locellstatic{20-21,25,37}
+				& \hicellstatic{23-25}\locellstatic{31,38}
+					& \hicellstatic{34-38}\upcellstatic{36}{$\Snterm{A}$}\locellstatic{40-41} \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+			& \upcellstatic{6}{$\Snterm{S}$}\locellstatic{12,13,15,22,27-28}
+				&  \hicellstatic{14,15}\locellstatic{24,29,32}
+					& \hicellstatic{26-29}\upcellstatic{28}{$\Snterm{S}$}\locellstatic{35-36,42} \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+				& \upcellstatic{7}{$\Snterm{T}$}\locellstatic{15,17,18,25,33}
+					& \hicellstatic{16,17}\upcellstatic{18}{$\Snterm{M}$}\locellstatic{27-28,37,43} \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+					& \upcellstatic{8}{$\Snterm{S}$}\locellstatic{17,18,29,38,44} \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}}\bigskip
+
+\narrowcentering{\visible<1->{$S\in V[1,5]$ $\leadsto$ \redalert{$w$ kann erzeugt werden}}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Der CYK-Algorithmus}
+
+\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$, CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endindex $-$ Startindex}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup \{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{3.8cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	& \cellcolor{purple!20}  &   &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	& \cellcolor{purple!40}  &   &   &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	& \cellcolor{purple!60}  &   &   \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	& \cellcolor{purple!80}  &  \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	& \cellcolor{purple!100}  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}   & \cellcolor{purple!60}  & \cellcolor{purple!80}  \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}  &  \cellcolor{purple!60} \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}  \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!20}  \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	&  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  & \cellcolor{purple!20}  &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	&  & \cellcolor{purple!40}  &   &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  & \cellcolor{purple!60}  &   \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!80} \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	&  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  &   &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	& \cellcolor{purple!20} & \cellcolor{purple!50}  & \cellcolor{purple!80}  &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  &   &  \cellcolor{purple!20} \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!50} \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	& \cellcolor{purple!80} \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Komplexität}
+
+\alert{Wie komplex ist der CYK-Algorithmus?}
+\begin{itemize}
+\item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
+\item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
+\begin{itemize}
+\item polynomiell bezüglich der Größe der Grammatik
+\item konstant wenn die Grammatik vorher bekannt und fest ist
+\end{itemize}
+\end{itemize}\bigskip
+
+\theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+
+\emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
+im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
+$w=\epsilon$ gesondert testen.
+
+\end{frame}
+
+\sectionSlide{Das Pumping-Lemma für kontextfreie~Sprachen}
+
+\begin{frame}\frametitle{Rückblick: Pumpen regulärer Sprachen}
+
+\theobox{Satz (Pumping Lemma):
+Für jede reguläre Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvw$ mit $|v|\geq 1$ und $|uv|\leq n$, so dass:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w\in\Slang{L}$
+}\medskip
+
+\emph{In Worten:} Jedes ausreichend lange Wort einer regulären Sprache enthält ein Teilwort, welches beliebig oft wiederholt werden kann um weitere Wörter der Sprache zu erhalten.
+\bigskip
+
+\alert{Aber:} Für viele kontextfreie Sprachen wie $\Sterm{a}^n\Sterm{b}^n$ trifft das nicht zu.
+
+\end{frame}
+
+\begin{frame}\frametitle{Pumpen für kontextfreie Sprachen}
+
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip\pause
+
+\examplebox{Beispiel: Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
+Sei $z=\Sterm{a}^i\Sterm{b}^i$ mit $i\geq 1$ ein beliebiges Wort mit $|z|\geq 2$. Wir wählen die Zerlegung $u=\Sterm{a}^{i-1}$,
+$v=\Sterm{a}$, $w=\epsilon$, $x=\Sterm{b}$ und $y=\Sterm{b}^{i-1}$.\\
+Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i-1}=\Sterm{a}^{i+k-1}\Sterm{b}^{i+k-1}\in\Slang{L}$ für alle $k\geq 0$.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kontextfreies Pumpen: Idee}
+
+\emph{Grundidee beim regulären Pumping Lemma:}
+\begin{itemize}
+\item Endliche Automaten haben nur endlich viele Zustände
+\item Also muss beim Akzeptieren langer Wörter ein Zustand mehrfach besucht werden:\\
+	\narrowcentering{$q_0 \stackrel{u_1}{\to} \ldots \stackrel{u_{|u|}}{\to} \redalert{p} \stackrel{v_1}{\to}\ldots \stackrel{v_{|v|}}{\to} \redalert{p}\stackrel{w_1}{\to}\ldots\stackrel{w_{|w|}}{\to} q_n$}
+\item Also gibt es eine Schleife, die man beliebig oft durchlaufen kann
+\end{itemize}
+\bigskip\pause
+
+\emph{Grundidee beim kontextfreien Pumping Lemma:}
+\begin{itemize}
+\item Grammatiken haben nur endlich viele Variablen
+\item Also muss beim Generieren langer Wörter eine Variable zu etwas expandiert werden, was diese Variable nochmal enthält\ghost{:}\\
+	\narrowcentering{$\Snterm{S}\Rightarrow\ldots\Rightarrow u\,\underline{\Snterm{A}}\,y \Rightarrow u\,\underline{z}\,y \Rightarrow\ldots\Rightarrow u\,\underline{v\Snterm{A}x}\,y \Rightarrow \ldots \Rightarrow u\,\underline{vwx}\,y$}
+\item Also gibt es eine Schleife, die man beliebig oft durchlaufen kann
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen}
+
+\vspace{-1ex}
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+\path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\visible<2->{
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a1.90);
+}
+%
+\visible<4->{
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+}
+%
+\visible<3->{
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+}
+%
+\visible<5->{
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-3.51) -- (0.5,-3.54) -- cycle;
+}
+%
+\visible<6->{
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-3.5) -- (0.5,-3.5) node[black,midway,yshift=-0.3cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+}
+%
+\draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+% 
+\node (l1) [align=left] at (-2,-1) {\alert{Ableitungsbaum}};
+\draw[myarrowb=alert,bend right=10] (l1) edge[decorate] (-0.6,-1.5);
+%
+\visible<2->{
+\node (l2) [align=left] at (2,-0.5) {\alert{Pfad im Baum}};
+\draw[myarrowb=alert,bend left=5] (l2) edge[decorate] (0.05,-0.9);
+}
+%
+\visible<4->{
+\node (l3) [align=left] at (2.5,-2.0) {\alert{Teilbaum unterhalb}\\\alert{des ersten}\\\alert{Vorkommens von $\Snterm{A}$}};
+\draw[myarrowb=alert,bend right=12] (l3) edge[decorate] (0.5,-2.4);
+}
+%
+\visible<5->{
+\node (l4) [align=right] at (-2.2,-2.3) {\alert{Teilbaum unterhalb}\\\alert{des zweiten}\\\alert{Vorkommens von $\Snterm{A}$}};
+\draw[myarrowb=alert,bend right=12] (l4) edge[decorate] (-0.3,-3.1);
+}
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (2)}
+
+\vspace{-1ex}
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+\path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-3.51) -- (0.5,-3.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-3.5) -- (0.5,-3.5) node[black,midway,yshift=-0.3cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (3)}
+
+\vspace{-1ex}
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+\path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (-2,0) {\Snterm{S}};
+%
+\node (a1s) [circle,draw=none,inner sep=0pt] at (-2,-1.5) {\Snterm{A}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-3.5,-3.5) -- (-3.0,-3.5) -- (a1s.270) -- (-1,-3.5) -- (-0.5,-3.5) -- cycle;
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-2.1,-0.8) -- (a1s.90);
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (1,-1.5) {\Snterm{A}};
+%
+\node (a2a) [circle,draw=none,inner sep=0pt] at (1,-2.5) {\phantom{A}};
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (0,-3.50) -- (0.5,-3.50) -- (a2a.270) -- (1.5,-3.52) -- (2.0,-3.52) -- cycle;
+\node (a2atop) [circle,draw=none,inner sep=0pt] at (1,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2a.90);
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (3,-2.5) {\Snterm{A}};
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (2.5,-3.51) -- (3.5,-3.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-3.5,-3.5) -- (-3.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](0,-3.5) -- (0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](1.5,-3.5) -- (2,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](2.5,-3.5) -- (3.5,-3.5) node[black,midway,yshift=-0.3cm] {$w$};
+
+
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (4)}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uwy$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{1.0}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+%
+\node (a1s) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (-1.0,-3.5) -- (0,-1.7) -- (1,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a1s.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a1s.270) -- (-0.5,-2.51) -- (0.5,-2.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-2.5) -- (0.5,-2.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+\end{tikzpicture}}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (5)}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvwxy$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{1.0}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-3.51) -- (0.5,-3.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-3.5) -- (0.5,-3.5) node[black,midway,yshift=-0.3cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (6)}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvvwxxy$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{0.90}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a11) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a11.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a11.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a11.270) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-4.50) -- (1.0,-4.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-4.51) -- (0.5,-4.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-4.5) -- (0.5,-4.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (7)}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvvvwxxxy$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{0.75}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a12.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a12.270) -- (a11.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a11.270) -- (-1.0,-4.50) -- (1.0,-4.52) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a11.270) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-5.50) -- (1.0,-5.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-5.51) -- (0.5,-5.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-5.5) -- (-0.5,-5.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-5.5) -- (1,-5.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-5.5) -- (0.5,-5.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
+
+\begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (4+$k$)}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{0.65}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a12.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a12.270) -- (a11.90);
+%
+\node (a1u) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\phantom{\Snterm{A}}};
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a11.270) -- (-1.0,-4.50)-- (-0.5,-4.50)-- (a1u.270)-- (0.5,-4.50) -- (1.0,-4.52) -- cycle;
+\node (a1utop) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a11.270) -- (a1u.90);
+%
+\node (dots) [circle,draw=none,inner sep=0pt] at (0,-4.0) {$\vdots$};
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
+%
+% \draw[decorate,dashed,line width=0.2mm]
+% (0,-2.7) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-6.50) -- (1.0,-6.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-5.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-6.51) -- (0.5,-6.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-6.5) -- (-0.5,-6.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-6.5) -- (1,-6.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-6.5) -- (0.5,-6.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma}
+
+\vspace{-1ex}
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip
+
+\emph{Beweis:} Wir haben gesehen: wenn es einen Ableitungsbaum für $z$ gibt, der einen Pfad
+enthält, in dem eine Variable \Snterm{A} mehrfach vorkommt, dann gibt es eine Zerlegung
+$z=uvwxy$, die wesentliche Eigenschaften des Lemmas erfüllt.
+\medskip\pause
+
+Offene Fragen:
+\begin{itemize}
+\item Wieso sollte $|vx|\geq 1$ gelten?
+\item Wie groß muss $n$ sein, damit der Ableitungsbaum garantiert solch einen Pfad mit doppelter Variable enthält?
+\item Weshalb gilt $|vwx|\leq n$?
+\end{itemize}\pause
+
+\redalert{$\leadsto$ Hier hilft es, eine Grammatik in CNF anzunehmen}
+% Diese Fragen sind einfacher zu beantworten, wenn man eine Grammatik in CNF annimmt!
+
+\end{frame}
+
+\begin{frame}[t,fragile]\frametitle{Beweis des kontextfreien Pumping Lemma (2)}
+
+\vspace{-1ex}
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip
+
+\emph{Beweis:} Sei $G$ eine Grammatik für die Sprache $\Slang{L}\setminus\{\epsilon\}$ in CNF.
+(Diese existiert immer. Das Wort $\epsilon$ ist im Beweis nicht relevant, da sicherlich $n>0$.)
+\medskip
+
+\alert{Wieso sollte $|vx|\geq 1$ gelten?}\pause\medskip
+
+Wenn man einen Ableitungsbaum in $G$ findet, der die Form 
+\ghost{\scalebox{0.4}{
+\begin{tikzpicture}[
+	baseline={-3.5cm},
+	scale=1.00,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=47mm, minimum height=8mm, inner sep=1mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	},
+	myarrowb/.style args = {#1}{
+		line width=0.3mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=1mm, shorten <=0.1mm
+	}
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-3.51) -- (0.5,-3.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-3.5) -- (0.5,-3.5) node[black,midway,yshift=-0.3cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}} \\hat, dann muss der obere \Snterm{A}-Knoten genau zwei Kinder haben (wie jeder innere Knoten in CNF).
+Da CNF-Grammatiken $\epsilon$-frei sind, führt jeder Kindknoten zu einem nichtleeren Teilwort.
+Daher muss entweder $v$ oder $x$ mindestens ein Symbol enthalten, d.h. $|vx|\geq 1$.
+% Diese Fragen sind einfacher zu beantworten, wenn man eine Grammatik in CNF annimmt!
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma (3)}
+
+% \vspace{-1ex}
+% \theobox{Satz (Pumping Lemma):
+% Für jede kontextfreie Sprache $\Slang{L}$\\
+% gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+% ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+% ~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+% ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+% }\medskip
+
+\emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$ eine Grammatik für $\Slang{L}\setminus\{\epsilon\}$ in CNF.
+% (Diese existiert immer. Das Wort $\epsilon$ ist im Beweis nicht relevant, da sicherlich $n>0$.)
+\medskip
+
+\alert{Wie groß muss $n$ sein, damit der Ableitungsbaum garantiert solch einen Pfad mit doppelter Variable enthält?}\pause\medskip
+
+Jeder Ableitungsbaum in $G$ ist ein Binärbaum (bis auf die letzte Ebene, wo Variablen durch Terminale ersetzt werden).\pause
+\begin{itemize}
+\item Ein Ableitungsbaum für $z$ hat $|z|$ Blätter\pause
+\item Ein Binärbaum mit $|z|$ Blättern muss Pfade der Länge $\geq\log_2|z|$ enthalten\\
+{\footnotesize\textcolor{devilscss}{(Der größte Binärbaum mit Pfaden der Länge $\ell$ ist der, in dem alle Pfade diese Länge haben und der hat $2^\ell$ Blätter)}}\pause
+\item Jeder Pfad der Länge $\geq |V|$ muss mindestens eine Variable doppelt enthalten
+{\footnotesize\textcolor{devilscss}{(Schubfachprinzip)}}\pause
+\end{itemize}
+
+\begin{enumerate}[$\leadsto$]
+\item  Wenn $|z|\geq 2^{|V|}$ ist, dann gibt es einen Pfad, in dem eine Variable doppelt vorkommt
+\end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma (4)}
+
+\vspace{-1ex}
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip
+
+\emph{Beweis:} % Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$ eine Grammatik für $\Slang{L}\setminus\{\epsilon\}$ in CNF.
+% (Diese existiert immer. Das Wort $\epsilon$ ist im Beweis nicht relevant, da sicherlich $n>0$.)
+%\medskip
+% 
+Gerade gezeigt: Die Konstante aus dem Lemma ist \ghost{$n=2^{|V|}$.}
+\medskip
+
+\alert{Weshalb gilt $|vwx|\leq n$?}\pause\medskip
+
+Auch hier hilft es, dass Ableitungsbäume binär sind:
+\begin{itemize}
+\item Ein Binärbaum der Tiefe $\ell$ hat maximal $2^\ell$ Blätter\pause
+\item Wir können annehmen, dass das obere doppelte Vorkommen der gewählten Variable maximal
+$|V|$ Schritte von der vorletzten Ebene (der letzten im inneren Binärbaum) entfernt ist\pause
+\item Also kann der Baum unterhalb dieses Vorkommens maximal $2^{|V|}=n$ Blätter haben (dies sind die Symbole in $vwx$)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma (5)}
+
+\vspace{-1ex}
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip
+
+\emph{Beweis (Zusammenfassung):} 
+\begin{itemize}
+\item Zum Aufpumpen genügt es, dass in einem Pfad eines Ableitungsbaumes eine Variable doppelt auftritt
+\item Bei einer CNF-Grammatik $G=\tuple{V,\Sigma,P,\Snterm{S}}$ muss das Wort dafür $\geq n=2^{|V|}$ Zeichen haben
+\item $|vx|\geq 1$ und $|vwx|\leq n$ ergeben sich, weil CNF-Ableitungsbäume binär sind
+\end{itemize}
+\qed
+% Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$ eine Grammatik für $\Slang{L}\setminus\{\epsilon\}$ in CNF.
+% (Diese existiert immer. Das Wort $\epsilon$ ist im Beweis nicht relevant, da sicherlich $n>0$.)
+%\medskip
+% 
+\end{frame}
+
+\begin{frame}\frametitle{Anwendung des Pumping Lemma}
+
+Wie schon bei regulären Sprachen ist die Pump-Eigenschaft \redalert{notwendig, aber nicht hinreichend}
+für Kontextfreiheit\\
+$\leadsto$ Hauptanwendung: Erkennen nicht-kontextfreier Sprachen
+\medskip\pause
+
+\emph{Beispiel:} Die Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ ist nicht kontextfrei.
+\medskip\pause
+
+Beweis durch Widerspruch: angenommen, $\Slang{L}$ wäre kontextfrei\pause
+\begin{itemize}
+\item Dann gibt es eine Konstante $n$ wie im Pumping Lemma.\pause
+\item Dann muss es auch für das Wort $z=\Sterm{a}^n\Sterm{b}^n\Sterm{c}^n$ eine geeignete Zerlegung $z=uvwxy$ geben.\pause
+\item Wegen $|vwx|\leq n$ muss $vwx$ entweder ein Teilwort von $\Sterm{a}^n\Sterm{b}^n$ oder von $\Sterm{b}^n\Sterm{c}^n$ sein.\pause
+\item Fall 1: $vwx$ ist Teilwort von $\Sterm{a}^n\Sterm{b}^n$. Weil $|vx|\geq 1$ und $vx\subseteq\{\Sterm{a},\Sterm{b}\}^*$
+hat $uv^2wx^2y$ mehr $\Sterm{a}$ oder $\Sterm{b}$ als $\Sterm{c}$. Also ist $uv^2wx^2y\notin\Slang{L}$.
+\pause
+\item Fall 2: $vwx$ ist Teilwort von $\Sterm{b}^n\Sterm{c}^n$. Analog zu Fall 1.\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+% Bei Typ-2-Grammatiken repräsentieren \redalert{Ableitungsbäume} mehrere mögliche Ableitungen.
+% \bigskip
+% 
+% Jede Typ-2-Grammatik kann in eine äquivalente Grammatik in \redalert{Chomsky-Normalform} umgewandelt werden.
+% \bigskip
+% 
+% Mithilfe des \redalert{CYK-Algorithmus} ist das Wortproblem für kontextfreie Sprachen in polynomieller Zeit lösbar
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Haben kontextfreie Sprachen ein Berechnungsmodell?
+% \item Wie sehen nicht-kontextfreie Sprachen aus und wie erkennt man sie?
+% \end{itemize}
+% }
+
+\end{frame}
+
+
+\end{document}
