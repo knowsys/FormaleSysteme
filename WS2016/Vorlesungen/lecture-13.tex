@@ -1363,21 +1363,23 @@ hat $uv^2wx^2y$ mehr $\Sterm{a}$ oder $\Sterm{b}$ als $\Sterm{c}$. Also ist $uv^
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-% Bei Typ-2-Grammatiken repräsentieren \redalert{Ableitungsbäume} mehrere mögliche Ableitungen.
-% \bigskip
-% 
-% Jede Typ-2-Grammatik kann in eine äquivalente Grammatik in \redalert{Chomsky-Normalform} umgewandelt werden.
-% \bigskip
-% 
-% Mithilfe des \redalert{CYK-Algorithmus} ist das Wortproblem für kontextfreie Sprachen in polynomieller Zeit lösbar
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Haben kontextfreie Sprachen ein Berechnungsmodell?
-% \item Wie sehen nicht-kontextfreie Sprachen aus und wie erkennt man sie?
-% \end{itemize}
-% }
+Der \redalert{CYK-Algorithmus} ist von kubischer Komplexität.
+\bigskip
+
+Das \redalert{Pumping-Lemma für kontextfreie Sprachen} beruht auf der Ausnutzung von Schleifen in Ableitungen einer CNF-Grammatik
+\bigskip
+
+Die Sprache \redalert{$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$} ist nicht kontextfrei
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie steht es mit Abschlusseigenschaften bei kontextfreien Sprachen?
+\item Haben kontextfreie Sprachen ein Berechnungsmodell?
+\item Welche Probleme auf kontextfreien Grammatiken kann man lösen?
+\end{itemize}
+}
 
 \end{frame}
 
