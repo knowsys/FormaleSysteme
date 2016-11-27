@@ -1,0 +1,792 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{14}{Abschlusseigenschaften kontextfreier Sprachen}{28. November 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlide{Rückblick: Das Pumping Lemma}
+
+\begin{frame}\frametitle{Pumpen für kontextfreie Sprachen}
+
+\theobox{Satz (Pumping Lemma):
+Für jede kontextfreie Sprache $\Slang{L}$\\
+gibt es eine Zahl $n\geq 0$, so dass gilt:\\
+~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
+}\medskip
+
+\examplebox{Beispiel: Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
+Sei $z=\Sterm{a}^i\Sterm{b}^i$ mit $i\geq 1$ ein beliebiges Wort mit $|z|\geq 2$. Wir wählen die Zerlegung $u=\Sterm{a}^{i-1}$,
+$v=\Sterm{a}$, $w=\epsilon$, $x=\Sterm{b}$ und $y=\Sterm{b}^{i-1}$.\\
+Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i-1}=\Sterm{a}^{i+k-1}\Sterm{b}^{i+k-1}\in\Slang{L}$ für alle $k\geq 0$.
+}
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Ableitungsbäume aufpumpen}
+
+\vspace{-1ex}
+\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
+Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
+
+\narrowcentering{%
+\scalebox{0.65}{
+\begin{tikzpicture}[
+	scale=1.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+\pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+% 
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.5,-3.5) -- (1.5,-3.5) -- cycle;
+%
+\node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (-0.1,-0.8) -- (a12.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a12.270) -- (a11.90);
+%
+\node (a1u) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\phantom{\Snterm{A}}};
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a11.270) -- (-1.0,-4.50)-- (-0.5,-4.50)-- (a1u.270)-- (0.5,-4.50) -- (1.0,-4.52) -- cycle;
+\node (a1utop) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a11.270) -- (a1u.90);
+%
+\node (dots) [circle,draw=none,inner sep=0pt] at (0,-4.0) {$\vdots$};
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
+%
+% \draw[decorate,dashed,line width=0.2mm]
+% (0,-2.7) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-6.50) -- (1.0,-6.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-5.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-6.51) -- (0.5,-6.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.5,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-6.5) -- (-0.5,-6.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-6.5) -- (1,-6.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-6.5) -- (0.5,-6.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
+
+%% Frage eines Studenten: Warum ist |xv| nicht sogar > 1?
+
+\begin{frame}\frametitle{Beispiel}
+
+\begin{minipage}[t]{4.8cm}
+CNF-Grammatik für
+$\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 1\}$:
+\begin{align*}
+\Snterm{S} & \to \Snterm{A}\Snterm{B}\mid \Snterm{A}\Snterm{C}\\
+\Snterm{A} & \to \Sterm{a}\\
+\Snterm{B} & \to \Sterm{b}\\
+\Snterm{C} & \to \Snterm{S}\Snterm{B}
+\end{align*}%
+Konstante aus dem Beweis des Pumping-Lemma:
+$n=2^4=16$
+\medskip
+
+Aber man kann auch schon ab\\$n=4$ pumpen
+\bigskip
+
+
+\end{minipage}\pause~\hfill
+\begin{minipage}[t]{4.5cm}
+Beispiel: Ableitung für $\Sterm{aaabbb}$\\[1ex]
+\begin{tikzpicture}[decoration=penciline, decorate,xscale=0.8,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\pgfmathsetseed{7729}
+
+\visible<4->{
+\draw[fill=darkgreen!30,decorate,draw=none]
+(2,-1.5) -- (0.7,-2.7) -- (0.5,-6.3) -- (4.5,-6.3)-- (4.3,-3.7) -- (3.5,-2.7) -- cycle;
+\draw[fill=darkred!30,decorate,draw=none]
+(2.5,-3.5) -- (1.7,-4.7) -- (1.5,-6.3) -- (3.5,-6.3) -- (3.3,-4.7) -- cycle;
+}
+\visible<5->{
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](-0.5,-6.3) -- (0.5,-6.3) node[black,midway,yshift=-0.26cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](0.5,-6.3) -- (1.5,-6.3) node[black,midway,yshift=-0.26cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.5,-6.3) -- (3.5,-6.3) node[black,midway,yshift=-0.26cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](3.5,-6.3) -- (4.5,-6.3) node[black,midway,yshift=-0.26cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](4.5,-6.3) -- (5.5,-6.3) node[black,midway,yshift=-0.26cm] {$y$};
+}
+
+{\node (a1) [circle,draw=none,inner sep=1pt] at (0,-6) {\Sterm{a}};}
+{\node (a2) [circle,draw=none,inner sep=1pt] at (1,-6) {\Sterm{a}};}
+{\node (a3) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{a}};}
+{\node (b1) [circle,draw=none,inner sep=1pt] at (3,-6) {\Sterm{b}};}
+{\node (b2) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{b}};}
+{\node (b3) [circle,draw=none,inner sep=1pt] at (5,-6) {\Sterm{b}};}
+
+{\node (A1) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{A}};}
+{\node (A2) [circle,draw=none,inner sep=1pt] at (1,-3) {\Snterm{A}};}
+{\node (A3) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{A}};}
+{\node (B1) [circle,draw=none,inner sep=1pt] at (3,-5) {\Snterm{B}};}
+{\node (B2) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{B}};}
+{\node (B3) [circle,draw=none,inner sep=1pt] at (5,-2) {\Snterm{B}};}
+
+{\node (SAB) [circle,draw=none,onslideprint={<3->{draw=black,dotted,line width=0.4mm}},inner sep=1pt] at (2.5,-4) {\Snterm{S}};}
+{\node (CSB2) [circle,draw=none,inner sep=1pt] at (3.25,-3) {\Snterm{C}};}
+{\node (SAC2) [circle,draw=none,onslideprint={<3->{draw=black,dotted,line width=0.4mm}},inner sep=1pt] at (2,-2) {\Snterm{S}};}
+{\node (CSB1) [circle,draw=none,inner sep=1pt] at (3.5,-1) {\Snterm{C}};}
+{\node (SAC1) [circle,draw=none,inner sep=1pt] at (1.75,0) {\Snterm{S}};}
+
+\path[-,line width=0.3mm,onslideprint={<3->{dotted,line width=0.4mm}}](SAC1) edge (CSB1);
+\path[-,line width=0.3mm](SAC1) edge (A1);
+\path[-,line width=0.3mm,onslideprint={<3->{dotted,line width=0.4mm}}](CSB1) edge (SAC2);
+\path[-,line width=0.3mm](CSB1) edge (B3);
+\path[-,line width=0.3mm,onslideprint={<3->{dotted,line width=0.4mm}}](SAC2) edge (CSB2);
+\path[-,line width=0.3mm](SAC2) edge (A2);
+\path[-,line width=0.3mm,onslideprint={<3->{dotted,line width=0.4mm}}](CSB2) edge (SAB);
+\path[-,line width=0.3mm](CSB2) edge (B2);
+\path[-,line width=0.3mm](SAB) edge (A3);
+\path[-,line width=0.3mm](SAB) edge (B1);
+
+\path[-,line width=0.3mm](A1) edge (a1);
+\path[-,line width=0.3mm](A2) edge (a2);
+\path[-,line width=0.3mm](A3) edge (a3);
+\path[-,line width=0.3mm](B1) edge (b1);
+\path[-,line width=0.3mm](B2) edge (b2);
+\path[-,line width=0.3mm](B3) edge (b3);
+\end{tikzpicture}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel (2)}
+
+\begin{minipage}[t]{4.8cm}
+CNF-Grammatik für
+$\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 1\}$:
+\begin{align*}
+\Snterm{S} & \to \Snterm{A}\Snterm{B}\mid \Snterm{A}\Snterm{C}\\
+\Snterm{A} & \to \Sterm{a}\\
+\Snterm{B} & \to \Sterm{b}\\
+\Snterm{C} & \to \Snterm{S}\Snterm{B}
+\end{align*}%
+Konstante aus dem Beweis des Pumping-Lemma:
+$n=2^4=16$
+\medskip
+
+Aber man kann auch schon ab\\$n=4$ pumpen
+\bigskip
+
+
+\end{minipage}~~\hfill
+\begin{minipage}[t]{4.5cm}
+Beispiel: Ableitung für $\Sterm{aaabbb}$\\[1ex]
+\begin{tikzpicture}[decoration=penciline, decorate,xscale=0.8,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+
+\visible<3->{
+\draw[fill=darkgreen!30,decorate,draw=none]
+(3.5,-0.5) -- (0.7,-2.5) -- (0.5,-6.3) -- (5.5,-6.3)-- (5.3,-1.7) -- cycle;
+\draw[fill=darkred!30,decorate,draw=none]
+(3.25,-2.5) -- (1.7,-4.5) -- (1.5,-6.3) -- (4.5,-6.3) -- (4.3,-3.7) -- cycle;
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](-0.5,-6.3) -- (0.5,-6.3) node[black,midway,yshift=-0.26cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](0.5,-6.3) -- (1.5,-6.3) node[black,midway,yshift=-0.26cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.5,-6.3) -- (4.5,-6.3) node[black,midway,yshift=-0.26cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](4.5,-6.3) -- (5.5,-6.3) node[black,midway,yshift=-0.26cm] {$x$};
+% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](4.5,-6.3) -- (5.5,-6.3) node[black,midway,yshift=-0.26cm] {$y$};
+}
+
+{\node (a1) [circle,draw=none,inner sep=1pt] at (0,-6) {\Sterm{a}};}
+{\node (a2) [circle,draw=none,inner sep=1pt] at (1,-6) {\Sterm{a}};}
+{\node (a3) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{a}};}
+{\node (b1) [circle,draw=none,inner sep=1pt] at (3,-6) {\Sterm{b}};}
+{\node (b2) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{b}};}
+{\node (b3) [circle,draw=none,inner sep=1pt] at (5,-6) {\Sterm{b}};}
+
+{\node (A1) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{A}};}
+{\node (A2) [circle,draw=none,inner sep=1pt] at (1,-3) {\Snterm{A}};}
+{\node (A3) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{A}};}
+{\node (B1) [circle,draw=none,inner sep=1pt] at (3,-5) {\Snterm{B}};}
+{\node (B2) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{B}};}
+{\node (B3) [circle,draw=none,inner sep=1pt] at (5,-2) {\Snterm{B}};}
+
+{\node (SAB) [circle,draw=none,inner sep=1pt] at (2.5,-4) {\Snterm{S}};}
+{\node (CSB2) [circle,draw=none,inner sep=1pt,onslideprint={<2->{draw=black,dotted,line width=0.4mm}}] at (3.25,-3) {\Snterm{C}};}
+{\node (SAC2) [circle,draw=none,inner sep=1pt] at (2,-2) {\Snterm{S}};}
+{\node (CSB1) [circle,draw=none,inner sep=1pt,onslideprint={<2->{draw=black,dotted,line width=0.4mm}}] at (3.5,-1) {\Snterm{C}};}
+{\node (SAC1) [circle,draw=none,inner sep=1pt] at (1.75,0) {\Snterm{S}};}
+
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](SAC1) edge (CSB1);
+\path[-,line width=0.3mm](SAC1) edge (A1);
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](CSB1) edge (SAC2);
+\path[-,line width=0.3mm](CSB1) edge (B3);
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](SAC2) edge (CSB2);
+\path[-,line width=0.3mm](SAC2) edge (A2);
+\path[-,line width=0.3mm](CSB2) edge (SAB);
+\path[-,line width=0.3mm](CSB2) edge (B2);
+\path[-,line width=0.3mm](SAB) edge (A3);
+\path[-,line width=0.3mm](SAB) edge (B1);
+
+\path[-,line width=0.3mm](A1) edge (a1);
+\path[-,line width=0.3mm](A2) edge (a2);
+\path[-,line width=0.3mm](A3) edge (a3);
+\path[-,line width=0.3mm](B1) edge (b1);
+\path[-,line width=0.3mm](B2) edge (b2);
+\path[-,line width=0.3mm](B3) edge (b3);
+\end{tikzpicture}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel (3)}
+
+\begin{minipage}[t]{4.8cm}
+CNF-Grammatik für
+$\Sterm{a}\Sterm{b}^*\Sterm{a}$:
+\begin{align*}
+\Snterm{S} & \to \Snterm{A}\Snterm{B}\\
+\Snterm{A} & \to \Sterm{a}\\
+\Snterm{B} & \to \Snterm{C}\Snterm{A}\\
+\Snterm{C} & \to \Snterm{C}\Snterm{C}\mid \Sterm{b}
+\end{align*}%
+Konstante aus dem Beweis des Pumping-Lemma:
+$n=2^4=16$
+\medskip
+
+Aber man kann auch schon ab\\$n=4$ pumpen
+\bigskip
+
+
+\end{minipage}~~\hfill
+\begin{minipage}[t]{4.5cm}
+Beispiel: Ableitung für $\Sterm{abba}$\\[1ex]
+\narrowcentering{%
+\begin{tikzpicture}[decoration=penciline, decorate,xscale=0.8,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+
+\visible<3->{
+\draw[fill=darkgreen!30,decorate,draw=none]
+(1.5,-3.5) -- (0.5,-5) -- (0.7,-6.3) -- (2.5,-6.3)-- (2.3,-4.5) -- cycle;
+\draw[fill=darkred!30,decorate,draw=none]
+(1,-4.5) -- (0.5,-5) -- (0.5,-6.3) -- (1.5,-6.3) -- (1.5,-5) -- cycle;
+% 
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](-0.5,-6.3) -- (0.5,-6.3) node[black,midway,yshift=-0.26cm] {$u$};
+% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](0.5,-6.3) -- (1.5,-6.3) node[black,midway,yshift=-0.26cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](0.5,-6.3) -- (1.5,-6.3) node[black,midway,yshift=-0.26cm] {$w$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.5,-6.3) -- (2.5,-6.3) node[black,midway,yshift=-0.26cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](2.5,-6.3) -- (3.5,-6.3) node[black,midway,yshift=-0.26cm] {$y$};
+{\node (v) [circle,draw=none,inner sep=1pt] at (1.5,-7.5) {$v=\epsilon$};}
+}
+
+{\node (a1) [circle,draw=none,inner sep=1pt] at (0,-6) {\Sterm{a}};}
+{\node (b2) [circle,draw=none,inner sep=1pt] at (1,-6) {\Sterm{b}};}
+{\node (b3) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{b}};}
+{\node (a4) [circle,draw=none,inner sep=1pt] at (3,-6) {\Sterm{a}};}
+
+{\node (A1) [circle,draw=none,inner sep=1pt] at (0,-5) {\Snterm{A}};}
+{\node (C2) [circle,draw=none,inner sep=1pt,onslideprint={<2->{draw=black,dotted,line width=0.4mm}}] at (1,-5) {\Snterm{C}};}
+{\node (C3) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{C}};}
+{\node (A4) [circle,draw=none,inner sep=1pt] at (3,-5) {\Snterm{A}};}
+
+{\node (CCC) [circle,draw=none,inner sep=1pt,onslideprint={<2->{draw=black,dotted,line width=0.4mm}}] at (1.5,-4) {\Snterm{C}};}
+{\node (B) [circle,draw=none,inner sep=1pt] at (2.25,-3) {\Snterm{B}};}
+{\node (S) [circle,draw=none,inner sep=1pt] at (1.125,-2) {\Snterm{S}};}
+
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](S) edge (B);
+\path[-,line width=0.3mm](S) edge (A1);
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](B) edge (CCC);
+\path[-,line width=0.3mm](B) edge (A4);
+\path[-,line width=0.3mm,onslideprint={<2->{dotted,line width=0.4mm}}](CCC) edge (C2);
+\path[-,line width=0.3mm](CCC) edge (C3);
+
+\path[-,line width=0.3mm](A1) edge (a1);
+\path[-,line width=0.3mm](C2) edge (b2);
+\path[-,line width=0.3mm](C3) edge (b3);
+\path[-,line width=0.3mm](A4) edge (a4);
+\end{tikzpicture}}
+\end{minipage}
+
+\end{frame}
+
+\sectionSlide{Abschlusseigenschaften kontextfreier Sprachen}
+
+\newcommand{\mytabnote}[2]{\ghost{#1}\hspace{2cm}{\textcolor{devilscss}{(#2)}}}
+\newcommand{\myhitabnote}[2]{\ghost{#1}\hspace{2cm}{\textcolor{darkred}{#2}}}
+\begin{frame}\frametitle{Rückblick: Reguläre Sprachen}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+folgenden Ausdrücke reguläre Sprachen:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Abschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slang{L}}$}{Abschluss unter Komplement}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+\bigskip
+
+\narrowcentering{\alert{Wie sieht es bei den kontextfreien Sprachen aus?}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschluss für kontextfreie Sprachen?}
+
+Bei kontextfreien Sprachen ergibt sich ein anderes Bild:
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
+\begin{enumerate}[(1)]%
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+Aber: 
+\theobox{
+Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+Ausdrücke keine kontextfreien Sprachen sind:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slang{L}}$}{Nichtabschluss unter Komplement}
+\end{enumerate}
+}
+
+\end{frame}
+
+% \begin{frame}\frametitle{Beweis der Abschlusseigenschaften}
+% 
+% \emph{Beweistechnik für reguläre Sprachen:}
+% durch Angabe entsprechender Operationen auf endlichen Automaten
+% \bigskip
+% 
+% \emph{Beweistechnik für kontextfreie Sprachen:}
+% durch Angabe entsprechender Operationen auf formalen Grammatiken
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
+\begin{enumerate}[(1)]%
+\item \myhitabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschluss unter Vereinigung}
+
+Wir konstruieren eine Vereingungsgrammatik
+
+\defbox{Gegeben seien zwei formale Grammatiken $G_1=\tuple{V_1,\Sigma,P_1,\Sntermsub{S}{1}}$
+und $G_2=\tuple{V_2,\Sigma,P_2,\Sntermsub{S}{2}}$ mit $V_1\cap V_2=\emptyset$ (o.B.d.A.).
+\medskip
+
+Die \redalert{Vereinigungsgrammatik $G_1\uplus G_2$} ist gegeben durch\\[1ex]
+%
+\narrowcentering{$G_1\uplus G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\mid \Sntermsub{S}{2}\},\Sntermsub{S}{1}}$,}\\[1ex]
+%
+wobei $\Snterm{S}$ ein neues Startsymbol ist, das nicht in $V_1\cup V_2$ vorkommt.
+}
+
+In Worten: Die neuen Ableitungsregeln $\Snterm{S}\to \Sntermsub{S}{1}\mid \Sntermsub{S}{2}$ ermöglichen es, dass $G_1\uplus G_2$ entweder Wörter aus $G_1$ oder aus $G_2$ generiert.
+\bigskip\pause
+
+Es ist daher leicht zu sehen:\medskip
+
+\theobox{Satz: $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}
+
+\end{frame}
+
+% \begin{frame}\frametitle{Vereinigung: Beispiel}
+% 
+% TODO
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Vereinigungen in Typ 2?}
+
+Bisher haben wir nur erkannt:\medskip
+
+\theobox{Satz: $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}\pause
+
+Für die Abschlusseigenschaft sollte noch mehr gelten:
+
+\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist auch $G_1\uplus G_2$ kontextfrei.}
+
+Das ist leicht zu sehen, da die zusätzliche Regel kontextfrei ist.\pause
+\medskip
+
+Daher gilt sogar noch ein stärkerer Satz:
+
+\theobox{Satz: Wenn $G_1$ und $G_2$ von Typ $i\in\{2,1,0\}$ sind, dann ist auch $G_1\uplus G_2$ von Typ $i$.}
+
+\begin{enumerate}[$\leadsto$]
+\item Typ-0-Sprachen, kontextsensitive Sprachen und kontextfreie Sprachen sind unter Vereinigung abgeschlossen\\
+{\tiny(reguläre Sprachen auch, aber das haben wir anders gezeigt)}
+\end{enumerate}
+ 
+\end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
+\begin{enumerate}[(1)]%
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \myhitabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \mytabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Konkatenation von Grammatiken}
+
+Wir erinnern uns: $\Slangsub{L}{1}\circ\Slangsub{L}{2}=\{w_1 w_2\mid w_1\in\Slangsub{L}{1}\text{ und }w_2\in\Slangsub{L}{2}\}$\medskip
+
+Es ist nicht schwer, eine passende Grammatik zu finden:
+
+\defbox{Gegeben seien zwei formale Grammatiken $G_1=\tuple{V_1,\Sigma,P_1,\Sntermsub{S}{1}}$
+und $G_2=\tuple{V_2,\Sigma,P_2,\Sntermsub{S}{2}}$ mit $V_1\cap V_2=\emptyset$ (o.B.d.A.).
+\medskip
+
+Die Grammatik \redalert{$G_1\circ G_2$} ist gegeben durch\\[1ex]
+%
+\narrowcentering{$G_1\circ G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\Sntermsub{S}{2}\},\Sntermsub{S}{1}}$,}\\[1ex]
+%
+wobei $\Snterm{S}$ ein neues Startsymbol ist, das nicht in $V_1\cup V_2$ vorkommt.
+}
+
+In Worten: Die neue Ableitungsregel $\Snterm{S}\to \Sntermsub{S}{1}\Sntermsub{S}{2}$ ermöglicht es, dass $G_1\circ G_2$ Wörter aus $G_1$ gefolgt von Wörtern aus $G_2$ generiert.
+
+% Gilt auch hier $\Slang{L}(G_1\circ G_2)=$?
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel Konkatenation}
+
+Wir betrachten die Grammatiken
+\begin{align*}
+G_1:\quad  \Sntermsub{S}{1} &\to \Sterm{a}\Sntermsub{S}{1}\Sterm{b}\mid \epsilon\\
+G_2:\quad  \Sntermsub{S}{2} &\to \Sterm{c}\Sntermsub{S}{2}\mid\epsilon
+\end{align*}\pause
+Damit ist $\Slang{L}(G_1)=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ und $\Slang{L}(G_2)=\{\Sterm{c}^k\mid k\geq 0\}$.
+\bigskip
+
+\pause
+Die Konkatenation der Grammatiken enthält die folgenden Regeln:
+\begin{align*}
+G_1\circ G_2: &&
+& \Snterm{S}\to \Sntermsub{S}{1}\Sntermsub{S}{2}
+& \Sntermsub{S}{1} &\to \Sterm{a}\Sntermsub{S}{1}\Sterm{b}\mid \epsilon
+& \Sntermsub{S}{2} &\to \Sterm{c}\Sntermsub{S}{2}\mid\epsilon
+\end{align*}\pause
+Damit ergibt sich $\Slang{L}(G_1\circ G_2)=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}$.
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheit}
+
+\emph{Hypothese:} $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$
+\medskip\pause
+
+\redalert{Leider stimmt das nicht:}\medskip
+
+\examplebox{Gegenbeispiel:
+$G_1$ sei die Grammatik mit er einen Regel $\Sntermsub{S}{1}\to \Sterm{a}$
+und $G_2$ die Grammatik mit den Regeln $\Sntermsub{S}{2}\to \Sterm{b}$ und 
+$\Sterm{a}\Sntermsub{S}{2}\to \Sterm{c}$.\medskip
+
+Dann ist $\Slang{L}(G_1)=\{\Sterm{a}\}$ und $\Slang{L}(G_2)=\{\Sterm{b}\}$. 
+Trotzdem erlaubt $G_1\circ G_2$ die Ableitung
+$\Snterm{S}\Rightarrow \Sntermsub{S}{1}\Sntermsub{S}{2}\Rightarrow \Sterm{a}\Sntermsub{S}{2}\Rightarrow \Sterm{c}$.
+}\pause
+
+Korrekt ist dagegen:
+
+\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$. Zudem ist $G_1\circ G_2$ in diesem Fall kontextfrei.}
+
+\emph{Beweis:} siehe Tafel.\medskip
+
+Damit erhalten wir den gewünschten Abschluss.
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
+
+\theobox{
+Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
+\begin{enumerate}[(1)]%
+\item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
+\item \mytabnote{$\Slangsub{L}{1}\circ\Slangsub{L}{2}$}{Abschluss unter Konkatenation}
+\item \myhitabnote{$\Slang{L}^*$}{Abschluss unter Kleene-Stern}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kleene-Stern für Grammatiken}
+Wir erinnern uns: $\Slang{L}^*=\{w_1 w_2\cdots w_i\mid i\geq 0, w_1,\ldots,w_i\in\Slang{L}\}=\bigcup_{i\geq 0} \Slang{L}^i$\pause\medskip
+
+Auch hier kann man leicht eine passende Grammatik finden:
+
+\defbox{Gegeben sei eine formale Grammatik $G=\tuple{V,\Sigma,P,\Snterm{S}}$.
+\medskip
+
+Die Grammatik \redalert{$G^*$} ist gegeben durch\\[1ex]
+%
+\narrowcentering{$G^*=\tuple{V\cup\{\Snterm{S}'\},\Sigma,P \cup \{ \Snterm{S}'\to \epsilon\mid\Snterm{S}\Snterm{S}'\},\Snterm{S}'}$,}\\[1ex]
+%
+wobei $\Snterm{S}'$ ein neues Startsymbol ist, das nicht in $V$ vorkommt.
+}
+
+In Worten: Die neuen Ableitungsregeln $\Snterm{S}'\to \epsilon\mid\Snterm{S}\Snterm{S}'$ ermöglichen es, dass $G^*$ beliebig lange Ketten aus Wörtern aus $G$ generiert.
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel Kleene-Stern}
+
+Wir betrachten die Grammatik
+\begin{align*}
+G:\qquad \Snterm{S} &\to \Snterm{S}\Sterm{a}\Snterm{S}\Sterm{b}\mid \Snterm{S}\Sterm{b}\Snterm{S}\Sterm{a}\mid \epsilon
+\end{align*}
+\alert{Übung:} Welche Sprache erzeugt diese Grammatik?\medskip\pause
+
+Der Kleene-Abschluss dieser Grammatik ist
+\begin{align*}
+G':\qquad \Snterm{S}' &\to \epsilon\mid\Snterm{S}\Snterm{S}' & \Snterm{S} &\to \Snterm{S}\Sterm{a}\Snterm{S}\Sterm{b}\mid \Snterm{S}\Sterm{b}\Snterm{S}\Sterm{a}\mid \epsilon
+\end{align*}
+\alert{Übung:} Welche Sprache erzeugt diese Grammatik? 
+
+\end{frame}
+
+\begin{frame}\frametitle{Korrektheit beim Kleene-Abschluss}
+
+Wie schon beim Konkatenation funktioniert diese Operation auf kontextfreien Grammatiken wie
+erwünscht:
+
+\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$. Zudem ist $G^*$ in diesem Fall kontextfrei.}
+
+\emph{Beweis:} siehe Tafel.
+\medskip\pause
+
+Für nicht kontextfreie Grammatiken gilt dieser Satz im Allgemeinen nicht:
+
+\examplebox{Beispiel: Die (kontextsensitive) Grammatik $G$ mit der einen Regel $\Snterm{S}\Snterm{S}\to \Sterm{0}$
+kann nichts hervorbringen. Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
+\[ \Snterm{S}'\Rightarrow \Snterm{S}\Snterm{S}\Rightarrow \Sterm{0}\]
+}
+
+\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$. Zudem ist $G^*$ in diesem Fall kontextfrei.}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Nicht-Abschlusseigenschaften}
+
+\theobox{
+Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+Ausdrücke keine kontextfreien Sprachen sind:
+\begin{enumerate}[(1)]
+\item \myhitabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
+\item \mytabnote{$\overline{\Slang{L}}$}{Nichtabschluss unter Komplement}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Nicht-Abschluss unter $\cap$}
+
+\emph{Beweisansatz:} Wir müssen kontextfreie Sprachen $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ finden, für die
+$\Slangsub{L}{1}\cap\Slangsub{L}{2}$ nicht kontextfrei ist.\medskip
+
+\alert{Welche nicht-kontextfreien Sprachen kennen wir?}\pause
+\medskip
+
+\narrowcentering{{\huge$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$}}
+\bigskip\pause
+
+\alert{Welche ähnlichen kontextfreien Sprachen kennen wir?}\pause
+\medskip
+
+\narrowcentering{{\huge$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}$}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Nicht-Abschluss unter $\cap$ (2)}
+
+\theobox{
+Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass $\Slangsub{L}{1}\cap\Slangsub{L}{2}$ keine kontextfreie Sprache ist.}
+
+\emph{Beweis:} Die folgenden Sprachen sind kontextfrei:
+\begin{align*}
+\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\} && \text{(zuvor gezeigt)}\\
+\{\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\} && \text{(analog)}\\
+\{\Sterm{a}^i\mid i\geq 0\} && \text{(regulär)}\\
+\{\Sterm{c}^i\mid i\geq 0\} && \text{(regulär, zuvor gezeigt)}
+\end{align*}\pause
+% 
+Dank Abschluss unter Konkatenation sind also auch kontextfrei:
+\begin{align*}
+\Slangsub{L}{1}&=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}\circ \{\Sterm{c}^i\mid i\geq 0\} = \{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}\\
+\Slangsub{L}{2}&=\{\Sterm{a}^i\mid i\geq 0\}\circ \{\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\} = \{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i\geq 0, k\geq 0\}.
+\end{align*}\pause
+Der Schnitt $\Slangsub{L}{1}\cap\Slangsub{L}{2}$ ist aber $\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ und
+also nicht kontextfrei (zuvor gezeigt).\qed
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Nicht-Abschlusseigenschaften}
+
+\theobox{
+Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+Ausdrücke keine kontextfreien Sprachen sind:
+\begin{enumerate}[(1)]
+\item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
+\item \myhitabnote{$\overline{\Slang{L}}$}{Nichtabschluss unter Komplement}
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Nicht-Abschluss unter Komplement}
+
+\theobox{
+Satz: Es gibt eine kontextfreie Sprache $\Slang{L}$, so dass $\overline{\Slang{L}}$ keine kontextfreie Sprache ist.
+}\pause
+
+\emph{Beweis:}
+Die Behauptung folgt unmittelbar aus dem bereits gezeigten\pause:
+\begin{itemize}
+\item Angenommen, Typ-2-Sprachen wären unter Komplement abgeschlossen\pause
+\item Wir wissen bereits, dass Typ-2-Sprachen unter Vereinigung abgeschlossen sind\pause
+\item Laut den Gesetzen der Mengenlehre gilt:\\[1ex]
+\narrowcentering{$\Slangsub{L}{1}\cap\Slangsub{L}{2} = \overline{\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}}\qquad$ (De Morgan)}\pause
+\item Daraus folgt, dass Typ-2-Sprachen unter Schnitt abgeschlossen sind -- Widerspruch\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Eine Warnung zum Nicht-Abschluss}
+
+\begin{center}
+\redalert{Nicht-Abschluss unter Schnitt und Komplement bedeutet nicht, dass Schnitte bzw. Komplemente kontextfreier Sprachen grundsätzlich nicht kontextfrei sein können.}
+\end{center}\pause
+
+\examplebox{Beispiel: Alle regulären Sprachen sind kontextfrei, aber ihre Schnitte und Komplemente sind
+weiterhin regulär, also auch kontextfrei.}\pause
+
+\examplebox{Beispiel: Das Komplement der nicht-regulären Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ ist
+die Vereinigung der folgenden Sprachen:\\[1ex]
+\narrowcentering{$\Slangsub{L}{1}=\{\Sterm{a},\Sterm{b}\}^*\{\Sterm{ba}\}\{\Sterm{a},\Sterm{b}\}^*$\hfill$\Slangsub{L}{2}=\{\Sterm{a}\}^+ \Slang{L}$\hfill$\Slangsub{L}{3}=\Slang{L}\{\Sterm{b}\}^+$}\\[1ex]
+% 
+% \begin{itemize}
+% \item $\Slangsub{L}{1}=\{\Sterm{a},\Sterm{b}\}^*\{\Sterm{ba}\}\{\Sterm{a},\Sterm{b}\}^*$
+% \item $\Slangsub{L}{2}=\{\Sterm{a}\}^+ \Slang{L}$
+% \item $\Slangsub{L}{3}=\Slang{L}\{\Sterm{b}\}^+$
+% \end{itemize}
+$\Slangsub{L}{1}$ ist regulär, also kontextfrei. $\Slangsub{L}{2}$ und $\Slangsub{L}{3}$ sind kontextfrei, da sie als Konkatenation zweier kontextfreier Sprachen entstehen. Die Vereinigung $\Slangsub{L}{1}\cup\Slangsub{L}{2}\cup\Slangsub{L}{3}$ ist also auch kontextfrei.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ein nicht-kontextfreies Komplement}
+
+Unser Widerspruchsbeweis zum Abschluss unter Komplement liefert uns noch kein 
+konkretes Beispiel eines nicht-kontextfreien Komplements.\pause
+\medskip
+
+Wir können es aber aus den Beweisen ableiten:
+\begin{itemize}
+\item Seien $\Slangsub{L}{1}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}$ 
+und \ghost{$\Slangsub{L}{2}=\{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i\geq 0, k\geq 0\}$}
+%
+\item $\Slangsub{L}{1}\cap\Slangsub{L}{2}=\overline{\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}=\Slang{L}$ ist nicht kontextfrei\pause
+%
+\item $\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}$ ist die Vereinigung der folgenden Typ-2-Sprachen:
+\begin{itemize}
+\item $\{\Sterm{a},\Sterm{b},\Sterm{c}\}^*\circ\{\Sterm{ba},\Sterm{ca},\Sterm{bc}\}\circ\{\Sterm{a},\Sterm{b},\Sterm{c}\}^*$ (falsche Reihenfolge)
+\item $\{\Sterm{a}\}^+\circ \{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}\circ\{\Sterm{c}\}^*$ \hspace{1.25cm}(zu viele $\Sterm{a}$ für $\Slangsub{L}{1}$)
+\item $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}\circ\{\Sterm{b}\}^+\circ\{\Sterm{c}\}^*$ \hspace{1.25cm}(zu viele $\Sterm{b}$ für $\Slangsub{L}{1}$)
+\item $\{\Sterm{a}\}^*\circ\{\Sterm{b}\}^+\circ \{\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ \hspace{1.25cm}(zu viele $\Sterm{b}$ für $\Slangsub{L}{2}$)
+\item $\{\Sterm{a}\}^*\circ \{\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}\circ\{\Sterm{c}\}^+$  \hspace{1.25cm}(zu viele $\Sterm{c}$ für $\Slangsub{L}{2}$)
+\end{itemize}
+%
+\item $\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}$ ist daher kontextfrei, aber ihr Komplement nicht
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+Kontextfreie Sprachen sind \redalert{abgeschlossen unter Vereinigung, Konkatenation und Kleene-Stern}
+\bigskip
+
+Kontextfreie Sprachen sind \redalert{nicht abgeschlossen unter Komplement und Schnitt}
+\bigskip
+
+Abschlüsse beruhen auf Grammatikoperationen, die man auf beliebige Grammatiken anwenden könnte, aber nur
+der \redalert{Abschluss unter $\cup$ für Typ 0 und Typ 1} kann so gezeigt werden.
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Haben kontextfreie Sprachen ein Berechnungsmodell?
+\item Welche Probleme auf kontextfreien Grammatiken kann man lösen?
+\item Was gibt es zu Typ 1 und Typ 0 zu sagen?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}
