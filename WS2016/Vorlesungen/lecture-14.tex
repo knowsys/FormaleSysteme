@@ -427,7 +427,7 @@ und $G_2=\tuple{V_2,\Sigma,P_2,\Sntermsub{S}{2}}$ mit $V_1\cap V_2=\emptyset$ (o
 
 Die \redalert{Vereinigungsgrammatik $G_1\uplus G_2$} ist gegeben durch\\[1ex]
 %
-\narrowcentering{$G_1\uplus G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\mid \Sntermsub{S}{2}\},\Sntermsub{S}{1}}$,}\\[1ex]
+\narrowcentering{$G_1\uplus G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\mid \Sntermsub{S}{2}\},\Snterm{S}}$,}\\[1ex]
 %
 wobei $\Snterm{S}$ ein neues Startsymbol ist, das nicht in $V_1\cup V_2$ vorkommt.
 }
@@ -497,7 +497,7 @@ und $G_2=\tuple{V_2,\Sigma,P_2,\Sntermsub{S}{2}}$ mit $V_1\cap V_2=\emptyset$ (o
 
 Die Grammatik \redalert{$G_1\circ G_2$} ist gegeben durch\\[1ex]
 %
-\narrowcentering{$G_1\circ G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\Sntermsub{S}{2}\},\Sntermsub{S}{1}}$,}\\[1ex]
+\narrowcentering{$G_1\circ G_2=\tuple{V_1\cup V_2\cup\{\Snterm{S}\},\Sigma,P_1\cup P_2 \cup \{ \Snterm{S}\to \Sntermsub{S}{1}\Sntermsub{S}{2}\},\Snterm{S}}$,}\\[1ex]
 %
 wobei $\Snterm{S}$ ein neues Startsymbol ist, das nicht in $V_1\cup V_2$ vorkommt.
 }
@@ -600,7 +600,7 @@ G:\qquad \Snterm{S} &\to \Snterm{S}\Sterm{a}\Snterm{S}\Sterm{b}\mid \Snterm{S}\S
 
 Der Kleene-Abschluss dieser Grammatik ist
 \begin{align*}
-G':\qquad \Snterm{S}' &\to \epsilon\mid\Snterm{S}\Snterm{S}' & \Snterm{S} &\to \Snterm{S}\Sterm{a}\Snterm{S}\Sterm{b}\mid \Snterm{S}\Sterm{b}\Snterm{S}\Sterm{a}\mid \epsilon
+G^*:\qquad \Snterm{S}' &\to \epsilon\mid\Snterm{S}\Snterm{S}' & \Snterm{S} &\to \Snterm{S}\Sterm{a}\Snterm{S}\Sterm{b}\mid \Snterm{S}\Sterm{b}\Snterm{S}\Sterm{a}\mid \epsilon
 \end{align*}
 \alert{Übung:} Welche Sprache erzeugt diese Grammatik? 
 
@@ -622,9 +622,6 @@ Für nicht kontextfreie Grammatiken gilt dieser Satz im Allgemeinen nicht:
 kann nichts hervorbringen. Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
 \[ \Snterm{S}'\Rightarrow \Snterm{S}\Snterm{S}\Rightarrow \Sterm{0}\]
 }
-
-\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$. Zudem ist $G^*$ in diesem Fall kontextfrei.}
-
 
 \end{frame}
 
