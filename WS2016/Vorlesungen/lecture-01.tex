@@ -376,7 +376,7 @@ Code eines unerfahrenen Programmierers:\medskip
 ~~~\Scode{while} hasNextSymbol():\\
 ~~~~~~~~symbol = getNextSymbol()\\
 ~~~~~~~~\Scode{if} ( state == \Scodelit{"{}start"{}} \&\& isLetter(symbol) ):\\
-~~~~~~~~~~~~~state = \Sterm{\squote\nameForInnerLexerState\squote}\\
+~~~~~~~~~~~~~state = \Scodelit{"{}\nameForInnerLexerState"{}}\\
 ~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}start"{}} \&\& !isLetter(symbol) ):\\
 ~~~~~~~~~~~~~\Scode{return} \Scodelit{false}\\
 ~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}\nameForInnerLexerState"{}} \&\& isLetter(symbol) ):\\
