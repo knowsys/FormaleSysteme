@@ -150,7 +150,8 @@ Wir können Übergänge der folgenden Form erlauben:\medskip
 "`Wenn in Zustand $q_a$ das Zeichen (oder leere Wort) $\sigma$ gelesen wird\\
 und wenn $\Snterm{A}$ oben vom Keller geholt werden kann (\texttt{pop}),\\
 dann wechsle in Zustand $q_b$\\
-und lege die Zeichen $\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$ auf den Keller."'
+und lege die Zeichen $\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$ auf den Keller\\
+(wobei $\Sntermsub{B}{1}$ ganz oben zu liegen kommt)."'
 \medskip\pause
 
 Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
@@ -163,10 +164,10 @@ Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
 \node (nm1) [circle,draw=black,thick] at (6,0) {$q_{n-1}$};
 \node (b) [circle,draw=black,thick] at (8,0) {$q_b$};
 %
-\path[->,line width=0.5mm](a) edge node[right,yshift=2mm,xshift=-1mm] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{1}$} (n1);
-\path[->,line width=0.5mm](n1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{2}$} (n2);
-\path[->,line width=0.5mm](n2) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n-1}$} (nm1);
-\path[->,line width=0.5mm](nm1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n}$} (b);
+\path[->,line width=0.5mm](a) edge node[right,yshift=2mm,xshift=-1mm] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{n}$} (n1);
+\path[->,line width=0.5mm](n1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n-1}$} (n2);
+\path[->,line width=0.5mm](n2) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{2}$} (nm1);
+\path[->,line width=0.5mm](nm1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{1}$} (b);
 \end{tikzpicture}
 
 \end{frame}
@@ -216,7 +217,7 @@ Wir wollen zunächst eine Richtung zeigen:
 
 \theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\bigskip
 
-\emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,S}$.
+\emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$.
 Wir definieren einen erweiterten PDA\pause:\bigskip
 
 \narrowcentering{%
@@ -722,7 +723,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 
 \end{tikzpicture}%}
 
-\bigskip
+\bigskip\pause
 \narrowcentering{$\leadsto$ $\Sterm{a}\Slangsub{L}{$q_5,q_4$}\Sterm{b}\subseteq\Slangsub{L}{$q_0,q_f$}$}
 
 \end{frame}
@@ -828,7 +829,7 @@ Es gibt einen zweiten relevanten Fall zur Ableitung von $\Slangsub{L}{$q_0,q_f$}
 
 \end{tikzpicture}%}
 
-\bigskip
+\bigskip\pause
 \narrowcentering{$\leadsto$ $\Slangsub{L}{$q_0,q_1$}\Slangsub{L}{$q_1,q_f$}\subseteq\Slangsub{L}{$q_0,q_f$}$}
 
 \end{frame}
@@ -1003,10 +1004,10 @@ $r$ mit leerem Keller gelangen kann.
 Die \alert{Grammatik $G(\Smach{P})$} besteht aus den folgenden Regeln:
 
 \begin{enumerate}[(1)]
-\item Für alle $p,q,s_1,s_2\in Q$, $\Sterm{a},\Sterm{b}\in\Sigma$
+\item Für alle $p,q,s_1,s_2\in Q$, $a,b\in\Sigma_\epsilon$
 und $\Snterm{A}\in\Gamma$, für die\\es Übergänge
-$\tuple{s_1,\Snterm{A}}\in\delta(q,\Sterm{a},\epsilon)$ und $\tuple{r,\epsilon}\in\delta(s_2,\Sterm{b},\Snterm{A})$ gibt,\\
-die Regel $\Sntermsub{V}{q,r} \to \Sterm{a}\Sntermsub{V}{{\Sntermsub{s}{1}},{\Sntermsub{s}{2}}}\Sterm{b}$
+$\tuple{s_1,\Snterm{A}}\in\delta(q,a,\epsilon)$ und $\tuple{r,\epsilon}\in\delta(s_2,b,\Snterm{A})$ gibt,\\
+die Regel $\Sntermsub{V}{q,r} \to a\Sntermsub{V}{{\Sntermsub{s}{1}},{\Sntermsub{s}{2}}}b$
 % 
 \item Für alle Zustände $p,q,s\in Q$, die Regel $\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$
 % 
@@ -1047,7 +1048,7 @@ Als Grammatik ergibt sich:
 % 
 \begin{align*}
 \Sntermsub{V}{s,f} & \to \epsilon\Sntermsub{V}{a,b}\epsilon\\
-\Sntermsub{V}{a,b} & \to \Sterm{a}\Sntermsub{V}{a,b}\Sterm{b}\mid \Sterm{a}\Sntermsub{V}{a,a}\Sterm{b}\mid \Sterm{a}\Sntermsub{V}{b,b}\Sterm{b}\\
+\Sntermsub{V}{a,b} & \to \Sterm{a}\Sntermsub{V}{a,b}\Sterm{b}\mid \Sterm{a}\Sntermsub{V}{a,a}\Sterm{b}\\
 \Sntermsub{V}{a,a} & \to \epsilon \qquad \Sntermsub{V}{b,b}\to \epsilon\qquad \Sntermsub{V}{s,s}\to \epsilon\qquad \Sntermsub{V}{r,r}\to \epsilon \\
 \Sntermsub{V}{a,a} & \to\Sntermsub{V}{a,a}\Sntermsub{V}{a,a}\mid\Sntermsub{V}{a,b}\Sntermsub{V}{b,a}\mid\Sntermsub{V}{a,s}\Sntermsub{V}{s,a}\mid\Sntermsub{V}{a,r}\Sntermsub{V}{r,a}\qquad
 \Sntermsub{V}{a,b}\to\ldots\qquad\ldots
