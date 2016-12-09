@@ -1,0 +1,590 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+% \usetikzlibrary{shapes}
+
+\defineTitle{17}{Anwendungen und Entscheidungsprobleme}{12. Dezember 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}[fragile]\frametitle{PDA ${}\hat{=}{}$ CFG ${}\hat{=}{}$ Typ 2}
+
+% \theobox{Satz: Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.}\bigskip
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=18mm, minimum height=12mm, inner sep=1mm,
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=17mm, minimum height=10mm, inner sep=1.5mm,
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (cfg) [decorate,mybox=black/cyan!40] at (0,0) {CFG};
+\node (pda) [decorate,mybox=black/cyan!40] at (8,0) {PDA};
+\node (gpda) [decorate,mybox=black/cyan!40,text width=28mm] at (4,2) {PDA\\{\footnotesize mit Wort-\texttt{push}}};
+\node (spda) [decorate,mybox=black/cyan!40,text width=38mm] at (4,-2) {PDA\vspace{-1.5ex}\begin{flushleft}\tiny
+~--~~je ein Start- und ein Endzustand\\
+~--~~Keller wird vor Akzeptanz geleert\\
+~--~~pro Schritt \texttt{pop} oder \texttt{push}, nie beides\end{flushleft}
+};
+%
+\path[myarrow=devilscss,bend left=20,-](cfg.90) edge[->] (gpda.180);
+	\node (cfggpdalabel) [decorate,myboxlabel=,text width=26mm] at (0.2,2.4) {\footnotesize"`$\Snterm{A} \to w$"' $\leadsto$ "`$\tuple{q_l,w}\in\delta(q_l,\epsilon,\Snterm{A})$"'};
+\path[myarrow=devilscss,bend left=20,-](gpda.0) edge[->] (pda.90);
+	\node (gpdapdalabel) [decorate,myboxlabel=,text width=31mm] at (7.5,2.6) {\footnotesize"`\texttt{push}($\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$)"' $\leadsto$ "`\texttt{push}($\Sntermsub{B}{n}$),\ldots,\texttt{push}($\Sntermsub{B}{1}$)"'};
+\path[myarrow=devilscss,bend left=20,-](pda.270) edge[->] (spda.0);
+	\node (gpdapdalabel) [decorate,myboxlabel=,text width=22mm] at (7.8,-2.5) {\footnotesize wie in Vorlesung skizziert};
+\path[myarrow=devilscss,bend left=20,-](spda.180) edge[->] (cfg.270);
+	\node (spdacfglabel) [decorate,myboxlabel=,text width=19mm] at (-0.1,-2.4) {\footnotesize%
+	$\Sntermsub{V}{q,r} \to \Sterm{a}\Sntermsub{V}{s,t}\Sterm{b}$\\
+	$\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$\\[-0.7mm]
+	$\Sntermsub{V}{q,q} \to \epsilon$};
+
+\node (thm) [decorate,draw=darkblue, fill=darkblue!10,thick,align=left,text width=40mm, inner ysep=2mm, inner xsep=2mm] at (4,0) {Satz: Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.};
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}\frametitle{Deterministische Kellerautomaten}
+
+\defbox{Ein \redalert{deterministischer Kellerautomat} (international: "`\alert{DPDA}"') 
+\Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ bestehend aus
+{Zustandsmenge} $Q$, {Eingabealphabet} $\Sigma$, {Kelleralphabet} $\Gamma$,
+{Startzustand} $q_0\in Q$, {Endzustände} $F\subseteq Q$
+und {partieller Übergangsfunktion}\\[1ex]
+\narrowcentering{$Q\times\Sigma_\epsilon\times\Gamma_\epsilon \to Q\times\Gamma_\epsilon$,}\\[1ex]
+so dass für alle $q\in Q$, $\Sterm{a}\in\Sigma$ und $\Snterm{A}\in\Gamma$
+jeweils nur eines der folgenden definiert ist:\\[1ex]
+\narrowcentering{$\delta(q,\Sterm{a},\Snterm{A})$\hfill$\delta(q,\Sterm{a},\epsilon)$\hfill$\delta(q,\epsilon,\Snterm{A})$\hfill$\delta(q,\epsilon,\epsilon)$}
+}\medskip
+
+Beispiel: $\Sterm{a}^i\Sterm{b}^i$
+
+\narrowcentering{\begin{tikzpicture}[xscale=0.85,baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s) [circle,draw=black,thick,double] at (0,0) {$q_s$};
+\node (a) [circle,draw=black,thick] at (3,0) {$q_a$};
+\node (b) [circle,draw=black,thick] at (6,0) {$q_b$};
+\node (f) [circle,draw=black,thick,double] at (9,0) {$q_f$};
+%
+\path[->,line width=0.5mm](-1,0) edge (s);
+\path[->,line width=0.5mm](s) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}$} (a);
+\path[->,line width=0.5mm](a) edge [loop above] node[above] {$\Sterm{a},\epsilon\mapsto\Snterm{A}$} (a);
+\path[->,line width=0.5mm](a) edge node[above] {$\Sterm{b},\Snterm{A}\mapsto\epsilon$} (b);
+\path[->,line width=0.5mm](b) edge [loop above] node[above] {$\Sterm{b},\Snterm{A}\mapsto\epsilon$} (b);
+\path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{S}\mapsto\epsilon$} (f);
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Deterministisch vs. nichtdeterminitisch}
+
+\begin{minipage}[t]{4.7cm}
+~~~~\emph{Typ-2-Sprachen}\\
+\begin{itemize}
+\item Erkannt durch PDAs
+\item Nicht unter Komplement abgeschlossen
+\item Echte Obermenge der det. Typ-2-Sprachen, z.B. $\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}$
+\item Wortproblem in $O(|w|^3)$ (CYK-Algorithmus)
+\item Generiert durch CFGs
+\end{itemize}
+\end{minipage}
+\begin{minipage}[t]{4.7cm}
+~~~~\emph{Deterministische}\\
+\mbox{}~~~~\emph{Typ-2-Sprachen}
+\begin{itemize}
+\item Erkannt durch DPDAs
+\item Unter Komplement abgeschlossen
+\item Echte Obermenge der regulären Sprachen, z.B. $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$
+\item Wortproblem in $O(|w|)$ (DPDA-Abarbeitung)
+\item Generiert durch deterministische CFGs (kein Vorlesungsstoff)
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+\sectionSlide{Deterministische Typ-2-Sprachen}
+
+
+\begin{frame}\frametitle{Rückblick: Ableitungsbäume}
+
+\begin{minipage}[t]{4cm}
+\begin{flushleft}
+\emph{Rückblick:}\\ Die Interpretation von Wörtern kontextfreier Sprachen
+basiert zumeist auf dem Syntaxbaum.
+\end{flushleft}
+
+Beispiel:\\[-2ex]
+\begin{align*}
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V} &
+\Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)} \\
+\Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)} &
+\Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+\end{align*}
+Wort: $\Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}$
+\end{minipage}\hfill
+\begin{minipage}[t]{4.5cm}
+\begin{tikzpicture}[xscale=0.5,yscale=0.9,baseline={(current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{M}};}
+{\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{*}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (3,-2) {\Snterm{S}};
+\node (s3b) [circle,draw=none,inner sep=1pt] at (6,-2) {\Sterm{)}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}};
+\node (s3y) [circle,draw=none,inner sep=1pt] at (-2,-2) {\Sterm{(}};}
+{\node (s4) [circle,draw=none,inner sep=1pt] at (3,-3) {\Snterm{A}};}
+{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}};}
+{\node (s5) [circle,draw=none,inner sep=1pt] at (3,-4) {\Sterm{+}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{S}};
+\node (s5b) [circle,draw=none,inner sep=1pt] at (5,-4) {\Sterm{)}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (2,-4) {\Snterm{S}};
+\node (s5y) [circle,draw=none,inner sep=1pt] at (1,-4) {\Sterm{(}};}
+{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{x}};}
+{\node (s6a) [circle,draw=none,inner sep=1pt] at (4,-5) {\Snterm{V}};}
+{\node (s6x) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{V}};}
+{\node (s7a) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{z}};}
+{\node (s7x) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{y}};}
+% \node (s2) [circle,draw=none] at (0,3) {\Sterm{*}};
+%
+{\path[-,line width=0.3mm](s1) edge (s2);}
+{\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+\path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+\path[-,line width=0.3mm](s2) edge (s3y);}
+{\path[-,line width=0.3mm](s3x) edge (s4z);}
+{\path[-,line width=0.3mm](s4z) edge (s5z);}
+{\path[-,line width=0.3mm](s3a) edge (s4);}
+{\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+\path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+\path[-,line width=0.3mm](s4) edge (s5y);}
+{\path[-,line width=0.3mm](s5a) edge (s6a);}
+{\path[-,line width=0.3mm](s5x) edge (s6x);}
+{\path[-,line width=0.3mm](s6a) edge (s7a);}
+{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Mehrdeutige Grammatiken}
+
+% \emph{Wir wissen:} Ein Ableitungsbaum kann zumeist durch verschiedene Ableitungen erzeugt werden
+% \medskip
+% 
+% \emph{Allgemein gilt aber auch:} Ein Wort kann mehrere verschiedene Ableitungsbäume haben
+% \medskip
+
+\begin{minipage}{3.5cm}
+\begin{flushleft}
+\emph{Wir wissen:} Ein Ableitungsbaum kann zumeist durch verschiedene Ableitungen erzeugt werden
+ \medskip\pause
+ 
+\emph{Es gilt aber auch:} Ein Wort kann mehrere verschiedene Ableitungsbäume haben
+\end{flushleft}
+%  \medskip
+\pause
+ 
+\emph{Beispiel:}\\[-4ex]%
+\begin{align*}%
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V} &
+\Snterm{A} &\to \Snterm{S}\Sterm{+}\Snterm{S} \\
+\Snterm{M} &\to \Snterm{S}\Sterm{*}\Snterm{S} &
+\Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+\end{align*}
+\end{minipage}\hfill
+\begin{minipage}[t]{5.5cm}
+\begin{tikzpicture}[xscale=0.5,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{M}};}
+\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{*}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (2,-2) {\Snterm{S}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}};
+{\node (s4) [circle,draw=none,inner sep=1pt] at (2,-3) {\Snterm{A}};}
+{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}};}
+\node (s5) [circle,draw=none,inner sep=1pt] at (2,-4) {\Sterm{+}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (3,-4) {\Snterm{S}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (1,-4) {\Snterm{S}};
+{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{x}};}
+{\node (s6a) [circle,draw=none,inner sep=1pt] at (3,-5) {\Snterm{V}};}
+{\node (s6x) [circle,draw=none,inner sep=1pt] at (1,-5) {\Snterm{V}};}
+{\node (s7a) [circle,draw=none,inner sep=1pt] at (3,-6) {\Sterm{z}};}
+{\node (s7x) [circle,draw=none,inner sep=1pt] at (1,-6) {\Sterm{y}};}
+%
+{\path[-,line width=0.3mm](s1) edge (s2);}
+\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+% \path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+% \path[-,line width=0.3mm](s2) edge (s3y);
+{\path[-,line width=0.3mm](s3x) edge (s4z);}
+{\path[-,line width=0.3mm](s4z) edge (s5z);}
+{\path[-,line width=0.3mm](s3a) edge (s4);}
+\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+% \path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+% \path[-,line width=0.3mm](s4) edge (s5y);
+{\path[-,line width=0.3mm](s5a) edge (s6a);}
+{\path[-,line width=0.3mm](s5x) edge (s6x);}
+{\path[-,line width=0.3mm](s6a) edge (s7a);}
+{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}\hfill vs.\hfill%
+% \end{minipage}
+% \begin{minipage}[t]{4.5cm}
+\begin{tikzpicture}[xscale=-0.5,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{A}};}
+\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{+}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (2,-2) {\Snterm{S}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}};
+{\node (s4) [circle,draw=none,inner sep=1pt] at (2,-3) {\Snterm{M}};}
+{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}};}
+\node (s5) [circle,draw=none,inner sep=1pt] at (2,-4) {\Sterm{*}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (3,-4) {\Snterm{S}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (1,-4) {\Snterm{S}};
+{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{z}};}
+{\node (s6a) [circle,draw=none,inner sep=1pt] at (3,-5) {\Snterm{V}};}
+{\node (s6x) [circle,draw=none,inner sep=1pt] at (1,-5) {\Snterm{V}};}
+{\node (s7a) [circle,draw=none,inner sep=1pt] at (3,-6) {\Sterm{x}};}
+{\node (s7x) [circle,draw=none,inner sep=1pt] at (1,-6) {\Sterm{y}};}
+%
+{\path[-,line width=0.3mm](s1) edge (s2);}
+\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+% \path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+% \path[-,line width=0.3mm](s2) edge (s3y);
+{\path[-,line width=0.3mm](s3x) edge (s4z);}
+{\path[-,line width=0.3mm](s4z) edge (s5z);}
+{\path[-,line width=0.3mm](s3a) edge (s4);}
+\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+% \path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+% \path[-,line width=0.3mm](s4) edge (s5y);
+{\path[-,line width=0.3mm](s5a) edge (s6a);}
+{\path[-,line width=0.3mm](s5x) edge (s6x);}
+{\path[-,line width=0.3mm](s6a) edge (s7a);}
+{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\end{minipage}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Mehrdeutige Grammatiken (2)}
+
+\defbox{Eine Grammatik $G$ ist \redalert{mehrdeutig} wenn es ein Wort $w\in\Slang{L}(G)$
+gibt, das mehrere Syntaxbäume zulässt (äquivalent: wenn es für $w$ mehrere unterschiedliche Linksableitungen gibt).}\medskip\pause
+
+Mehrdeutige Grammatiken in der Praxis:
+\begin{itemize}
+\item unerwünscht in technischen Sprachdefinitionen (Programmiersprachen, Datenformate)
+\item relevant in der Sprachverarbeitung (um die Mehrdeutigkeit von Sprache abzubilden)
+\end{itemize}
+\medskip\pause
+
+% Theoretische Erkenntnisse:
+% \begin{itemize}
+% \item 
+Für viele mehrdeutige Grammatiken kann man eindeutige Grammatiken finden, welche die 
+gleiche Sprache generieren, z.B.:
+\begin{align*}%
+\Snterm{S} &\to \Snterm{A}\mid \Snterm{M} &
+\Snterm{A} &\to \Snterm{A}\Sterm{+}\Snterm{A}\mid\Snterm{M} &
+\Snterm{M} &\to \Snterm{M}\Sterm{*}\Snterm{M}\mid\Snterm{V} &
+\Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+\end{align*}\pause
+% 
+\redalert{Aber:} es gibt inhärent mehrdeutige Sprachen, die nur mehrdeutige Grammatiken haben, z.B.:
+$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i,k\geq 0\}\cup\{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i,k\geq 0\}$
+% \end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Mehrdeutig vs. Deterministisch}
+
+Fakten:
+\begin{itemize}
+\item Deterministische Sprachen haben immer auch eindeutige Grammatiken (unter anderen)
+\item Aber: eindeutige Grammatiken können nicht-deterministische Typ-2-Sprachen beschreiben
+\end{itemize}
+\narrowcentering{\alert{deterministisch ${}\subsetneq{}$ eindeutig ${}\subsetneq{}$ Typ 2}}
+\bigskip\pause
+
+\emph{Unterschiedliche Motivationen:}
+\begin{itemize}
+\item eindeutige Sprachdefinitionen: eindeutige Syntaxbäume, eindeutige Interpretation
+\item deterministische Sprachen: effizienteres Parsing möglich
+\end{itemize}
+\alert{viele Programmiersprachen verwenden deterministische (und eindeutige) Grammatiken}
+
+\end{frame}
+
+\begin{frame}\frametitle{Deterministische CFGs}
+
+Man kann die Klasse der deterministischen Typ-2-Sprachen auch durch Grammatiken
+beschreiben:
+\begin{itemize}
+\item Dies führt zu \redalert{deterministischen kontextfreien Grammatiken} (DCFGs)
+\item Die eigentliche Definition ist relativ technisch
+\item DPDAs erkennen \alert{im Prinzip} dieselben Sprachen wie DCFGs\\
+{\tiny sofern man sich auf Sprachen beschränkt, bei denen
+jedes Wort als letztes Zeichen ein spezielles Schlusssymbol verwendet, um das Ende zu markieren!}
+\end{itemize}\pause
+
+\emph{Gute Nachricht:} Man kann effektiv entscheiden, ob eine gegebene CFG deterministisch ist.\pause
+\medskip
+
+\emph{Schlechte Nachricht:} Praktische Grammatiken erfüllen die strengen Bedingungen oft nicht, auch wenn sie eine
+deterministisch kontextfreie Sprache beschreiben
+
+\end{frame}
+
+\begin{frame}\frametitle{Nach vorne blicken}
+
+Deterministische Typ-2-Sprachen sind praktisch sehr relevant:
+\begin{itemize}
+\item Programmiersprachen sind meist im Kern deterministisch
+\item Man kann sie sehr effizient parsen (kein CYK)
+\end{itemize}\medskip\pause
+
+\anybox{gray}{%
+
+\ghost{\raisebox{-2mm}{\includegraphics[width=1.7cm]{images/Knuth}}}%
+\ghost{\raisebox{-5mm}{\textcolor{devilscss}{\tiny Don Knuth, 2005}}}%
+\ghost{\raisebox{-8mm}{\textcolor{devilscss}{\tiny CC-By-SA 2.5}}}%
+\ghost{\raisebox{-11mm}{\textcolor{devilscss}{\tiny (c) J. Appelbaum}}}\hspace{1.7cm}
+\begin{minipage}{8.3cm}
+In der Praxis hilft eine Verallgemeinerung von DCFGs:\\
+\redalert{Grammatiken mit endlicher Vorschau} (Look\-ahead).\medskip
+
+\footnotesize
+\emph{~~Idee:}
+\begin{itemize}
+\item Wort wird von links nach rechts gelesen
+\item Grammatikregeln werden rückwärts angewendet, um Teile des gelesenen Worts zu reduzieren
+% \item Indirekt entstehen \textcolor<3->{darkred}{R}echtsableitungen (da man von links reduziert)
+\item Die Wahl der Grammatikregel hängt nur vom schon gelesenen Wort und von bis zu {$k$} weiteren
+Symbolen ab (Vorschau)
+\end{itemize}\end{minipage}\medskip
+
+Grammatiken, die das erlauben, sind vom Typ $\Slang{LR}(k)$, wobei $\Slang{LR}(0)$ (keine Vorschau) DCFGs sind.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften (1)}
+
+Wir wissen bereits, dass deterministische Typ-2-Sprachen unter Komplement abgeschlossen sind.
+\medskip\pause
+
+Für Schnitte gilt das allerdings nicht:
+\medskip
+
+\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Schnitten abgeschlossen.}\pause
+
+\emph{Beweis:} Der Beweis für Typ-2-Sprachen funktioniert auch hier.
+Die Sprachen
+\begin{align*}
+\Slangsub{L}{1}&= \{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}\\
+\Slangsub{L}{2}&= \{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i\geq 0, k\geq 0\}.
+\end{align*}
+sind deterministisch kontextfrei (Übung: Geben Sie entsprechende DPDAs an). Ihr Schnitt $\Slangsub{L}{1}\cap\Slangsub{L}{2}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ ist dagegen nicht einmal kontextfrei.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften (2)}
+
+Der Nichtabschluss unter Schnitten hat weitere Konsequenzen:\medskip
+
+\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Vereinigung abgeschlossen.}\pause
+
+\emph{Beweis:} Angenommen sie wären unter Vereinigung abgeschlossen, dann
+wären sie auch unter Schnitten abgeschlossen, da sie bereits unter Komplement abgeschlossen sind (De Morgan).
+Widerspruch.
+\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Abschlusseigenschaften (3)}
+
+Bei anderen Operationen sieht es nicht besser aus:\medskip
+
+\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Konkatenation oder Kleene-Stern abgeschlossen.}\pause
+
+\emph{Beweisidee:} Vereinigungen kann man deterministisch machen, indem man einer der Alternativen ein Markierungszeichen $\Sterm{X}$ vorschaltet, das nie am Anfang des Wortes auftauchen darf. Falls man die Sprache dann aber an die (deterministische Sprache) $\Sterm{X}^*$ anhängt, ist die Markierung nicht mehr als Entscheidungshilfe nutzbar.
+Die Idee beim Stern ist ähnlich.\qed
+\bigskip
+
+\emph{Zusammenfassung:} Deterministische Typ-2-Sprachen sind 
+abgeschlossen unter Komplement, aber nicht unter Vereinigung, Schnitt, Konkatenation oder Stern.
+
+\end{frame}
+
+% \begin{frame}\frametitle{Abschlusseigenschaften (4)}
+% 
+% Eventuell Kommentar zum Schnitt mit regulären Sprachen
+% 
+% \end{frame}
+
+\sectionSlide{Entscheidungsprobleme auf kontextfreien Sprachen}
+
+\begin{frame}\frametitle{Rückblick Entscheidungsprobleme}
+
+Für reguläre Sprachen haben wir eine Reihe von Problemstellungen kennengelernt:
+\begin{itemize}
+\item \alert{Leerheitsproblem:} Ist die beschriebene Sprache endlich?
+\item \alert{Inklusionsproblem:} Ist eine beschriebene Sprache Teilmenge einer anderen?
+\item \alert{Äquivalenzproblem:} Wird durch zwei Beschreibungen die selbe Sprache gegeben?
+\item \alert{Endlichkeitsproblem:} Ist die beschriebene Sprache endlich?
+\item \alert{Universalitätsproblem:} Ist die beschriebene Sprache $\Sigma^*$?
+\end{itemize}
+
+Dabei könnten Sprachen durch verschiedene Beschreibungen gegeben sein (Automaten, Grammatiken, \ldots)
+\medskip
+
+\footnotesize
+\textcolor{devilscss}{Zudem gibt es freilich das Wortproblem\\ (für [D]CFGs bereits besprochen)}
+
+\end{frame}
+
+\begin{frame}\frametitle{Meistens unentscheidbar}
+
+Viele interessante Fragen sind leider im Allgemeinen nicht durch Algorithmen lösbar:\medskip
+
+\theobox{Satz: Inklusion, Äquivalenz und Universalität von CFGs ist unentscheidbar.}
+
+(ohne Beweis, da wir noch gar nicht über Entscheidbarkeit gesprochen haben \ldots)
+\medskip\pause
+
+Einiges ist aber doch machbar:
+
+\theobox{Satz: Leerheit und Endlichkeit einer CFG ist entscheidbar.}\medskip
+
+Diese Ergebniss gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese ja in CFGs umwandeln können.
+
+\end{frame}
+
+\begin{frame}\frametitle{Leerheit entscheiden}
+
+\theobox{Satz: Die Leerheit einer CFG ist entscheidbar.}
+
+\emph{Beweis:} Man markiert Variablen mit folgender Prozedur:
+\begin{itemize}
+\item Markiere alle Variablen, welche direkt in ein Wort aus Terminalzeichen umgeschrieben werden können
+\item Markiere rekursiv alle Variablen, welche in ein Wort aus Terminalzeichen und markierten Variablen umgeschrieben werden können
+\end{itemize}
+Die Sprache ist nicht leer wenn das Startsymbol markiert wird.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Endlichkeit entscheiden}
+
+\theobox{Satz: Endlichkeit der Sprache $\Slang{L}(G)$ einer CFG $G$ ist entscheidbar.}\pause
+
+\emph{Beweis:} Sei $n$ die Zahl aus dem Pumpinglemma (also $2^{|V|}$).\pause
+\begin{itemize}
+\item Wenn es ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|<2n$ gibt, dann ist $\Slang{L}(G)$
+unendlich (da man das Pumpinglemma auf $z$ anwenden \ghost{kann).} \pause
+\item Wenn $\Slang{L}(G)$ unendlich ist, dann gibt es ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|$ \pause
+(Beweis: Es muss Wörter mit mehr als $n$ Zeichen geben. \pause Sei $z$ ein kürzestes Wort dieser Art. \pause
+Laut Pumpinglemma ist $z=uvwxy$ mit $|vx|<n$ und $uv^0wx^0y=uwy\in\Slang{L}(G)$. \pause Da $uwy$ kürzer ist als $z$
+muss gelten $|uwy|<n$. \pause Daraus folgt $|z|=|uwy|+|vx|<2n$.)\pause
+\end{itemize}
+Das heißt, wir müssen nur testen, ob es so ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|<2n$ gibt.
+Das kann man (Brute Force) für alle Wörter dieser Länge tun (da das Wortproblem lösbar ist). \qed
+
+{\tiny(Es gibt effizientere Verfahren, aber dieses ist das einfachste für den Beweis.)}
+
+\end{frame}
+
+\begin{frame}\frametitle{Alles unentscheidbar}
+
+Viele weitere interessante Fragen sind leider ebenfalls unentscheidbar:
+
+\begin{itemize}
+\item \alert{Regularität:} Ist die durch eine CFG gegebene Sprache regulär?
+\item \alert{Mehrdeutigkeit:} Ist eine gegebene CFG mehrdeutig oder nicht?
+\item \alert{Determinisierbarkeit:} Ist die durch eine CFG gegebene Sprache deterministisch?\footnote{Aber, wie zuvor angemerkt: man kann entscheiden, ob eine gegebene CFG bereits deterministisch ist
+(wenn sie es nicht ist, dann bedeutet das aber nicht, dass es keine äquivalente DCFG geben könnte).}
+\item \alert{Disjunktheit:} Haben zwei gegebene Sprachen gemeinsame Wörter?
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+% PDAs erlauben \redalert{verschiedene äquivalente Definitionen}
+% \bigskip
+% 
+% PDAs erkennen \redalert{genau die kontextfreien Sprachen}:
+% \begin{itemize}
+% \item PDA $\leadsto$ Typ-2-Grammatik durch Simulation von Linksableitungen
+% \item Typ-2-Grammatik $\leadsto$ PDA durch rekursive Erzeugung der Sprachen $\Slangsub{L}{q,r}$
+% \end{itemize}
+% \bigskip
+% 
+% \redalert{Deterministische Kellerautomaten} (DPDAs) erkennen nur eine echte Untermenge der kontextfreien Sprachen.
+% \bigskip
+% 
+% \anybox{yellow}{
+% Offene Fragen:
+% \begin{itemize}
+% \item Wozu sind deterministische kontextfreie Sprachen gut?
+% \item Welche Probleme auf CFGs kann man lösen?
+% \item Was gibt es zu Typ 1 und Typ 0 zu sagen?
+% \end{itemize}
+% }
+
+\end{frame}
+
+
+\end{document}
