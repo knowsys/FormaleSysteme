@@ -326,7 +326,7 @@ gibt, das mehrere Syntaxbäume zulässt (äquivalent: wenn es für $w$ mehrere u
 Mehrdeutige Grammatiken in der Praxis:
 \begin{itemize}
 \item unerwünscht in technischen Sprachdefinitionen (Programmiersprachen, Datenformate)
-\item relevant in der Sprachverarbeitung (um die Mehrdeutigkeit von Sprache abzubilden)
+\item relevant in der Sprachverarbeitung (um die Mehrdeutigkeit natürlicher Sprache abzubilden)
 \end{itemize}
 \medskip\pause
 
@@ -350,7 +350,7 @@ $\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i,k\geq 0\}\cup\{\Sterm{a}^i\Sterm{b}^k
 
 \begin{frame}\frametitle{Mehrdeutig vs. Deterministisch}
 
-Fakten:
+\emph{Fakten:}
 \begin{itemize}
 \item Deterministische Sprachen haben immer auch eindeutige Grammatiken (unter anderen)
 \item Aber: eindeutige Grammatiken können nicht-deterministische Typ-2-Sprachen beschreiben
@@ -459,7 +459,7 @@ Bei anderen Operationen sieht es nicht besser aus:\medskip
 
 \theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Konkatenation oder Kleene-Stern abgeschlossen.}\pause
 
-\emph{Beweisidee:} Vereinigungen kann man deterministisch machen, indem man einer der Alternativen ein Markierungszeichen $\Sterm{X}$ vorschaltet, das nie am Anfang des Wortes auftauchen darf. Falls man die Sprache dann aber an die (deterministische Sprache) $\Sterm{X}^*$ anhängt, ist die Markierung nicht mehr als Entscheidungshilfe nutzbar.
+\emph{Beweisidee:} Vereinigungen kann man deterministisch machen, indem man einer der Alternativen ein Markierungszeichen $\Sterm{X}$ vorschaltet, das ansonsten nie am Anfang des Wortes auftauchen darf. Falls man die Sprache dann aber an die (deterministische Sprache) $\Sterm{X}^*$ anhängt, ist die Markierung nicht mehr als Entscheidungshilfe nutzbar.
 Die Idee beim Stern ist ähnlich.\qed
 \bigskip
 
@@ -480,7 +480,7 @@ abgeschlossen unter Komplement, aber nicht unter Vereinigung, Schnitt, Konkatena
 
 Für reguläre Sprachen haben wir eine Reihe von Problemstellungen kennengelernt:
 \begin{itemize}
-\item \alert{Leerheitsproblem:} Ist die beschriebene Sprache endlich?
+\item \alert{Leerheitsproblem:} Ist die beschriebene Sprache $\emptyset$?
 \item \alert{Inklusionsproblem:} Ist eine beschriebene Sprache Teilmenge einer anderen?
 \item \alert{Äquivalenzproblem:} Wird durch zwei Beschreibungen die selbe Sprache gegeben?
 \item \alert{Endlichkeitsproblem:} Ist die beschriebene Sprache endlich?
@@ -506,9 +506,9 @@ Viele interessante Fragen sind leider im Allgemeinen nicht durch Algorithmen lö
 
 Einiges ist aber doch machbar:
 
-\theobox{Satz: Leerheit und Endlichkeit einer CFG ist entscheidbar.}\medskip
+\theobox{Satz: Leerheit und Endlichkeit einer CFG sind entscheidbar.}\medskip
 
-Diese Ergebniss gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese ja in CFGs umwandeln können.
+Diese Ergebnisse gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese ja in CFGs umwandeln können.
 
 \end{frame}
 
@@ -521,7 +521,7 @@ Diese Ergebniss gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese j
 \item Markiere alle Variablen, welche direkt in ein Wort aus Terminalzeichen umgeschrieben werden können
 \item Markiere rekursiv alle Variablen, welche in ein Wort aus Terminalzeichen und markierten Variablen umgeschrieben werden können
 \end{itemize}
-Die Sprache ist nicht leer wenn das Startsymbol markiert wird.\qed
+Die Sprache ist genau dann nicht leer wenn bei diesem Verfahren das Startsymbol markiert wird.\qed
 
 \end{frame}
 
@@ -554,35 +554,416 @@ Viele weitere interessante Fragen sind leider ebenfalls unentscheidbar:
 \item \alert{Mehrdeutigkeit:} Ist eine gegebene CFG mehrdeutig oder nicht?
 \item \alert{Determinisierbarkeit:} Ist die durch eine CFG gegebene Sprache deterministisch?\footnote{Aber, wie zuvor angemerkt: man kann entscheiden, ob eine gegebene CFG bereits deterministisch ist
 (wenn sie es nicht ist, dann bedeutet das aber nicht, dass es keine äquivalente DCFG geben könnte).}
-\item \alert{Disjunktheit:} Haben zwei gegebene Sprachen gemeinsame Wörter?
+\item \alert{Schnittproblem:} Haben zwei gegebene Sprachen gemeinsame Wörter?
 \end{itemize}
 
 
 \end{frame}
 
+\begin{frame}\frametitle{Entscheidungsprobleme für DPDAs}
+
+Die Situation ist etwas besser bei DPDAs:
+\bigskip
+
+\begin{tabular}{rl}
+Leerheit & \textcolor{darkgreen}{entscheidbar} {\tiny(wie bei CFGs)}\\
+Endlichkeit & \textcolor{darkgreen}{entscheidbar} {\tiny(wie bei CFGs)} \\\pause
+Universalität & \pause\textcolor{darkgreen}{entscheidbar} {\tiny(entspricht Leerheit des Komplements)}\\\pause
+Regularität & \textcolor{darkgreen}{entscheidbar}\\[-1.5ex]
+	& {\tiny (Stearns: A Regularity Test for Pushdown Machines, 1967)}\pause\\[-1ex]
+Inklusion  & \textcolor{darkred}{unentscheidbar}\\[-1.5ex]
+	& {\tiny (Ginsburg \& Greibach: Deterministic context-free languages, 1966)}\pause\\[-1ex]
+Schnitt & \pause\textcolor{darkred}{unentscheidbar} {\tiny(wie Inklusion, da wir Komplemente haben)}\\\pause
+Äquivalenz  \pause& \textcolor{darkgreen}{entscheidbar!}\\[-1.5ex]
+	& {\tiny (S\'{e}nizergues: L(A)=L(B)? decidability results from complete formal systems, 2001;}\\[-1.5ex]
+	& {\tiny ~komplexes Verfahren ohne Komplexitätsschranken; Ergebnis bekannt seit 1997)}\\[-1ex]
+\end{tabular}\bigskip
+
+(Mehrdeutigkeit und Determinisierbarkeit sind bei DPDAs trivial)
+
+\end{frame}
+
+\begin{frame}\frametitle{Übersicht}
+
+\begin{tabular}{rll}
+ & \emph{CFG} & \emph{DPDA}\\
+Wortproblem
+	& in $O(|w|^3)$
+	& in $O(|w|)$\\[1ex]
+Leerheit 
+	& \textcolor{darkgreen}{entscheidbar}
+	& \textcolor{darkgreen}{entscheidbar}\\
+Endlichkeit
+	& \textcolor{darkgreen}{entscheidbar}
+	& \textcolor{darkgreen}{entscheidbar}\\
+Universalität
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{darkgreen}{entscheidbar}\\[1ex]
+Inklusion
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{darkred}{unentscheidbar}\\
+Schnitt
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{darkred}{unentscheidbar}\\
+Äquivalenz
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{darkgreen}{entscheidbar}\\[1ex]
+Regularität
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{darkgreen}{entscheidbar}\\
+Mehrdeutigkeit
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{gray}{trivial}\\
+Determinisierbarkeit 
+	& \textcolor{darkred}{unentscheidbar}
+	& \textcolor{gray}{trivial}\\
+\end{tabular}
+
+\end{frame}
+
+\sectionSlide{Rechnen mit Typ 1 und Typ 0}
+
+\begin{frame}\frametitle{Wortprobleme jenseits von Typ 2}
+
+Wir haben gesehen:
+\begin{itemize}
+\item endliche Automaten erkennen Typ-3-Sprachen
+\item endliche Automaten + Kellerspeicher erkennen Typ-2-Sprachen
+\end{itemize}\vspace{-5mm}
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [circle,draw=none,inner sep=1pt] at (2,0.5) {\alert{Eingabewort}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (4.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (4.5,-1);
+\foreach \x in {0,...,4} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<4}{\Sterm{a}}{\Sterm{b}}};
+}
+\draw[decorate,line width=0.3mm] (4,0) -- (4,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (5.1,-0.5) {$\cdots$};
+
+\draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
+
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (1.5,-2) -> (1.5,-1);
+
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [circle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
+
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
+
+\draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-4);
+\draw[fill=none,decorate,line width=0.3mm] (10,0) -- (10,-4);
+\draw[fill=none,decorate,line width=0.3mm] (8.5,-4) -- (10.5,-4);
+\foreach \y in {0,...,-3} {
+	\draw[fill=none,decorate,line width=0.3mm] (9,\y) -- (10,\y);
+	\node (k\y) [circle,draw=none,inner sep=1pt] at (9.5,\y-0.5) {\ifthenelse{\y<-1}{\Snterm{A}}{\Snterm{B}}};
+}
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
+\node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-2.5) {\alert{Keller}};
+\end{tikzpicture}}
+\vspace{-5mm}
+
+\redalert{Für Typ 1 und Typ 0 benötigen wir mehr als das -- aber was?}
+
+\end{frame}
+
+\begin{frame}\frametitle{Berechnungsmodelle nach Kellerautomaten?}
+
+\emph{Beobachtung:} Auch jenseits von Typ 2 kann man Wortprobleme algorithmisch lösen.
+\medskip
+
+\examplebox{Beispiel: Die Sprache $\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ ist nicht
+kontextfrei, wird also von keinem PDA erkannt. Dennoch wäre es nicht sehr schwer, ein 
+Programm in einer beliebigen Programmiersprache zu schreiben, welches feststellt, ob eine Eingabe diese
+Form hat.}\pause
+
+\emph{Aber:} Praktische Programmiersprachen eignen sich schlecht als allgemeine Berechnungsmodelle, da sie viel zu kompliziert sind.\bigskip
+
+$\leadsto$ Wir wollen lieber unser Automatenmodell erweitern
+
+\end{frame}
+
+\begin{frame}\frametitle{Jenseits PDAs (1)\visible<2->{: Mehr Stapel}}
+
+\anybox{purple}{%
+Die Haupteinschränkung von Kellerautomaten war das eingeschränkte Speichermodell. Wir könnte man das erweitern?}%
+\pause\smallskip
+
+\begin{itemize}
+\item Man könnte statt eines Stapelspeichers zwei (oder mehr) Stapel verwenden
+\item Automatenübergänge werden zum Zugriff auf weitere Stapel entsprechend erweitert
+\end{itemize}%
+\vspace{-3.5ex}
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [circle,draw=none,inner sep=1pt] at (2,0.5) {\alert{Eingabewort}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (4.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (4.5,-1);
+\foreach \x in {0,...,4} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<4}{\Sterm{a}}{\Sterm{b}}};
+}
+\draw[decorate,line width=0.3mm] (4,0) -- (4,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (5.1,-0.5) {$\cdots$};
+
+\draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
+
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (1.5,-2) -> (1.5,-1);
+
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [circle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
+
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
+
+\draw[fill=none,decorate,line width=0.3mm] (11,0) -- (11,-4);
+\draw[fill=none,decorate,line width=0.3mm] (12,0) -- (12,-4);
+\draw[fill=none,decorate,line width=0.3mm] (8.5,-4) -- (12.5,-4);
+\foreach \y in {0,...,-3} {
+	\draw[fill=none,decorate,line width=0.3mm] (11,\y) -- (12,\y);
+	\node (k\y) [circle,draw=none,inner sep=1pt] at (11.5,\y-0.5) {\ifthenelse{\y<-1}{\Snterm{A}}{\Snterm{B}}};
+}
+
+\draw[fill=none,decorate,line width=0.3mm] (9,-1) -- (9,-4);
+\draw[fill=none,decorate,line width=0.3mm] (10,-1) -- (10,-4);
+\foreach \y in {-1,...,-3} {
+	\draw[fill=none,decorate,line width=0.3mm] (9,\y) -- (10,\y);
+	\node (k\y) [circle,draw=none,inner sep=1pt] at (9.5,\y-0.5) {\ifthenelse{\y<-2}{\Snterm{B}}{\Snterm{A}}};
+}
+
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (11,-0.5);
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(7.5,-1.5) -- (9,-1.5);
+\node (stacklabel) [circle,draw=none,inner sep=1pt] at (13.5,-2.5) {\alert{Keller}};
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Jenseits PDAs (2)\visible<2->{: \ghost{"`Warteschlangenautomaten"'}}}
+
+\anybox{purple}{%
+Die Haupteinschränkung von Kellerautomaten war das eingeschränkte Speichermodell. Wir könnte man das erweitern?}%
+\pause\smallskip
+
+\begin{itemize}
+\item Man könnte statt eines Stapelspeichers eine Warteschlange (Queue) verwenden
+$\leadsto$ first-in/first-out (FIFO)
+% \item Die Hauptoperationen sind dann \texttt{enqueue} und \texttt{dequeue}
+\item Definition fast genau wie bei PDAs, aber mit \texttt{enqueue}/\texttt{dequeue} statt \texttt{push}/\texttt{pop}
+\end{itemize}%
+\vspace{-3.5ex}
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [circle,draw=none,inner sep=1pt] at (2,0.5) {\alert{Eingabewort}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (4.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (4.5,-1);
+\foreach \x in {0,...,4} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<4}{\Sterm{a}}{\Sterm{b}}};
+}
+\draw[decorate,line width=0.3mm] (4,0) -- (4,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (5.1,-0.5) {$\cdots$};
+
+\draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
+
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (1.5,-2) -> (1.5,-1);
+
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [circle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
+
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
+
+\draw[fill=none,decorate,line width=0.3mm] (9,0) -- (14,0);
+\draw[fill=none,decorate,line width=0.3mm] (9,-1) -- (14,-1);
+\draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-1);
+\foreach \y in {10,...,14} {
+	\draw[fill=none,decorate,line width=0.3mm] (\y,0) -- (\y,-0.9);
+	\node (k\y) [circle,draw=none,inner sep=1pt] at (\y-0.5,-0.5) {\ifthenelse{\y<12}{\Snterm{A}}{\Snterm{B}}};
+}
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
+\node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-1.5) {\alert{Warteschlange}};
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Jenseits PDAs (3)\visible<2->{: Zählerautomaten}}
+
+\anybox{purple}{%
+Die Haupteinschränkung von Kellerautomaten war das eingeschränkte Speichermodell. Wir könnte man das erweitern?}%
+\pause\smallskip
+
+\begin{itemize}
+\item Man könnte statt eines Stapelspeichers (endlich viele) Speicherplätze für natürliche Zahlen einführen
+\item Automatenübergänge könnten einzelne Variablen inkrementieren, dekrementieren, auf Gleichheit mit $0$ testen, \ghost{\ldots}
+\end{itemize}%
+\vspace{-3.5ex}
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [circle,draw=none,inner sep=1pt] at (2,0.5) {\alert{Eingabewort}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (4.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (4.5,-1);
+\foreach \x in {0,...,4} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<4}{\Sterm{a}}{\Sterm{b}}};
+}
+\draw[decorate,line width=0.3mm] (4,0) -- (4,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (5.1,-0.5) {$\cdots$};
+
+\draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
+
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (1.5,-2) -> (1.5,-1);
+
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [circle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
+
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
+
+\draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-3);
+\draw[fill=none,decorate,line width=0.3mm] (10,0) -- (10,-3);
+\foreach \y in {0,...,-3} {
+	\draw[fill=none,decorate,line width=0.3mm] (9,\y) -- (10,\y);
+}
+\node (k1) [circle,draw=none,inner sep=1pt] at (9.55,-0.5) {\Snterm{17}};
+\node (k2) [circle,draw=none,inner sep=1pt] at (9.55,-1.5) {\Snterm{42}};
+\node (k3) [circle,draw=none,inner sep=1pt] at (9.55,-2.5) {\Snterm{23}};
+
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->] (7.5,-1.5) -> (9,-1.5);
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->] (7.5,-2.5) -> (9,-2.5);
+\node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-1.5) {\alert{Zähler}};
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Jenseits PDAs (4): Programme statt \ghost{Automaten}}
+
+Eventuell könnte man auch vom Automatenmodell abweichen und stattdessen eine
+einfache Programmiersprache definieren.\pause
+\medskip
+
+\emph{Einfache Ausdrucksmittel:}
+\begin{itemize}
+\item \alert{Variablen}, die Zahlen speichern können
+\item \alert{Wertezuweisungen}, die Variablen das Ergebnis eines Ausdrucks (z.B. aus $+$, $-$, Variablen, Zahlen) zuweisen
+\item \alert{Schleifen} der Form \Scode{while} $x\neq 0$ \Scode{do:} \ldots
+\end{itemize}
+$\leadsto$ Sogenannte \redalert{WHILE-Programme}\pause
+\bigskip
+
+Statt \Scode{while} könnte man auch \Scode{if} und \Scode{goto} einführen\\
+$\leadsto$ Sogenannte \redalert{GOTO-Programme}
+
+\end{frame}
+
+\begin{frame}\frametitle{Viele mögliche Wege}
+
+\emph{Bisher gesammelte Ideen:}
+\begin{itemize}
+\item PDAs mit zwei Stapeln
+\item PDAs mit einer noch größeren Zahl an Stapeln
+\item Warteschlangenautomaten
+\item Zählerautomaten
+\item WHILE-Programme
+\item GOTO-Programme
+\end{itemize}
+
+Man kann jedes dieser Berechnungsmodelle formal definieren \ldots\medskip\pause
+
+Es ergeben sich daher viele Fragen \ldots
+
+\anybox{purple}{Welche Sprachklasse können diese Modelle jeweils erkennen?}\pause
+
+\ldots aber immer wieder die gleiche Antwort\pause:\\[1ex]
+\narrowcentering{{\Large\textcolor{purple}{Genau die Typ-0-Sprachen.}}}
+
+% Die Antwort lautet: {\Large\redalert{genau die Typ-0-Sprachen}} (in jedem der Modelle)
+
+% \anybox{darkred}{Die Typ-0-Sprachen}
+
+\end{frame}
+
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-% PDAs erlauben \redalert{verschiedene äquivalente Definitionen}
-% \bigskip
-% 
-% PDAs erkennen \redalert{genau die kontextfreien Sprachen}:
-% \begin{itemize}
-% \item PDA $\leadsto$ Typ-2-Grammatik durch Simulation von Linksableitungen
-% \item Typ-2-Grammatik $\leadsto$ PDA durch rekursive Erzeugung der Sprachen $\Slangsub{L}{q,r}$
-% \end{itemize}
-% \bigskip
-% 
-% \redalert{Deterministische Kellerautomaten} (DPDAs) erkennen nur eine echte Untermenge der kontextfreien Sprachen.
-% \bigskip
-% 
-% \anybox{yellow}{
-% Offene Fragen:
-% \begin{itemize}
-% \item Wozu sind deterministische kontextfreie Sprachen gut?
-% \item Welche Probleme auf CFGs kann man lösen?
-% \item Was gibt es zu Typ 1 und Typ 0 zu sagen?
-% \end{itemize}
-% }
+\redalert{Deterministische Typ-2-Sprachen} sind praktisch wichtig, da effizient parsebar 
+\bigskip
+
+Viele \redalert{Fragestellungen für Typ-2-Sprachen} sind unentscheidbar, wobei deterministische Sprachen noch etwas mehr erlauben
+\bigskip
+
+\redalert{Zahlreiche naheliegende Erweiterungen von PDAs} führen alle zur gleichen Ausdrucksstärke (Typ 0)
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Welches Berechnungsmodell sollen wir nun verwenden?
+\item Wenn alle Modelle Typ 0 liefern, was ist dann mit Typ 1?
+\item Unterscheiden sich Typ 0 und Typ 1 überhaupt?
+\end{itemize}
+}
 
 \end{frame}
 
