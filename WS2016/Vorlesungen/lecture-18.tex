@@ -1,0 +1,699 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+% \usetikzlibrary{shapes}
+
+\defineTitle{18}{Turingmaschinen}{15. Dezember 2016}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}\frametitle{Zusammenfassung Typ 2}
+
+Kontextfreie Sprachen
+\begin{itemize}
+\item Beschrieben durch \alert{kontextfreie Grammatiken} und \alert{Kellerautomaten}
+\item Können \alert{mehrdeutig} sein
+\item Können \alert{deterministisch} sein (beschrieben durch deterministische Kellerautomaten und $\Slang{LR}(k)$-Grammatiken)
+\item Wortproblem polynomiell, im deterministischen Fall sogar linear
+\item Sonstige Entscheidungsprobleme meist viel schwerer als bei regulären Sprachen 
+\item Nicht unter allen Operationen abgeschlossen
+\end{itemize}
+
+\end{frame}
+
+\sectionSlide{Turingmaschinen}
+
+\begin{frame}\frametitle{Kellerautomaten erweitern}
+
+Unmittelbar denkbare Erweiterungen von Kellerautomaten:
+\begin{itemize}
+\item Verwendung von zwei oder mehr Kellern
+\item Verwendung von FIFO-Speichern (Warteschlange)
+\item Verwendung einer endlichen Menge von Zählern
+\item \ldots
+\end{itemize}
+\alert{All diese Modelle erkennen genau die Typ-0-Sprachen!}
+\medskip\pause
+
+Das klassische Automatenmodell\\für diese Sprachklasse ist die \redalert{Turingmaschine}.%
+\ghost{\hspace{1.6cm}\raisebox{-0.5cm}{\includegraphics[width=2.0cm]{images/Turing}}}%
+\ghost{\hspace{1.6cm}\raisebox{-0.70cm}{\tiny Alan Turing (publ. dom.)}}
+\medskip\pause
+
+Was kann diese Art von Automaten?\pause\\
+Alles, was überhaupt auf Computern machbar ist!\medskip
+
+\anybox{purple}{Church-Turing-These: Die Turingmaschine kann alle Funktionen berechnen,
+die intuitiv berechenbar sind.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen -- Grundideen}
+
+\emph{Wesentliche Designentscheidungen}\\
+bei der Gestaltung von Turingmaschinen (TMs)\pause:
+\begin{itemize}
+\item TMs haben eine \alert{endliche Steuerung} (wie bei NFA und PDA)\pause
+\item Es gibt eine \alert{unbeschränkte Menge an Speicher} (wie bei PDA)\pause
+\item Die TM kann in jedem Schritt \alert{ein Zeichen} aus dem Speicher \alert{lesen} und eines \alert{schreiben} (wie bei PDA)\pause
+\item Der Lese-/Schreibzugriff ist \alert{an jeder beliebigen Speicheradresse} möglich (im Gegensatz zu PDA)\\[1ex]
+
+Zur praktischen Implementierung speichert die TM die aktuelle Adresse und kann diese in jedem
+Schritt um eins erhöhen oder verringern\pause
+\item Zur Vereinfachung wird die Eingabe einfach beim Start in den Speicher übergeben, so dass 
+"`Lesen der Eingabe"' und "`Lesen aus Speicher"' die selbe Operation sind
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen -- Grundideen (2)}
+
+\emph{Schematische Darstellung:}\medskip
+
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [rectangle,draw=none,inner sep=1pt] at (3,0.5) {\alert{Eingabe-/Speicherband}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (10.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (10.5,-1);
+\foreach \x in {0,...,10} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<5}{\ifthenelse{\x<3}{\Sterm{a}}{\Sterm{b}}}{\ifthenelse{\x=5 \OR \x=7 \OR \x=8}{\Snterm{C}}{\ifthenelse{\x=9}{\Sterm{b}}{\Snterm{D}}}}};
+}
+\draw[decorate,line width=0.3mm] (10,0) -- (10,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (11.1,-0.5) {$\cdots$};
+
+% \draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
+
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (6.5,-2) -> (6.5,-1);
+\node (headlabel) [rectangle,draw=none,inner sep=1pt,align=left] at (9.5,-2.0) {\footnotesize\alert{Lese-/Schreibkopf}\\[-0.6ex]\footnotesize\alert{(beweglich)}};
+
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [rectangle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
+
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
+% 
+% \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (14,0);
+% \draw[fill=none,decorate,line width=0.3mm] (9,-1) -- (14,-1);
+% \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-1);
+% \foreach \y in {10,...,14} {
+% 	\draw[fill=none,decorate,line width=0.3mm] (\y,0) -- (\y,-0.9);
+% 	\node (k\y) [circle,draw=none,inner sep=1pt] at (\y-0.5,-0.5) {\ifthenelse{\y<12}{\Snterm{A}}{\Snterm{B}}};
+% }
+% \draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+% 	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
+% \node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-1.5) {\alert{Warteschlange}};
+\end{tikzpicture}}
+\bigskip\pause
+
+\emph{Übergangsfunktion:}
+\begin{itemize}
+\item \alert{Eingabe:} aktueller Zustand, gelesenes Zeichen
+\item \alert{Ausgabe:} neuer Zustand, geschriebenes Zeichen, Änderung Lese-/Schreibadresse (${}\hat{=}{}$ Bewegung Lese-/Schreibkopf)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Speicherzugriff in TMs}
+
+
+\alert{Speicherverwaltung:}
+\begin{itemize}
+\item Zu jedem Zeitpunkt verwendet die TM endlich viele Speicherzellen
+\item Speicherzellen als "`Band"' von links nach rechts
+\item Lese-/Schreibkopf kann frei auf Band bewegt werden (pro Schritt um eine Zelle nach links oder rechts)
+\item Am linken Rand kann der Kopf nicht weiter nach links bewegt werden
+\item Am rechten Rand des Speichers kann der Kopf nach rechts bewegt werden: dann wird dort eine neue Speicherzelle mit dem Inhalt $\blank$ (Leerzeichen, Blank) angefügt
+\end{itemize}
+
+\alert{Alternative Vorstellung:} Der Speicher ist ein einseitig unendlich langes Band, auf dem am Anfang nur
+eine (endliche) Eingabe steht, gefolgt von unendlich vielen leeren Zellen ($\blank$).
+
+\end{frame}
+
+\begin{frame}
+\narrowcentering{\includegraphics[width=9.9cm]{images/TM}}
+\narrowcentering{\tiny Modell einer Turingmaschine, (c) Foto: Rocky Acosta, 2012, CC-By 3.0}
+\end{frame}
+
+\begin{frame}\frametitle{Definition TM}
+
+\defbox{Eine \redalert{(deterministische) Turingmaschine} (DTM) ist ein Tupel
+$\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ mit
+den folgenden Bestandteilen:
+\begin{itemize}
+\item $Q$: endliche Menge von \redalert{Zuständen}
+\item $\Sigma$: \redalert{Eingabealphabet}
+\item $\Gamma$: \redalert{Arbeitsalphabet} mit $\Gamma\supseteq\Sigma\cup\{\blank\}$
+\item $\delta$: \redalert{Übergangsfunktion}, eine partielle Funktion\\[1ex]
+\narrowcentering{$Q\times\Gamma \to Q\times\Gamma\times\{L,R,N\}$}
+% , wobei $2^Q$ die Potenzmenge von $Q$ ist
+\item $q_0$: \redalert{Startzustand} $q_0\subseteq Q$
+\item $F$: Menge von akzeptierenden \redalert{Endzuständen} $F\subseteq Q$
+\end{itemize}
+}
+
+\alert{Dabei bedeutet $\delta(q,a)=\tuple{p,b,D}$:}\\
+\hspace{5mm}"`Liest die TM in Zustand $q$ unter dem Lese-/Schreibkopf ein $a$,\\
+\hspace{5.8mm}dann wechselt sie zu Zustand $p$, überschreibt das $a$ mit $b$\\
+\hspace{5.8mm}und verschiebt den Lese-/Schreibkopf gemäß $D\in\{L,R,N\}$\\
+\hspace{5.8mm}(nach links, nach rechts, gar nicht)."'
+% 
+% \begin{itemize}
+% \item Liest die TM in Zustand $q$ unter dem Lese-/Schreibkopf ein $a$,
+% \item dann wechselt sie zu Zustand $p$
+% \item überschreibt das $a$ mit $b$
+% \item und verschiebt den Lese-/Schreibkopf gemäß $D\in\{L,R,N\}$ (nach links, nach rechts, gar nicht)
+% \end{itemize}
+% 
+% \begin{itemize}
+% \item Die Buchstaben $L$, $R$, $N$ geben an, wie der Lese-/Schreibkopf bewegt werden soll
+% (nach links, nach rechts, gar nicht)
+% \item Die TM hält an, wenn die Übergangsfunktion für die aktuelle Konfiguration nicht definiert ist
+% \end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel (1)}
+
+Wir konstruieren eine TM mit dem Eingabealphabet $\Sigma=\{\Sterm{0}\}$, welche
+Wörter der Sprache $\{\Sterm{0}^{2^i}\mid i\geq 0\}$ akzeptiert\\
+(Ketten von $\Sterm{0}$, deren Länge eine Zweierpotenz ist)
+\pause\bigskip
+
+\emph{Arbeitsweise:}
+\begin{enumerate}[(1)]
+\item Laufe von links nach rechts über die Eingabe und ersetzte dabei jede zweite $\Sterm{0}$ durch $\Snterm{X}$
+\item Falls insgesamt nur eine $\Sterm{0}$ gefunden wird, akzeptiere
+\item Falls eine andere ungerade Zahl an $\Sterm{0}$ gefunden wird, verwerfe
+\item Laufe zurück zum Anfang des Bandes
+\item Wiederhole die Schritte ausgehend von (1)
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel (2)}
+
+\emph{Wir können TMs in Diagrammen darstellen:}\medskip
+
+Ein Pfeil $s_1\mapsto s_2,D$ von $q_1$ nach $q_2$ bedeutet $\delta(q_1,s_1)=\tuple{q_2,s_2,D}$
+\bigskip\pause
+
+\emph{Übergangsrelation zum Beispiel:}\medskip
+
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (q2) [circle,draw=black,thick] at (3,0) {$q_1$};
+\node (q3) [circle,draw=black,thick] at (6,0) {$q_2$};
+\node (q4) [circle,draw=black,thick] at (9,0) {$q_3$};
+\node (q5) [circle,draw=black,thick] at (4.5,-2) {$q_4$};
+\node (q6) [circle,draw=black,thick,double] at (1.5,-2) {$q_5$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\Sterm{0}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+\path[->,line width=0.5mm](q2) edge node[above] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm,bend left=15](q3) edge node[above] {$\Sterm{0}\mapsto\Sterm{0},R$} (q4);
+\path[->,line width=0.5mm,bend left=15](q4) edge node[below] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+
+\path[->,line width=0.5mm](q2) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q2);
+\path[->,line width=0.5mm](q3) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm](q4) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q4);
+
+\path[->,line width=0.5mm,bend left](q3) edge node[right] {$\blank\mapsto\blank,L$} (q5);
+\path[->,line width=0.5mm](q5) edge [loop below] node[below,align=left] {$\Snterm{X}\mapsto\Snterm{X},L$\\$\Sterm{0}\mapsto\Sterm{0},L$} (q5);
+\path[->,line width=0.5mm,bend left](q5) edge node[right,xshift=-5pt,yshift=7pt] {$\Snterm{$\hat{0}$}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+
+\path[->,line width=0.5mm](q2) edge node[left] {$\blank\mapsto\blank,N$} (q6);
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}\frametitle{Arbeitsweise einer TM: Übergänge}
+
+Sei $\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ eine DTM.
+
+\defbox{Eine \redalert{Konfiguration} von $\Smach{M}$ ist ein Wort
+$w\,q\,v\in\Gamma^* \circ Q \circ \Gamma^*$, wobei $w$ den Bandinhalt vor
+dem Lese-/Schreibkopf, $q$ den aktuellen Zustand und $v$ den Bandinhalt ab
+dem Lese-/Schreibkopf darstellt.
+% \medskip
+% 
+% Wir definieren eine \redalert{Übergangsrelation} zwischen Konfigurationen wie folgt:\smallskip
+% 
+% Die Konfiguration $waqbv$ kann in die Konfiguration $\tuple{q',w,\psi'\gamma}$ übergehen,
+% in Symbolen $\tuple{q,vw,\psi\gamma}\vdash\tuple{q',w,\psi'\gamma}$, 
+% falls gilt $\tuple{q',\psi'}\in \delta(q,v,\psi)$.\footnote{\textcolor{devilscss}{Anmerkung: In diesem Fall ist $v\in\Sigma_\epsilon$ und $\psi,\psi'\in\Gamma_\epsilon$.}}
+% Mit $\vdash^*$ bezeichnen wir den reflexiven, transitiven Abschluss von $\vdash$.
+}\pause
+
+\defbox{Sei $w\,q\,av$ eine Konfiguration, mit $w,v\in\Gamma^*$, $a\in\Gamma$ und $q\in Q$.
+Die \redalert{Übergangsrelation $\vdash$} ist wie folgt definiert:
+\begin{itemize}
+\item Falls $\delta(q,a)=\tuple{r,b,N}$, dann $w\,q\,av\vdash w\,r\,bv$.
+\item Falls $\delta(q,a)=\tuple{r,b,R}$ 
+\begin{itemize}
+\item falls $v\neq\epsilon$, dann $w\,q\,av\vdash wb\,r\,v$;
+\item falls $v=\epsilon$, dann $w\,q\,av\vdash wb\,r\,\blank$.
+\end{itemize}
+% und $v\neq\epsilon$, dann $w\,q\,av\vdash wb\,r\,v$.
+% \item Falls $\delta(q,a)=\tuple{r,b,R}$ und $v=\epsilon$, dann $w\,q\,av\vdash wb\,r\,\blank$.
+\item Falls $\delta(q,a)=\tuple{r,b,L}$ 
+\begin{itemize}
+\item falls $w=w'c$ mit $c\in\Gamma$, dann $w\,q\,av\vdash w'\,r\,cbv$;
+\item falls $w=\epsilon$, dann $w\,q\,av\vdash r\,bv$.
+\end{itemize}
+% 
+% \item Falls $\delta(q,a)=\tuple{r,b,L}$ und $w=\epsilon$, dann $w\,q\,av\vdash r\,bv$.
+\end{itemize}
+Mit $\vdash^*$ bezeichnen wir den reflexiven, transitiven Abschluss von $\vdash$.
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Beispiel (3)}
+
+% \emph{Übergangsrelation zum Beispiel:}\medskip
+
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (q2) [circle,draw=black,thick] at (3,0) {$q_1$};
+\node (q3) [circle,draw=black,thick] at (6,0) {$q_2$};
+\node (q4) [circle,draw=black,thick] at (9,0) {$q_3$};
+\node (q5) [circle,draw=black,thick] at (4.5,-2) {$q_4$};
+\node (q6) [circle,draw=black,thick,double] at (1.5,-2) {$q_5$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\Sterm{0}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+\path[->,line width=0.5mm](q2) edge node[above] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm,bend left=15](q3) edge node[above] {$\Sterm{0}\mapsto\Sterm{0},R$} (q4);
+\path[->,line width=0.5mm,bend left=15](q4) edge node[below] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+
+\path[->,line width=0.5mm](q2) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q2);
+\path[->,line width=0.5mm](q3) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm](q4) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q4);
+
+\path[->,line width=0.5mm,bend left](q3) edge node[right] {$\blank\mapsto\blank,L$} (q5);
+\path[->,line width=0.5mm](q5) edge [loop below] node[right,align=left,xshift=1mm] {$\Snterm{X}\mapsto\Snterm{X},L$\\$\Sterm{0}\mapsto\Sterm{0},L$} (q5);
+\path[->,line width=0.5mm,bend left](q5) edge node[right,xshift=-5pt,yshift=7pt] {$\Snterm{$\hat{0}$}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+
+\path[->,line width=0.5mm](q2) edge node[left] {$\blank\mapsto\blank,N$} (q6);
+\end{tikzpicture}
+
+\emph{Übergänge bei Eingabe von $\Sterm{0000}$:}\medskip
+
+$q_0\,\Sterm{0000} \pause\vdash \Snterm{$\hat{0}$}\,q_1\,\Sterm{000} \pause\vdash  \Snterm{$\hat{0}$X}\,q_2\,\Sterm{00}\pause\vdash  \Snterm{$\hat{0}$X}\Sterm{0}\,q_3\,\Sterm{0} \pause\vdash \Snterm{$\hat{0}$X}\Sterm{0}\Snterm{X}\,q_2\,\blank \pause\vdash
+\Snterm{$\hat{0}$X}\Sterm{0}\,q_4\,\Snterm{X}\blank\pause\vdash{}$\\[1ex]
+%
+$\Snterm{$\hat{0}$X}\,q_4\,\Sterm{0}\Snterm{X}\blank \vdash\Snterm{$\hat{0}$}\,q_4\,\Snterm{X}\Sterm{0}\Snterm{X}\blank \vdash q_4\,\Snterm{$\hat{0}$}\Snterm{X}\Sterm{0}\Snterm{X}\blank\pause\vdash\Snterm{$\hat{0}$}\,q_1\,\Snterm{X}\Sterm{0}\Snterm{X}\blank\pause\vdash\Snterm{$\hat{0}$}\Snterm{X}\,q_1\,\Sterm{0}\Snterm{X}\blank\pause\vdash\ghost{$\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\,q_2\,\Snterm{X}\blank\pause\vdash{}$}$\\[1ex]
+%
+$\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\Snterm{X}\,q_2\,\blank\pause\vdash\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\,q_4\,\Snterm{X}\blank\vdash\Snterm{$\hat{0}$}\Snterm{X}\,q_4\,\Snterm{X}\Snterm{X}\blank\vdash\Snterm{$\hat{0}$}\,q_4\,\Snterm{X}\Snterm{X}\Snterm{X}\blank\vdash q_4\,\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\Snterm{X}\blank
+ \vdash{}$\\[1ex]
+%
+$\Snterm{$\hat{0}$}\,q_1\,\Snterm{X}\Snterm{X}\Snterm{X}\blank \pause\vdash\Snterm{$\hat{0}$}\Snterm{X}\,q_1\,\Snterm{X}\Snterm{X}\blank\vdash\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\,q_1\,\Snterm{X}\blank\vdash\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\Snterm{X}\,q_1\,\blank\pause\vdash\Snterm{$\hat{0}$}\Snterm{X}\Snterm{X}\Snterm{X}\,q_5\,\blank$
+\end{frame}
+
+
+\begin{frame}\frametitle{Arbeitsweise einer TM: Läufe}
+
+Für Eingabewort $w$ beginnt die TM mit der \redalert{Startkonfiguration} $q_0\,w$.
+\pause\medskip
+
+Ein \redalert{Lauf} ist eine maximale Folge von Konfigurationen, die durch die Übergangsrelation in Beziehung stehen
+\begin{itemize}
+\item Ein Lauf kann endlich sein, wenn es für die Schlusskonfiguration keinen Nachfolger gibt
+\item Ein Lauf kann unendlich sein, wenn immer neue Konfigurationen erreichbar sind
+\end{itemize}
+\pause\medskip
+
+Die TM \redalert{akzeptiert} die Eingabe, wenn der (eindeutig bestimmte) Lauf, der mit $q_0\,w$ beginnt, endlich ist und seine letzte Konfiguration einen Endzustand beinhaltet.
+\medskip
+
+Andernfalls \redalert{verwirft} die TM die Eingabe.
+\medskip
+% 
+% \emph{Anmerkung:} Im Gegensatz zum PDA kann eine TM nur akzeptieren, wenn sie zuvor angehalten hat, d.h., wenn es keine Folgerkonfigurationen mehr gibt.
+
+\end{frame}
+
+\begin{frame}\frametitle{Sprache einer TM}
+
+Die Sprache einer TM wird wie erwartet definiert:
+
+\defbox{Die von einer TM $\Smach{M}$ \redalert{erkannte Sprache} $\Slang{L}(\Smach{M})$ ist die Menge aller Wörter, die von einer TM akzeptiert werden.}\pause
+
+Zwei Gründe für Nichtakzeptanz von Wörtern:
+\begin{enumerate}[(1)]
+\item TM hält in einem Zustand, der kein Endzustand ist
+\item TM hält nicht (Endlosschleife)
+\end{enumerate}
+Es ist praktisch, wenn eine TM garantiert hält, da man Fall (2) meist nicht sicher erkennen kann (man weiß nicht, ob die TM irgendwann doch noch anhält)
+
+\defbox{Eine TM ist ein \redalert{Entscheider}, wenn sie bei jeder Eingabe hält. Wir sagen in diesem Fall, dass die TM die von ihr erkannte Sprache \redalert{entscheidet}.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel (4)}
+
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (q2) [circle,draw=black,thick] at (3,0) {$q_1$};
+\node (q3) [circle,draw=black,thick] at (6,0) {$q_2$};
+\node (q4) [circle,draw=black,thick] at (9,0) {$q_3$};
+\node (q5) [circle,draw=black,thick] at (4.5,-2) {$q_4$};
+\node (q6) [circle,draw=black,thick,double] at (1.5,-2) {$q_5$};
+%
+\path[->,line width=0.5mm](0,1) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[above] {$\Sterm{0}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+\path[->,line width=0.5mm](q2) edge node[above] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm,bend left=15](q3) edge node[above] {$\Sterm{0}\mapsto\Sterm{0},R$} (q4);
+\path[->,line width=0.5mm,bend left=15](q4) edge node[below] {$\Sterm{0}\mapsto\Snterm{X},R$} (q3);
+
+\path[->,line width=0.5mm](q2) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q2);
+\path[->,line width=0.5mm](q3) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q3);
+\path[->,line width=0.5mm](q4) edge [loop above] node[above] {$\Snterm{X}\mapsto\Snterm{X},R$} (q4);
+
+\path[->,line width=0.5mm,bend left](q3) edge node[right] {$\blank\mapsto\blank,L$} (q5);
+\path[->,line width=0.5mm](q5) edge [loop below] node[right,align=left,xshift=1mm] {$\Snterm{X}\mapsto\Snterm{X},L$\\$\Sterm{0}\mapsto\Sterm{0},L$} (q5);
+\path[->,line width=0.5mm,bend left](q5) edge node[right,xshift=-5pt,yshift=7pt] {$\Snterm{$\hat{0}$}\mapsto\Snterm{$\hat{0}$},R$} (q2);
+
+\path[->,line width=0.5mm](q2) edge node[left] {$\blank\mapsto\blank,N$} (q6);
+\end{tikzpicture}
+\bigskip
+
+Diese TM entscheidet die Sprache $\{\Sterm{0}^{2^i}\mid i\geq 0\}$.
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen programmieren}
+
+\emph{Beobachtung:} Die detaillierte Beschreibung von TMs ist in der Regel sehr aufwändig
+\bigskip
+
+\emph{Abhilfe:} Oft reicht die skizzenhafte Beschreibung der Arbeitsweise
+\medskip\pause
+
+\examplebox{Beispiel: Eine TM zur Erkennung von $\{\Sterm{a}^i\Sterm{b}^i\Sterm{b}^i\mid i\geq 0\}$ arbeitet wie folgt:
+\footnotesize
+\begin{enumerate}[(1)]
+% \item Falls $\blank$ gelesen wird, akzeptiere
+\item Ersetze, angefangen von links, Vorkommen von $\Sterm{a}$ durch $\Snterm{$\hat{a}$}$
+\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetzte es durch $\Snterm{$\hat{b}$}$,
+suche anschließend rechts davon ein $\Sterm{c}$ und ersetzte es durch $\Snterm{$\hat{c}$}$
+\item Gehe danach zurück zum ersten noch nicht ersetzten $\Sterm{a}$ und führe die Ersetzung (1) fort, bis alle $\Sterm{a}$ ersetzt worden sind
+\item Akzeptiere, falls der Inhalt des Bandes die Form $\Snterm{$\hat{a}$}^*\Snterm{$\hat{b}$}^*\Snterm{$\hat{c}$}^*$ hat
+\item Andernfalls oder falls eine der Ersetzungen in Schritt (2) fehlschlägt, weil es zu wenige $\Sterm{b}$ oder $\Sterm{c}$ gibt, lehne die Eingabe ab
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Berechnung vs. Worterkennung}
+
+Wir haben TMs als \alert{Automaten zur Worterkennung} definiert:
+\begin{itemize}
+\item Eingabe wird am Anfang auf Band gegeben
+\item TM kann (a) anhalten und die Eingabe akzeptieren, (b) anhalten und die Eingabe ablehnen oder (c) nicht anhalten
+\end{itemize}
+\bigskip
+
+\alert{Wie kann man TMs als allgemeines Rechenmodell verstehen?}\pause
+
+\begin{enumerate}[(1)]
+\item Berechnungsfragen können als Wortproblem kodiert werden.
+\begin{itemize}
+\item Eingabewörter als Kodierung der beliebiger Eingaben (z.B. als Binärdatei)
+\item Berechnung einer Booleschen Funktion\\
+$\leadsto$ \redalert{Entscheidungsproblem}
+\end{itemize}\pause
+%
+\item Alternative Definition: Der Inhalt des Bandes beim Halten der TM wird als Ausgabe interpretiert (keine Endzustände nötig).\\
+Dann kodieren TMs partielle Funktionen $\Sigma^*\to\Gamma^*$ (partiell, da die TM nicht immer anhalten muss)
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Church-Turing-These}
+
+Was ist mit dem intuitiven Begriff der "`mechanisch berechenbaren"' Funktion gemeint?\pause
+% \bigskip
+% 
+\begin{itemize}
+\item \alert{Gödel/Herbrand (1934):} allgemeine rekursive Funktionen
+\item \alert{Church (1936):} $\lambda$-Kalkül
+\item \alert{Turing (1936):} Turingmaschine (ursprünglich "`a-machine"')\pause
+\item \alert{Kleene/Rosser/Church/Turing:} Die drei Ansätze beschreiben die gleiche Klasse von Funktionen!
+\end{itemize}
+
+\anybox{purple}{\emph{Church-Turing-These:} Eine Funktion ist genau dann im intuitiven Sinne berechenbar, wenn es
+eine Turingmaschine gibt, die für jede mögliche Eingabe den Wert der Funktion auf das Band schreibt und anschließend hält.
+}\pause
+
+\begin{itemize}
+\item \emph{Lesart 1:} Vorschlag einer mathematischen Definition der intuitiven Idee von Berechenbarkeit
+\item \emph{Lesart 2:} "`Naturgesetz"' über die Möglichkeiten und Grenzen des Rechnens an sich
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Varianten von Turingmaschinen}
+
+\redalert{Es gibt sehr viele alternative Definitionen von Turingmaschinen}\\
+\begin{itemize}
+\item Alternative Akzeptanzbedinungen {\tiny(Ausgabe der Antwort auf Band, totale Übergangsfunktion + explizite Stoppzustände für Akzeptanz \& Ablehnung, \ldots)}
+\item Alternative Bewegungsregeln {\tiny(keine $N$-Übergänge, anderes Verhalten am Rand des Bandes, \ldots)}
+\item TMs mit beidseitig unendlichem Band
+\item TMs mit mehreren Bändern
+\item nichtdeterministische Turingmaschinen
+\item TMs mit wahlfreiem Speicherzugriff (RAM)
+\item \ldots
+\end{itemize}
+
+All diese Varianten können die selben Funktionen berechnen -- wenn auch zum Teil mit unterschiedlichem Aufwand
+\medskip
+
+$\leadsto$ Untermauerung der Church-Turing-These
+
+\end{frame}
+
+\begin{frame}\frametitle{TMs mit mehreren Bändern}
+
+% Praktisch für manche Algorithmen und theoretische Betrachtungen:\medskip%
+
+\defbox{%
+\redalert{Die Mehrband-Turingmaschine}
+\begin{enumerate}[\ldots]
+\item verwendet eine vorher festgelegte Zahl $k\geq 2$ von (einseitig unendlichen) Speicherbändern
+\item erweitert die Übergangsfunktion entsprechend:\\[1ex]
+\narrowcentering{$Q\times\Gamma^k \to Q\times(\Gamma\times\{L,R,N\})^k$}
+\item erhält die Eingabe auf dem ersten Band, während die anderen anfänglich leer sind
+\end{enumerate}}\medskip
+
+\emph{Wichtig:} Die TM hat einen unabhängigen Lese-/Schreibkopf für jedes Band (unterschiedliche Bewegungen/Positionen möglich)
+\medskip\pause
+
+% Die Definitionen von \redalert{Lauf} und \redalert{Akzeptanz} werden entsprechend angepasst.
+
+\examplebox{Beispiel: Ein deterministischer PDA kann leicht durch eine 2-Band-TM simuliert werden. Dabei wird vom ersten Band nur gelesen, während auf dem zweiten Band der aktuelle Kellerinhalt gespeichert wird.}
+
+% \examplebox{Beispiel: Die Sprache $\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$
+% kann mithilfe einer 2-Band-TM wie folgt entschieden werden:
+% \begin{itemize}
+% \item Markiere den Start von Band 2.
+% \item Kopiere alle $\Sterm{a}$ von Band 1 nach Band 2
+% \item Lies $\Sterm{b}$
+% \end{itemize}
+% }
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Mehr Bänder $\neq$ mehr Ausdrucksstärke}
+
+\theobox{Jede Mehrband-TM ist äquivalent zu einer TM (mit einem Band).}\pause
+
+\emph{Beweis:} Es ist klar, dass eine TM durch eine Mehrband-TM simuliert werden kann, indem einfach
+nur ein Band genutzt wird.\pause\medskip
+
+Umgekehrt können mehrere Bänder auf einem simuliert werden:
+\begin{itemize}
+\item Für jedes der $k$ Bänder gibt es je ein endliches Wort (Bandinhalt) und eine Position (Lese-/Schreibkopf)
+\item Speicherung auf einem Band:
+\begin{itemize}
+\item Bandinhalte werden hintereinander gespeichert, getrennt durch ein Sonderzeichen $\Snterm{\#}$
+\item Steht der Kopf über einer Zelle mit Symbol $s$, dann wird dort stattdessen ein markiertes Symbol $\hat{s}$ gespeichert
+\end{itemize}
+\item Die kodierte Startkonfiguration der $k$-Band-TM bei Eingabe $\Sterm{a_1}\cdots\Sterm{a_n}$ ist also: $\Snterm{\#}\Snterm{$\hat{a}_1$}\Sterm{a_2}\cdots\Sterm{a_n}\Snterm{\#}\hat{\blank}\Snterm{\#}\cdots\Snterm{\#}\hat{\blank}\Snterm{\#}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Mehr Bänder $\neq$ mehr Ausdrucksstärke (2)}
+
+\theobox{Jede Mehrband-TM ist äquivalent zu einer TM (mit einem Band).}
+
+\emph{Beweis (Fortsetzung):} Mit dieser Kodierung kann die TM einzelne Schritte der Mehrband-TM simulieren\pause:
+
+\begin{itemize}
+\item Intitialisierung: Die Eingabe wird in die Kodierung der $k$-Band-Konfiguration umgeschrieben\pause
+\item Berechnungsschritt: Die TM läuft über das gesamte Band und liest die Symbole an den Kopf-Positionen;
+die $k$ gelesenen Symbole werden in der Zustandsinformation kodiert; dann läuft die TM nochmals über das Band und aktualisiert alle $k$ Kodierungen entsprechend der Übergangsfunktion\pause
+\item Falls der Speicher für ein Band erweitert werden muss (Verlassen des bisher verwendeten Speichers nach rechts),
+verschiebt die TM alle darauf folgenden Zellen entsprechend, kehrt zurück und setzt die Simulation fort
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Mehr Bänder $\neq$ mehr Ausdrucksstärke (3)}
+
+\theobox{Jede Mehrband-TM ist äquivalent zu einer TM (mit einem Band).}
+
+\emph{Beweis (Fortsetzung):} Die skizzierte Simulation benötigt viele Zustände, um alle relevanten Informationen zwischenspeichern zu können (Zustand der simulierten Maschine, gelesene Symbole unter den $k$ Köpfen, Arbeitszustand bei Hilfsoperationen wie Speicherverschiebung, \ldots).\medskip
+
+$\leadsto$ Details umständlich, aber im Prinzip machbar. \qed
+\pause\bigskip
+
+\emph{Komplexität?}
+\begin{itemize}
+\item Die Zahl der Schritte zur Simulation eines Schrittes ist proportional zur Gesamtlänge des beschriebenen Speichers 
+\item Der maximal beschriebene Speicher pro Band ist proportional zur Zahl der bereits berechneten Schritte
+\item Die Simulation von $n$ Schritten benötigt also $O(k n^2)$ Schritte\\[-1ex]{\tiny (Sofern $n$ nicht kürzer ist als die Eingabe $w$; allgemeiner: $O(k\, n \max(n,|w|))$)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Nichtdeterministische TMs}
+
+\defbox{%
+\redalert{Die nichtdeterministische Turingmaschine} (NTM)
+\begin{enumerate}[\ldots]
+\item modelliert die Übergangsfunktion als totale Funktion:\\[1ex]
+\narrowcentering{$Q\times\Gamma \to 2^{Q\times\Gamma\times\{L,R,N\}}$}\\
+wobei $2^{Q\times\Gamma\times\{L,R,N\}}$ die Potenzmenge von $Q\times\Gamma\times\{L,R,N\}$ ist
+\item kann weiterhin mit einem einzigen Anfangszustand arbeiten
+\end{enumerate}}\medskip
+
+\redalert{Läufe} werden wie bei DTMs definiert, aber jetzt kann es pro Eingabe viele Läufe geben
+\medskip
+
+Die Eingabe wird akzeptiert, wenn mindestens ein Lauf endlich ist und in einer akzeptierenden Konfiguration endet
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+
+\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
+
+\emph{Beweis:} Allgemeine Idee:
+\begin{itemize}
+\item Wir simulieren systematisch einen Lauf nach dem anderen
+\item Die simulierende TM akzeptiert die Eingabe, wenn ein akzeptierender Lauf gefunden wird
+\item Andernfalls hält sie nicht an
+\end{itemize}\pause
+
+\alert{Wie kann man systematisch alle möglichen Läufe testen?}
+\begin{itemize}
+\item Tiefensuche: berechne zunächst einen Lauf; falls dieser fehlschlägt, dann gehe zum letzten Entscheidungspunkt zurück und teste eine andere Möglichkeit\\\pause
+$\leadsto$ Problem: nicht akzeptierende Läufe können unendlich sein\pause
+%
+\item Breitensuche: berechne alle Läufe bis zu einer gewissen Tiefe, für immer größere Tiefen\\
+$\leadsto$ Simulation eines Laufs wird bei Maximaltiefe abgebrochen
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+
+\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
+
+\emph{Beweis:} Die Simulation verwendet eine 3-Band-TM (äquivalent zu einer normalen DTM wie bereits gezeigt):
+\begin{enumerate}[{Band} 1:]
+\item Eingabewort (wird nie verändert)
+\item Arbeitsband der simulierten NTM für aktuellen Lauf
+\item Beschreibung der Übergangsentscheidungen des aktuell simulierten Laufs
+\end{enumerate}\pause
+Für jeden Übergang gibt es nur endlich viele Optionen, sagen wir $\ell$.\medskip%
+
+Dann kann eine Folge von Entscheidungen als Sequenz von Zahlen in $\{0,\ldots, \ell-1\}$ beschrieben werden\\
+$\leadsto$ Band 3 enthält solch ein Wort über $\{0,\ldots, \ell-1\}$\medskip%
+
+Der Inhalt von Band 3 kann als Zahl zur Basis $\ell$ gelesen werden: Um systematisch alle Optionen
+zu durchsuchen, kann diese Zahl in Schritten von $1$ erhöht werden
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+
+\theobox{Jede NTM ist äquivalent zu einer DTM.}
+
+\emph{Beweis:} Arbeitsweise der Simulation:
+\begin{enumerate}[(1)]
+\item Initialisiere Band 3 mit dem Inhalt $0$
+\item Kopiere die Eingabe von Band 1 nach Band 2
+\item Simuliere einen Lauf der NTM auf Band 2. In jedem Schritt wird von Band 3 eine Zahl gelesen
+und der Übergang ausgeführt, der dieser Zahl entspricht.
+\begin{itemize}
+\item Falls ein Übergang mit der gelesenen Zahl nicht möglich ist, gehe zu (4)
+\item Falls alle Zahlen auf Band 3 gelesen sind, gehe zu (4)
+\end{itemize}
+\item Prüfe ob die simulierte NTM in einem Endzustand angehalten hat und akzeptiere in diesem Fall, andernfalls:
+\item Inkrementiere die Zahl auf Band 3 um $1$, lösche Band 2 und gehe zu Schritt (2)\qed
+\end{enumerate}
+
+\end{frame}
+
+% \begin{frame}\frametitle{TM, DFA und PDA}
+% 
+% \emph{Einfache Beobachtung:} Ein DFA kann als TM aufgefasst werden, welche die Eingabe auf dem Band nur in einer Richtung
+% liest und niemals beschreibt.
+% \bigskip
+% 
+% \emph{Etwas weniger klar:} Wie sieht es 
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+\redalert{Turingmaschinen} (TMs) liefern ein allgemeines Modell der Berechnung
+\bigskip
+
+Die \redalert{Church-Turing-These} besagt, dass jeder Algorithmus in diesem Modell beschrieben werden kann
+\bigskip
+
+\redalert{Zahlreiche Varianten von TMs} führen zur gleichen Ausdrucksstärke, speziell \redalert{Mehrband-TMs} und \redalert{nichtdeterministische TMs}.
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Wie ergibt sich die Korrespondenz von TMs und Typ-0-Sprachen?
+\item Wenn alle Modelle Typ 0 liefern, was ist dann mit Typ 1?
+\item Unterscheiden sich Typ 0 und Typ 1 überhaupt?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}
