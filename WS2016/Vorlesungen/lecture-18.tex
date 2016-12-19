@@ -591,95 +591,7 @@ $\leadsto$ Details umständlich, aber im Prinzip machbar. \qed
 \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Nichtdeterministische TMs}
 
-\defbox{%
-\redalert{Die nichtdeterministische Turingmaschine} (NTM)
-\begin{enumerate}[\ldots]
-\item modelliert die Übergangsfunktion als totale Funktion:\\[1ex]
-\narrowcentering{$Q\times\Gamma \to 2^{Q\times\Gamma\times\{L,R,N\}}$}\\
-wobei $2^{Q\times\Gamma\times\{L,R,N\}}$ die Potenzmenge von $Q\times\Gamma\times\{L,R,N\}$ ist
-\item kann weiterhin mit einem einzigen Anfangszustand arbeiten
-\end{enumerate}}\medskip
-
-\redalert{Läufe} werden wie bei DTMs definiert, aber jetzt kann es pro Eingabe viele Läufe geben
-\medskip
-
-Die Eingabe wird akzeptiert, wenn mindestens ein Lauf endlich ist und in einer akzeptierenden Konfiguration endet
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
-
-\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
-
-\emph{Beweis:} Allgemeine Idee:
-\begin{itemize}
-\item Wir simulieren systematisch einen Lauf nach dem anderen
-\item Die simulierende TM akzeptiert die Eingabe, wenn ein akzeptierender Lauf gefunden wird
-\item Andernfalls hält sie nicht an
-\end{itemize}\pause
-
-\alert{Wie kann man systematisch alle möglichen Läufe testen?}
-\begin{itemize}
-\item Tiefensuche: berechne zunächst einen Lauf; falls dieser fehlschlägt, dann gehe zum letzten Entscheidungspunkt zurück und teste eine andere Möglichkeit\\\pause
-$\leadsto$ Problem: nicht akzeptierende Läufe können unendlich sein\pause
-%
-\item Breitensuche: berechne alle Läufe bis zu einer gewissen Tiefe, für immer größere Tiefen\\
-$\leadsto$ Simulation eines Laufs wird bei Maximaltiefe abgebrochen
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
-
-\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
-
-\emph{Beweis:} Die Simulation verwendet eine 3-Band-TM (äquivalent zu einer normalen DTM wie bereits gezeigt):
-\begin{enumerate}[{Band} 1:]
-\item Eingabewort (wird nie verändert)
-\item Arbeitsband der simulierten NTM für aktuellen Lauf
-\item Beschreibung der Übergangsentscheidungen des aktuell simulierten Laufs
-\end{enumerate}\pause
-Für jeden Übergang gibt es nur endlich viele Optionen, sagen wir $\ell$.\medskip%
-
-Dann kann eine Folge von Entscheidungen als Sequenz von Zahlen in $\{0,\ldots, \ell-1\}$ beschrieben werden\\
-$\leadsto$ Band 3 enthält solch ein Wort über $\{0,\ldots, \ell-1\}$\medskip%
-
-Der Inhalt von Band 3 kann als Zahl zur Basis $\ell$ gelesen werden: Um systematisch alle Optionen
-zu durchsuchen, kann diese Zahl in Schritten von $1$ erhöht werden
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
-
-\theobox{Jede NTM ist äquivalent zu einer DTM.}
-
-\emph{Beweis:} Arbeitsweise der Simulation:
-\begin{enumerate}[(1)]
-\item Initialisiere Band 3 mit dem Inhalt $0$
-\item Kopiere die Eingabe von Band 1 nach Band 2
-\item Simuliere einen Lauf der NTM auf Band 2. In jedem Schritt wird von Band 3 eine Zahl gelesen
-und der Übergang ausgeführt, der dieser Zahl entspricht.
-\begin{itemize}
-\item Falls ein Übergang mit der gelesenen Zahl nicht möglich ist, gehe zu (4)
-\item Falls alle Zahlen auf Band 3 gelesen sind, gehe zu (4)
-\end{itemize}
-\item Prüfe ob die simulierte NTM in einem Endzustand angehalten hat und akzeptiere in diesem Fall, andernfalls:
-\item Inkrementiere die Zahl auf Band 3 um $1$, lösche Band 2 und gehe zu Schritt (2)\qed
-\end{enumerate}
-
-\end{frame}
-
-% \begin{frame}\frametitle{TM, DFA und PDA}
-% 
-% \emph{Einfache Beobachtung:} Ein DFA kann als TM aufgefasst werden, welche die Eingabe auf dem Band nur in einer Richtung
-% liest und niemals beschreibt.
-% \bigskip
-% 
-% \emph{Etwas weniger klar:} Wie sieht es 
-% 
-% \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
@@ -689,7 +601,7 @@ und der Übergang ausgeführt, der dieser Zahl entspricht.
 Die \redalert{Church-Turing-These} besagt, dass jeder Algorithmus in diesem Modell beschrieben werden kann
 \bigskip
 
-\redalert{Zahlreiche Varianten von TMs} führen zur gleichen Ausdrucksstärke, speziell \redalert{Mehrband-TMs} und \redalert{nichtdeterministische TMs}.
+\redalert{Zahlreiche Varianten von TMs} führen zur gleichen Ausdrucksstärke, konkret z.B. \redalert{Mehrband-TMs}.
 \bigskip
 
 \anybox{yellow}{
