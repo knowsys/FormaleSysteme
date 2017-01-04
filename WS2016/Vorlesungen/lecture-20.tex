@@ -183,7 +183,7 @@ Turingmaschinen charakterisieren die Typ-0-Sprachen:\medskip
 
 \begin{frame}\frametitle{Typ 0 $\Leftrightarrow$ TM}
 
-\theobox{Satz: Die Typ-0-Grammatiken erzeugen genau diejenigen Sprachen, die von einer Turingmaschine erkannt werden können (d.h., die entscheidbar sind).}\medskip
+\theobox{Satz: Die Typ-0-Grammatiken erzeugen genau diejenigen Sprachen, die von einer Turingmaschine erkannt werden können.}\medskip
 
 \emph{Beweis:} Die beiden Richtungen werden einzeln gezeigt:
 \begin{enumerate}[(1)]
@@ -226,7 +226,7 @@ Die TM für Grammatik $G=\tuple{V,\Sigma,P,S}$ arbeitet wie folgt:
 	\end{enumerate}
 \end{itemize}
 
-Offenbar gilt: Die TM bei Eingabe $w$ hat genau dann einen erfolgreichen Lauf wenn die Grammatik eine Ableitung von $w$ zulässt\qed
+Offenbar gilt: Die TM bei Eingabe $w$ hat genau dann einen erfolgreichen Lauf wenn die Grammatik eine Ableitung von $w$ zulässt.\qed
 
 
 \end{frame}
@@ -285,7 +285,7 @@ $\blank$ (entsteht beim Aufräumen nach akzeptierender Endkonfiguration)
 \begin{align*}
 \Snterm{S} &\to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\; \vtriple{\blank}{\blank}{q_0}\Snterm{B}\\
 \Snterm{A} &\to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\Snterm{B}\\
-\Snterm{B} &\to \vtriple{\blank}{\blank}{-}\;\mid\;\epsilon
+\Snterm{B} &\to \vtriple{\blank}{\blank}{-}\Snterm{B}\;\mid\;\epsilon
 \end{align*}
 \begin{enumerate}[$\leadsto$]
 \item erzeugt Eingabewort und einen beliebig langen (leeren) Arbeitsspeicher
@@ -303,7 +303,7 @@ $\blank$ (entsteht beim Aufräumen nach akzeptierender Endkonfiguration)
 
 \begin{itemize}
 \item Für jeden TM-Übergang $\tuple{q',y,R}\in\delta(q,x)$, beliebige $\unemph{a},\unemph{b}\in\Sigma\cup\{\blank\}$ und beliebige $\unemph{z}\in\Sigma\cup\Gamma$:
-\[ \vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{z}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'} \]\pause
+\[ \vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{\unemph{z}}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'} \]\pause
 %
 \item Für jeden TM-Übergang $\tuple{q',y,L}\in\delta(q,x)$, beliebige $\unemph{a},\unemph{b}\in\Sigma\cup\{\blank\}$ und beliebige $\unemph{z}\in\Sigma\cup\Gamma$
 \[ \vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-} \]\pause
@@ -418,9 +418,9 @@ Die zuvor verwendete TM-Grammatik auf einen Blick:
 $
 \Snterm{S} \to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\; \vtriple{\blank}{\blank}{q_0}\Snterm{B}$\\[1ex]
 %
-$\Snterm{A} \to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\Snterm{B}$\hfill$\Snterm{B} \to \vtriple{\blank}{\blank}{-}\;\mid\;\epsilon$\\[2ex]
+$\Snterm{A} \to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\Snterm{B}$\hfill$\Snterm{B} \to \vtriple{\blank}{\blank}{-}\Snterm{B}\;\mid\;\epsilon$\\[2ex]
 %
-$\vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{z}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'}$\hfill$\vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-}$\hfill$\vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'}$\\[2.5ex]
+$\vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{\unemph{z}}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'}$\hfill$\vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-}$\hfill$\vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'}$\\[2.5ex]
 % 
 ~\hfill$\vtriple{\unemph{a}}{x}{q} \to \unemph{a}$\hfill$a\vtriple{b}{\unemph{x}}{-} \to ab$\hfill$\vtriple{b}{\unemph{x}}{-}a \to ba$\hfill$\blank \to \epsilon$\hfill~
 \end{center}
@@ -434,7 +434,7 @@ Modifizierte Grammatik zur Simulation von LBAs:
 
 \begin{center}
 $
-\Snterm{S} \to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)$\\[1ex]
+\Snterm{S} \to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)$\\[1ex]
 %
 $\Snterm{A} \to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\vtriple{\Sterm{a}}{\Sterm{a}}{-}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)$\\[2ex]
 %
@@ -459,7 +459,7 @@ Das Wortproblem bei Typ 0 ist unentscheidbar. Und bei Typ 1?\pause
 \item Man kann entscheiden, ob eine TM von einer Konfiguration in eine andere wechseln kann oder nicht
 % \item Man kann entscheiden, ob eine Konfiguration eine akzeptierende Endkonfiguration ist
 \end{itemize}\pause
-Für eine Eingabe $w$ können wir also den kompletten Graphen aller möglichen Konfigurationen und Übergänge
+Für eine Eingabe $w$ können wir also den kompletten Graphen aller möglichen LBA-Konfigurationen und Übergänge
 berechnen.\\
 $\leadsto$ \redalert{Konfigurationsgraph}
 
@@ -510,7 +510,7 @@ Wir wissen bereits:\medskip
 Weitere Abschlusseigenschaften sind nicht schwer zu finden:
 
 \begin{itemize}
-\item \alert{Schnitt:} Simuliere erst die erste TM, dann (bei Akzeptanz) den zweiten; verwende ein "`mehrspuriges"' Alphabet, um die Eingabe für die zweite Simulation zu speichern
+\item \alert{Schnitt:} Simuliere erst die erste TM, dann (bei Akzeptanz) die zweite; verwende ein "`mehrspuriges"' Alphabet, um die Eingabe für die zweite Simulation zu speichern
 \item \alert{Konkatenation:} Rate und markiere die Trennstelle der beiden Wörter; teste dann jedes der Wörter einzeln
 \item \alert{Kleene-Stern:} Rate und teste einen ersten nicht-leeren Teilabschnitt; wiederhole dies bis das gesamte Wort erkannt wurde
 \end{itemize}\pause
