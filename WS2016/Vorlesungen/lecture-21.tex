@@ -1,0 +1,802 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{21}{Aussagenlogik}{9. Januar 2017}
+
+\begin{document}
+
+\maketitle
+
+% \begin{frame}\frametitle{}
+% 
+% ~\hfill
+% \includegraphics[height=6.5cm]{a4}
+% \hfill~
+% 
+% \end{frame}
+
+\sectionSlide{Besprechung Lehrevaluation}
+
+\newcommand{\praise}[1]{\textcolor{darkgreen}{"`#1"'}}
+\newcommand{\critique}[1]{~\hfill\textcolor{darkred}{"`#1"'}}
+
+\begin{frame}\frametitle{Kommentare: Allgemeines}
+
+\narrowcentering{{\large \alert{Danke für die vielen freundlichen Kommentare!}}}
+\bigskip
+
+\emph{Konkrete technische Verbesserungswünsche werden soweit möglich umgesetzt:}
+\begin{itemize}
+\item "`Die Folien direkt nach der Vorlesung verfügbar haben"'
+\item "`Das Mikro ist im Raum E02 im HSZ regelmäßig zu leise"'
+\item "`Eine bessere Justierung des Beamers im HSZ/003 ;)"'
+\item "`Besser auf Vorwissen aus AuD und Programmierung abstimmen"'
+\item "`jede Woche 1 Baby-Foto"' (mal sehen \ldots)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kommentare: Beispiele und Praxisbezug}
+
+\textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
+\bigskip
+
+\praise{Sehr viele Beispiele}\\[1ex]
+\critique{Ich finde es besser, wenn es ein bisschen mehr Beispiele gibt.}\\[1ex]
+\praise{Viele einfache verständliche Beispiele}\\[1ex]
+\critique{Mehr Beispiele.}\\[3ex]
+\praise{macht eher `trockenen' Stoff spannend}\\[1ex]
+\critique{Praxisbezug erhöhen}\\[1ex]
+\critique{Mehr Praxisbezug}\\[1ex]
+\critique{Mehr Praxis-Beispiele}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kommentare: Beweise und Tempo}
+
+\textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
+\bigskip
+
+\praise{Beweise <3}\\[1ex]
+\critique{Ein oder zwei Beweise weniger wären gut. ;)}\\[1ex]
+\critique{Weniger Beweise}\\[1ex]
+\praise{Beweise gut erklärt}\\[1ex]
+\critique{Beweise teilweise \emph{zu schnell} erklärt}\\[1ex]
+\critique{Tempo etwas \emph{verlangsamen}}\\[1ex]
+\critique{\emph{Weniger ausführliche} Beweise}\\[1ex]
+\critique{Manchmal werden Themen etwas \emph{zu schnell} behandelt, wenn man selbst Notizen machen will, vor allem Beweise}\\[1ex]
+\critique{\emph{Tempo könnte} an einigen Stellen deutlich \emph{höher sein} (vor allem Beweise)}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kommentare: Zusammenfassungen und Wiederholungen}
+
+\textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
+\bigskip
+
+\praise{Regelmäßiges Zusammenfassen des Stoffes}\\[1ex]
+\praise{Wiederholungen}\\[1ex]
+\praise{Wiederholungen zur Festigung des Stoffes}\\[1ex]
+\critique{Die Zusammenfassungen und Wiederholungen des bereits abgeschlossenen Stoffes sind viel zu Ausführlich}\\[1ex]
+\critique{nicht alles 3 mal erklären, man versteht es beim ersten mal}\\[1ex]
+\critique{Mehr Wiederholungen. Explain it like I'm 5}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kommentare: Tafel vs. Beamer}
+
+\textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
+\bigskip
+
+% \praise{gute Folien}\\[1ex]
+\praise{Sehr gute Folien (interaktiv)}\\[0.5ex]
+\praise{Bunte Folien, Schemata und Veranschaulichungen leicht verständlich}\\[0.5ex]
+\praise{Sehr übersichtl. Folien}\\[0.5ex]
+\praise{die Folien, die im Internet zur Verfügung stehen, finde ich prima}\\[0.5ex]
+\praise{excellente Latex-Folien}\\[0.5ex]
+\praise{Verständliche Folien}\\[0.5ex]
+\praise{sehr anschauliche und erklärende Folien, die auch nachvollziehbar online sind}\\[1ex]
+\critique{Tafelschriebe helfen mir konzentrierter zu bleiben}\\[1ex]
+\critique{Verhältnis Powerpoint<->Tafel mehr zu Gunsten der Tafel verschieben. Bei ppt-Folien bleibt zu wenighängen bzw. das Tempo erhöht sich.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kommentare: Politik}
+
+
+\textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
+\bigskip
+
+\praise{`politische' Statements}\\[1ex]
+\praise{Blick über den Tellerrand der Vorlesung, durch Kommentare zur Politischen Situation}\\[1ex]
+\critique{Zu viel Politik}\\[1ex]
+\critique{bitte keine Werbung für `\underline{\href{https://herzstatthetze.jimdo.com/}{Herz-statt-Hetze}}' oder ähnliches}\\[1ex]
+\critique{keine/weniger politische Statements in Vorlesungen, Forschung + Lehre sollten neutral sein}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ankündigung}
+
+\begin{center}
+Weitere Kommentare\\
+(gesellschaftspolitisch oder anderweitig)?\\[1ex]
+Dann kommen Sie zum\\[4ex]
+
+{\LARGE Professorenstammtisch}\\[2ex]
+
+\large
+11.1.2017\\
+18:30 Uhr\\
+Im "`Campus"'
+\end{center}
+
+\end{frame}
+
+% \sectionSlideNoHandout{Rückblick}
+% 
+% \begin{frame}\frametitle{Typ 0 und Typ 1}
+% 
+% \ldots
+% 
+% \end{frame}
+
+\sectionSlide{Logik}
+
+
+\begin{frame}\frametitle{Logik für Informatiker}
+
+\pause
+\begin{center}
+\Huge Warum?
+\end{center}
+
+\end{frame}
+
+\begin{frame}\frametitle{Logik für Informatiker: Darum (1)}
+
+\begin{center}
+\LARGE 
+\[ \frac{\text{Logik}}{\text{Informatik}} = \frac{\text{Analysis}}{\text{Ingenieurwesen}}\]
+
+\bigskip
+\large
+"`Wer rechnende Systeme verstehen und konstruieren will, der benötigt passende mathematische Modelle.\\Dieser Weg führt oftmals zur Logik."'
+\end{center}
+
+
+\begin{itemize}
+\item Modellierung von Programm\alert{logik} und \alert{logischen} Schaltungen
+\item Berechnung praktisch relevanter Eigenschaften durch logisches Schließen
+\item Hauptanwendung: \redalert{Verifikation von Systemen}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Logik für Informatiker: Darum (2)}
+
+\begin{center}
+\LARGE 
+Logik = Wissenschaft vom folgerichtigen Denken
+
+\bigskip
+\large
+"`Wer intelligente Software entwickeln will, der muss logische Schlussfolgerungen algorithmisch umsetzen.\\
+Die Logik liefert die nötigen Methoden."'
+\end{center}
+
+
+\begin{itemize}
+\item Kodierung von gültigen Zusammenhängen und Regeln
+\item Logisches Schließen als Simulation von intelligentem Denken
+\item Hauptanwendung: \redalert{Künstliche Intelligenz}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Logik für Informatiker: Darum (3)}
+
+\begin{center}
+\LARGE 
+Logisches Schließen = Problemlösen
+
+\bigskip
+\large
+"`Bedeutende Klassen von (schweren) Problemen lassen sich durch logische Schlussfolgerung lösen.\\
+Algorithmen aus der Logik sind in vielen anderen Bereichen anwendbar."'
+\end{center}
+
+
+\begin{itemize}
+\item Logik als Spezifikationssprache für komplexe Probleme
+\item Logisches Schließen als Suche nach zulässigen Lösungen
+\item Anwendungen: \redalert{Constraint-Satisfaction-Probleme} und verwandte Optimierungsaufgaben
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Logik für Informatiker: Darum (4)}
+
+\begin{center}
+\LARGE 
+Logiken = Beschreibungssprachen
+
+\bigskip
+\large
+"`Überall wo Informationen maschinell kodiert werden und wo exakt spezifiziert ist, was eine Anwendung\\ aus dieser Kodierung ableiten darf,\\hat man es mit einer Art Logik zu tun."'
+\end{center}
+
+
+\begin{itemize}
+\item Logik als Oberbegriff exakt spezifizierter Datenformate
+\item Schlussfolgerung zur \ghost{Interpretation/Analyse/Optimierung}
+\item Anwendungen: \redalert{Wissensrepräsentation} und \redalert{Datenbanken}
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Was ist Logik?}
+\pause
+
+"`Logik"' ist ein allgemeiner Oberbegriff für viele mathematische und technische Formalismen,
+gekennzeichnet durch:
+\begin{itemize}
+\item \redalert{Syntax:} Sprache einer Logik (normalerweise Formeln mit logischen Operatoren)
+\item \redalert{Semantik:} Definition der Bedeutung (Worauf beziehen sich die Formeln? Wann ist eine Formel wahr oder falsch?)
+% \item \redalert{Inferenz:} Spezifikation der korrekten logische Schlussfolgerungen (Welche neuen Formeln kann man aus den bekannten ableiten?)
+\end{itemize}\bigskip\pause
+
+Typische Zielstellung: \redalert{Logische Schlussfolgerung}
+\begin{itemize}
+\item Welche Schlüsse kann man aus einer gegebenen (Menge von) Formel(n) ziehen?
+\item Spezifikation der korrekten Schlussfolgerungen sollte sich aus Semantik ergeben
+\item Praktische Berechnung von Schlussfolgerungen ist oft kompliziert
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Viele Logiken}
+
+Es gibt sehr viele Logiken, z.B.
+\begin{itemize}
+\item Aussagenlogik
+\item Prädikatenlogik (erster Stufe)
+\item Prädikatenlogik zweiter Stufe
+\item Beschreibungslogiken (Wissensrepräsentation und KI)
+\item Temporallogiken (z.B. Verifikation zeitlicher Abläufe)
+\item Logikprogramme (Answer Set Programming, Prolog, \ldots)
+\item Nicht-klassische Logiken (z.B. intuitionistische Logik)
+\item Mehrwertige Logiken (z.B. probabilistische Logik)
+\item \ldots und viele andere mehr
+\end{itemize}
+
+$\leadsto$ In dieser Vorlesung lernen wir zunächst \alert{Aussagenlogik} kennen
+\bigskip
+
+(Mehr gibt es in der Vorlesung "`Theoretische Informatik und Logik"')
+
+\end{frame}
+
+\sectionSlide{Aussagenlogik}
+
+\begin{frame}\frametitle{Aussagenlogik}
+
+Die Aussagenlogik untersucht \alert{logische Verknüpfungen von atomaren Aussagen}.
+\bigskip
+
+\redalert{Atomare Aussagen} sind Behauptungen, die wahr oder falsch sein können, z.B.:
+
+\examplebox{\vspace{-2ex}
+\begin{enumerate}[{A}1]
+\item "`Morgen schneit es."'
+\item "`Wir werden einen Schneemann bauen."'
+% \item "`"'
+\end{enumerate}\vspace{-1ex}
+\begin{enumerate}[{B}1]
+\item "`Die Vorstellung von der globalen Erderwärmung wurde von den Chinesen erfunden."'
+\item "`Die Temperatur der Ozeane ist seit 1998 in unverminderter Geschwindigkeit angestiegen."'
+\end{enumerate}\vspace{-1ex}
+\begin{enumerate}[{C}1]
+\item "`Typ-2-Sprachen sind unter Schnitt abgeschlossen."'
+\item "`Typ-2-Sprachen sind unter Komplement abgeschlossen."'
+\item "`Typ-2-Sprachen sind unter Vereinigung abgeschlossen."'
+\end{enumerate}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Aussagen verknüpfen}
+
+Atomare Aussagen können mithilfe logischer \alert{Junktoren} verknüpft werden:
+
+\examplebox{\vspace{-2ex}
+\begin{itemize}
+\item $\text{A1}\to \text{A2}$: "`Wenn es morgen schneit, dann werden wir einen Schneemann bauen."'
+\item $\text{A1}\vee \neg\text{A1}$: "`Entweder schneit es morgen oder nicht."'
+\item $\text{B1}\to \neg\text{B2}$: "`Falls die Chinesen die globale Erwärmung erfunden haben, dann steigt die Temperatur der Ozeane nicht unvermindert an."'
+\item $(\text{C1}\wedge\text{C2})\to \text{C3}$: "`Sind Typ-2-Sprachen unter Schnitt und Komplement abgeschlossen, dann sind sie auch unter Vereinigung abgeschlossen."'
+\end{itemize}}
+
+\end{frame}
+
+% \begin{frame}
+% 
+% ~\hfill
+% \includegraphics[height=6.5cm]{a6}
+% \hfill~
+% % \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Logisches Schließen}
+
+Wenn einige Formeln als wahr angenommen werden, dann kann die Wahrheit anderer Formeln daraus abgeleitet werden.
+\bigskip
+
+\examplebox{%
+Beispiele:
+\begin{itemize}
+\item Aus $\text{B2}$ und $\text{B1}\to \neg\text{B2}$ folgt $\neg\text{B1}$
+\item Aus $\text{C1}$, $\neg\text{C3}$ und $(\text{C1}\wedge\text{C2})\to \text{C3}$ folgt $\neg\text{C2}$
+\item Aus $\text{A1}\to \text{A2}$ und $\neg\text{A1}$ folgt \redalert{nicht} $\neg\text{A2}$
+\end{itemize}}\pause\bigskip
+
+\anybox{purple}{
+Die Gültigkeit bestimmter Schlussfolgerungen hat nichts mit Schneemännern, Erderwärmung oder Typ-2-Sprachen zu tun!\\
+Sie ist eine rein logische Konsequenz.
+}
+
+\end{frame}
+
+\newcommand{\Aname}{Anna}
+\newcommand{\Bname}{Barbara}
+\newcommand{\Cname}{Chris}
+
+\begin{frame}\frametitle{Beispiel: Logelei}
+
+\Aname{} behauptet: "`\Bname{} lügt!"'
+\bigskip
+
+\Bname{} behauptet: "`\Cname{} lügt!"'
+\bigskip
+
+\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'
+\bigskip\bigskip
+
+{\Large
+\narrowcentering{\alert{Wer lügt?}}
+}
+
+\medskip
+{\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
+% \bigskip
+
+% 
+% $A\leftrightarrow\neg B$
+% $B\leftrightarrow\neg C$
+% $C\leftrightarrow\neg A \wedge \neg B$
+
+\end{frame}
+
+\begin{frame}\frametitle{Aussagenlogik: Syntax}
+
+Wir betrachten eine abzählbar unendliche Menge $\Slang{P}$ von
+\redalert{atomaren Aussagen} (auch bekannt als: \redalert{aussagenlogische Variablen}, \redalert{Propositionen} oder schlicht \redalert{Atome})
+\medskip
+
+\defbox{Die Menge der \redalert{aussagenlogischen Formeln} ist induktiv\footnote{Das bedeutet: Die Definition ist selbstbezüglich und soll die kleinste\\ Menge an Formeln beschreiben, die alle Bedingungen erfüllen.} definiert:
+\begin{itemize}
+\item Jedes Atom $p\in\Slang{P}$ ist eine aussagenlogische Formel
+\item Wenn $F$ und $G$ aussagenlogische Formeln sind, so auch:
+	\begin{itemize}
+	\item $\neg F$: \redalert{Negation}, "`nicht $F$"'
+	\item $(F\wedge G)$: \redalert{Konjunktion}, "`$F$ und $G$"'
+	\item $(F\vee G)$: \redalert{Disjunktion}, "`$F$ oder $G$"'
+	\item $(F\to G)$: \redalert{Implikation}, "`$F$ impliziert $G$"'
+	\item $(F\leftrightarrow G)$: \redalert{Äquivalenz}, "`$F$ ist äquivalent zu $G$"'
+	\end{itemize}
+\end{itemize}
+}
+
+Wir verzichten hier oft auf "`aussagenlogisch"' und sprechen z.B. einfach von "`Formeln"'.
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiele}
+
+Die folgenden Ausdrücke sind aussagenlogische Formeln:
+\begin{itemize}
+\item $p$
+\item $((p\to q)\to p)\to p$
+\item $\neg \neg \neg p$
+\end{itemize}
+\medskip
+
+Die folgenden Ausdrücke sind \redalert{keine} aussagenlogischen Formeln:
+\begin{itemize}
+\item $p\wedge q \vee r$ (fehlende Klammern)\\
+\anybox{strongyellow}{%
+\alert{Vereinfachung:} Äußere Klammern dürfen wegfallen, d.h. wir erlauben z.B. $p\to q$ anstatt auf $(p\to q)$ zu bestehen.
+}
+\item $(p\leftarrow q)$ (Operator $\leftarrow$ undefiniert)
+% \item $(p\leftrightarrow q)$ (Operator $\leftrightarrow$ undefiniert)
+% \anybox{strongyellow}{%
+% \alert{Notation:} Wir erlauben $(p\leftarrow q)$ als alternative Schreibweise für $(q\to p)$ und $(p\leftrightarrow q)$
+% als Abkürzung für $((p\to q)\wedge (q\to p))$.}
+\item $\overline{p\wedge q}$ (wir verwenden $\overline{\phantom{x}}$ nicht als Negation)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Teilformeln}
+
+Wir können Formeln als Wörter über (endlichen Teilmengen aus) dem unendlichen Alphabet
+$\Slang{P}\cup\{\Sterm{\neg},\Sterm{\wedge},\Sterm{\vee},\Sterm{\to},\Sterm{\leftrightarrow},\Sterm{(},\Sterm{)}\}$ sehen:
+
+\[ \Snterm{F}\to \Slang{P}\mid \Sterm{\neg}\Snterm{F}\mid\Sterm{(}\Snterm{F}\Sterm{\wedge}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\vee}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\to}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\leftrightarrow}\Snterm{F}\Sterm{)}
+\]\pause
+%
+Eine \redalert{Teilformel} ist ein Teilwort (Infix) einer Formel, welches selbst eine Formel ist.
+Teilformeln werden auch \redalert{Unterformeln} genannt.\pause
+\medskip
+
+Alternativ kann man Teilformeln auch rekursiv definieren:
+
+\defbox{Die \redalert{Menge $\textsf{Sub}(F)$ der Teilformeln} einer Formel $F$ ist definiert als:
+\vspace{-2ex}
+\[ \textsf{Sub}(F) =\left\{\begin{array}{l@{~~}l@{}}
+	\{F\} & \text{falls }F\in\Slang{P} \\
+	\{\neg G\}\cup\textsf{Sub}(G) & \text{falls }F=\neg G \\
+	\{(G_1\wedge G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\wedge G_2) \\
+	\{(G_1\vee G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\vee G_2) \\
+	\{(G_1\to G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\to G_2) \\
+	\{(G_1\leftrightarrow G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\leftrightarrow G_2)
+\end{array}\right.\]\vspace{-2ex}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Semantik}
+
+\alert{Was bedeutet eine aussagenlogische Formel?}\pause
+\begin{itemize}
+\item Atome an sich bedeuten zunächst nichts\\
+$\leadsto$ sie können einfach wahr oder falsch sein\pause
+\item Je nachdem, welche Atome wahr sind und welche falsch, ergeben sich verschiedene "`Interpretationen"'\\
+$\leadsto$ dargestellt durch \redalert{Wertzuweisungen}\\
+\mbox{}\phantom{$\leadsto$} (Funktionen von $\Slang{P}$ nach $\{\mytrue,\myfalse\}$; $\mytrue$="`wahr"' und $\myfalse$="`falsch"')\pause
+\item Die Wahrheit (oder Falschheit) einer Formel ergibt sich aus dem Wahrheitswert der in ihr vorkommenden Atome\\
+$\leadsto$ Wertzuweisungen machen Formeln wahr oder falsch
+\end{itemize}
+
+\anybox{purple}{
+Die Bedeutung einer Formel besteht darin, dass sie uns Informationen darüber liefert,
+welche Wertzuweisungen möglich sind, wenn die Formel wahr sein soll.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Wertzuweisungen können Formeln erfüllen}
+
+Eine \redalert{Wertzuweisung} ist eine Funktion $w:\Slang{P}\to\{\mytrue,\myfalse\}$
+\bigskip
+
+% Die Wahrheit einer Formel kann rekursiv definiert werden:
+
+\defbox{Eine Wertzuweisung $w$ \redalert{erfüllt} eine Formel $F$, in Symbolen \redalert{$w\models F$}, wenn
+eine der folgenden rekursiven Bedingungen gilt:\smallskip
+
+\begin{tabular}{rll}
+\rowcolor{darkred!70!gray}
+\textcolor{white}{Form von $F$} & \textcolor{white}{$w\models F$ wenn:} & \textcolor{white}{$w\not\models F$ wenn:}\\
+$F\in \Slang{P}$: & $w(F)=\mytrue$ & $w(F)=\myfalse$\\
+\rowcolor{lightred!20}
+$F=\neg G$ & $w\not\models G$ & $w\models G$\\
+$F=(G_1\wedge G_2)$ & $w\models G_1$ und $w\models G_2$ & $w\not\models G_1$ oder $w\not\models G_2$\\
+\rowcolor{lightred!20}
+$F=(G_1\vee G_2)$ & $w\models G_1$ oder $w\models G_2$ & $w\not\models G_1$ und $w\not\models G_2$\\
+$F=(G_1\to G_2)$ & $w\not\models G_1$ oder $w\models G_2$ & $w\models G_1$ und $w\not\models G_2$\\
+\rowcolor{lightred!20}
+$F=(G_1\leftrightarrow G_2)$ & $w\models G_1$ und $w\models G_2$ & $w\models G_1$ und $w\not\models G_2$\\%[-1ex]
+\rowcolor{lightred!20}
+	& \multicolumn{1}{c}{\raisebox{1ex}{oder}} & \multicolumn{1}{c}{\raisebox{1ex}{oder}} \\[-2ex]
+\rowcolor{lightred!20}
+	& $w\not\models G_1$ und $w\not\models G_2$ & $w\not\models G_1$ und $w\models G_2$\\[-1ex]
+\\[-1.5ex]
+\end{tabular}
+
+% Dabei schließt "`oder"' immer den Fall ein, dass beide Möglichkeiten gelten.
+Dabei bedeutet "`A oder B"' immer "`A oder B oder beides"'.
+
+% 
+% \begin{tabular}{rl}
+% $F\in \Slang{P}$: & $w\models F$ gdw. $w(F)=\mytrue$\\
+% $F=\neg G$: & $w\models F$ gdw. $w\not\models G$\\
+% $F=(G_1\wedge G_2)$: & $w\models F$ gdw. $w\models G_1$ und $w\models G_2$
+% \end{tabular}
+% 
+% \begin{itemize}
+% \item $F\in \Slang{P}$ mit $w(F)=\mytrue$
+% \item $F=\neg G$ mit $w\not\models G$
+% \item $F=(G_1\wedge G_2)$ mit $w\models G_1$ und $w\models G_2$
+% \item $F=(G_1\vee G_2)$ mit $w\models G_1$ oder $w\models G_2$ (oder beides!)
+% \item $F=(G_1\to G_2)$ mit $w\not\models G_1$ oder $w\models G_2$
+% \item $F=(G_1\leftrightarrow G_2)$ mit $w\models G_1$ genau dann wenn $w\models G_2$
+% \end{itemize}
+% 
+% Der \redalert{Wahrheitswert $\hat{w}(F)$} einer Formel $F$ unter einer Wertezuweisung $w$ ist
+% wie folgt definiert:
+% \vspace{-2ex}
+% \[ \hat{w}(F) =\left\{\begin{array}{l@{~~}l@{}}
+% 	w(F) & \text{falls }F\in\Slang{P} \\
+% 	\{\neg G\}\cup\textsf{Sub}(G) & \text{falls }F=\neg G \\
+% 	\{(G_1\wedge G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\wedge G_2) \\
+% 	\{(G_1\vee G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\vee G_2) \\
+% 	\{(G_1\to G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\to G_2) \\
+% 	\{(G_1\leftrightarrow G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\leftrightarrow G_2)
+% \end{array}\right.\]\vspace{-2ex}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Formeln Wahrheitswerte zuweisen}
+
+Wir können Wertzuweisungen von Atomen auf Formeln erweitern:
+\[ w(F)=\left\{\begin{array}{rl}\mytrue & \text{falls } w\models F\\
+\myfalse & \text{falls } w\not\models F
+\end{array}\right.\]\pause
+
+\redalert{Wahrheitswertetabellen} illustrieren die Semantik der Junktoren:\medskip
+
+\narrowcentering{%
+\begin{tabular}{cc}
+\rowcolor{lightblue!20}
+$w(F)$ & $w(\neg F)$\\
+\myfalse & \mytrue \\
+\rowcolor{gray!10}
+\mytrue & \myfalse \\
+\end{tabular}}\medskip
+
+\begin{tabular}{cccccc}
+\rowcolor{lightblue!20}
+$w(F)$ & $w(G)$ & $w(F\wedge G)$ & $w(F\vee G)$ & $w(F\to G)$ & $w(F\leftrightarrow G)$\\
+\myfalse & \myfalse & \myfalse & \myfalse& \mytrue & \mytrue\\
+\rowcolor{gray!10}
+\mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \myfalse\\
+\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \myfalse\\
+\rowcolor{gray!10}
+\mytrue & \mytrue & \mytrue & \mytrue& \mytrue & \mytrue\\
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{Wahrheitswerte von Formeln bestimmen}
+
+\begin{itemize}
+\item Der Wahrheitswert einer Formel hängt nur vom Wahrheitswert der (endlich vielen) Atome ab, die in
+ihr vorkommen.\\
+$\leadsto$ Wir geben oft nur diese an.
+\item Der Wahrheitswert einer Formel ergibt sich rekursiv aus dem Wahrheitswert ihrer Teilformeln.\\
+$\leadsto$ Darstellung in Wahrheitswertetabelle
+\end{itemize}
+
+\examplebox{Beispiel: Für die Formel $F=((p\to q)\leftrightarrow(\neg q\to\neg p))$ und Wertzuweisung 
+$w$ mit $w(p)=\myfalse$ und $w(q)=\mytrue$ ergibt sich die folgende Tabelle:
+\medskip
+
+\begin{tabular}{ccccccc}
+\rowcolor{darkgreen!30}
+$w(p)$ & $w(q)$ & $w(p\to q)$ & $w(\neg p)$ & $w(\neg q)$ & $w(\neg q\to \neg p)$ & $w(F)$\\
+\myfalse & \mytrue & \mytrue & \mytrue & \myfalse & \mytrue & \mytrue\\
+\end{tabular}
+
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel: Logelei}
+
+\Aname{} behauptet: "`\Bname{} lügt!"'\hfill \visible<2->{$A\leftrightarrow \neg B$}
+\bigskip
+
+\Bname{} behauptet: "`\Cname{} lügt!"'\hfill \visible<3->{$B\leftrightarrow \neg C$}
+\bigskip
+
+\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill \visible<4->{$C\leftrightarrow (\neg A\wedge \neg B)$}
+\bigskip\bigskip
+
+{\Large
+\narrowcentering{\alert{Wer lügt?}}
+}
+
+\medskip
+{\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
+% \bigskip
+
+% 
+% $A\leftrightarrow\neg B$
+% $B\leftrightarrow\neg C$
+% $C\leftrightarrow\neg A \wedge \neg B$
+
+\end{frame}
+
+\begin{frame}\frametitle{Logische Konsequenzen}
+
+\defbox{Eine Wertzuweisung $w$ ist \redalert{Modell einer Formel $F$} wenn $w\models F$ (also wenn $w(F)=\mytrue$).
+% Wir erweitern diese Notation auf (möglicherweise unendliche) Formelmengen: $w$ ist ein \redalert{Modell der Menge $\mathcal{F}$}
+%  wenn $w\models F$ für alle $F\in\mathcal{F}$ gilt. In diesem Fall schreiben wir \redalert{$w\models\mathcal{F}$}.
+% 
+Ist $\mathcal{F}$ eine (möglicherweise unendliche) Menge von Formeln, dann ist $w$ ein \redalert{Modell der Menge $\mathcal{F}$}
+ wenn $w\models F$ für alle $F\in\mathcal{F}$ gilt. In diesem Fall schreiben wir \redalert{$w\models\mathcal{F}$}.
+}\pause
+
+Die logischen Schlussfolgerungen aus einer Formel(menge) ergeben sich aus ihren Modellen:
+
+\defbox{Sei $\mathcal{F}$ eine Menge von Formeln.
+Eine Formel $G$ ist eine \redalert{logische Konsequenz} aus $\mathcal{F}$ wenn jedes Modell
+von $\mathcal{F}$ auch ein Modell von $G$ ist. In diesem Fall schreiben wir $\mathcal{F}\models G$.
+}
+
+\begin{enumerate}[$\leadsto$]
+\item Die Formeln in $\mathcal{F}$ schränken die möglichen Interpretationen \ghost{ein:}\\
+Je mehr Formeln wahr sein sollen, desto weniger Freiheiten gibt es bei der Wahl der Modelle
+\item $G$ ist eine logische Konsequenz wenn gilt: falls $\mathcal{F}$ wahr ist, dann ist auch $G$ garantiert wahr
+% 
+% Eine logische Konsequenz $G$ von $\mathcal{F}$ ist in jedem Fall (jedem Modell wahr in dem $\mathcal{F}$ wahr ist
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel: Logelei}
+
+\Aname{} behauptet: "`\Bname{} lügt!"'\hfill {$A\leftrightarrow \neg B$}\\[1ex]
+\Bname{} behauptet: "`\Cname{} lügt!"'\hfill {$B\leftrightarrow \neg C$}\\[1ex]
+\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill {$C\leftrightarrow (\neg A\wedge \neg B)$}\\[2ex]
+
+\begin{tabular}{c@{~ }c@{~ }cc@{\hspace{3mm}}c@{\hspace{3mm}}c}
+\rowcolor{lightblue!20}
+$w(A)$ & $w(B)$ & $w(C)$ & $w(A\leftrightarrow \neg B)$ & $w(B\leftrightarrow \neg C)$ & $w(C\leftrightarrow (\neg A\wedge \neg B))$\\
+\myfalse & \myfalse & \myfalse & \myfalse& \myfalse & \myfalse\\
+\rowcolor{gray!10}
+\mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \mytrue\\
+\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \mytrue\\
+\rowcolor{gray!10}
+\mytrue & \mytrue & \myfalse & \myfalse& \mytrue & \mytrue\\
+\myfalse & \myfalse & \mytrue & \myfalse& \mytrue & \mytrue\\
+\rowcolor{gray!10}
+\mytrue & \myfalse & \mytrue & \mytrue& \mytrue & \myfalse\\
+\myfalse & \mytrue & \mytrue & \mytrue& \myfalse & \myfalse\\
+\rowcolor{gray!10}
+\mytrue & \mytrue & \mytrue & \myfalse& \myfalse & \myfalse\\
+\end{tabular}
+
+% {\Large
+% \narrowcentering{\alert{Wer lügt?}}
+% }
+% 
+% \medskip
+% {\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
+% \bigskip
+
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beispiel: Logelei (2)}
+
+\Aname{} behauptet: "`\Bname{} lügt!"'\hfill {$A\leftrightarrow \neg B$}\\[1ex]
+\Bname{} behauptet: "`\Cname{} lügt!"'\hfill {$B\leftrightarrow \neg C$}\\[1ex]
+\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill {$C\leftrightarrow (\neg A\wedge \neg B)$}\\[2ex]
+
+\begin{tabular}{c@{~ }c@{~ }cc@{\hspace{3mm}}c@{\hspace{3mm}}c}
+\rowcolor{lightblue!20}
+$w(A)$ & $w(B)$ & $w(C)$ & $w(A\leftrightarrow \neg B)$ & $w(B\leftrightarrow \neg C)$ & $w(C\leftrightarrow (\neg A\wedge \neg B))$\\
+% \myfalse & \myfalse & \myfalse & \myfalse& \myfalse & \myfalse\\
+% \rowcolor{gray!10}
+% \mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \mytrue\\
+\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \mytrue\\
+% \rowcolor{gray!10}
+% \mytrue & \mytrue & \myfalse & \myfalse& \mytrue & \mytrue\\
+% \myfalse & \myfalse & \mytrue & \myfalse& \mytrue & \mytrue\\
+% \rowcolor{gray!10}
+% \mytrue & \myfalse & \mytrue & \mytrue& \mytrue & \myfalse\\
+% \myfalse & \mytrue & \mytrue & \mytrue& \myfalse & \myfalse\\
+% \rowcolor{gray!10}
+% \mytrue & \mytrue & \mytrue & \myfalse& \myfalse & \myfalse\\
+\end{tabular}
+
+$\leadsto$ Genau ein Modell (bezüglich der relevanten Atome)
+\pause\bigskip
+
+\emph{Logische Konsequenzen:} Alle Formeln, die unter einer Wertzuweisung mit $w(A)=\myfalse$, $w(B)=\mytrue$ und $w(C)=\myfalse$ wahr sind, \ghost{z.B.:}
+\begin{itemize}
+\item $\neg A$ ("`\Aname{} lügt"')
+\item $\neg C$ ("`\Cname{} lügt"')
+\item $\neg A\wedge \neg C$ ("`\Aname{} und \Cname{} lügen"')
+\item $B$ ("`\Bname{} sagt die Wahrheit"')
+\item Aber auch: $D\vee \neg D$
+\end{itemize}
+
+% {\Large
+% \narrowcentering{\alert{Wer lügt?}}
+% }
+% 
+% \medskip
+% {\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
+% \bigskip
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Allgemeingültigkeit und Co.}
+
+\defbox{Eine Formel $F$ ist:
+\begin{itemize}
+\item \redalert{unerfüllbar} (oder \alert{inkonsistent}), wenn sie keine Modelle hat
+\item \redalert{erfüllbar} (oder \alert{konsistent}), wenn sie Modelle hat
+\item \redalert{allgemeingültig} (oder eine \alert{Tautologie}), wenn alle Wertzuweisungen Modelle für die Formel sind
+\item \redalert{widerlegbar}, wenn sie nicht allgemeingültig ist
+\end{itemize}
+Diese Begriffe kann man für Mengen von Formeln genauso definieren.
+}
+
+\examplebox{Beispiel: 
+\begin{itemize}
+\item $p\wedge\neg p$ ist unerfüllbar (und widerlegbar)
+\item $p\vee\neg p$ ist allgemeingültig (und erfüllbar)
+\item $p\wedge q$ ist erfüllbar und widerlegbar
+\end{itemize}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Allgemeingültigkeit und Unerfüllbarkeit}
+
+% Speziell Allgemeingültigkeit und Unerfüllbarkeit sind für logische Schlussfolgerung von Bedeutung:
+
+\theobox{Satz:
+\begin{enumerate}[(1)]
+\item Eine allgemeingültige Formel ist logische Konsequenz jeder anderen Formel(menge).
+\item Eine unerfüllbare Formel(menge) hat jede andere Formel als logische Konsequenz.
+\end{enumerate}}
+
+\emph{Beweis:} Folgt direkt aus Definition von logischer Konsequenz. Für (2) ist es wichtig, dass eine Eigenschaft "`für alle Modelle"' gilt, wenn es keine Modelle gibt (sie gilt dann für "`alle null Modelle"'). \qed
+\bigskip\pause
+
+\anybox{purple}{
+Der unerwartete(?) Effekt (2) ist im Deutschen sprichwörtlich:\medskip
+
+\narrowcentering{"`Wenn das stimmt, dann bin ich der Kaiser von China!"'}\medskip
+
+drückt aus, dass aus einer mutmaßlich falschen Annahme alles folgt, selbst wenn 
+es offensichtlich unwahr ist.
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+Mithilfe der \redalert{Aussagenlogik} kann man logische Beziehungen atomarer Aussagen spezifizieren
+\bigskip
+
+\redalert{Wertzuweisungen} können eine aussagenlogische Formel erfüllen -- dann nennt man sie \redalert{Modell} -- oder widerlegen
+\bigskip
+
+Die Modelle einer Formel(menge) definieren ihre \redalert{logischen Konsequenzen}
+(="`alles, was in diesen Fällen noch gilt"')\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Geht logisches Schließen auch ohne Wahrheitswertetabellen?
+\item Wie (in)effizient ist logisches Schließen?
+\item Was hat das mit Sprachen, Berechnung und TMs zu tun?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}
