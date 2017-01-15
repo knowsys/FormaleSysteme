@@ -1,0 +1,707 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{23}{Logisches Schließen}{16. Januar 2017}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}\frametitle{Logik: Glossar}
+
+\begin{tabular}{@{}rll@{}}
+\rowcolor{darkblue!10}
+Atom & kleinste mögliche Formel & $p\in\Slang{P}$\\
+%
+Teilformel & Unterausdruck, der Formel ist & $\textsf{Sub}(F)$ \\
+%
+\rowcolor{darkblue!10}
+Wertzuweisung & Funktion & $w:\Slang{P}\to\{\mytrue,\myfalse\}$\\
+%
+Modell & erfüllende Wertzuweisung & $w\models F$ / $w(F)=\mytrue$\\
+%
+\rowcolor{darkblue!10}
+Literal & Atom oder negiertes Atom & $p$ oder $\neg p$\\
+%
+Klausel & Disjunktion von Literalen & $L_1\vee\ldots\vee L_n$ \\
+%
+\rowcolor{darkblue!10}
+Monom & Konjunktion von Literalen & $L_1\wedge\ldots\wedge L_n$ \\
+%
+logische & Teilmengenbeziehung der  & $F\models G$ oder \\[-0.8ex]
+Konsequenz & Modellmengen; entspricht $\to$ &  $\mathcal{F}\models G$\\
+%
+\rowcolor{darkblue!10}
+semantische & Gleichheit der  & $F\equiv G$ oder \\[-0.8ex]
+\rowcolor{darkblue!10}
+Äquivalenz & Modellmengen; entspricht $\leftrightarrow$ &  $\mathcal{F}\equiv\mathcal{G}$\\
+%
+Tautologie & allgemeingültige Formel & $\models F$
+
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}\frametitle{Vereinfachungen und Normalformen}
+
+Jede Formel ist semantisch äquivalent zu einer, die nur folgende Junktoren verwendet:
+\begin{itemize}
+\item $\wedge$ und $\neg$
+\item $\vee$ und $\neg$
+\item und verschiedene andere Kombinationen \ldots\ (z.B. $\to$ und $\neg$; oder auch $\uparrow$)
+\end{itemize}\medskip
+
+\emph{Normalformen}
+\begin{itemize}
+\item \alert{Negationsnormalform}\\
+	stets linear
+\item \alert{Konjunktive Normalform}\\
+	im schlimmsten Fall exponentiell; mit Hilfsatomen linear
+\item \alert{Disjunktive Normalform}\\
+	im schlimmsten Fall exponentiell
+\end{itemize}
+
+\end{frame}
+
+\sectionSlide{Logisches Schließen}
+
+\begin{frame}\frametitle{Logisches Schließen}
+
+Allgemein umfasst \redalert{logisches Schließen} jede Berechnung,
+bei der semantische Eigenschaften von Formeln ermittelt werden.
+\bigskip
+
+Vielfach hat man es mit Entscheidungsproblemen zu tun, z.B.:
+
+\defbox{\redalert{Schlussfolgerung}:
+\begin{itemize}
+\item \emph{Eingabe:} endliche Formelmenge $\mathcal{F}$, Formel $G$
+\item \emph{Ausgabe:} "`ja"' wenn $\mathcal{F}\models G$ gilt; sonst "`nein."'
+\end{itemize}
+}
+
+\defbox{\redalert{Allgemeingültigkeit}:
+\begin{itemize}
+\item \emph{Eingabe:} Formel $F$
+\item \emph{Ausgabe:} "`ja"' wenn $F$ allgemeingültig ist; sonst "`nein."'
+\end{itemize}
+}
+
+\defbox{\redalert{Unerfüllbarkeit}:
+\begin{itemize}
+\item \emph{Eingabe:} Formel $F$
+\item \emph{Ausgabe:} "`ja"' wenn $F$ unerfüllbar ist; sonst "`nein."'
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Viele logische Probleme -- viele Algorithmen?}
+
+Oft kann man unterschiedliche Probleme leicht ineinander umwandeln:
+\medskip
+
+\begin{itemize}
+\item $\mathcal{F}\models G$ (für endliche $\mathcal{F}$) \alert{gdw.}\\ $\bigwedge_{F\in\mathcal{F}}F\to G$ allgemeingültig \alert{gdw.} $\bigwedge_{F\in\mathcal{F}}F\wedge\neg G$ unerfüllbar
+\item $F$ allgemeingültig \alert{gdw.} $\emptyset\models F$ \alert{gdw.} $\neg F$ unerfüllbar
+\item $F$ unerfüllbar \alert{gdw.} $F\models \bot$ \alert{gdw.} $\neg F$ allgemeingültig
+\end{itemize}
+\begin{enumerate}[$\leadsto$]
+\item Jedes Verfahren, welches eines dieser Probleme lösen kann, lässt sich prinzipiell auch zur Lösung der anderen einsetzen.
+\end{enumerate}
+
+{\footnotesize\textcolor{devilscss}{%
+(Es gibt auch Probleme des logischen Schließens, für die das höchstwahrscheinlich nicht zutrifft, z.B. "`Gegeben eine Formel $F$, entscheide ob es eine kürzere Formel gibt, die zu $F$ äquivalent ist."')}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Schließen mit Wahrheitswertetabellen}
+
+Die genannten Probleme sind mittels Wahrheitswertetabelle lösbar:%
+\begin{itemize}
+\item \alert{Allgemeingültigkeit:} Ist der Wert von $F$ für jede Belegung $\mytrue$?
+\item \alert{Unerfüllbarkeit:} Ist der Wert von $F$ für jede Belegung $\myfalse$?
+\item \alert{Schlussfolgerung:} Ist der Wert von $G$ für jede Belegung $\mytrue$, unter der alle Formeln von $\mathcal{F}$ den Wert $\mytrue$ annehmen?
+\end{itemize}\pause
+
+\emph{Nachteil:} Die Tabelle hat $2^n$ Zeilen, wenn die betrachteten Formeln $n$ Atome haben
+\bigskip
+
+\examplebox{Beispiel: Für die Modellierung von Sudoku nutzen wir $9\times 9\times 9$ Atome. Die entsprechende Tabelle hat also $2^{729}$ (ca. $2.8\times 10^{219}$) Zeilen. Zum Vergleich:
+\begin{itemize}\pause
+\item Anzahl der Neuronen im menschlichen Gehirn: ca. $1.5\times 10^{14}$\pause
+% \item Zahl der Sterne im beobachtbaren Universum: unter $10^{24}$\pause
+\item Jemals digital gespeicherte Daten in Bytes: $<<10^{24}$\pause
+\item Nanosekunden bis der Kern der Sonne ausbrennt: ca. $10^{29}$\pause
+\item Anzahl der Atome im beobachtbaren Universum: $10^{78}$ -- $10^{82}$
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Schließen mit DNF}
+
+Man kann (Un)Erfüllbarkeit leicht aus DNF ablesen:\medskip
+
+\theobox{Satz: Eine Formel in DNF ist genau dann erfüllbar, wenn eines ihrer Monome erfüllbar ist. Dies ist genau
+dann der Fall, wenn das Monom kein Atom gleichzeitig negiert und nichtnegiert enthält.
+}
+
+Mögliches Verfahren:
+\begin{itemize}
+\item Führe logisches Problem auf (Un)Erfüllbarkeit zurück
+\item Bilde die DNF und prüfe jedes Monom auf komplementäre Literale
+\end{itemize}
+\emph{Nachteil:} Die DNF kann ebenfalls exponentiell groß werden (muss sie aber nicht in jedem Fall)
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Schließen mit KNF}
+
+Man kann Widerlegbarkeit/Allgemeingültigkeit aus KNF ablesen:\medskip
+
+\theobox{Satz: Eine Formel in KNF ist genau dann widerlegbar, wenn eine ihrer Klauseln widerlegbar ist. Dies ist genau
+dann der Fall, wenn die Klausel kein Atom gleichzeitig negiert und nichtnegiert enthält.
+}
+
+Mögliches Verfahren:
+\begin{itemize}
+\item Führe logisches Problem auf Allgemeingültigkeit zurück
+\item Bilde die KNF und prüfe jede Klausel auf komplementäre Literale
+\end{itemize}
+\emph{Nachteil:} Die KNF kann ebenfalls exponentiell groß werden (muss sie aber nicht in jedem Fall)
+\bigskip\pause
+
+\alert{Können wir durch Hilfsatome eine kleinere KNF erzeugen?}\\\pause
+\redalert{Ja, aber dabei wird nur Erfüllbarkeit erhalten, nicht \ghost{Allgemeingültigkeit!}}\\
+$\leadsto$ nicht geeignet, um das Problem effizienter zu lösen
+
+\end{frame}
+
+\sectionSlide{Resolution}
+
+\newcommand{\Aname}{Anna}
+\newcommand{\Bname}{Barbara}
+\newcommand{\Cname}{Chris}
+
+\begin{frame}\frametitle{Resolution}
+
+\emph{Ziel:} Verfahren, um \redalert{(Un)Erfüllbarkeit} einer \redalert{KNF} zu bestimmen
+\bigskip
+
+Leider ist (Un)Erfüllbarkeit nicht an einzelnen Klauseln erkennbar.
+\medskip
+
+\examplebox{Beispiel: Die Logelei aus Vorlesung 21 haben wir mit den Formeln $\mathcal{F}=\{A\leftrightarrow \neg B, B\leftrightarrow \neg C,C\leftrightarrow (\neg A\wedge \neg B)\}$ dargestellt. Wir wollen beweisen, dass
+\Bname{} die Wahrheit sagt, also $\mathcal{F}\models B$. Dazu kann man zeigen, dass $\mathcal{F}\cup\{\neg B\}$ unerfüllbar
+ist. Bei Anwendung des Distributivgesetztes erhalten wir die folgende KNF:
+\begin{align*}
+(\neg A\vee \neg B)\wedge (A\vee B)&\wedge{}\\
+(\neg B\vee \neg C)\wedge (B\vee C)&\wedge{}\\
+(\neg C\vee \neg A)\wedge(A\vee B\vee C)&\wedge{}\\
+\neg B
+\end{align*}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Klauselform}
+
+Wenn man grundsätzlich mit KNF arbeitet, dann bieten sich einige syntaktische Vereinfachungen an:
+\begin{itemize}
+\item Eine Klausel $L_1\vee\ldots\vee L_n$ wir dargestellt als Menge $\{L_1,\ldots,L_n\}$
+\item Eine Konjunktion von Klauseln $K_1\wedge\ldots\wedge K_\ell$ wird dargestellt als Menge $\{K_1,\ldots,K_\ell\}$
+\end{itemize}
+Eine Menge von Mengen von Literalen unter dieser Interpretation heißt \redalert{Klauselform}.
+\medskip\pause
+
+\examplebox{Beispiel: Die KNF\vspace{-3ex}
+\begin{align*}
+(\neg A\vee \neg B)\wedge (A\vee B)&\wedge{}\\
+(\neg B\vee \neg C)\wedge (B\vee C)&\wedge{}\\
+(\neg C\vee \neg A)\wedge(A\vee B\vee C)&\wedge{}\\
+\neg B
+\end{align*}\vspace{-5ex}
+
+kann in Klauselform dargestellt werden als:\vspace{-1ex}
+\[\{\{\neg A, \neg B\}, \{A, B\},\{\neg B, \neg C\},\{B, C\},
+\{\neg C, \neg A\},\{A, B, C\},\{\neg B\}\}\]
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ableitungen mittels Resolution}
+
+Beim Resolutionsverfahren leiten wir schrittweise neue Klauseln aus den gegebenen ab.
+\bigskip
+
+Ein einzelner Resolutionschritt funktioniert wie folgt:
+
+\defbox{
+Gegeben seien zwei Klauseln $K_1$ und $K_2$ für die es ein Atom $p\in\Slang{P}$ gibt mit $p\in K_1$ und $\neg p\in K_2$.
+Die \redalert{Resolvente von $K_1$ und $K_2$ bezüglich $p$} ist die Klausel \alert{$(K_1\setminus\{p\})\cup(K_2\setminus\{\neg p\})$}.\medskip
+
+Eine Klausel $R$ ist eine \redalert{Resolvente einer Klauselmenge $\mathcal{K}$} wenn $R$ Resolvente zweier Klauseln  $K_1,K_2\in\mathcal{K}$ ist.
+}\pause
+
+\examplebox{Beispiel: Resolventen für die Menge $\{\{\neg A, \neg B\},\allowbreak \{A, B\},\allowbreak\{\neg B, \neg C\},\allowbreak\{B, C\},\allowbreak
+\{\neg C, \neg A\},\allowbreak\{A, B, C\},\allowbreak\{\neg B\}\}$ sind z.B.
+\begin{itemize}
+\item $\{B,\neg A\}$ aus den Klauseln $\{B, C\}$ und $\{\neg C,\neg A\}$
+\item $\{A\}$ aus den Klauseln $\{A, B\}$ und $\{\neg B\}$
+\item $\{B,\neg B\}$ aus den Klauseln $\{B,C\}$ und $\{\neg B, \neg C\}$
+\end{itemize}
+
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bedeutung von Resolutionsschritten}
+
+Wir betrachten Klauseln $\{L_1,\ldots,L_n,p\}$ und $\{\neg p,M_1,\ldots,M_\ell\}$:\pause
+\begin{itemize}
+\item $\{L_1,\ldots,L_n,p\}\equiv (L_1\vee\ldots\vee L_n\vee p) \equiv \alert{(\neg L_1\wedge\ldots\wedge\neg L_n)\to p}$\pause
+\item $\{\neg p,M_1,\ldots,M_\ell\}\equiv (\neg p\vee M_1\vee\ldots\vee M_\ell)\equiv \alert{p\to (M_1\vee\ldots\vee M_\ell)}$\pause
+\end{itemize}\medskip
+
+Daraus folgt unmittelbar \alert{$(\neg L_1\wedge\ldots\wedge\neg L_n)\to (M_1\vee\ldots\vee M_\ell)$}\\
+$\leadsto$ dies entspricht der Klausel $\{L_1,\ldots,L_n,M_1,\ldots,M_\ell\}$\pause
+\bigskip
+
+\theobox{Satz: Wenn $R$ Resolvente der Klauseln $K_1$ und $K_2$ ist, dann gilt $\{K_1,K_2\}\models R$.
+}
+
+Resolutionsschritte produzieren also logische Schlüsse. Diese Eigenschaft einer Ableitungsregel wird \redalert{Korrektheit} genannt ("`jede Ableitung ist tatsächlich eine logische Konsequenz"').
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Die leere Klausel}
+
+Die Resolvente kann eine leere Menge $\emptyset$ sein.\\[1ex]
+
+\examplebox{Beispiel: Die Resolvente der Klauseln $\{p\}$ und $\{\neg p\}$ ist leer.
+}\medskip
+
+\emph{Was bedeutet so eine \redalert{leere Klausel}?}\pause
+\begin{itemize}
+\item Klauseln sind Disjunktionen
+\item Die leere Klausel entspricht einer Disjunktion von $0$ Literalen
+\item Dieser Ausdruck sollte das neutrale Element der Disjunktion sein, d.h. immer den Wert $\myfalse$ annehmen
+\end{itemize}
+$\leadsto$ Wir bezeichnen die leere Klausel mit $\bot$.
+\bigskip\pause
+
+\emph{Was bedeutet es, wenn $\bot$ in Klauselform auftaucht?}\pause
+\begin{itemize}
+\item Die Klauselform beschreibt eine Konjunktion von Klauseln
+\item Wenn eine der Klauseln $\bot$ ist, dann ist die gesamte Formel unerfüllbar
+\end{itemize}
+$\leadsto$ Die Ableitung von $\bot$ zeigt Unerfüllbarkeit.
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Resolutionskalkül}
+
+Wir können damit das gesamte Verfahren angeben:
+
+\codebox{\emph{Resolution}\\
+Gegeben: Formel $\mathcal{F}$ in Klauselform\\
+Gesucht: Ist $\mathcal{F}$ erfüllbar oder unerfüllbar?\\[1ex]
+
+\begin{enumerate}[(1)]
+\item Finde ein Klauselpaar $K_1,K_2\in \mathcal{F}$ mit Resolvente $R\notin \mathcal{F}$
+\item Setze $\mathcal{F}\defeq \mathcal{F}\cup\{R\}$
+\item Wiederhole Schritt (1) und (2) bis keine neuen Resolventen gefunden werden können
+\item Falls $\bot\in \mathcal{F}$, dann gib "`unerfüllbar"' aus;\\andernfalls gib "`erfüllbar"' aus
+\end{enumerate}
+}\pause
+
+\emph{Beobachtung:} Unerfüllbarkeit steht fest, sobald $\bot$ abgeleitet \ghost{wurde}\\
+$\leadsto$ dann kann man das Verfahren frühzeitig abbrechen
+\medskip
+
+Erfüllbarkeit kann dagegen erst erkannt werden, wenn alle Resolventen erschöpfend gebildet worden sind
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+\begin{tabular}{rlll}
+(1) & $\{\neg A, \neg B\}$ && \textcolor{devilscss}{\Aname{} oder \Bname{} lügen.}\\
+(2) & $\{A, B\}$  && \textcolor{devilscss}{\Aname{} oder \Bname{} sagen die Wahrheit.} \\
+(3) & $\{\neg B, \neg C\}$  && \textcolor{devilscss}{\Bname{} oder \Cname{} lügen.} \\
+(4) & $\{B, C\}$ && \textcolor{devilscss}{\Bname{} oder \Cname{} sagen die Wahrheit.} \\
+(5) & $\{\neg C, \neg A\}$ && \textcolor{devilscss}{\Cname{} oder \Aname{} lügen.} \\
+(6) & $\{A, B, C\}$ && \textcolor{devilscss}{Jemand sagt die Wahrheit.}  \\
+(7) & $\{\neg B\}$ && \textcolor{devilscss}{\Bname{} lügt.} \\\pause
+(8) & $\{C\}$   &  (4)+(7) & \textcolor{devilscss}{\Cname{} sagt die Wahrheit.} \\\pause
+(9) & $\{\neg A\}$ & (8)+(5) & \textcolor{devilscss}{\Aname{} lügt.}\\\pause
+(10) & $\{B\}$  & (2)+(9) & \textcolor{devilscss}{\Bname{} sagt die Wahrheit.} \\\pause
+(11) & $\bot$ & (10)+(7) & \textcolor{devilscss}{Widerspruch.} 
+\end{tabular}\bigskip
+
+$\leadsto$ Es gilt $\{\{\neg A, \neg B\},\{A, B\},\{\neg B, \neg C\},\{B, C\},\{\neg C, \neg A\},\{A, B, C\}\}\models B$
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Resolution: Eigenschaften}
+
+Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+
+\theobox{Satz: Das Resolutionskalkül hat die folgenden Eigenschaften:
+\begin{itemize}
+\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
+\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
+\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
+\end{itemize}
+}\pause
+
+\emph{Beweis:} \alert{Korrektheit} haben wir schon für einzelne Resolutionsschritte gezeigt.
+Die Behauptung gilt daher auch, wenn beliebig viele Schritte nacheinander ausgeführt werden (Induktion
+mit Hypothese: "`Die neu abgeleitete Klauselmenge folgt aus der ursprünglichen."').
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Resolution: Eigenschaften (2)}
+
+Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+
+\theobox{Satz: Das Resolutionskalkül hat die folgenden Eigenschaften:
+\begin{itemize}
+\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
+\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
+\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
+\end{itemize}
+}
+
+\emph{Beweis:} \alert{Terminierung} ist leicht zu sehen.\pause{}
+Jede neu abgeleitete Klausel enthält nur Literale,
+die auch in der ursprünglichen Klauselmenge vorkamen. Die Zahl dieser Literale ist endlich; wir bezeichnen sie mit
+$\ell$. Es gibt nur $2^\ell$ Klauseln mit diesen Literalen. Man kann also weniger als $2^\ell$ Resolventen hinzufügen bevor das Verfahren terminiert.
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Resolution: Eigenschaften (3)}
+
+Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+
+\theobox{Satz: Das Resolutionskalkül hat die folgenden Eigenschaften:
+\begin{itemize}
+\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
+\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
+\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
+\end{itemize}
+}
+
+\emph{Beweis:} \alert{Vollständigkeit} ist etwas aufwändiger.\medskip
+
+Vorgehen: Wir zeigen, wie
+man eine erfüllende Zuweisung finden kann, wenn die leere Klausel nicht abgeleitet wurde.
+
+\end{frame}
+
+\begin{frame}\frametitle{Widerspruchsfreie Resolution $\leadsto$ Modell}
+
+% Wenn $\bot$ nicht abgeleitet wurde, dann kann man ein Modell der Formel wie folgt finden.
+% \medskip
+
+Für jedes Atom $p$, das in der Formel vorkommt, bestimmen wir einen Wahrheitswert $w(p)$:\medskip
+
+\codebox{
+Gegeben: widerspruchsfreie Klauselmenge $\mathcal{F}$ nach Resolution\\[1ex]
+
+Für jedes Atom $p$ in $\mathcal{F}$ (in beliebiger Reihenfolge):
+\begin{enumerate}[(a)]
+\item Wenn $\{p\}\in\mathcal{F}$, definiere $w(p)\defeq\mytrue$
+\item Wenn $\{\neg p\}\in\mathcal{F}$, definiere $w(p)\defeq\myfalse$
+\item Wenn weder $\{p\}\in\mathcal{F}$ noch $\{\neg p\}\in\mathcal{F}$, dann setze $w(p)\defeq\mytrue$
+und $\mathcal{F}\defeq\mathcal{F}\cup\{\{p\}\}$ und führe nochmals Resolution durch, bis keine weiteren Klauseln abgeleitet
+werden.
+\end{enumerate}
+}\smallskip
+
+Die so bestimmte Wertzuweisung $w$ ist ein Modell für $\mathcal{F}$.\bigskip
+
+{\tiny  Beweisskizze:
+\begin{enumerate}[(1)]
+\item In Schritt (c) wird nie die leere Klausel abgeleitet (Intuition: Dazu wäre eine Klausel $\{\neg p\}$ nötig, die es aber in diesem Fall nicht geben darf und die auch nicht neu abgeleitet werden kann $\leadsto$ Induktion)
+\item Dank (1) enthält $\mathcal{F}$ auch nach Bestimmung aller Werte keine leere Klausel (einfache Induktion)
+\item Daher werden alle Klauseln in $\mathcal{F}$ erfüllt (Wenn eine nicht erfüllt wäre, dann könnte man aus ihr unter Verwendung der einelementigen Klauseln $\bot$ ableiten, was aber laut (2) nicht abgeleitet wird)
+\end{enumerate}}
+% 
+% Man kann zeigen: $w\models\mathcal{F}$, insbesondere ist $w$ ein Modell der ursprünglichen Formel
+
+% Wir benötigen eine Wertzuweisung für jedes Atom, das in der Formel vorkommt.
+% 
+% \begin{itemize}
+% \item Wenn eine Klausel $\{p\}$ oder $\{\neg p\}$ abgeleitet wurde, dann kann man die
+% Wertzuweisung ablesen ($p\mapsto\mytrue$ bzw. $p\mapsto\myfalse$)
+% \item Wenn für ein Atom $p$ weder $\{p\}$ noch $\{\neg p\}$ abgeleitet wurde, dann können wir eines
+% davon frei wählen (z.B. $\{p\}$) und mit dieser zusätzlichen Klausel Resolution durchführen (dies kann
+% keinen Widerspruch erzeugen!)
+% \end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Resolution: Eigenschaften (4)}
+
+Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+
+\theobox{Satz: Das Resolutionskalkül hat die folgenden Eigenschaften:
+\begin{itemize}
+\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
+\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
+\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
+\end{itemize}
+}
+
+\emph{Beweis:} \alert{Vollständigkeit} ist etwas aufwändiger.\medskip
+
+Vorgehen: Wir zeigen, wie
+man eine erfüllende Zuweisung finden kann, wenn die leere Klausel nicht abgeleitet wurde.\qed
+\bigskip
+
+\emph{Anmerkung:} "`Vollständigkeit"' bezieht sich nur auf die Ableitung von $\bot$. Resolution kann nicht
+jede beliebige Klausel ableiten, die logisch folgt!
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel: widerspruchsfreie Resolution}
+
+\begin{minipage}{4cm}
+\tiny
+\begin{tabular}[t]{rlll}
+(1) & $\{\neg A, \neg B\}$ &\\
+(2) & $\{A, B\}$  &\\
+(3) & $\{\neg B, \neg C\}$  &\\
+(4) & $\{B, C\}$ &\\
+(5) & $\{\neg A,\neg C\}$ &\\
+(6) & $\{A, B, C\}$ &\\
+%
+(7) & $\{B,\neg B\}$ & (2)+(1)\\
+(8) & $\{B,\neg C\}$ & (2)+(5)\\
+(9) & $\{A,\neg A\}$ & (2)+(1)\\
+(10) & $\{A,\neg C\}$ & (2)+(3)\\
+(11) & $\{\neg A,C\}$ & (4)+(1)\\
+(12) & $\{C,\neg C\}$ & (4)+(3)\\
+(13) & $\{\neg A,B\}$ & (4)+(5)\\
+(14) & $\{B,\neg B,C\}$ & (6)+(1)\\
+(15) & $\{B,C,\neg C\}$ & (6)+(5)\\
+(16) & $\{A,\neg A, C\}$ & (6)+(1)\\
+(17) & $\{A,C, \neg C\}$ & (6)+(3)\\
+(18) & $\{A,B,\neg B\}$ & (6)+(3)\\
+(19) & $\{A,\neg A, B\}$ & (6)+(3)\\
+%
+(20) & \textcolor<2->{darkred}{$\{B\}$} & (2)+(13)\\
+(21) & \textcolor<2->{darkred}{$\{\neg C\}$} & (8)+(3)\\
+(22) & \textcolor<2->{darkred}{$\{\neg A\}$} & (13)+(1)\\
+(23) & $\{\neg A,B,\neg B\}$ & (14)+(5)\\
+(24) & $\{\neg A,C,\neg C\}$ & (15)+(1)
+\end{tabular}\end{minipage}
+\begin{minipage}{5cm}{\tiny
+\begin{tabular}[t]{rlll}
+(25) & $\{A,\neg A,\neg B\}$ & (16)+(3)\\
+(26) & $\{\neg B,C,\neg C\}$ & (17)+(1)\\
+(27) & $\{B,\neg B,\neg C\}$ & (18)+(5)\\
+(28) & $\{A,\neg A,\neg C\}$ & (19)+(3)\\
+%
+(29) & $\{\neg A,\neg B,\neg C\}$ & (23)+(3)\\
+(30) & $\{A,\neg A,B,\neg B\}$ & (6)+(29)\\
+(31) & $\{A,\neg A,C,\neg C\}$ & (6)+(29)\\
+(32) & $\{B,\neg B,C,\neg C\}$ & (6)+(29)\\
+%
+(33) & $\{A,\neg A, B,\neg B,C,\neg C\}$ & (30)+(31)\\
+(34) & $\{\neg A, B,\neg B,C,\neg C\}$ & (33)+(22)\\
+(35) & $\{A, \neg A, B,C,\neg C\}$ & (20)+(33)\\
+(36) & $\{A, \neg A, B,\neg B,\neg C\}$ & (33)+(21)\\
+(37) & $\{\neg A, B,C,\neg C\}$ & (20)+(34)\\
+(38) & $\{\neg A, B,\neg B,\neg C\}$ & (34)+(21)\\
+(39) & $\{A, \neg A, B,\neg C\}$ & (35)+(21)\\
+(40) & $\{\neg A, B,\neg C\}$ & (39)+(22)\\
+(41) & $\{A, B,\neg B,C,\neg C\}$ & (2)+(33)\\
+(42) & $\{A,\neg A, \neg B,C,\neg C\}$ & (33)+(3)\\
+(43) & $\{A,\neg A, B,\neg B,C\}$ & (4)+(33)\\
+(44) & \ldots und so weiter
+\end{tabular}}\pause
+\vspace{5mm}
+
+Es ergibt sich ein Modell $w$ mit
+$w(A)=\myfalse$, $w(B)=\mytrue$ und $w(C)=\myfalse$.
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Resolution: Komplexität}
+
+Leider können \redalert{im schlimmsten Fall exponentiell} viele Resolventen gebildet werden
+(wobei die Formel erfüllbar ist, so dass kein frühzeitiger Abbruch möglich ist)
+\bigskip
+
+\textcolor{devilscss}{(Die Verwendung von Hilfsatomen zur Ermittlung einer linear großen Klauselform löst dieses Problem nicht)}
+\bigskip
+
+\begin{itemize}
+\item Bezüglich der algorithmischen Komplexität ist Resolution schlimmstenfalls
+\alert{nicht besser als andere Verfahren}.
+\item Das hier vorgestellte einfachste Verfahren ist \alert{hoffnungslos ineffizient}.
+\item Praktische Implementierungen verwenden aber sehr \alert{viele weitere Optimierungen}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Aussagenlogisches Schließen in der Praxis}
+
+Systeme zum aussagenlogischen Schließen heißen \redalert{SAT~Solver}.
+\bigskip
+
+Moderne SAT-Solver \ldots
+\begin{enumerate}[$\ldots$]
+\item sind \alert{stark optimiert} und können Probleme mit tausenden oder gar hunderttausenden von Atomen lösen
+\item verwenden in der Regel \alert{keine (reine) Resolution}, bilden aber manchmal Resolventen
+\item werden auch \alert{jenseits der Aussagenlogik} verwendet, indem Probleme zunächst in Aussagenlogik übersetzt werden
+\end{enumerate}\bigskip
+
+Resolution ist dennoch bedeutsam, da sie gut auf Prädikatenlogik und verwandte Logiken anwendbar ist, was für andere aussagenlogische Verfahren nicht zutrifft.
+
+\end{frame}
+
+\sectionSlide{Horn-Logik}
+
+\begin{frame}\frametitle{Horn-Logik}
+
+Bisher waren alle unsere Ansätze für aussagenlogisches Schließen exponentiell -- geht es auch einfacher?
+\bigskip\pause
+
+\emph{Idee:} Beschränke die Form von Formeln
+\bigskip
+
+\defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nicht-negiertes Literal enthält.
+Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
+{\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
+
+\pause
+\examplebox{Beispiele:
+\begin{itemize}
+\item $\neg p\vee \neg q \vee r$ ist eine Horn-Klausel
+\item $q\vee p$ ist keine Horn-Klausel
+\item $p$ ist eine Horn-Klausel
+\item $\neg p\vee \neg q$ ist eine Horn-Klausel
+\item $p\vee p$ ist keine Horn-Klausel (aber äquivalent zu einer)
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Horn-Klauseln als Implikationen}
+
+Jede Horn-Klausel kann als eine Implikation ohne Negation und Disjunktion ausgedrückt werden
+\bigskip
+
+\examplebox{Beispiele:
+\begin{align*}
+\neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
+p \qquad \equiv &&\top&\to p\\
+\neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
+\end{align*}
+}
+
+\begin{itemize}
+\item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
+\item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
+\item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Resolution bei Horn-Klauseln}
+
+Die Resolution von Horn-Klauseln = Verknüpfung von Regeln:
+%
+\[\frac{p_1\wedge\ldots\wedge p_n\to \redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{p_1\wedge\ldots\wedge p_n\wedge q_1\wedge\ldots\wedge q_m\to r}\]\pause
+
+Man kann zeigen (ohne Beweis):
+
+\theobox{Satz: Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
+beschränkt, bei denen eine Klausel die Form $\{p\}$ (also $\top\to p$) hat.
+}
+
+Diese Einschränkung entspricht der Entfernung von bereits erfüllten Vorbedingungen aus der Prämisse einer Regel:
+\[\frac{\top\to\redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{q_1\wedge\ldots\wedge q_m\to r}\]
+
+\end{frame}
+
+\begin{frame}\frametitle{Hyperresolution = Anwendung von Regeln}
+
+\emph{Es ist leicht zu sehen:} Im eingeschränkten Resolutionskalkül für Horn-Formeln kann eine Resolvente aus einer Regel $q_1\wedge\ldots\wedge q_m\to r$
+nur dann zur Ableitung von $\bot$ nützlich sein, wenn letztlich alle Vorbedingungen $q_1,\ldots, q_m$ erfüllt sind.
+
+$\leadsto$ Wir können die Resolution herausschieben, bis dies gegeben ist
+\bigskip\pause
+
+\defbox{%
+\redalert{Hyperresolution:} Mehrere Klauseln mit positiven Literalen werden parallel mit einer Klausel mit vielen negativen Literalen resolviert.
+%
+\[\frac{\top\to q_1\qquad\ldots\qquad\top\to q_m\qquad q_1\wedge\ldots\wedge q_m\to r}{\top\to r}\]}
+%
+Dies entspricht der intuitiven Idee einer \alert{Regelanwendung}: "`Wenn die Regel $q_1\wedge\ldots\wedge q_m\to r$ und die Atome $q_1$, \ldots, $q_m$ gelten, dann kann $r$ abgeleitet werden."'
+
+\end{frame}
+
+\begin{frame}\frametitle{Komplexität des Schließens mit Horn-Formeln}
+
+\emph{Vorteil der Hyperresolution bei Horn-Klauseln:}
+\begin{itemize}
+\item Jede Resolvente hat die Form $\top\to p$
+\item Es gibt nur linear viele solche Resolventen (für Atome $p$, die in der Formel vorkommen)
+\end{itemize}
+$\leadsto$ Resolution muss nach linear vielen Schritten terminieren
+\pause\bigskip
+
+Dies führt zu einer polynomiellen Laufzeit, nicht zu einer linearen (da jeder Resolutionsschritt einige Zeit benötigt).
+\medskip
+
+Es geht aber auch noch besser:
+
+\theobox{Satz (Dowling \& Gallier): Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
+
+(Ohne Beweis)
+% \bigskip
+
+%%% Folgendes ist im Kontext von NP relevant:
+% \emph{Intuition:} Horn-Logik ist die \redalert{deterministische} Form der Aussagenlogik (da Regeln immer genau ein
+% Atom implizieren). 
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+Das \redalert{logische Schließen} umfasst viele Fragen (meist Entscheidungsprobleme), die aber oft
+auf Erfüllbarkeit zurückgeführt werden können
+\bigskip
+
+\redalert{Resolution} ist ein bekanntes Widerlegungskalkül, welches über die Aussagenlogik hinaus von Bedeutung ist
+\bigskip
+
+Die betrachteten Beweisverfahren für Aussagenlogik benötigen schlimmstenfalls \redalert{exponentiell viel Zeit}; bei
+\redalert{Horn-Formeln} gibt es dagegen polynomielle Schlussfolgerungsalgorithmen\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Gibt es auch sub-exponentielle Algorithmen für aussagenlogisches Schließen?
+\item Was hat Aussagenlogik mit Sprachen, Berechnung und TMs zu tun?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}
