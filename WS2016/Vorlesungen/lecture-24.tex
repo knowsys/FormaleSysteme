@@ -1,0 +1,654 @@
+\documentclass[onlymath]{beamer}
+% \documentclass[onlymath,handout]{beamer}
+
+\input{macros-lecture}
+\input{../macros}
+
+\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{19. Januar 2017}
+
+\begin{document}
+
+\maketitle
+
+\sectionSlideNoHandout{Rückblick}
+
+\begin{frame}\frametitle{Logisches Schließen}
+
+\emph{Allgemeine Fragestellungen des logischen Schließens}
+\begin{itemize}
+\item Logische Folgerung: Gilt $\mathcal{F}\models G$?
+\item Allgemeingültigkeit: Gilt $\models F$?
+\item Unerfüllbarkeit: Gilt $\models \neg F$, d.h. $F\models\bot$?
+\end{itemize}\bigskip
+
+\emph{Einige einfache Methoden des logischen Schließens}
+\begin{itemize}
+\item Wahrheitswertetabelle
+\item Erfüllbarkeitstest mit DNF
+\item Widerlegbarkeitstest mit KNF
+\item Erfüllbarkeitstest mit Resolution
+\end{itemize}
+$\leadsto$ Alle schlimmstenfalls exponentiell und oft zu ineffizient
+
+\end{frame}
+
+\sectionSlide{Horn-Logik}
+
+\begin{frame}\frametitle{Rückblick: Horn-Logik}
+
+\defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nicht-negiertes Literal enthält.
+Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
+{\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
+
+Man kann Horn-Formeln als Implikationen auffassen \\
+(sogenannte \redalert{Horn-Regeln}):
+
+\examplebox{Beispiele:\vspace{-4ex}
+\begin{align*}
+\neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
+p \qquad \equiv &&\top&\to p\\
+\neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
+\end{align*}
+}
+
+\begin{itemize}
+\item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
+% \item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
+\item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+Viele einfache rekursive Algorithmen können in Horn-Aussagenlogik beschrieben werden.
+\bigskip
+
+\examplebox{Beispiel: Berechnung der Variablen $V_\epsilon$ einer CFG, welche in $\epsilon$ umgeschrieben
+werden können (vgl. Vorlesung 2, Folie 32). Wir betrachten die folgende Menge $\mathcal{F}$ von Horn-Regeln:
+\begin{align*}
+\top & \to p_{\Snterm{A}} & \text{für jede Grammatikregel $\Snterm{A}\to\epsilon$}\\
+p_{\Sntermsub{B}{1}}\wedge\ldots\wedge p_{\Sntermsub{A}{n}} & \to p_{\Snterm{B}} & \text{für jede Grammatikregel $\Snterm{B}\to\Sntermsub{A}{1}\cdots\Sntermsub{A}{n}$}
+\end{align*}
+Dann gilt $\mathcal{F}\models p_{\Snterm{A}}$ genau dann wenn $\Snterm{A}\in V_\epsilon$.
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Resolution bei Horn-Klauseln}
+
+Die Resolution von Horn-Klauseln = Verknüpfung von Regeln:
+%
+\[\frac{p_1\wedge\ldots\wedge p_n\to \redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{p_1\wedge\ldots\wedge p_n\wedge q_1\wedge\ldots\wedge q_m\to r}\]\pause
+
+Man kann zeigen (ohne Beweis):
+
+\theobox{Satz: Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
+beschränkt, bei denen eine Klausel die Form $\{p\}$ (also $\top\to p$) hat.
+}
+
+Diese Einschränkung entspricht der Entfernung von bereits erfüllten Vorbedingungen aus der Prämisse einer Regel:
+\[\frac{\top\to\redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{q_1\wedge\ldots\wedge q_m\to r}\]
+
+\end{frame}
+
+\begin{frame}\frametitle{Hyperresolution = Anwendung von Regeln}
+
+\emph{Es ist leicht zu sehen:} Im eingeschränkten Resolutionskalkül für Horn-Formeln kann eine Resolvente aus einer Regel $q_1\wedge\ldots\wedge q_m\to r$
+nur dann zur Ableitung von $\bot$ nützlich sein, wenn letztlich alle Vorbedingungen $q_1,\ldots, q_m$ erfüllt sind.
+
+$\leadsto$ Wir können die Resolution herausschieben, bis dies gegeben ist
+\bigskip\pause
+
+\defbox{%
+\redalert{Hyperresolution:} Mehrere Klauseln mit positiven Literalen werden parallel mit einer Klausel mit vielen negativen Literalen resolviert.
+%
+\[\frac{\top\to q_1\qquad\ldots\qquad\top\to q_m\qquad q_1\wedge\ldots\wedge q_m\to r}{\top\to r}\]}
+%
+Dies entspricht der intuitiven Idee einer \alert{Regelanwendung}: "`Wenn die Regel $q_1\wedge\ldots\wedge q_m\to r$ und die Atome $q_1$, \ldots, $q_m$ gelten, dann kann $r$ abgeleitet werden."'
+
+\end{frame}
+
+\begin{frame}\frametitle{Komplexität des Schließens mit Horn-Formeln}
+
+\emph{Vorteil der Hyperresolution bei Horn-Klauseln:}
+\begin{itemize}
+\item Jede Resolvente hat die Form $\top\to p$
+\item Es gibt nur linear viele solche Resolventen (für Atome $p$, die in der Formel vorkommen)
+\end{itemize}
+$\leadsto$ Resolution muss nach linear vielen Schritten terminieren
+\pause\bigskip
+
+Dies führt zu einer polynomiellen Laufzeit, nicht zu einer linearen (da jeder Resolutionsschritt einige Zeit benötigt).
+\medskip
+
+Es geht aber auch noch besser:
+
+\theobox{Satz (Dowling \& Gallier): Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
+
+(Ohne Beweis)
+% \bigskip
+
+%%% Folgendes ist im Kontext von NP relevant:
+% \emph{Intuition:} Horn-Logik ist die \redalert{deterministische} Form der Aussagenlogik (da Regeln immer genau ein
+% Atom implizieren). 
+
+\end{frame}
+% 
+% \begin{frame}\frametitle{Horn-Logik}
+% 
+% Vereinfachung des logischen Schließens durch Beschränkung auf Horn-Logik:
+% \begin{itemize}
+% \item (Hyper-)Resolution liefert polynomiellen Algorithmus
+% \item Linearer Algorithmus möglich 
+% \end{itemize}\bigskip
+% 
+% 
+% \end{frame}
+
+
+
+% \begin{frame}\frametitle{Kompaktheit}
+% 
+% Eine interessante Eigenschaft der Aussagenlogik folgt aus dem, was wir bereits wissen:
+% 
+% \theobox{Satz (Kompaktheit der Aussagenlogik): Wenn $\mathcal{F}$ eine unendliche Formelmenge ist und $\mathcal{F}\models G$ gilt, dann gibt es eine endliche Teilmenge $\mathcal{F}'\subseteq\mathcal{F}$ mit $\mathcal{F}'\models G$.}
+% 
+% \emph{Beweis:} Die Vollständigkeit der Resolution 
+% 
+% \end{frame}
+
+\sectionSlide{Logisches Schließen als Wortproblem}
+
+\begin{frame}\frametitle{Schließen als Entscheidungsproblem}
+
+Wir wissen bereits, dass Schließen ein Entscheidungsproblem ist,\ghost{ z.B.:}
+
+\defbox{\redalert{Erfüllbarkeit}:
+\begin{itemize}
+\item \emph{Eingabe:} Formel $F$
+\item \emph{Ausgabe:} "`ja"' wenn $F$ erfüllbar ist; sonst "`nein."'
+\end{itemize}
+}
+
+Wie wir wissen, können solche Probleme als Definition einer Sprache angesehen werden:
+\[\Slang{SAT} = \{ \textsf{enc}(F)\mid F\text{ ist erfüllbar}\}\]
+wobei $\textsf{enc}(F)$ eine (vernünftige) Kodierung der Formel $F$ als Wort über einem endlichen Alphabet (z.B.\ $\{\Sterm{0},\Sterm{1}\}$) ist. Vor allem müssen wir beliebig viele Atome mit nur endlich vielen Zeichen kodieren.
+\bigskip\pause
+
+\anybox{purple}{%
+\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
+\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Schließen als Sprache (1)}
+
+\anybox{purple}{%
+\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
+\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}\medskip
+
+Wir wissen, dass $\Slang{SAT}$ entscheidbar ist und daher von Typ 0 ist.\pause\\
+Der folgende naive Algorithmus entscheidet $\Slang{SAT}$ auf einer TM:
+% Auch für Typ~1 gibt es ein positives Resultat:
+
+\codebox{%Der folgende Algorithmus entscheidet $\Slang{SAT}$ auf einem LBA:
+Naiver Erfüllbarkeitstest (Skizze):
+\begin{itemize}
+\item Wir prüfen systematisch jede Wertzuweisung auf den Atomen der gegebenen Formel
+\item Dazu iteriert die TM über alle Wertzuweisungen und berechnet für jede rekursiv den Wahrheitswert der Formel
+\item Falls eine erfüllende Zuweisung gefunden wird, dann hält die TM und akzeptiert
+\item Falls alle Wertzuweisungen ohne Erfolg durchlaufen worden sind, dann hält die TM und verwirft
+\end{itemize}
+}
+
+\end{frame}
+
+\newcommand{\vtriple}[3]{\small\begin{pmatrix}#1\\[-1.3ex]#2\\[-1.3ex]\Sterm{#3}\end{pmatrix}}
+\newcommand{\vtripletext}[3]{\footnotesize\begin{array}{r}\text{#1}\\[-1.0ex]\text{#2}\\[-1.0ex]\text{#3}\end{array}}
+
+\begin{frame}[t]\frametitle{Schließen als Sprache (2)}
+
+\anybox{purple}{%
+\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
+\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}\smallskip
+
+Der naive Erfüllbarkeitstest kann in linearem Speicher ablaufen, d.h. auf einem LBA \alert{$\leadsto$ $\Slang{SAT}$ ist von Typ 1}\pause
+% Auch für Typ~1 gibt es ein positives Resultat:
+
+\codebox{%
+Naive Erfüllbarkeit auf LBA (Skizze):\footnotesize
+\begin{itemize}%
+\item Wir verwenden ein Arbeitsalphabet mit mehreren "`Spuren"': (1)~Eingabe, (2)~aktuell ermittelte Wahrheitswerte aller Teilformeln, (3)~aktuell getestete Wertzuweisung\vspace{-0.5ex}
+\item Skizze der Kodierung (ohne Binärkodierung der Formel):\\[1ex]
+\narrowcentering{$
+\vtripletext{Spur 3}{Spur 2}{Spur 1}
+% 
+\vtriple{}{}{(}
+\vtriple{}{}{(}
+\vtriple{\mytrue}{\mytrue}{p}
+\vtriple{}{\myfalse}{\to}
+\vtriple{\myfalse}{\myfalse}{q}
+\vtriple{}{}{)}
+\vtriple{}{\mytrue}{\vee}
+\vtriple{}{}{(}
+\vtriple{}{\myfalse}{q}
+\vtriple{}{\mytrue}{\to}
+\vtriple{\myfalse}{\myfalse}{r}
+\vtriple{}{}{)}
+\vtriple{}{}{)}
+$}
+\item Man kann nun systematisch Spur 3 iterieren, Spur 2 rekursiv berechnen und den Wert der Gesamtformel prüfen
+(machbar, wir verzichten auf die Details)
+% \item Dabei ordnen wir jeder Teilformel eine eindeutige Position zu: bei Atomen ist dies das
+% erste Zeichen der Kodierung des Atoms, bei zusammengesetzten Formeln das erste Zeichen der Kodierung des Junktors
+% \item Der aktuelle Wahrheitswert der Teilformel wir in Spur~2 an ihrer Position gespeichert.
+% \item Die aktuelle Wertzuweisung ergibt sich aus den Wahrheitswerten der Atome
+% \item Wenn man das erste Vorkommen jedes Atoms in der Formel markiert, dann ist es nicht schwer, die jeweils nöchste Wertzuweisung zu berechnen (durch binäre Addition von $1$).
+\end{itemize}\vspace{-3.5ex}~}
+
+\end{frame}
+
+\begin{frame}\frametitle{Welches Berechnungsmodell passt zu $\Slang{SAT}$?}
+
+Erkenntnisse bisher:
+\begin{itemize}
+\item LBAs sind stark genug für $\Slang{SAT}$ (d.h. $\Slang{SAT}$ ist von Typ 1)
+\item $\Slang{SAT}$ ist keine reguläre Sprache, da FAs korrekte Klammerung nicht erkennen können (d.h. $\Slang{SAT}$ ist nicht von Typ 3)
+% \item ??? $\Slang{SAT}$ ist keine kontextfreie Sprache (d.h. $\Slang{SAT}$ ist nicht von Typ 2)
+\end{itemize}\bigskip\pause
+
+Man kann außerdem zeigen:
+\theobox{\narrowcentering{$\Slang{SAT}$ ist nicht kontextfrei.}}
+(zumindest wenn eine offensichtliche Kodierung verwendet wird; siehe
+\url{http://cstheory.stackexchange.com/questions/37322/is-sat-a-context-free-language})
+\bigskip\pause
+
+\anybox{purple}{%
+Können wir $\Slang{SAT}$ noch genauer charakterisieren als mit LBAs?}\\\pause
+$\leadsto$ Ja, mithilfe anderer Arten von eingeschränkten TMs.
+
+\end{frame}
+
+\sectionSlide{Komplexität}
+
+\begin{frame}\frametitle{Turingmaschinen beschränken}
+
+TMs verwenden zwei Ressourcen, die man beschränken kann:
+\begin{itemize}
+\item \alert{Speicher:} die Zahl der verwendeten Speicherzellen
+\item \alert{Zeit:} die Zahl der durchgeführten Berechnungsschritte
+\end{itemize}\pause
+Feste Schranken ergeben wenig Sinn (endliche Automaten)\\
+\begin{enumerate}[$\leadsto$]
+\item Schranken werden als Funktion in der Länge der Eingabe angegeben
+\end{enumerate}
+\bigskip
+
+\examplebox{Beispiel: LBAs beschränken den verfügbaren Speicher auf die Anzahl der Symbole in der Eingabe.
+Dies entspricht einer Funktion, welche die Länge $n$ der Eingabe auf den Maximalwert von $n$ Speicherzellen abbildet.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Zur Erinnerung: $O$-Notation}
+
+Die $O$-Notation (mit großem $O$!) charakterisiert Funktionen nach ihrem asymptotischen Verhalten und
+versteckt lineare Faktoren.
+
+\defbox{Für Funktionen $f,g: \mathbb{N}\to\mathbb{R}$ schreiben wir \redalert{$f\in O(g)$}
+wenn gilt:\\[1ex]
+%
+\narrowcentering{Es gibt eine Zahl $c>0$ und eine Zahl $n_0\in\mathbb{N}$,}\\
+\narrowcentering{so dass für jedes $n>n_0$ gilt: $f(n)\leq c\cdot g(n)$}\\[1ex]
+%
+Das bedeutet, $f$ wächst nicht wesentlich schneller als $g$.
+}
+
+\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$ (allerdings ist $=$ hier eine
+asymmetrische Relation).\medskip
+
+\emph{Notation 2:} Manchmal schreibt man statt $f\in O(g)$ (oder $f=O(g)$) oft auch $f(n)\in O(g(n))$ (oder $f(n)=O(g(n))$).
+
+\examplebox{Beispiele:
+\begin{minipage}[t]{7cm}\vspace{-1.7ex}
+\begin{itemize}
+\item $(10 n^3+42 n^2 - n + 100)\in O(n^3)$
+\item $(2^n + n^{2000})\in O(2^n)$
+\item $2^{729}\in O(1)$
+\end{itemize}
+\end{minipage}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Schranken für Zeit und Raum}
+
+Die $O$-Notation wird verwendet, um allgemeine Ressourcenschranken für TMs anzugeben.
+
+\defbox{%
+Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion und $\Smach{M}$ eine Turingmaschine.
+\begin{itemize}
+\item $\Smach{M}$ heißt \redalert{$O(f)$-zeitbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
+dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ nach maximal $g(|w|)$ Schritten anhält.
+%
+\item $\Smach{M}$ heißt \redalert{$O(f)$-speicherbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
+dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ hält und zuvor maximal $g(|w|)$ Speicherzellen verwendet.
+\end{itemize}
+}\pause
+
+\examplebox{Beispiel: Ein LBA entspricht einer $O(n)$-speicherbeschränkten \ghost{TM.${}^*$}}
+
+\examplebox{Beispiel: Der naive Erfüllbarkeitstest für $\Slang{SAT}$ ist \mbox{$O(2^n)$-zeitbeschränkt}.}
+
+{\tiny ${}^\ast)$ Wobei man die bei LBAs erzwungene Speicherbeschränkung in das Programm der TM einbauen muss.
+Unsere LBA-Definition erlaubt keine linearen Faktoren für den Speicherbedarf. Diese haben
+keinen Einfluss auf die Rechenstärke von LBAs, da man lineare Speichergewinne durch ein größeres %[-1.5ex]
+Arbeitsalphabet simulieren \ghost{kann.}\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Zeit und Raum, deterministisch}
+
+Beschränkte TMs können verwendet werden, um viele weitere Sprachklassen zu definieren.
+\medskip
+
+\defbox{Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion.
+\begin{itemize}
+\item \redalert{\Scomplclass{DTIME}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-zeitbeschränkte Turingmaschine entschieden werden können.
+\item \redalert{\Scomplclass{DSPACE}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-speicherbeschränkte Turingmaschine entschieden werden können.
+\end{itemize}
+}\pause
+
+\examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
+
+\examplebox{Beispiel: Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Maschinenmodelle}
+
+Es gibt viele unterschiedliche Versionen von deterministischen Turingmaschinen (z.B. Mehrband-Maschinen).\\
+
+\anybox{purple}{Sind $\Scomplclass{DTIME}(f)$ und $\Scomplclass{DSPACE}(f)$ für jedes TM-Modell gleich?}\pause
+
+\emph{Antwort:} "`Manchmal, aber nicht immer (oder zumindest ist dies nicht immer bekannt)."'
+
+\examplebox{Beispiel: Jede $O(f(n))$-zeitbeschränkte $k$-Band-TM kann durch eine $O(k\cdot f^2(n))$-zeitbeschränkte
+1-Band TM simuliert werden (wie in Vorlesung 18 gezeigt). Einfacher gesagt: Der Verzicht auf mehrere Bänder verursacht maximal quadratische Zeitkosten ($k$ ist hier ein linearer Faktor).}\pause
+
+\begin{enumerate}[$\leadsto$]
+\item Es ist sinnvoll, \alert{noch allgemeinere Sprachklassen} zu betrachten, die auch gegenüber polynomiellen Änderungen der Ressourcen robust sind
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Wichtige Komplextitätsklassen}
+
+Die wichtigen deterministischen Komplexitätsklassen fassen jeweils ganze Familien von
+zeit- oder speicherbeschränkten Klassen zusammen. Wir erwähnen hier nur die praktisch wichtigsten:
+
+{\footnotesize
+\begin{align*}
+\Scomplclass{P} = \Scomplclass{PTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(n^d)
+	& \text{\redalert{polynomielle Zeit}}
+%   & \Scomplclass{NP} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(n^k)
+  \\[1ex]
+\hspace{-1.5cm}\Scomplclass{Exp} = \Scomplclass{ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{n^d})
+    & \text{\redalert{exponentielle Zeit}${}^*$}
+% %   & \Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{n^k})
+%   \\[1ex]
+% \hspace{-1.5cm}\Scomplclass{2Exp} = \Scomplclass{2ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{2^{n^d}})
+% %   & \Scomplclass{N2Exp} = \Scomplclass{N2ExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{2^{n^k}})
+% 	& \text{doppelt-exponentielle Zeit}
+%   \\[1ex]
+% \Scomplclass{E} = \Scomplclass{ETime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})
+%    & \text{exp.\ Zeit mit linearem Exponent}
+   \\[4ex]
+\hspace{-1.5cm}\Scomplclass{L} = \Scomplclass{LogSpace} &= \Scomplclass{DSpace}(\log n)
+%   & \Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
+	& \text{\redalert{logarithmischer Speicher}}
+  \\[1ex]
+\Scomplclass{PSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(n^d)
+	& \text{\redalert{polynomieller Speicher}}
+%   \\[1ex]
+% \Scomplclass{ExpSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(2^{n^d})
+% 	& \text{exponentieller Speicher}
+\end{align*}
+}
+
+\bigskip
+{\tiny ${}^*$) Anmerkung: Dies ist die praktisch wichtigste Definition von "`exponentieller Zeit"'. Es gibt daneben auch
+$\Scomplclass{E} = \Scomplclass{ETime} = \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})$ (exponentielle Zeit mit
+linearem Exponenten).\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{\Scomplclass{LogSpace}? Wie soll das gehen?}
+
+Für $n>1$ gilt \alert{$\log(n)<n$}. Auch beliebige lineare Faktoren können das nur für kleine $n$ kompensieren.\\
+\medskip
+
+Eine $O(\log(n))$-speicherbeschränkte TM darf also weniger Speicher verwenden als ihre Eingabe benötigt.
+\alert{$\leadsto$ Wie soll das gehen?}
+\bigskip\pause
+
+\defbox{Man definiert \redalert{$O(\log(n))$-speicherbeschränkte Turingmaschinen} als besondere Mehrband-TMs:
+\begin{itemize}
+\item Das erste Band ist das \redalert{Eingabeband}. Es enthält die Eingabe und darf nur gelesen aber nicht beschrieben werden.
+\item Das zweite Band ist das \redalert{Arbeitsband}. Es darf beliebig gelesen und beschrieben werden, aber es ist
+auf $O(\log(n))$-Speicherzellen beschränkt.
+\end{itemize}}
+
+{\footnotesize
+Das genügt zur Erkennung von Sprachen. Wenn die TM eine Ausgabe berechnen soll, dann wird dafür ein 
+drittes \redalert{Ausgabeband} verwendet, auf dem man beliebig viele Zeichen einmalig schreiben aber nicht lesen kann.\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beziehungen der Komplexitätsklassen}
+
+\alert{Eine wichtige Frage der Komplexitätstheorie ist, was man über die Beziehungen der
+Komplexitätsklassen aussagen kann.}
+\medskip\pause
+
+Offensichtlich führen (asymptotisch) höhere Ressourcenschranken zu größeren Sprachklassen.
+Oft ist aber nicht klar, ob man mit mehr Ressourcen auch wirklich mehr (oder einfach nur gleich viele) Probleme lösen kann. Bei
+unseren Klassen ist das aber bekannt:\medskip
+
+\theobox{Fakt: Es gilt $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$ und
+$\Scomplclass{LogSpace}\subsetneq\Scomplclass{PSpace}$.
+}\medskip\pause
+
+Weiterhin kann man Speicher mit Zeit in Beziehung bringen:
+\begin{itemize}
+\item In Zeit $n$ kann man nur $n$ Speicherzellen nutzen
+\item Alle möglichen Konfigurationen auf $n$ Speicherzellen kann man in exponentieller Zeit (bezüglich $n$) berechnen\\[-1ex]
+{\tiny (für LBAs haben wir das in Vorlesung 20 besprochen; siehe "`Konfigurationsgraph"')}
+\end{itemize}
+
+\theobox{Fakt: Es gilt $\Scomplclass{LogSpace}\subseteq\Scomplclass{P}\subseteq\Scomplclass{PSpace}\subseteq\Scomplclass{Exp}$.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiele}
+
+Unsere Klassen sind recht robust: Details der Implementierung haben oft keinen Einfluss
+auf die Einordnung eines Problems.\\
+\alert{Oft genügt eine Implementierungsskizze um zu zeigen, dass eine Sprache
+in einer dieser Klassen liegt.}\pause
+
+\examplebox{Beispiel: Erfüllbarkeit von propositionaler Horn-Logik ist in $\Scomplclass{P}$. Unser Resolutionsalgorithmus
+liefert allerdings keinen Hinweis auf Machbarkeit in $\Scomplclass{LogSpace}$.}\pause
+
+\examplebox{Beispiel: $\Slang{SAT}$ ist in $\Scomplclass{ExpTime}$ aber auch in $\Scomplclass{PSpace}$.}\pause
+
+\examplebox{Beispiel: Das Wortproblem jeder regulären Sprache ist in $\Scomplclass{LogSpace}$. Tatsächlich benötigt ein DFA
+gar keinen Speicher.}\pause
+
+\examplebox{Beispiel: Die Transformation einer Formel in Negationsnormalform ist in $\Scomplclass{LogSpace}$ möglich. Dies ist kein Spracherkennungsproblem sondern eine Berechnung mit Ein- und Ausgabe.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ressourcen nichtdeterministischer TMs}
+
+Bei NTMs gibt es viele mögliche Berechnungspfade.\\
+$\leadsto$ Welche Pfade meinen wir, wenn wir Ressourcen beschränken?\\\pause
+~\hfill{\alert{-- Alle!}}
+\medskip
+
+\defbox{%
+Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion und $\Smach{M}$ eine nichtdeterministische \ghost{TM.}
+\begin{itemize}
+\item $\Smach{M}$ heißt \redalert{$O(f)$-zeitbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
+dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ \alert{auf jedem Berechnungspfad} nach maximal $g(|w|)$ Schritten anhält.
+%
+\item $\Smach{M}$ heißt \redalert{$O(f)$-speicherbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
+dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ hält und zuvor \alert{auf jedem Berechnungspfad} maximal $g(|w|)$ Speicherzellen verwendet.
+\end{itemize}
+}
+
+Eine zeit- oder speicherbeschränkte NTM muss also auch auf erfolglosen Pfaden ("`falsch geratene Übergänge"') garantiert
+innerhalb der Ressourcengrenzen halten.
+
+\end{frame}
+
+\begin{frame}\frametitle{Zeit und Raum, nichtdeterministisch}
+
+Die entsprechenden Sprachklassen werden genau wie bei deterministischen TMs definiert:\medskip
+
+\defbox{Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion.
+\begin{itemize}
+\item \redalert{\Scomplclass{NTIME}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-zeitbeschränkte NTM entschieden werden können.
+\item \redalert{\Scomplclass{NSPACE}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-speicherbeschränkte NTM entschieden werden können.
+\end{itemize}
+}%\pause
+% 
+% \examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
+% 
+% \examplebox{Beispiel: Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Nichtdeterministische Komplextitätsklassen}
+
+Auch hier beschränken wir uns auf einige wichtige Fälle:
+
+{\footnotesize
+\begin{align*}
+\Scomplclass{NP} = \Scomplclass{NPTime} &= \bigcup_{d\geq 1} \Scomplclass{NTime}(n^d)
+	& \text{\redalert{nichtdet. polynomielle Zeit}}
+%   & \Scomplclass{NP} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(n^k)
+  \\[1ex]
+\hspace{-1.5cm}\Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{d\geq 1} \Scomplclass{NTime}(2^{n^d})
+    & \text{\redalert{nichtdet. exponentielle Zeit}}
+% %   & \Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{n^k})
+%   \\[1ex]
+% \hspace{-1.5cm}\Scomplclass{2Exp} = \Scomplclass{2ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{2^{n^d}})
+% %   & \Scomplclass{N2Exp} = \Scomplclass{N2ExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{2^{n^k}})
+% 	& \text{doppelt-exponentielle Zeit}
+%   \\[1ex]
+% \Scomplclass{E} = \Scomplclass{ETime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})
+%    & \text{exp.\ Zeit mit linearem Exponent}
+   \\[4ex]
+\hspace{-1.5cm}\Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
+%   & \Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
+	& \text{\redalert{nichtdet. logarithmischer Speicher}}
+  \\[1ex]
+\Scomplclass{NPSpace} &= \bigcup_{d\geq 1} \Scomplclass{NSpace}(n^d)
+	& \text{\redalert{nichtdet. polynomieller Speicher}}
+%   \\[1ex]
+% \Scomplclass{ExpSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(2^{n^d})
+% 	& \text{exponentieller Speicher}
+\end{align*}
+}\pause
+
+\examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{NP}$. Man kann unseren naiven Erfüllbarkeitstest auf einer NTM
+so implementieren, dass nur eine (erfüllende) Wertzuweisung geraten wird. Der Wahrheitswert der Formel für diese Zuweisung kann in polynomieller Zeit überprüft werden.
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Deterministisch vs. nichtdeterministisch}
+
+%
+Welche Beziehungen haben diese Klassen zu anderen?\pause
+{\footnotesize
+\begin{itemize}
+\item Die Beziehungen zwischen nichtdeterministischen Klassen sind analog zu denen im deterministischen Fall:\\[1ex]
+\narrowcentering{$\Scomplclass{NL}\subseteq \Scomplclass{NP}\subseteq \Scomplclass{NPSpace}\subseteq \Scomplclass{NExp}$}
+\pause
+\item Eine DTM kann als NTM aufgefasst werden, d.h. die nichtdeterministischen Klassen sind immer stärker:\\[1ex]
+\narrowcentering{$\Scomplclass{L}\subseteq \Scomplclass{NL}\qquad \Scomplclass{P}\subseteq \Scomplclass{NP}\qquad \Scomplclass{PSpace}\subseteq \Scomplclass{NPSpace}\qquad \Scomplclass{Exp}\subseteq \Scomplclass{NExp}$}
+\pause
+\item Man kann NTMs mit DTMs simulieren, aber das ist oft mit exponentiellen Mehrkosten verbunden (Vorlesung 19).
+\pause
+\item Der berühmte \alert{Satz von Savitch} besagt, dass speicherbeschränkte NTMs durch DTMs mit nur quadratischen Mehrkosten simuliert werden können. Insbesondere gilt damit $\Scomplclass{PSpace}= \Scomplclass{NPSpace}$.
+\end{itemize}}
+% Insgesamt ergeben sich folgende Beziehungen:
+Zusammenfassung der wichtigsten bekannten Beziehungen:
+\theobox{
+\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
+\vspace{-2.5ex}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Grenzen unseres Wissens}
+
+Wir wissen:
+
+\theobox{
+\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
+\vspace{-2.5ex}
+}
+
+\begin{itemize}
+\item Wir wissen nicht, ob irgendeines dieser $\subseteq$ sogar $\subsetneq$ ist.
+\item Insbesondere wissen wir nicht, ob $\Scomplclass{P}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{P}=\Scomplclass{NP}$.
+\item Wir wissen nicht einmal, ob $\Scomplclass{L}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{L}=\Scomplclass{NP}$.
+\end{itemize}\pause
+Es wird aber vermutet, dass alle  $\subseteq$ eigentlich $\subsetneq$ sind.
+% 
+Bekannt ist das aber nur bei exponentiell großen Ressourcenunterschieden:
+
+\theobox{Es gilt:
+\begin{itemize}
+\item $\Scomplclass{NL}\subsetneq\Scomplclass{PSpace}$
+\item $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$
+\item $\Scomplclass{NP}\subsetneq\Scomplclass{NExp}$
+\end{itemize}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Zusammenfassung und Ausblick}
+
+\redalert{Komplexitätsklassen} sind Mengen von Sprachen, die man (grob) einteilt entsprechend der Ressourcen,
+die eine TM zur Entscheidung ihres Wortproblems benötigt.
+\bigskip
+
+
+\redalert{Horn-Logik} erlaubt logisches Schließen in $\Scomplclass{P}$.
+\bigskip
+
+Das propositionale Erfüllbarkeitsproblem \redalert{\Slang{SAT} ist in $\Scomplclass{NP}$}.
+\bigskip
+
+\anybox{yellow}{
+Offene Fragen:
+\begin{itemize}
+\item Gibt es auch sub-exponentielle Algorithmen für aussagenlogisches Schließen?
+\item Gilt $\Scomplclass{P}\neq \Scomplclass{NP}$?
+\end{itemize}
+}
+
+\end{frame}
+
+
+\end{document}

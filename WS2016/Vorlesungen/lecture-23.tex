@@ -620,63 +620,13 @@ p \qquad \equiv &&\top&\to p\\
 
 \end{frame}
 
-\begin{frame}\frametitle{Resolution bei Horn-Klauseln}
+\begin{frame}\frametitle{Ausblick}
 
-Die Resolution von Horn-Klauseln = Verknüpfung von Regeln:
-%
-\[\frac{p_1\wedge\ldots\wedge p_n\to \redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{p_1\wedge\ldots\wedge p_n\wedge q_1\wedge\ldots\wedge q_m\to r}\]\pause
-
-Man kann zeigen (ohne Beweis):
-
-\theobox{Satz: Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
-beschränkt, bei denen eine Klausel die Form $\{p\}$ (also $\top\to p$) hat.
-}
-
-Diese Einschränkung entspricht der Entfernung von bereits erfüllten Vorbedingungen aus der Prämisse einer Regel:
-\[\frac{\top\to\redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{q_1\wedge\ldots\wedge q_m\to r}\]
-
-\end{frame}
-
-\begin{frame}\frametitle{Hyperresolution = Anwendung von Regeln}
-
-\emph{Es ist leicht zu sehen:} Im eingeschränkten Resolutionskalkül für Horn-Formeln kann eine Resolvente aus einer Regel $q_1\wedge\ldots\wedge q_m\to r$
-nur dann zur Ableitung von $\bot$ nützlich sein, wenn letztlich alle Vorbedingungen $q_1,\ldots, q_m$ erfüllt sind.
-
-$\leadsto$ Wir können die Resolution herausschieben, bis dies gegeben ist
-\bigskip\pause
-
-\defbox{%
-\redalert{Hyperresolution:} Mehrere Klauseln mit positiven Literalen werden parallel mit einer Klausel mit vielen negativen Literalen resolviert.
-%
-\[\frac{\top\to q_1\qquad\ldots\qquad\top\to q_m\qquad q_1\wedge\ldots\wedge q_m\to r}{\top\to r}\]}
-%
-Dies entspricht der intuitiven Idee einer \alert{Regelanwendung}: "`Wenn die Regel $q_1\wedge\ldots\wedge q_m\to r$ und die Atome $q_1$, \ldots, $q_m$ gelten, dann kann $r$ abgeleitet werden."'
-
-\end{frame}
-
-\begin{frame}\frametitle{Komplexität des Schließens mit Horn-Formeln}
-
-\emph{Vorteil der Hyperresolution bei Horn-Klauseln:}
+\emph{Nächste Vorlesung:} Wir werden logisches Schließen für Horn-Regeln noch etwas genauer betrachten
 \begin{itemize}
-\item Jede Resolvente hat die Form $\top\to p$
-\item Es gibt nur linear viele solche Resolventen (für Atome $p$, die in der Formel vorkommen)
+\item Resolution kann in diesem Fall spezialisiert werden
+\item Dadurch erhält man polynomielle Algorithmen
 \end{itemize}
-$\leadsto$ Resolution muss nach linear vielen Schritten terminieren
-\pause\bigskip
-
-Dies führt zu einer polynomiellen Laufzeit, nicht zu einer linearen (da jeder Resolutionsschritt einige Zeit benötigt).
-\medskip
-
-Es geht aber auch noch besser:
-
-\theobox{Satz (Dowling \& Gallier): Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
-
-(Ohne Beweis)
-% \bigskip
-
-%%% Folgendes ist im Kontext von NP relevant:
-% \emph{Intuition:} Horn-Logik ist die \redalert{deterministische} Form der Aussagenlogik (da Regeln immer genau ein
-% Atom implizieren). 
 
 \end{frame}
 
