@@ -68,7 +68,7 @@ Viele einfache rekursive Algorithmen können in Horn-Aussagenlogik beschrieben w
 werden können (vgl. Vorlesung 2, Folie 32). Wir betrachten die folgende Menge $\mathcal{F}$ von Horn-Regeln:
 \begin{align*}
 \top & \to p_{\Snterm{A}} & \text{für jede Grammatikregel $\Snterm{A}\to\epsilon$}\\
-p_{\Sntermsub{B}{1}}\wedge\ldots\wedge p_{\Sntermsub{A}{n}} & \to p_{\Snterm{B}} & \text{für jede Grammatikregel $\Snterm{B}\to\Sntermsub{A}{1}\cdots\Sntermsub{A}{n}$}
+p_{\Sntermsub{A}{1}}\wedge\ldots\wedge p_{\Sntermsub{A}{n}} & \to p_{\Snterm{B}} & \text{für jede Grammatikregel $\Snterm{B}\to\Sntermsub{A}{1}\cdots\Sntermsub{A}{n}$}
 \end{align*}
 Dann gilt $\mathcal{F}\models p_{\Snterm{A}}$ genau dann wenn $\Snterm{A}\in V_\epsilon$.
 }
@@ -303,9 +303,9 @@ wenn gilt:\\[1ex]
 \narrowcentering{so dass für jedes $n>n_0$ gilt: $f(n)\leq c\cdot g(n)$}\\[1ex]
 %
 Das bedeutet, $f$ wächst nicht wesentlich schneller als $g$.
-}
+}\pause
 
-\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$ (allerdings ist $=$ hier eine
+\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$ (allerdings ist $=$ dann eine
 asymmetrische Relation).\medskip
 
 \emph{Notation 2:} Manchmal schreibt man statt $f\in O(g)$ (oder $f=O(g)$) oft auch $f(n)\in O(g(n))$ (oder $f(n)=O(g(n))$).
@@ -373,7 +373,7 @@ Es gibt viele unterschiedliche Versionen von deterministischen Turingmaschinen (
 
 \anybox{purple}{Sind $\Scomplclass{DTIME}(f)$ und $\Scomplclass{DSPACE}(f)$ für jedes TM-Modell gleich?}\pause
 
-\emph{Antwort:} "`Manchmal, aber nicht immer (oder zumindest ist dies nicht immer bekannt)."'
+\emph{Antwort:} "`Bei vielen kleineren Variationen sind sie es, aber nicht in allen Fällen (oder zumindest ist dies nicht immer bekannt)."'
 
 \examplebox{Beispiel: Jede $O(f(n))$-zeitbeschränkte $k$-Band-TM kann durch eine $O(k\cdot f^2(n))$-zeitbeschränkte
 1-Band TM simuliert werden (wie in Vorlesung 18 gezeigt). Einfacher gesagt: Der Verzicht auf mehrere Bänder verursacht maximal quadratische Zeitkosten ($k$ ist hier ein linearer Faktor).}\pause
