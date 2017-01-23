@@ -91,7 +91,7 @@ Wir haben gesehen:
 \begin{itemize}
 \item Dennoch haben alle unsere Algorithmen für $\Slang{SAT}$ bisher 
 exponentielle Laufzeit.
-\item $\Slang{SAT}\in\Scomplclass{NP}$ führt nicht direkt zu einer besseren Lösung, da wir keine echte NTM haben.
+\item $\Slang{SAT}\in\Scomplclass{NP}$ führt nicht direkt zu einer besseren Lösung, da real existierende Computer nicht wie NTMs arbeiten.
 \item Andererseits spricht auch nichts dagegen, dass es einen schnelleren Algorithmus gibt.
 \end{itemize}
 
@@ -134,7 +134,7 @@ TM \Smach{M}, für die gilt:
 \item \Smach{M} akzeptiert nur Wörter der Form $w\# z$ mit:
 	\begin{itemize}
 	\item $w\in\Slang{L}$
-	\item $z\in\Sigma^*$ ist ein \redalert{Zertifikat} polynomieller Länge\\(d.h. für \Smach{M} gibt es ein Polynom $p$ mit $|z|\leq f(|w|)$)
+	\item $z\in\Sigma^*$ ist ein \redalert{Zertifikat} polynomieller Länge\\(d.h. für \Smach{M} gibt es ein Polynom $p$ mit $|z|\leq p(|w|)$)
 	\end{itemize}
 \item Für jedes Wort $w\in\Slang{L}$ gibt es ein solches Wort $w\# z\in\Slang{L}(\Smach{M})$.
 \end{itemize}
@@ -143,7 +143,7 @@ TM \Smach{M}, für die gilt:
 \emph{Intuition:}
 \begin{itemize}
 \item Das Zertifikat $z$ kodiert die Lösung des Problems $w$, die der Verifikator lediglich nachprüft.
-\item Zertifikate sollten kurz sein, sonst damit die Prüfung selbst nicht länger dauert als die Lösung des Problems
+\item Zertifikate sollten kurz sein, damit die Prüfung selbst nicht länger dauert als die Lösung des Problems.
 \end{itemize}
 
 Zertifikate werden auch \alert{Nachweis}, \alert{Beweis} oder \alert{Zeuge} genannt
@@ -155,8 +155,8 @@ Zertifikate werden auch \alert{Nachweis}, \alert{Beweis} oder \alert{Zeuge} gena
 \defbox{Eine Sprache $\Slang{L}$ ist \redalert{nachweis-polynomiell} wenn es für sie einen polynomiellen
 Verifikator gibt.}\medskip\pause
 
-\examplebox{Beispiel: \Slang{SAT} ist nachweis-polynomiell. Es gibt einen polynomiellen Verifikator für
-die Sprache der Wörter $F\#w$, wobei $F$ die Kodierung einer erfüllbaren Formel ist und $w$ eine Kodierung einer
+\examplebox{Beispiel: \Slang{SAT} ist nachweis-polynomiell. Ein möglicher polynomiellen Verifikator für
+\Slang{SAT} akzeptiert Wörter $F\#w$, wobei $F$ die Kodierung einer erfüllbaren Formel ist und $w$ eine Kodierung einer
 Wertzuweisung, die $F$ erfüllt.}\medskip\pause
 
 \examplebox{Beispiel: Jede Sprache $\Slang{L}\in\Scomplclass{P}$ ist nachweis-polynomiell. Als Verifikator
@@ -164,7 +164,7 @@ verwenden wir einfach einen polynomiell-zeitbeschränkten Entscheider für $\Sla
 
 \end{frame}
 
-\begin{frame}\frametitle{Beispiele: Drei-Farben-Problem}
+\begin{frame}\frametitle{Beispiel: Drei-Farben-Problem}
 
 Das \redalert{Drei-Farben-Problem} besteht darin, die Knoten eines ungerichteten Graphen so mit den
 drei Farben rot, grün und blau zu färben, dass keine zwei benachbarten Knoten die gleiche Farbe haben.
@@ -187,7 +187,7 @@ Das Problem kann als Wortproblem aufgefasst werden, wenn man Graphen als Wörter
 
 \end{frame}
 
-\begin{frame}\frametitle{Beispiele: Faktorisierung}
+\begin{frame}\frametitle{Beispiel: Faktorisierung}
 
 \defbox{Die \redalert{Faktorisierung} einer natürlichen Zahl $n$ ist die Darstellung der 
 Zahl als Produkt von natürlichen Zahlen $f_1\cdot f_2=n$.}\medskip
@@ -202,7 +202,8 @@ Folgende Sprache ist nachweis-polynomiell:\\[1ex]
 (Zertifikat: "`\href{https://en.wikipedia.org/wiki/Primality_certificate}{Primality certificate}"', bekannt seit 1975)
 \bigskip\pause
 
-\textcolor{devilscss}{(Seit 2002 wissen wir: $\textbf{PRIMES}\in\Scomplclass{P}$ $\leadsto$ Primzahlentest nach Agrawal, Kayal und Saxena)}
+\textcolor{devilscss}{(Seit 2002 wissen wir: $\textbf{PRIMES}\in\Scomplclass{P}$}\\
+\textcolor{devilscss}{$\leadsto$ Primzahlentest nach Agrawal, Kayal und Saxena)}
 
 \end{frame}
 
@@ -331,7 +332,7 @@ $\neg(\ppred{1}\wedge\ppred{2})\wedge\neg(\pgreen{1}\wedge\pgreen{2})\wedge\neg(
 \begin{frame}\frametitle{Polynomielle Reduktionen}
 
 \defbox{Eine Funktion $f:\Sigma^*\to\Sigma^*$ ist \redalert{polynomiell berechenbar} wenn es eine
-polynomiell-zeitbeschränkte TM gibt, die bei einer Eingabe $w$ die Aufgabe $f(w)$ auf das Band schreibt
+polynomiell-zeitbeschränkte TM gibt, die bei einer Eingabe $w$ die Ausgabe $f(w)$ auf das Band schreibt
 und anschließend anhält.
 }\bigskip
 
@@ -533,9 +534,9 @@ Urproblem.
 \draw[fill=none,line width=0.4mm,darkblue,->] (0.5,-4.0) -> (0.5,-3.6);
 \node [circle,draw=none,inner sep=1pt] at (0.5,-4.3) {$q_1$};
 
-\node [circle,draw=none,inner sep=1pt] at (-0.5,-5.7) {$\vdots$};
-\node [circle,draw=none,inner sep=1pt] at (9.5,-5.7) {$\vdots$};
-\node [circle,draw=none,inner sep=1pt] at (12.5,-5.7) {$\vdots$};
+\node [circle,draw=none,inner sep=1pt] at (-0.5,-5.2) {$\vdots$};
+\node [circle,draw=none,inner sep=1pt] at (9.5,-5.2) {$\vdots$};
+\node [circle,draw=none,inner sep=1pt] at (12.5,-5.2) {$\vdots$};
 
 \draw[decorate,line width=0.3mm] (-1,-6.5) -- (10.5,-6.5);
 \draw[decorate,line width=0.3mm] (-1,-7.5) -- (10.5,-7.5);
