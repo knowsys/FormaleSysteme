@@ -129,7 +129,7 @@ $\leadsto$ Dazu sollten wir erst einmal $\Scomplclass{NP}$ etwas besser verstehe
 Wir wollen diese Idee formalisieren:
 
 \defbox{Ein \redalert{polynomieller Verifikator} für eine Sprache $\Slang{L}\subseteq \Sigma^*$ ist eine
-TM \Smach{M}, für die gilt:
+polynomiell-zeitbeschränkte, deterministische TM \Smach{M}, für die gilt:
 \begin{itemize}
 \item \Smach{M} akzeptiert nur Wörter der Form $w\# z$ mit:
 	\begin{itemize}
@@ -209,7 +209,7 @@ Folgende Sprache ist nachweis-polynomiell:\\[1ex]
 
 \begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (1)}
 
-\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau nachweis-polynomiell wenn \ghost{$\Slang{L}\,{\in}\,\Scomplclass{NP}$.}}\medskip\pause
+\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip\pause
 
 \emph{Beweis:}
 $(\Rightarrow)$ Sei $\Slang{L}$ nachweis-polynomiell mit Verifikator \Smach{V}. Wir erhalten eine polynomiell-zeitbeschränkte NTM \Smach{M} für $\Slang{L}$ wie folgt:\pause
@@ -223,7 +223,7 @@ $(\Rightarrow)$ Sei $\Slang{L}$ nachweis-polynomiell mit Verifikator \Smach{V}. 
 
 \begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (2)}
 
-\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau nachweis-polynomiell wenn \ghost{$\Slang{L}\,{\in}\,\Scomplclass{NP}$.}}\medskip
+\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip
 
 \emph{Beweis:}
 $(\Leftarrow)$ Sei \Smach{M} eine polynomiell-zeitbeschränkte NTM für $\Slang{L}$. Wir erhalten einen polynomiellen Verifikator \Smach{V} für $\Slang{L}$ wie folgt.\pause
@@ -697,7 +697,7 @@ die Lösung des Problems!
 darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in \Scomplclass{P} liegt.}\pause
 
 \begin{itemize}
-\item \Scomplclass{P}-harte Probleme sind die schwersten polynomiell lösbaren Probleme.
+\item \Scomplclass{P}-vollständige Probleme sind die schwersten polynomiell lösbaren Probleme.
 \item Sie gelten als inhärent seriell, d.h. als nicht gut parallelisierbar (bisher nicht bewiesen).
 \end{itemize}\pause
 
