@@ -669,7 +669,7 @@ Vermeidung unnötiger Zustände durch schrittweise Konstruktion vom Startzustand
 \onslide<9->{\node (s0) [circle,draw=black,thick,onslide={<9>{fill=strongyellow}}] at (3,0) {$\emptyset$};}
 \onslide<3->{\node (s32) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<3>{fill=strongyellow}}] at (0,-2) {~$\{q_2,q_3\}$~\mbox{}};}
 \onslide<4->{\node (s3) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<4>{fill=strongyellow}}] at (3,-2) {~$\{q_3\}$~\mbox{}};}
-\onslide<5->{\node (s31) [rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<5>{fill=strongyellow}}] at (1.5,-4) {~$\{q_1,q_3\}$~\mbox{}};}
+\onslide<5->{\node (s31) [double,rectangle,rounded corners=1.5ex,draw=black,thick,onslide={<5>{fill=strongyellow}}] at (1.5,-4) {~$\{q_1,q_3\}$~\mbox{}};}
 %
 \onslide<2->{\path[->,line width=0.5mm,onslide={<2>{dashed,darkred}}](0,1) edge (s12);}
 \onslide<10->{\path[->,line width=0.5mm,onslide={<10>{dashed,darkred}}](s12) edge node[above] {\Sterm{1}} (s0);}
