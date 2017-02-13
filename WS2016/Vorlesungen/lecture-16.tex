@@ -1004,12 +1004,12 @@ $r$ mit leerem Keller gelangen kann.
 Die \alert{Grammatik $G(\Smach{P})$} besteht aus den folgenden Regeln:
 
 \begin{enumerate}[(1)]
-\item Für alle $p,q,s_1,s_2\in Q$, $a,b\in\Sigma_\epsilon$
+\item Für alle $q,r,s_1,s_2\in Q$, $a,b\in\Sigma_\epsilon$
 und $\Snterm{A}\in\Gamma$, für die\\es Übergänge
 $\tuple{s_1,\Snterm{A}}\in\delta(q,a,\epsilon)$ und $\tuple{r,\epsilon}\in\delta(s_2,b,\Snterm{A})$ gibt,\\
 die Regel $\Sntermsub{V}{q,r} \to a\Sntermsub{V}{{\Sntermsub{s}{1}},{\Sntermsub{s}{2}}}b$
 % 
-\item Für alle Zustände $p,q,s\in Q$, die Regel $\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$
+\item Für alle Zustände $q,r,s\in Q$, die Regel $\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$
 % 
 \item Für alle Zustände $s\in Q$, die Regel $\Sntermsub{V}{s,s} \to \epsilon$
 \end{enumerate}
@@ -1049,8 +1049,8 @@ Als Grammatik ergibt sich:
 \begin{align*}
 \Sntermsub{V}{s,f} & \to \epsilon\Sntermsub{V}{a,b}\epsilon\\
 \Sntermsub{V}{a,b} & \to \Sterm{a}\Sntermsub{V}{a,b}\Sterm{b}\mid \Sterm{a}\Sntermsub{V}{a,a}\Sterm{b}\\
-\Sntermsub{V}{a,a} & \to \epsilon \qquad \Sntermsub{V}{b,b}\to \epsilon\qquad \Sntermsub{V}{s,s}\to \epsilon\qquad \Sntermsub{V}{r,r}\to \epsilon \\
-\Sntermsub{V}{a,a} & \to\Sntermsub{V}{a,a}\Sntermsub{V}{a,a}\mid\Sntermsub{V}{a,b}\Sntermsub{V}{b,a}\mid\Sntermsub{V}{a,s}\Sntermsub{V}{s,a}\mid\Sntermsub{V}{a,r}\Sntermsub{V}{r,a}\qquad
+\Sntermsub{V}{a,a} & \to \epsilon \qquad \Sntermsub{V}{b,b}\to \epsilon\qquad \Sntermsub{V}{s,s}\to \epsilon\qquad \Sntermsub{V}{f,f}\to \epsilon \\
+\Sntermsub{V}{a,a} & \to\Sntermsub{V}{a,a}\Sntermsub{V}{a,a}\mid\Sntermsub{V}{a,b}\Sntermsub{V}{b,a}\mid\Sntermsub{V}{a,s}\Sntermsub{V}{s,a}\mid\Sntermsub{V}{a,f}\Sntermsub{V}{f,a}\qquad
 \Sntermsub{V}{a,b}\to\ldots\qquad\ldots
 \end{align*}
 
