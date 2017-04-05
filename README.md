@@ -21,7 +21,7 @@ Die Quellen können mit ```pdflatex``` in PDFs umgewandelt werden. Das Script
 [build.sh](https://github.com/mkroetzsch/FormaleSysteme/blob/master/WS2016/Vorlesungen/build.sh)
 erzeugt außerdem eine Druckversion mit vier Folien pro Seite (benötigt ```pdfnup```).
 
-Die feritigen PDFs aus dem Winter 2016/2017 sind online zu finden unter https://iccl.inf.tu-dresden.de/web/FS2016.
+Die fertigen PDFs aus dem Winter 2016/2017 sind online zu finden unter https://iccl.inf.tu-dresden.de/web/FS2016.
 
 Lizenz und Nutzung in der Lehre
 -------------------------------
@@ -38,7 +38,7 @@ Die Foliensätze enthalten keinerlei Texte, die aus Werken entnommen sind, für 
 Die Nutzung der Materialien in eigenen Lehrveranstaltungen ist willkommen, sofern der obige Lizenztext
 in allen abgeleiteten Foliensätzen angegeben wird. Rückmeldungen sind willkommen (z.B. als Issue zu diesem
 Repository); wir verlinken hier gern auf die Homepages der entsprechenden Kurse. Interssierte Lehrende können
-ihre abgewnadelten Quellen auch mit in diesem Respository veröffentlichen -- kontaktieren Sie Prof. Krötzsch.
+ihre abgewandelten Quellen auch mit in diesem Respository veröffentlichen -- kontaktieren Sie Prof. Krötzsch.
 
 Autoren
 -------
