@@ -1,6 +1,8 @@
 Vorlesungsfolien Formale Systeme
 ================================
 
+[![Project Stats](https://www.openhub.net/p/FormaleSysteme/widgets/project_thin_badge.gif)](https://www.openhub.net/p/FormaleSysteme)
+
 *(This repository contains LaTeX sources of a
 [German language university course in theoretical computer science](https://iccl.inf.tu-dresden.de/web/Formale_Systeme_(WS2017)/en).)*
 
