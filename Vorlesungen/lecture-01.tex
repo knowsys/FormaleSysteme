@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{1}{Willkommen/Einleitung formale Sprachen}{10. Oktober 2016}
+\defineTitle{1}{Willkommen/Einleitung formale Sprachen}{9. Oktober 2017}
 
 \begin{document}
 
@@ -28,13 +28,13 @@
 	Montag, DS3 (11:10--12:40), HSZ/0002\\
 	Donnerstag, DS4 (13:00--14:30), HSZ/0003
 \item \emph{Keine Vorlesungen:}\\
-	Reformationstag: Mo 31.10.\\
-	Jahreswechsel: Do 22.12., Mo 26.12., Do 29.12., Mo 2.1.
+	Mo 23.10.\\
+	Jahreswechsel: Do 21.12., Mo 25.12., Do 28.12., Mo 1.1.
 \item \emph{Vorlesungswebseite}:\\[1ex]
 	\url{\lectureurl}\\[1ex]
 	(Folien, Übungsblätter, Termine, etc.)
 \item \emph{Mailingliste}:\\[1ex]
-	\url{https://mailman.zih.tu-dresden.de/groups/listinfo/inf-thi-fs2016}\\[1ex]
+	\url{https://mailman.zih.tu-dresden.de/groups/listinfo/inf-thi-fs1718}\\[1ex]
 	(Support bei allen Fragen zur Vorlesung)
 \end{itemize}
 
@@ -43,10 +43,10 @@
 
 \begin{frame}\frametitle{Übungen}
 \begin{itemize}
-\item \emph{Anmeldung} zu den Übungen über jexam
+\item \emph{Anmeldung} zu den Übungen über jExam
 \item \emph{Übungsblätter} jeweils donnerstags nach der Vorlesung\\
-	(erstes Übungsblatt am 13. Oktober 2016)
-\item \emph{Beginn der Übungen:} 17. Oktober 2016
+	(erstes Übungsblatt am 12. Oktober 2017)
+\item \emph{Beginn der Übungen:} 16. Oktober 2017
 \item \emph{Übungsablauf}, vereinfacht, idealisiert:\\
 	Aufgaben werden zu Hause bearbeitet so gut es geht;\\
 	in der Übung helfen Gruppenleiter/innen bei Fragen und Problemen und zeigen Beispiellösungen\\[1ex]
@@ -57,12 +57,12 @@
 
 \begin{frame}\frametitle{Prüfung und Prüfungsvorbereitung}
 \begin{itemize}
-\item schritliche Prüfung (90min) am Ende des Wintersemesters
+\item schriftliche Prüfung (90min) am Ende des Wintersemesters
 \item prüfungsrelevant:\\
 	kompletter Stoff, der in der Vorlesung behandelt wird\\
 	Wiedergeben (Definieren) \alert{und} Anwenden (Rechnen)
 \item Modulnote ergibt sich je nach Studiengang
-\item zur zusätzlichen Vorbereitung gibt es \alert{drei Repetitorien} und \alert{eine Probeklausur}, jeweils an einem Vorlesungstermin
+\item zur zusätzlichen Vorbereitung gibt es \alert{2--3 Repetitorien} und \alert{eine Probeklausur}, jeweils an einem Vorlesungstermin
 \end{itemize}
 
 \end{frame}
@@ -635,9 +635,10 @@ Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchsta
 \narrowcentering{$ \Slang{Bezeichner} =  \Slang{Buchstabe} \circ ( \Slang{Buchstabe}\cup\Slang{Ziffer} )^* $}
 }\pause
 
-\examplebox{Beispiel: Tweets sind Ketten aus bis zu 144 Zeichen:\\[0.5ex]
-\narrowcentering{$\Slang{Tweet} =  \bigcup_{1\leq i \leq 144}\Slang{Buchstabe}^i$}
+\examplebox{Beispiel: Tweets sind Ketten aus bis zu 140 Zeichen:${}^{1}$\\[0.5ex]
+\narrowcentering{$\Slang{Tweet} =  \bigcup_{1\leq i \leq 140}\Slang{Buchstabe}^i$}
 }
+\ghost{\mbox{}\hspace{10.5cm}\rotatebox{90}{\mbox{}\hspace{0.5cm}\tiny ${}^{1)}$ korrekt bis etwa Mai 2016}}
 
 \end{frame}
 
