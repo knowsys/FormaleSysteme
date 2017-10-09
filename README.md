@@ -24,7 +24,7 @@ Die Quellen können mit ```pdflatex``` in PDFs umgewandelt werden. Das Script
 [build.sh](https://github.com/mkroetzsch/FormaleSysteme/blob/master/WS2016/Vorlesungen/build.sh)
 erzeugt außerdem eine Druckversion mit vier Folien pro Seite (benötigt ```pdfnup```).
 
-Die feritigen PDFs aus dem Winter 2017/2018 sind online zu finden unter https://iccl.inf.tu-dresden.de/web/FS2017.
+Die fertigen PDFs aus dem Winter 2017/2018 sind online zu finden unter https://iccl.inf.tu-dresden.de/web/FS2017.
 
 Lizenz und Nutzung in der Lehre
 -------------------------------
