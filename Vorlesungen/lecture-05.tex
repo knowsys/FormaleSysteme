@@ -12,6 +12,59 @@
 
 \sectionSlideNoHandout{Rückblick}
 
+\begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
+
+\begin{tikzpicture}[
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm,
+	mybox/.style args = {#1/#2}{
+		draw=#1,% line color
+		fill=#2,% fill color
+% 		rounded corners,
+		thick,
+		text width=26mm, minimum height=12mm, inner sep=1mm, 
+		align=flush center
+	},
+	myboxlabel/.style args = {}{
+		draw=devilscss,% line color
+		fill=strongyellow!40,% fill color
+% 		rounded corners,
+		thick,
+		text width=21mm, minimum height=10mm, inner sep=1.5mm, 
+		align=flush center
+	},
+	myarrow/.style args = {#1}{
+		line width=0.8mm,
+		draw=#1,%line color
+		%-{Triangle[length=2.8mm,width=4mm,fill=#1]},
+		->,
+		shorten >=0.5mm, shorten <=0.1mm
+	}
+]
+\pgfmathsetseed{7729}
+% \draw[help lines] (0,0) grid (5,5);
+\node (reg) [decorate,mybox=black/cyan!40] at (3,-0.6) {reguläre Grammatik};
+\node (dfa) [decorate,mybox=black/cyan!40] at (0,-4) {DFA};
+\node (nfa) [decorate,mybox=black/cyan!40] at (6,-4) {NFA};
+%
+\path[myarrow=devilscss,bend left=20](dfa) edge (reg.180);
+\node (dfareglabel) [decorate,myboxlabel=,text width=19mm] at (-0.4,-0.7) {"`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"' $\leadsto$ "`$q_1\to\Sterm{a}q_2$"'};
+%
+\path[myarrow=devilscss,-,bend left=20](reg.0) edge[->] (nfa);
+\node (regnfalabel) [decorate,myboxlabel=] at (7.2,-2.1) {"`$q_1\to\Sterm{a}q_2$"' $\leadsto$ "`$q_1 \stackrel{\Sterm{a}}{\to} q_2$"'};
+%
+\draw[myarrow=devilscss](dfa.10)--(nfa.170);
+\node (dfanfalabel) [decorate,myboxlabel=] at (3,-3.0) {\footnotesize DFAs sind spezielle NFAs};
+%
+\draw[myarrow=devilscss](nfa.190)--(dfa.350);
+\node (nfadfalabel) [decorate,myboxlabel=] at (3,-5.0) {\footnotesize Potenzmengen\-konstruktion};
+%
+\node (sd) [decorate,mybox=black/cyan!40,text width=14mm, minimum height=10mm] at (6,-6.5) {\footnotesize Syntax\-diagramm};
+\draw[myarrow=devilscss,<->](sd)--(nfa);
+\node (sdnfalabel) [decorate,myboxlabel=, minimum height=0mm,inner sep=1.0mm,text width=10mm] at (6.9,-5.3) {\footnotesize dualer Graph};
+\end{tikzpicture}
+
+\end{frame}
 
 
 \begin{frame}\frametitle{Automaten mit Wortübergängen}
