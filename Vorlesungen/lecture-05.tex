@@ -10,6 +10,15 @@
 
 \maketitle
 
+\begin{frame}\frametitle{}
+
+% ~\hfill
+\includegraphics[width=10cm]{images/herz}
+% \hfill~
+% \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
+
+\end{frame}
+
 \sectionSlideNoHandout{Rückblick}
 
 \begin{frame}[fragile]\frametitle{Darstellungen von Typ-3-Sprachen}
@@ -145,10 +154,10 @@ $q_1\stackrel{\Sterm{a}}{\to}q_2$ oder $q_1\stackrel{\epsilon}{\to}q_2$ haben, w
 
 Um den vorigen Beweis abzuschließen müssen wir noch zeigen:
 
-\theobox{Satz: Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+\theobox{Satz: Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}\pause
 
 \emph{Beweis:} Sei $\epstrastar$ der reflexive, transitive Abschluss von $\stackrel{\epsilon}{\to}$, d.h. die Menge aller Zustandspaare $\tuple{q,q'}\in Q^2$ für die es Übergänge $q=p_0\stackrel{\epsilon}{\to} p_1\stackrel{\epsilon}{\to}\ldots\stackrel{\epsilon}{\to}p_n=q'$ gibt, mit $n\geq 0$.
-\medskip
+\medskip\pause
 
 Für einen $\epsilon$-NFA $\Smach{M}=\tuple{Q,\Sigma,\Delta,Q_0,F}$ definieren wir einen NFA
 $\Smach{M}'=\tuple{Q,\Sigma,\delta,Q_0',F}$ wobei
@@ -245,7 +254,7 @@ Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.\\[1ex]
 \begin{itemize}
 \item Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in \Slang{L}(\Smach{M})$.
 \item Dann gibt es einen akzeptierenden Lauf mit Übergängen der Form
-\[ q_0\epstrastar p_0\stackrel{\Sterm{a_1}}{\to}q_1\epstrastar p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}q_n\epstrastar p_n\]
+\[ q_0\epstrastar p_0\stackrel{\Sterm{a_1}}{\to}q_1\epstrastar p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}q_n\epstrastar p_n\]\pause
 \item Dann gibt es in $\Smach{M}'$ Übergänge:
 \[ p_0\stackrel{\Sterm{a_1}}{\to}p_1\stackrel{\Sterm{a_2}}{\to}\ldots\stackrel{\Sterm{a_n}}{\to}p_n\]
 \item Dies führt zu einem akzeptierenden Lauf in $\Smach{M}'$.
@@ -279,7 +288,7 @@ Die Konstruktion im Beweis "`verlängert"' normale Übergänge "`nach rechts"' d
 % \path[->,line width=0.5mm, bend right](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s3);
 % \path[->,line width=0.5mm, bend right=40](s1) edge node[above,yshift=-2pt] {$\Sterm{a}$} (s4);
 \end{tikzpicture}}}
-\bigskip
+\bigskip\pause
 
 Man kann alternative Konstruktionen für den Beweis angeben:
 \begin{itemize}
@@ -364,7 +373,7 @@ gesuchte Sprache erkennen (daher muss die Sprache regulär sein).
 \begin{frame}\frametitle{Vereinigung von NFAs}
 % Operator kann mit cup+ bezeichnet werden
 
-Ein NFA zur Vereinigung von zwei NFAs ist leicht zu finden:
+Ein NFA zur Vereinigung von zwei NFAs ist leicht zu finden\pause:
 
 \defbox{Gegeben seien zwei NFAs $\Smach{M}_1=\tuple{Q_1,\Sigma,\delta_1,Q_{0,1},F_1}$ und $\Smach{M}_2=\tuple{Q_2,\Sigma,\delta_2,Q_{0,2},F_2}$ mit $Q_1\cap Q_2=\emptyset$ (o.B.d.A.). 
 \medskip
@@ -615,7 +624,7 @@ folgenden Ausdrücke reguläre Sprachen:
 
 \defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ sei $\overline{\Smach{M}}$ der\\
 DFA $\tuple{Q,\Sigma,\delta,q_0,Q\setminus F}$.}
-\bigskip
+\bigskip\pause
 
 
 \emph{Beispiel:}\medskip
@@ -675,7 +684,8 @@ Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
 \item Dann hat $\Smach{M}$ einen verwerfenden Lauf $p_0p_1\ldots p_m$ für $w$\pause
 \item Dann ist (1) $p_m\notin F$ oder (2) $m<|w|$\pause
 \item In Fall (1) ist $p_0p_1\ldots p_m$ ein akzeptierender Lauf für $w$ in $\overline{\Smach{M}}$\pause
-\item In Fall (2) \ldots ?\pause
+\item In Fall (2) \ldots ?\pause\\
+\ldots vielleicht gar kein akzeptierender Lauf für $w$ in $\overline{\Smach{M}}$ \ldots \pause
 \end{itemize}
 
 \narrowcentering{\redalert{Der Satz ist falsch!}}
@@ -714,10 +724,10 @@ Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
 \onslide<2->{\narrowcentering{Wörter der Form $\Sterm{0}^*\Sterm{1}^+$\hfill \onslide<3->{Wörter der Form $\Sterm{0}^*$}}}
 \bigskip
 
-\onslide<3->{Das Wort $\Sterm{010}$ zum Beispiel wird von keinem der beiden Automaten erkannt.}
+\onslide<4->{Das Wort $\Sterm{010}$ zum Beispiel wird von keinem der beiden Automaten erkannt.}
 \bigskip
 
-\onslide<3->{\narrowcentering{\alert{$\leadsto$ keine komplementären Sprachen}}}
+\onslide<4->{\narrowcentering{\alert{$\leadsto$ keine komplementären Sprachen}}}
 
 \end{frame}
 
@@ -736,7 +746,7 @@ Daraus folgt der Abschluss regulärer Sprachen unter Komplement, da wir jeden DF
 \emph{Auch NFAs dürfen nicht direkt komplementiert werden:}
 \begin{itemize}
 \item DFAs sind NFAs: unser Gegenbeispiel trifft weiterhin zu
-\item Selbst NFAs, in denen jeder Zustand für jedes Symbol mindestens einen Folgezustand hat, können nicht so einfach komplementiert werden (Übung)
+\item Selbst NFAs, in denen jeder Zustand für jedes Symbol mindestens einen Folgezustand hat, können nicht so einfach komplementiert werden (Übung: Finden Sie ein Gegenbeispiel)
 \end{itemize}
 }
 
