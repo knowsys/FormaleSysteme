@@ -10,13 +10,13 @@ tmpfilename="tmplecturefile" # don't have any files called like this!
 printfilename=$fileprefix$1-print.pdf
 overlayfilename=$fileprefix$1-overlay.pdf
 
-echo "\documentclass[onlymath,handout]{beamer}\n" > $tmpfilename.tex
+echo "\documentclass[aspectratio=1610,onlymath,handout]{beamer}\n" > $tmpfilename.tex
 tail -n +3 lecture-$1.tex >> $tmpfilename.tex
 pdflatex $tmpfilename.tex
 pdflatex $tmpfilename.tex
 pdfnup --nup 2x2 --outfile $printfilename $tmpfilename.pdf
 
-echo "\documentclass[onlymath]{beamer}\n" > $tmpfilename.tex
+echo "\documentclass[aspectratio=1610,onlymath]{beamer}\n" > $tmpfilename.tex
 tail -n +3 lecture-$1.tex >> $tmpfilename.tex
 pdflatex $tmpfilename.tex
 pdflatex $tmpfilename.tex

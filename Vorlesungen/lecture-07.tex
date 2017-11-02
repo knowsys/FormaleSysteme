@@ -1,11 +1,11 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{7}{Reguläre Ausdrücke}{3. November 2016}
-\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}\\Daniel Borchmann}
+\defineTitle{7}{Reguläre Ausdrücke}{2. November 2017}
+\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
 
 \begin{document}
 
@@ -14,7 +14,7 @@
 \begin{frame}\frametitle{}
 
 % ~\hfill
-\includegraphics[width=10cm]{images/xkcd-na_make_it_better}
+\includegraphics[width=\linewidth]{images/xkcd-na_make_it_better}
 % \hfill~
 % \rotatebox{90}
 
@@ -157,7 +157,7 @@ Die Menge der von einem Zustand aus erreichbaren Zustände kann mit Graphalgorit
 Offensichtlich verändert diese Vereinfachung die Sprache nicht
 \pause
 
-\doodlebox{darkgreen}{%
+\widedoodlebox{darkgreen}{%
 Beispiel: \hspace{6mm}
 % \narrowcentering{%
 \begin{tikzpicture}[baseline={(q1.base)}]
@@ -240,7 +240,7 @@ Wir wenden diese Notation auch in anderen ähnlichen Fällen an, zum Beispiel f�
 Wie kann man die regulären Ausdrücke $\alpha_q$ finden?
 \bigskip\pause
 
-\doodlebox{darkgreen}{
+\widedoodlebox{darkgreen}{
 \begin{minipage}{7cm}
 \rule{0pt}{3ex}Beispiel: ohne Rekursion ist es einfach \ldots\\[1ex]
 
@@ -261,7 +261,7 @@ Wie kann man die regulären Ausdrücke $\alpha_q$ finden?
 \end{minipage}
 }\pause
 
-\doodlebox{darkgreen}{
+\widedoodlebox{darkgreen}{
 \begin{minipage}{7cm}
 \rule{0pt}{3ex}Beispiel: mit Rekursion ist es weniger klar \ldots\\[1ex]
 
@@ -517,7 +517,7 @@ Wir zeigen die beiden Richtungen der geforderten Gleichheit einzeln.
 
 \emph{Teilbehauptung 2:} $\Slang{L}\subseteq\Slang{K}^*\Slang{H}$\pause\\[1ex]
 
-Sei $w\in \Slang{L}$ beliebig. Wir beweisen $w\in\Slang{K}^*\Slang{H}$ durch Induktion über $|w|$.
+Sei $w\in \Slang{L}$ beliebig. Wir beweisen $w\in\Slang{K}^*\Slang{H}$ durch Induktion über $n=|w|$.
 \medskip
 
 \alert{Induktionsanfang:} sei $n=0$\pause

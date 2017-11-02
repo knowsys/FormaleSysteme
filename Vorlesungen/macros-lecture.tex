@@ -267,3 +267,10 @@ Siehe \href{\lectureurl}{course homepage [$\Rightarrow$ link]} for more informat
 		\node (n1) [decorate,draw=#1, fill=#1!10,thick,align=left,inner sep=1mm] at (0,0) {\usebox{\mybox}};
 	\end{tikzpicture}%
 }%
+\newcommand{\widedoodlebox}[2]{%
+\sbox{\mybox}{#2}%
+	\begin{tikzpicture}[decoration=penciline, decorate]
+		\pgfmathsetseed{1238}
+		\node (n1) [decorate,draw=#1, fill=#1!10,thick,align=left,inner sep=1mm,text width=\linewidth] at (0,0) {\usebox{\mybox}};
+	\end{tikzpicture}%
+}%
