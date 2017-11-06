@@ -378,8 +378,7 @@ $\leadsto$ Wir können $\not\sim$ (und damit auch $\sim$) durch rekursive Anwend
 	falls $q\in F$ und $p\notin F$, dann "`speichere $q\not\sim p$"'
 	% ${\not\sim}\defeq{\not\sim}\cup\{\tuple{q,p},\tuple{p,q}\}$
 \item (Regel 2) Für jedes Paar $\tuple{q,p}\in Q\times Q\setminus {\not\sim}$ und jedes $\Sterm{a}\in\Sigma$:\\
-	falls $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ dann
-	dann "`speichere $q\not\sim p$"'
+	falls $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ dann "`speichere $q\not\sim p$"'
 % 	${\not\sim}\defeq{\not\sim}\cup\{\tuple{q,p},\tuple{p,q}\}$
 \item Wiederhole die Anwendung von Regel 2 solange, bis es keine Änderungen mehr gibt
 \item Das Ergebnis ist $(Q\times Q)\setminus {\not\sim}$
