@@ -1,16 +1,20 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{8}{Minimale Automaten}{7. November 2016}
-\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
+\defineTitle{8}{Minimale Automaten}{6. November 2017}
 
-% Notes: did not finish M&N theorem on time, since some extra time was used to
+% Notes (2016): did not finish M&N theorem on time, since some extra time was used to
 % sketch basic properties of equivalence relations on the board;
 % the presentation also lacks an example for the MN DFA construction
 % maybe move to next lecture and add more intution on equivalences inline instead
+
+% Notes (2017): still not finished; moved MH to next lecture altogether.
+% Things explained on the board:
+% - How equivalence relations and equivalence classes look (for slide 10)
+% - What compatibility with transitions requires and what the potential problem is (for slide 11)
 
 \begin{document}
 
@@ -665,108 +669,123 @@ Dies rechtfertigt die Bezeichnung \alert{Rechtskongruenz}.
 
 \end{frame}
 
-
 \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen}
 
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
-(Die Zahl der Äquivalenzklassen wird auch als \redalert{Index} bezeichnet)\medskip\pause
+Wir werden zeigen, dass jede reguläre Sprache endlich viele $\simeq$-Äquivalenzklassen hat.
+\medskip\pause
 
-\emph{Beweis:} Wir erhalten diese Eigenschaft aus der Darstellung von $\Slang{L}$ mit einem DFA.
+Es gilt sogar noch etwas stärkeres:\medskip
 
-\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ definieren wir eine Relation $\simeq_{\Smach{M}}$ wie folgt.
-Für Wörter $u,v\in\Sigma^*$ sei $u\simeq_{\Smach{M}}v$ wenn gilt:\\[1ex]
-\narrowcentering{$\delta(q_0,u)=\delta(q_0,v)$.}
-}
+\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}
 
-Offensichtlich ist $\simeq_{\Smach{M}}$ eine Äquivalenzrelation (Eigenschaften "`geerbt"' von $=$) mit endlichem Index (es gibt nur endlich viele Zustände).
-\medskip
+\emph{Beweis:} Siehe nächste Vorlesung.
+\bigskip
 
-% Wir beweisen die Behauptung, indem wir zeigen:\\
-% wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$, d.h. ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.
-% \\
-% (denn dann hat $\simeq_{\Slang{L}}$ )
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (2)}
-
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
-
-\emph{Beweis (Fortsetzung):} 
-Behauptung: ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$ das heißt\\[1ex]
 % 
-\narrowcentering{wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$}.\medskip
-
-Wir betrachten einen DFA $\Smach{M}$ mit $\Slang{L}=\Slang{L}(\Smach{M})$.\pause
-\begin{itemize}
-\item Seien $u,v\in\Sigma^*$ Wörter mit $u \simeq_{\Smach{M}} v$\pause
-\item Dann ist $\delta(q_0,u)=\delta(q_0,v)$\pause
-\item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)=\delta(q_0,vw)$\pause
-\item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)\in F$ gdw. $\delta(q_0,vw)\in F$\pause
-\item Dann gilt, für alle $w\in\Sigma^*$, $uw\in \Slang{L}(\Smach{M})$ gdw. $vw\in \Slang{L}(\Smach{M})$\pause
-\item Dann ist $u \simeq_{\Slang{L}(\Smach{M})} v$ und also $u \simeq_{\Slang{L}} v$
-\end{itemize}
-Damit ist die Behauptung gezeigt.
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (3)}
-
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
-
-\emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.\pause
-\medskip
-
-\begin{enumerate}[$\leadsto$]
-\item Jede ${\simeq_{\Slang{L}}}$-Äquivalenzklasse besteht aus einer oder mehr ${\simeq_{\Smach{M}}}$-Äquivalenzklassen\pause
-\item Der Index von ${\simeq_{\Slang{L}}}$ ist kleiner oder gleich dem Index von ${\simeq_{\Smach{M}}}$\pause
-\item Der Index von ${\simeq_{\Slang{L}}}$ ist endlich \qed
-\end{enumerate}
-\medskip
-
-\textcolor{devilscss}{\footnotesize Anmerkung: Der letzte Teil ist eine allgemeine Eigenschaft aller Äquivalenzrelationen: wenn $R\subseteq S$, dann ist der Index von $R$ größer oder gleich dem Index von $S$.}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Der Satz von Myhill und Nerode}
-
-Das vorige Resultat kann noch verstärkt werden:
-
-\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\pause
-
-\emph{Beweis:}
-Die Richtung "`$\Rightarrow$"' haben wir soeben gezeigt.\pause\medskip
-
-Für die Richtung "`$\Leftarrow$"' zeigen wir, wie man einen DFA $\Smach{M}_{\Slang{L}}$ für $\Slang{L}$ erhalten kann, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.\pause
-
-\codebox{Der DFA $\Smach{M}_{\Slang{L}}=\tuple{Q,\Sigma,\delta,q_0,F}$ ist wie folgt definiert:
-\begin{itemize}
-\item $Q=\{[w]_\simeq\mid w\in\Sigma^*\}$ ist die (endliche) Menge der $\simeq$-Äquivalenzklassen
-\item $q_0=[\epsilon]_\simeq$
-\item $F=\{[w]_\simeq\mid w\in\Slang{L}\}$
-\item $\delta([w]_\simeq,\Sterm{a})=[w\Sterm{a}]_\simeq$
-\end{itemize}
-}\vspace{-1ex}
-{\tiny Anmerkung: Diese Definition von $F$ und $\delta$ ist zulässig, weil sie nicht vom gewählten Repräsentanten $w$ abhängt}\\[-1.5ex]{\tiny (da $\simeq$ eine Rechtskongruenz ist)}
-
-\end{frame}
-
-
-\begin{frame}\frametitle{Satz von Myhill und Nerode: Beweis}
-
-\emph{Beweis (Fortsetzung):} Wir müssen noch zeigen, dass $\Slang{L}=\Slang{L}(\Smach{M}_{\Slang{L}})$.
-%
-\[\begin{array}{r@{~\text{ gdw. }~}ll}
-w\in\Slang{L}(\Smach{M}_{\Slang{L}}) & \delta(q_0,w)\in F \\\pause
-	& \delta([\epsilon]_\simeq,w)\in F \\\pause
-	& [w]_\simeq\in F & \text{wegen $\delta([u],v)=[uv]$ }\\
-	\multicolumn{2}{c}{} & \text{(Induktion über $|v|$) }\\\pause
-	& w\in \Slang{L}
-\end{array}
-\]
-\qed
-
-\end{frame}
+% \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen}
+% 
+% \theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+% (Die Zahl der Äquivalenzklassen wird auch als \redalert{Index} bezeichnet)\medskip\pause
+% 
+% \emph{Beweis:} Wir erhalten diese Eigenschaft aus der Darstellung von $\Slang{L}$ mit einem DFA.
+% 
+% \defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ definieren wir eine Relation $\simeq_{\Smach{M}}$ wie folgt.
+% Für Wörter $u,v\in\Sigma^*$ sei $u\simeq_{\Smach{M}}v$ wenn gilt:\\[1ex]
+% \narrowcentering{$\delta(q_0,u)=\delta(q_0,v)$.}
+% }
+% 
+% Offensichtlich ist $\simeq_{\Smach{M}}$ eine Äquivalenzrelation (Eigenschaften "`geerbt"' von $=$) mit endlichem Index (es gibt nur endlich viele Zustände).
+% \medskip
+% 
+% % Wir beweisen die Behauptung, indem wir zeigen:\\
+% % wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$, d.h. ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.
+% % \\
+% % (denn dann hat $\simeq_{\Slang{L}}$ )
+% 
+% \end{frame}
+% 
+% \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (2)}
+% 
+% \theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+% 
+% \emph{Beweis (Fortsetzung):} 
+% Behauptung: ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$ das heißt\\[1ex]
+% % 
+% \narrowcentering{wenn $u \simeq_{\Smach{M}} v$ dann $u \simeq_{\Slang{L}} v$}.\medskip
+% 
+% Wir betrachten einen DFA $\Smach{M}$ mit $\Slang{L}=\Slang{L}(\Smach{M})$.\pause
+% \begin{itemize}
+% \item Seien $u,v\in\Sigma^*$ Wörter mit $u \simeq_{\Smach{M}} v$\pause
+% \item Dann ist $\delta(q_0,u)=\delta(q_0,v)$\pause
+% \item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)=\delta(q_0,vw)$\pause
+% \item Dann gilt, für alle $w\in\Sigma^*$, $\delta(q_0,uw)\in F$ gdw. $\delta(q_0,vw)\in F$\pause
+% \item Dann gilt, für alle $w\in\Sigma^*$, $uw\in \Slang{L}(\Smach{M})$ gdw. $vw\in \Slang{L}(\Smach{M})$\pause
+% \item Dann ist $u \simeq_{\Slang{L}(\Smach{M})} v$ und also $u \simeq_{\Slang{L}} v$
+% \end{itemize}
+% Damit ist die Behauptung gezeigt.
+% 
+% \end{frame}
+% 
+% \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (3)}
+% 
+% \theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+% 
+% \emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.\pause
+% \medskip
+% 
+% \begin{enumerate}[$\leadsto$]
+% \item Jede ${\simeq_{\Slang{L}}}$-Äquivalenzklasse besteht aus einer oder mehr ${\simeq_{\Smach{M}}}$-Äquivalenzklassen\pause
+% \item Der Index von ${\simeq_{\Slang{L}}}$ ist kleiner oder gleich dem Index von ${\simeq_{\Smach{M}}}$\pause
+% \item Der Index von ${\simeq_{\Slang{L}}}$ ist endlich \qed
+% \end{enumerate}
+% \medskip
+% 
+% \textcolor{devilscss}{\footnotesize Anmerkung: Der letzte Teil ist eine allgemeine Eigenschaft aller Äquivalenzrelationen: wenn $R\subseteq S$, dann ist der Index von $R$ größer oder gleich dem Index von $S$.}
+% 
+% \end{frame}
+% 
+% \begin{frame}[t]\frametitle{Der Satz von Myhill und Nerode}
+% 
+% Das vorige Resultat kann noch verstärkt werden:
+% 
+% \theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\pause
+% 
+% \emph{Beweis:}
+% Die Richtung "`$\Rightarrow$"' haben wir soeben gezeigt.\pause\medskip
+% 
+% Für die Richtung "`$\Leftarrow$"' zeigen wir, wie man einen DFA $\Smach{M}_{\Slang{L}}$ für $\Slang{L}$ erhalten kann, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.\pause
+% 
+% \codebox{Der DFA $\Smach{M}_{\Slang{L}}=\tuple{Q,\Sigma,\delta,q_0,F}$ ist wie folgt definiert:
+% \begin{itemize}
+% \item $Q=\{[w]_\simeq\mid w\in\Sigma^*\}$ ist die (endliche) Menge der $\simeq$-Äquivalenzklassen
+% \item $q_0=[\epsilon]_\simeq$
+% \item $F=\{[w]_\simeq\mid w\in\Slang{L}\}$
+% \item $\delta([w]_\simeq,\Sterm{a})=[w\Sterm{a}]_\simeq$
+% \end{itemize}
+% }\vspace{-1ex}
+% {\tiny Anmerkung: Diese Definition von $F$ und $\delta$ ist zulässig, weil sie nicht vom gewählten Repräsentanten $w$ abhängt}\\[-1.5ex]{\tiny (da $\simeq$ eine Rechtskongruenz ist)}
+% 
+% \end{frame}
+% 
+% 
+% \begin{frame}\frametitle{Satz von Myhill und Nerode: Beweis}
+% 
+% \emph{Beweis (Fortsetzung):} Wir müssen noch zeigen, dass $\Slang{L}=\Slang{L}(\Smach{M}_{\Slang{L}})$.
+% %
+% \[\begin{array}{r@{~\text{ gdw. }~}ll}
+% w\in\Slang{L}(\Smach{M}_{\Slang{L}}) & \delta(q_0,w)\in F \\\pause
+% 	& \delta([\epsilon]_\simeq,w)\in F \\\pause
+% 	& [w]_\simeq\in F & \text{wegen $\delta([u],v)=[uv]$ }\\
+% 	\multicolumn{2}{c}{} & \text{(Induktion über $|v|$) }\\\pause
+% 	& w\in \Slang{L}
+% \end{array}
+% \]
+% \qed
+% 
+% \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
@@ -776,7 +795,8 @@ Im \redalert{Quotientenautomaten} werden äquivalente Zustände verschmolzen
 \redalert{Äquivalente Zustände} in einem (totalen) DFA können rekursiv ermittelt werden
 \bigskip
 
-Der \redalert{Satz von Myhill und Nerode} charakterisiert reguläre Sprachen und liefert einen direkt konstruierten DFA für einen Sprache
+Der \redalert{Satz von Myhill und Nerode} charakterisiert reguläre Sprachen
+% und liefert einen direkt konstruierten DFA für einen Sprache
 \bigskip
 
 \anybox{yellow}{
