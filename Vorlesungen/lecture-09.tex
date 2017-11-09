@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{9}{Minimale Automaten (2)}{10. November 2016}
+\defineTitle{9}{Minimale Automaten (2)}{9. November 2016}
 \author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
 
 \begin{document}
@@ -30,7 +30,7 @@ Wir betrachten DFAs mit totaler Übergangsfunktion.\medskip
 \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
 \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
 \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
-\end{tikzpicture}\hfill
+\end{tikzpicture}\hspace{3cm}
 %
 \begin{minipage}{3.5cm}
 Ermittlung der\\ Zustandsäquivalenz $\sim$:
@@ -44,7 +44,7 @@ Ermittlung der\\ Zustandsäquivalenz $\sim$:
 \bigskip
 
  
-\begin{minipage}{3.5cm}
+\begin{minipage}{5.5cm}
 {Quotientenautomat:\\[1ex]
 %
 \begin{tikzpicture}[baseline={(current bounding box.center)}]
@@ -70,7 +70,7 @@ Der \redalert{reduzierte Automat $\Smach{M}_r$} ergibt sich durch folgende Schri
 \end{frame}
 
 
-\begin{frame}\frametitle{Verschiedene Äquivalenzrelationen}
+\begin{frame}[t]\frametitle{Verschiedene Äquivalenzrelationen}
 
 Für einen DFA $\Smach{M}$ und eine Sprache $\Slang{L}$ haben wir verschiedene
 Äquivalenzrelationen verwendet:
@@ -90,16 +90,17 @@ für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ gdw. $vw\in\Slang{L}$.}%
 \alert{Anwendung:} automatenunabhängige Analyse von Sprachen; alternative Konstruktion Minimalautomat
 \medskip
 
-\defbox{\redalert{DFA-Präfixäquivalenz} ${\simeq_{\Smach{M}}}\subseteq \Sigma^*\times \Sigma^*$:\\ $u\simeq_{\Smach{M}}v$ wenn
-gilt: $\delta(q_0,u)=\delta(q_0,v)$.}%
-\medskip
-
-\alert{Anwendung:} Beweis des Satzes von Myhill \& Nerode
+% \defbox{\redalert{DFA-Präfixäquivalenz} ${\simeq_{\Smach{M}}}\subseteq \Sigma^*\times \Sigma^*$:\\ $u\simeq_{\Smach{M}}v$ wenn
+% gilt: $\delta(q_0,u)=\delta(q_0,v)$.}%
+% \medskip
+% 
+% \alert{Anwendung:} Beweis des Satzes von Myhill \& Nerode
 
 
 \end{frame}
 
-\sectionSlide{Der Satz von Myhill \& Nerode}
+\sectionSlide{Der Satz von Myhill und Nerode}
+
 
 \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen}
 
@@ -163,7 +164,37 @@ Damit ist die Behauptung gezeigt.
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Der Satz von Myhill und Nerode}
+\begin{frame}[t]\frametitle{Verschiedene Äquivalenzrelationen}
+
+Für einen DFA $\Smach{M}$ und eine Sprache $\Slang{L}$ haben wir verschiedene
+Äquivalenzrelationen verwendet:
+\medskip
+
+\defbox{\redalert{DFA-Zustandsäquivalenz} ${\sim_{\Smach{M}}}\subseteq Q\times Q$:\\ $q\sim_{\Smach{M}}p$ wenn
+für alle $w\in\Sigma^*$ gilt: $\delta(q,w)\in F$ gdw. $\delta(p,w)\in F$.}%
+\medskip
+
+\alert{Anwendung:} Vereinfachung von DFAs durch Quotientenbildung
+\medskip
+
+\defbox{\redalert{Nerode-Rechtskongruenz} ${\simeq_{\Slang{L}}}\subseteq \Sigma^*\times \Sigma^*$:\\ $u\simeq_{\Slang{L}}v$ wenn
+für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ gdw. $vw\in\Slang{L}$.}%
+\medskip
+
+\alert{Anwendung:} automatenunabhängige Analyse von Sprachen; alternative Konstruktion Minimalautomat
+\medskip
+
+\defbox{\redalert{DFA-Präfixäquivalenz} ${\simeq_{\Smach{M}}}\subseteq \Sigma^*\times \Sigma^*$:\\ $u\simeq_{\Smach{M}}v$ wenn
+gilt: $\delta(q_0,u)=\delta(q_0,v)$.}%
+\medskip
+
+\alert{Anwendung:} Beweis der Endlichkeit des $\simeq_{\Slang{L}}$-Indexes regulärer Sprachen
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Der Satz von Myhill und Nerode}
 
 Das vorige Resultat kann noch verstärkt werden:
 
@@ -254,8 +285,8 @@ Als nächstes interessiert uns der Bezug zum Minimalautomat\pause:
 \emph{Beweis:} Sei $\Smach{M}$ ein beliebiger totaler DFA mit $\Slang{L}(\Smach{M})=\Slang{L}$
 \begin{itemize}
 \item Wir haben bereits gezeigt: ${\simeq_{\Smach{M}}}\subseteq{\simeq_{\Slang{L}}}$
-\item Daraus folgerten wir: "`Zahl der $\simeq_{\Slang{L}}$-Äquivalenzklassen $\leq$ Anzahl der erreichbaren Zustände von $\Smach{M}$"'
-\item die Zahl der $\simeq_{\Slang{L}}$-Äquivalenzklassen ist aber die Anzahl der Zustände von $\Smach{M}_{\Slang{L}}$\qed
+\item Daraus folgerten wir:\\ "`Zahl der $\simeq_{\Slang{L}}$-Äquivalenzklassen $\leq$ Anzahl der erreichbaren Zustände von $\Smach{M}$"'
+\item Die Zahl der $\simeq_{\Slang{L}}$-Äquivalenzklassen ist aber die Anzahl der Zustände von $\Smach{M}_{\Slang{L}}$\qed
 \end{itemize}
 
 \end{frame}
@@ -268,9 +299,9 @@ Für reguläre $\Slang{L}$ haben wir bereits gezeigt:
 \item $\Smach{M}_{\Slang{L}}$ ist ein DFA, da er insbesondere endlich viele Zustände hat (Index von $\simeq$)
 \item $\Slang{L}(\Smach{M}_{\Slang{L}})=\Slang{L}$
 \item Jeder Zustand von $\Smach{M}_{\Slang{L}}$ ist vom Startzustand aus erreichbar, da $\delta([\epsilon]_\simeq,w)=[w]_\simeq$
-\item ${\simeq_{\Smach{M}_{\Slang{L}}}}={\simeq_{\Slang{L}}}$ \pause ($\spadesuit$)
+\item ${\simeq_{\Smach{M}_{\Slang{L}}}}={\simeq_{\Slang{L}}}$ \only<2->{($\spadesuit$)}
 \end{itemize}}%
-\medskip
+\medskip\pause
 
 \emph{Beweis ($\spadesuit$):} ${\simeq_{\Smach{M}_{\Slang{L}}}}\subseteq{\simeq_{\Slang{L}}}$ haben wir bereits für beliebige DFA gezeigt
 \medskip
@@ -510,7 +541,7 @@ $\leadsto$ NFAs könnten viel kleiner sein als minimale DFAs!
 
 \begin{itemize}
 \item NFA-Minimierung ist algorithmisch aufwändiger
-\item \ldots{} und liefert kein eindeutigs Ergebnis,
+\item \ldots{} und liefert kein eindeutiges Ergebnis,
 \item \ldots{} ist aber durchaus praktisch machbar
 \end{itemize}
 % $\leadsto$ Wir determinisieren Automaten, um sie zu minimieren
