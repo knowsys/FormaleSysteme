@@ -12,7 +12,7 @@
 
 \maketitle
 
-\sectionSlide{Probleme auf Automaten}
+\sectionSlideNoHandout{Rückblick}
 
 \begin{frame}\frametitle{Zusammenfassung}
 
@@ -598,6 +598,258 @@ Ableitungsbäume sind auch als \redalert{Syntaxbäume} oder \redalert{Parsebäum
 
 \end{frame}
 
+
+
+\begin{frame}\frametitle{Vom Ableitungsbaum zur Ableitung?}
+
+Der selbe Ableitungsbaum wird oft durch viele Ableitungen erzeugt:\\[2ex]
+
+\begin{minipage}{4cm}
+% Grammatik:
+% \begin{align*}
+% \Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V} &
+% \Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)} \\
+% \Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)} &
+% \Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+% \end{align*}
+% 
+Vorige Ableitung:\vspace{-2ex}
+\begin{align*}
+\Snterm{S} & \Rightarrow \Snterm{M}
+	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Snterm{S}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{A}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}
+\end{align*}\vspace{-3ex}
+
+Alternative Ableitung:\vspace{-2ex}
+\begin{align*}
+\Snterm{S} & \Rightarrow \Snterm{M}
+	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}
+	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{A}\Sterm{)} \\
+	& \Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} \\
+	& \Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} 
+	\Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} \\
+	& \Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)} 
+	 \Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)} \\
+	& \Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}
+\end{align*}\vspace{-1ex}
+\end{minipage}\hfill
+\begin{minipage}{4.5cm}
+\begin{tikzpicture}[xscale=0.5,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}};
+{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{M}};}
+{\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{*}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (3,-2) {\Snterm{S}};
+\node (s3b) [circle,draw=none,inner sep=1pt] at (6,-2) {\Sterm{)}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}};
+\node (s3y) [circle,draw=none,inner sep=1pt] at (-2,-2) {\Sterm{(}};}
+{\node (s4) [circle,draw=none,inner sep=1pt] at (3,-3) {\Snterm{A}};}
+{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}};}
+{\node (s5) [circle,draw=none,inner sep=1pt] at (3,-4) {\Sterm{+}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{S}};
+\node (s5b) [circle,draw=none,inner sep=1pt] at (5,-4) {\Sterm{)}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (2,-4) {\Snterm{S}};
+\node (s5y) [circle,draw=none,inner sep=1pt] at (1,-4) {\Sterm{(}};}
+{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{x}};}
+{\node (s6a) [circle,draw=none,inner sep=1pt] at (4,-5) {\Snterm{V}};}
+{\node (s6x) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{V}};}
+{\node (s7a) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{z}};}
+{\node (s7x) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{y}};}
+% \node (s2) [circle,draw=none] at (0,3) {\Sterm{*}};
+%
+{\path[-,line width=0.3mm](s1) edge (s2);}
+{\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+\path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+\path[-,line width=0.3mm](s2) edge (s3y);}
+{\path[-,line width=0.3mm](s3x) edge (s4z);}
+{\path[-,line width=0.3mm](s4z) edge (s5z);}
+{\path[-,line width=0.3mm](s3a) edge (s4);}
+{\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+\path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+\path[-,line width=0.3mm](s4) edge (s5y);}
+{\path[-,line width=0.3mm](s5a) edge (s6a);}
+{\path[-,line width=0.3mm](s5x) edge (s6x);}
+{\path[-,line width=0.3mm](s6a) edge (s7a);}
+{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Vom Ableitungsbaum zur Ableitung}
+
+Beobachtung:
+\begin{itemize}
+\item Für jeden inneren Knoten im Ableitungsbaum gibt es genau einen Ableitungsschritt
+\item Die Reihenfolge der Schritte ist egal, sofern Elternknoten vor ihren Kindern ersetzt werden
+\end{itemize}\pause
+
+\defbox{Eine totale Ordnung der Knoten eines Baums, bei der Eltern vor ihren Kindern betrachtet werden, heißt
+\redalert{topologische Sortierung}.}
+
+\begin{enumerate}[$\leadsto$]
+\item Jede topologische Sortierung der Knoten eines Ableitungsbaumes führt zu einer erlaubten Ableitung
+\end{enumerate}
+
+\doodlebox{darkgreen}{Beispiel: 
+\begin{tikzpicture}[xscale=0.5,yscale=0.7,baseline=(s1.base)]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (0,0) {$a$};
+\node (s2) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (-1,-1) {$b$};
+\node (s3) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (1,-1) {$c$};
+\node (s21) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (-1.7,-2) {$d$};
+\node (s22) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (-0.3,-2) {$e$};
+\node (s31) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (1,-2) {$f$};
+%
+\path[-,line width=0.3mm](s1) edge (s2);
+\path[-,line width=0.3mm](s2) edge (s21);
+\path[-,line width=0.3mm](s2) edge (s22);
+\path[-,line width=0.3mm](s1) edge (s3);
+\path[-,line width=0.3mm](s3) edge (s31);
+\end{tikzpicture}~~~
+\begin{minipage}[t]{6.5cm}
+Topologische Sortierungen:\\
+$abcdef$ (Breitensuche von links), $acbfed$ (Breitensuche von rechts), $abdecf$ (Tiefensuche von links), $acfbed$ (Tiefensuche von rechts), \ldots
+\end{minipage}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Vom Ableitungsbaum zur Ableitung: Beispiel}
+
+Wir markieren die Variablen zur Veranschaulichung mit Indizes:\bigskip
+
+\begin{minipage}{4.0cm}
+\begin{tikzpicture}[xscale=0.5,yscale=0.9,baseline={(current bounding box.center)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (s1) [circle,draw=none,inner sep=1pt] at (0,0) {\Snterm{S}${}_1$};
+{\node (s2) [circle,draw=none,inner sep=1pt] at (0,-1) {\Snterm{M}${}_2$};}
+{\node (s3) [circle,draw=none,inner sep=1pt] at (0,-2) {\Sterm{*}};
+\node (s3a) [circle,draw=none,inner sep=1pt] at (3,-2) {\Snterm{S}${}_4$};
+\node (s3b) [circle,draw=none,inner sep=1pt] at (6,-2) {\Sterm{)}};
+\node (s3x) [circle,draw=none,inner sep=1pt] at (-1,-2) {\Snterm{S}${}_3$};
+\node (s3y) [circle,draw=none,inner sep=1pt] at (-2,-2) {\Sterm{(}};}
+{\node (s4) [circle,draw=none,inner sep=1pt] at (3,-3) {\Snterm{A}${}_6$};}
+{\node (s4z) [circle,draw=none,inner sep=1pt] at (-1,-3) {\Snterm{V}${}_5$};}
+{\node (s5) [circle,draw=none,inner sep=1pt] at (3,-4) {\Sterm{+}};
+\node (s5a) [circle,draw=none,inner sep=1pt] at (4,-4) {\Snterm{S}${}_8$};
+\node (s5b) [circle,draw=none,inner sep=1pt] at (5,-4) {\Sterm{)}};
+\node (s5x) [circle,draw=none,inner sep=1pt] at (2,-4) {\Snterm{S}${}_7$};
+\node (s5y) [circle,draw=none,inner sep=1pt] at (1,-4) {\Sterm{(}};}
+{\node (s5z) [circle,draw=none,inner sep=1pt] at (-1,-4) {\Sterm{x}};}
+{\node (s6a) [circle,draw=none,inner sep=1pt] at (4,-5) {\Snterm{V}${}_{10}$};}
+{\node (s6x) [circle,draw=none,inner sep=1pt] at (2,-5) {\Snterm{V}${}_9$};}
+{\node (s7a) [circle,draw=none,inner sep=1pt] at (4,-6) {\Sterm{z}};}
+{\node (s7x) [circle,draw=none,inner sep=1pt] at (2,-6) {\Sterm{y}};}
+% \node (s2) [circle,draw=none] at (0,3) {\Sterm{*}};
+%
+{\path[-,line width=0.3mm](s1) edge (s2);}
+{\path[-,line width=0.3mm](s2) edge (s3);
+\path[-,line width=0.3mm](s2) edge (s3a);
+\path[-,line width=0.3mm](s2) edge (s3b);
+\path[-,line width=0.3mm](s2) edge (s3x);
+\path[-,line width=0.3mm](s2) edge (s3y);}
+{\path[-,line width=0.3mm](s3x) edge (s4z);}
+{\path[-,line width=0.3mm](s4z) edge (s5z);}
+{\path[-,line width=0.3mm](s3a) edge (s4);}
+{\path[-,line width=0.3mm](s4) edge (s5);
+\path[-,line width=0.3mm](s4) edge (s5a);
+\path[-,line width=0.3mm](s4) edge (s5b);
+\path[-,line width=0.3mm](s4) edge (s5x);
+\path[-,line width=0.3mm](s4) edge (s5y);}
+{\path[-,line width=0.3mm](s5a) edge (s6a);}
+{\path[-,line width=0.3mm](s5x) edge (s6x);}
+{\path[-,line width=0.3mm](s6a) edge (s7a);}
+{\path[-,line width=0.3mm](s6x) edge (s7x);}
+% \path[->,line width=0.5mm](s1) edge node[below] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s1) edge node[left] {\Sterm{1}} (s3);
+% \path[->,line width=0.5mm](s3) edge node[right] {\Sterm{0}} (s2);
+% \path[->,line width=0.5mm](s3) edge [loop above] node[above] {\Sterm{1}} (s3);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{5.7cm}
+% Grammatik:
+% \begin{align*}
+% \Snterm{S} &\to \Snterm{A}\mid \Snterm{M}\mid \Snterm{V} &
+% \Snterm{A} &\to \Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)} \\
+% \Snterm{M} &\to \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)} &
+% \Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
+% \end{align*}
+% 
+\pause
+Sortierung $\Snterm{S}_1\Snterm{M}_2\Snterm{S}_3\Snterm{V}_5\Snterm{S}_4\Snterm{A}_6\Snterm{S}_7\Snterm{V}_9\Snterm{S}_8\Snterm{V}_{10}$:\vspace{-1ex}
+\begin{align*}
+\Snterm{S}_1 & \Rightarrow \Snterm{M}_2
+	\Rightarrow \Sterm{(}\Snterm{S}_3\Sterm{*}\Snterm{S}_4\Sterm{)}
+	\Rightarrow \Sterm{(}\Snterm{V}_5\Sterm{*}\Snterm{S}_4\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{S}_4\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Snterm{A}_6\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{S}_7\Sterm{+}\Snterm{S}_8\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Snterm{V}_9\Sterm{+}\Snterm{S}_8\Sterm{)}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{S}_8\Sterm{)}\Sterm{)}
+	\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Snterm{V}_{10}\Sterm{)}\Sterm{)}\\
+	&\Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}
+\end{align*}\vspace{-4ex}\pause
+
+Entspricht Tiefensuche von links\\
+$\leadsto$ \redalert{Linksableitung}
+\bigskip
+
+\pause
+Alternative Reihenfolge bei Tiefensuche von rechts:
+
+$\Snterm{S}_1\Snterm{M}_2\Snterm{S}_4\Snterm{A}_6\Snterm{S}_8\Snterm{V}_{10}\Snterm{S}_7\Snterm{V}_9\Snterm{S}_3\Snterm{V}_5$\\
+$\leadsto$ \redalert{Rechtsableitung}
+
+% Alternative Ableitung:\vspace{-2ex}
+% \begin{align*}
+% \Snterm{S} & \Rightarrow \Snterm{M}
+% 	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{S}\Sterm{)}
+% 	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Snterm{A}\Sterm{)} \\
+% 	& \Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{S}\Sterm{)}\Sterm{)}
+% 	\Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{S}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} \\
+% 	& \Rightarrow \Sterm{(}\Snterm{S}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} 
+% 	\Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Snterm{V}\Sterm{)}\Sterm{)} \\
+% 	& \Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Snterm{V}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)} 
+% 	 \Rightarrow \Sterm{(}\Snterm{V}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)} \\
+% 	& \Rightarrow \Sterm{(}\Sterm{x}\Sterm{*}\Sterm{(}\Sterm{y}\Sterm{+}\Sterm{z}\Sterm{)}\Sterm{)}
+% \end{align*}\vspace{-1ex}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Rechtsableitungen und Linksableitungen}
+
+Man kann diese speziellen Ableitungen auch ohne den Ableitungsbaum direkt erzeugen:
+\begin{itemize}
+\item \redalert{Linksableitung:} In jedem Ableitungsschritt wird die am weitesten links stehende Variable ersetzt
+\item \redalert{Rechtsableitung:} In jedem Ableitungsschritt wird die am weitesten rechts stehende Variable ersetzt
+\end{itemize}
+\bigskip
+
+Bei CFGs kann jede dieser Strategien jedes erzeugbare Wort generieren\\[1ex]
+(bei Typ-1-Grammatiken im Allgemeinen nicht -- Übung: warum?)
+
+\end{frame}
+
+
+
 \begin{frame}\frametitle{Anwendung Ableitungsbaum}
 
 Der Ableitungsbaum ist von großer praktischer Bedeutung, 
@@ -624,16 +876,14 @@ syntaktische Struktur zu ermitteln}%
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Algorithmische Probleme zu Automaten sind \redalert{Leerheit, Inklusion, Äquivalenz, Universalität, Endlichkeit} und das \redalert{Wortproblem}\\[-0.5ex]
-\scalebox{0.75}{für einige von ihnen sind bei Verwendung von NFAs nur exponentielle Algorithmen bekannt}%
-\bigskip
-
 Wir kennen \redalert{viele Charakterisierungen für reguläre Sprachen}, die man mit zahlreichen Umformungen in Beziehung setzten kann\bigskip
 
 % Die wichtigsten Ideen und Methoden der Vorlesungen zu regulären Sprachen lassen sich auf wenigen Folien zusammenfassen, aber
 % \bigskip
 
 Wörter in \redalert{kontextfreien Sprachen} haben eine interessante innere Struktur, die wir durch \redalert{Ableitungsbäume} darstellen können\bigskip
+
+Bei Typ-2-Grammatiken repräsentieren Ableitungsbäume mehrere mögliche Ableitungen.\bigskip
 
 \anybox{yellow}{
 Offene Fragen:
