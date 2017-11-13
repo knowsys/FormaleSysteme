@@ -12,27 +12,6 @@
 
 \maketitle
 
-\sectionSlideNoHandout{Rückblick}
-
-\begin{frame}\frametitle{Zusammenfassung}
-
-Einige wichtige Probleme für Automaten:\bigskip
-
-\begin{tabular}{@{}rll@{}}
-\emph{Problem} & \emph{Fragestellung} & \emph{Komplexität} \\[1ex]
-Leerheit & $\Slang{L}(\Smach{M})\stackrel{?}{=}\emptyset$  & polynomiell\\[1ex]
-Inklusion & $\Slang{L}(\Smach{M}_1)\stackrel{?}{\subseteq}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_2$ DFA\\[-0.5ex]
-	& & exponentiell falls $\Smach{M}_2$ NFA\\[1ex]
-Äquivalenz & $\Slang{L}(\Smach{M}_1)\stackrel{?}{=}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_1$ und $\Smach{M}_2$ DFA\\[-0.5ex]
-	& & exponentiell falls $\Smach{M}_1$ oder $\Smach{M}_2$ NFA\\[1ex]
-Wortproblem & $w\stackrel{?}{\in}\Slang{L}(\Smach{M})$  & polynomiell\\[1ex]
-Universalität & $\Slang{L}(\Smach{M})\stackrel{?}{=}\Sigma^*$  & polynomiell falls $\Smach{M}$ DFA\\[-0.5ex]
-	& & exponentiell falls $\Smach{M}$ NFA\\[1ex]
-Endlichkeit & $\Slang{L}(\Smach{M})$ endlich? & polynomiell 
-\end{tabular}
-
-\end{frame}
-
 % \sectionSlide{Viereinhalb Wochen\\reguläre Sprachen}
 
 \frame{\begin{center}
@@ -183,7 +162,7 @@ Die \alert{Sprache eines Automaten} haben wir auf zwei Arten definiert
 \begin{frame}\frametitle{Umformungsalgorithmen (1)}
 
 \begin{tabular}{@{}rll@{}}
-\emph{Eingabe} & \emph{Ausgabe} & \emph{V.} \\
+\emph{Eingabe} & \emph{Ausgabe} & \emph{Vorlesung} \\
 kontextfreie Grammatik & $\epsilon$-freie kontextfreie Grammatik & 2\\
 DFA $\Smach{M}$ & totaler DFA $\Smach{M}_{\text{total}}$ & 3\\
 DFA $\Smach{M}$ & reguläre Grammatik $G_{\Smach{M}}$ & 3\\
@@ -199,7 +178,7 @@ $\epsilon$-NFA $\Smach{M}$ & NFA $\textsf{elim}_\epsilon(\Smach{M})$ & 5
 \begin{frame}\frametitle{Umformungsalgorithmen (2)}
 
 \begin{tabular}{@{}rll@{}}
-\emph{Eingabe} & \emph{Ausgabe} & \emph{V.} \\
+\emph{Eingabe} & \emph{Ausgabe} & \emph{Vorlesung} \\
 NFAs $\Smach{M}_1$, $\Smach{M}_2$ & Vereinigungs-NFA $\Smach{M}_1\oplus\Smach{M}_2$ & 5\\
 NFAs/DFAs $\Smach{M}_1$, $\Smach{M}_2$ & Produkt-NFA/DFA $\Smach{M}_1\otimes\Smach{M}_2$ & 5\\
 totaler DFA $\Smach{M}$ & Komplement-DFA $\overline{\Smach{M}}$ & 5\\
@@ -238,6 +217,24 @@ Die Menge der regulären Sprachen ist \ldots
 
 Alle endlichen Sprachen sind regulär (aber nicht umgekehrt)\\
 Alle regulären Sprachen erlauben Pumping (aber nicht umgekehrt)
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Probleme für endliche Automaten}
+
+\begin{tabular}{@{}rll@{}}
+\emph{Problem} & \emph{Fragestellung} & \emph{Komplexität} \\[1ex]
+Leerheit & $\Slang{L}(\Smach{M})\stackrel{?}{=}\emptyset$  & polynomiell\\[1ex]
+Inklusion & $\Slang{L}(\Smach{M}_1)\stackrel{?}{\subseteq}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_2$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}_2$ NFA\\[1ex]
+Äquivalenz & $\Slang{L}(\Smach{M}_1)\stackrel{?}{=}\Slang{L}(\Smach{M}_2)$  & polynomiell falls $\Smach{M}_1$ und $\Smach{M}_2$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}_1$ oder $\Smach{M}_2$ NFA\\[1ex]
+Wortproblem & $w\stackrel{?}{\in}\Slang{L}(\Smach{M})$  & polynomiell\\[1ex]
+Universalität & $\Slang{L}(\Smach{M})\stackrel{?}{=}\Sigma^*$  & polynomiell falls $\Smach{M}$ DFA\\[-0.5ex]
+	& & exponentiell falls $\Smach{M}$ NFA\\[1ex]
+Endlichkeit & $\Slang{L}(\Smach{M})$ endlich? & polynomiell 
+\end{tabular}
 
 \end{frame}
 
