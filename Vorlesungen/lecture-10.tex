@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{14. November 2016}
+\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{13. November 2017}
 
 \begin{document}
 
@@ -94,7 +94,7 @@ Auch hier liefert die Umkehrung gute Kriterien, z.B.
 \theobox{Satz: Wenn $\Slang{L}_1$ regulär und $\Slang{L}_1\cap \Slang{L}_2$ nicht regulär ist, dann ist
 $\Slang{L}_2$ ebenfalls nicht regulär.}\medskip\pause
 
-\examplebox{Beispiel: Wir betrachten über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ die Sprache $\Slang{L}=\{w\mid w\text{ enthält ebenso viele $\Sterm{a}$ wie $\Sterm{b}$}\}$.
+\examplebox{Beispiel: Wir betrachten über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ die Sprache\\ $\Slang{L}=\{w\mid w\text{ enthält ebenso viele $\Sterm{a}$ wie $\Sterm{b}$}\}$.
 \medskip
 
 \only<3->{Dann gilt $\Slang{L}\cap \{\Sterm{a}\}^*\{\Sterm{b}\}^* = \{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$.
@@ -162,7 +162,7 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 
 \pause
 \emph{Beweis:} Sei $\Smach{M}$ ein DFA für $\Slang{L}$ mit $|Q|$ Zuständen. \pause
-Wir wählen $n=|Q|+1$. \pause Ein akzeptierender Lauf für ein beliebiges Wort $z$ mit $|z|=\ell\geq n$
+Wir wählen $n=|Q|+1$.\\\pause Ein akzeptierender Lauf für ein beliebiges Wort $z$ mit $|z|=\ell\geq n$
 muss in den ersten $n$ Schritten einen Zustand $p$ zweimal besuchen (sagen wir: nach $i$ und $j$ Schritten),
 hat also die Form:
 % Es gibt also Zahlen mit $0\leq i<j\leq n$ für die der Lauf folgende Form hat:
@@ -170,7 +170,7 @@ hat also die Form:
 %
 \[ q_0 \gstackrel{z_1}{\to}q_1\gstackrel{z_2}{\to}\!\ldots\!\gstackrel{z_{i-1}}{\to}q_{i-1}\gstackrel{z_i}{\to} p\bstackrel{z_{i+1}}{\to} q_{i+1}\bstackrel{z_{i+2}}{\to}\!\ldots\!\bstackrel{z_{j-1}}{\to}q_{j-1}\bstackrel{z_j}{\to} p \rstackrel{z_{j+1}}{\to}q_{j+1}\rstackrel{z_{j+2}}{\to}\!\ldots\!\rstackrel{z_\ell}{\to}q_\ell\]
 %
-\pause Die gesuchte Zerlegung ist $u\,{=}\,\textcolor{darkgreen}{z_1\cdots z_i}$, $v\,{=}\,\textcolor{darkblue}{z_{i+1}\cdots z_{j}}$, $w\,{=}\,\textcolor{darkred}{z_{j+1}\cdots z_\ell}$. \pause
+\pause Die gesuchte Zerlegung ist $u\,{=}\,\textcolor{darkgreen}{z_1\cdots z_i}$, $v\,{=}\,\textcolor{darkblue}{z_{i+1}\cdots z_{j}}$, $w\,{=}\,\textcolor{darkred}{z_{j+1}\cdots z_\ell}$.\\ \pause
 Der Lauf $(q_0\ldots q_{i-1} p) (q_{i+1}\ldots q_{j-1}p)^k (q_{j+1}\ldots q_\ell)$ akzeptiert $uv^k w$.
 % 
 % Akzeptierende Läufe für $uv^k w$.
@@ -344,7 +344,7 @@ Das Leerheitsproblem ist leicht zu lösen:
 \emph{Beweis:} Leehrheit = "`Es gibt keinen von einem Startzustand aus erreichbaren Endzustand"'
 \bigskip
 
-Erreichbarkeit von Endzuständen kann mithilfe von Graphalgorithmen zur Erreichbarkeitspräfung (Breadth-First-Search, Depth-First-Search, \ldots) getestet werden. Einfache Algorithmen laufen in $O(|Q|\times |\delta|)$, wobei $|\delta|$ die Zahl der Zustände und $|\delta|$ die Gesamtzahl der Kanten im Graph des Automaten ist.\qed
+Erreichbarkeit von Endzuständen kann mithilfe von Graphalgorithmen zur Erreichbarkeitspräfung (Breadth-First-Search, Depth-First-Search, \ldots) getestet werden. Einfache Algorithmen laufen in $O(|Q|\times |\delta|)$, wobei $|Q|$ die Zahl der Zustände und $|\delta|$ die Gesamtzahl der Kanten im Graph des Automaten ist.\qed
 
 \end{frame}
 
@@ -404,7 +404,7 @@ Wie aufwändig ist es, $\Slang{L}(\Smach{M}_1\otimes\overline{\Smach{M}_2})=\emp
 \begin{itemize}
 \item in exponentieller Zeit entschieden werden
 \item in polynomieller Zeit entschieden werden, wenn $\Smach{M}_2$ DFA ist
-\end{itemize}}
+\end{itemize}}\pause
 % 
 % \theobox{Satz: Für DFAs $\Smach{M}_1$ und $\Smach{M}_2$ kann $\Slang{L}(\Smach{M}_1)\subseteq\Slang{L}(\Smach{M}_2)$ in polynomieller Zeit entschieden werden.}
 % 
@@ -416,7 +416,7 @@ Wie aufwändig ist es, $\Slang{L}(\Smach{M}_1\otimes\overline{\Smach{M}_2})=\emp
 \item Es ist bisher nicht bewiesen, dass es im NFA-Fall keinen besseren Algorithmus gibt
 \item Ergebnisse aus der Komplexitätstheorie legen das aber nahe\\[-1ex]
 {\tiny \textcolor{devilscss}{(das Problem ist PSpace-vollständig)}}
-\item Obwohl der Worst Case exponentiell ist, gibt es deutlich bessere praktische Algorithmen
+\item Obwohl der Worst Case bei jedem bekannten Verfahren exponentiell ist, gibt es praktische Algorithmen, die in vielen Fällen deutlich besser sind als das obige
 \end{itemize}
 
 \end{frame}
@@ -434,7 +434,7 @@ Das \redalert{Äquivalenzproblem} für FAs über Alphabet $\Sigma$ besteht darin
 Anfrageoptimierung in Graphdatenbanken
 \begin{itemize}
 \item Graphdatenbanken erlauben die Suche nach Pfaden, die regulären Ausdrücken entsprechen
-\item einmal berechnete Ergebnisse werden zwischengespeichert (Cache)
+\item Einmal berechnete Ergebnisse werden zwischengespeichert (Cache)
 \item Äquivalenztest: Prüfe, ob eine gecachete Anfrage äquivalent zu einer neu eingehenden Anfrage ist
 \end{itemize}
 
@@ -469,7 +469,7 @@ Auch hier ist nicht bekannt, ob es für den Worst Case effizientere Algorithmen 
 % \emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(\Smach{M})$ und "`nein"' wenn $w\notin\Slang{L}(\Smach{M})$
 % }
 
-\theobox{Das Wortproblem für DFAs kann in polynomieller Zeit entschieden werden.}\pause
+\theobox{Satz: Das Wortproblem für DFAs kann in polynomieller Zeit entschieden werden.}\pause
 
 \emph{Beweis:} Es genügt, den DFA für $|w|$ Schritte zu simulieren und zu prüfen, ob danach ein
 Endzustand erreicht ist. Die Berechnung von $\delta(q,\Sterm{a})$ ist in
@@ -478,10 +478,11 @@ polynomieller Zeit möglich -- die Details hängen davon ab, wie genau $\Smach{M
 
 \bigskip
 
-\theobox{Das Wortproblem für reguläre Sprachen kann in linearer Zeit $O(|w|)$ entschieden werden.}\pause
+\theobox{Satz: Das Wortproblem für reguläre Sprachen kann in linearer Zeit $O(|w|)$ entschieden werden.}\pause
 
-\emph{Beweis:} Man kann den DFA als gegeben annehmen, so dass die Berechnung von $\delta(q,\Sterm{a})$ in 
-konstanter Zeit erfolgen kann. Die Simulation benötigt daher insgesamt $|w|$ Rechenschritte.\qed
+\emph{Beweis:} Man kann den DFA als gegebenen Bestandteil des Problems annehmen, der nicht Teil der Eingabe ist.
+Die Berechnung von $\delta(q,\Sterm{a})$ kann daher in
+konstanter Zeit erfolgen kann (die Zeit hängt vom Automaten ab, aber nicht von der Eingabe). Die Simulation benötigt daher insgesamt $|w|$ Rechenschritte.\qed
 
 \end{frame}
 
@@ -489,9 +490,9 @@ konstanter Zeit erfolgen kann. Die Simulation benötigt daher insgesamt $|w|$ Re
 
 Was tun, wenn ein NFA gegeben ist?\pause
 \begin{enumerate}[{Variante} 1:]
-\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\\pause
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion),\\ Wortproblem für DFA lösen}\\\pause
 	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß\pause
-\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+\item \alert{NFA direkt mit Zustandsmengen simulieren\\ (vergleichbar "`on-the-fly Version von Variante 1"')}\\
 	\onslide<0>{Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
 	Vereinigung linear vieler $\delta$-Ergebnismengen}
 \onslide<0>{
@@ -528,9 +529,9 @@ sofern $\Smach{M}$ "`vernünftig"' kodiert wird
 
 Was tun, wenn ein NFA gegeben ist?
 \begin{enumerate}[{Variante} 1:]
-\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion),\\ Wortproblem für DFA lösen}\\
 	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß
-\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+\item \alert{NFA direkt mit Zustandsmengen simulieren\\ (vergleichbar "`on-the-fly Version von Variante 1"')}\\
 	Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
 	Vereinigung linear vieler $\delta$-Ergebnismengen\pause
 \item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
@@ -578,9 +579,9 @@ Der Automat $\Smach{M}_w$ für $w=\sigma_1\cdots\sigma_{|w|}$ ist leicht gefunde
 
 Was tun, wenn ein NFA gegeben ist?
 \begin{enumerate}[{Variante} 1:]
-\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}\\
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion),\\ Wortproblem für DFA lösen}\\
 	Exponentieller Algorithmus: Potenzmengen-DFA ist exponentiell groß
-\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}\\
+\item \alert{NFA direkt mit Zustandsmengen simulieren\\ (vergleichbar "`on-the-fly Version von Variante 1"')}\\
 	Polynomieller Algorithmus: Zustandsmengen sind von linearer Größe; Berechnung der Nachfolgemenge als
 	Vereinigung linear vieler $\delta$-Ergebnismengen
 \item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
@@ -594,8 +595,8 @@ $\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}\\
 \begin{frame}[t]\frametitle{Wortproblem für NFAs -- Komplexität}
 
 \begin{enumerate}[{Variante} 1:]
-\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion), Wortproblem für DFA lösen}
-\item \alert{NFA direkt mit Zustandsmengen simulieren (vergleichbar "`on-the-fly Version von Variante 1"')}
+\item \alert{NFA in DFA umwandeln (Potenzmengenkonstruktion),\\ Wortproblem für DFA lösen}
+\item \alert{NFA direkt mit Zustandsmengen simulieren\\ (vergleichbar "`on-the-fly Version von Variante 1"')}
 \item \alert{Konstruiere einen DFA $\Smach{M}_w$ mit $\Slang{L}(\Smach{M}_w)=\{w\}$ und prüfe ob
 $\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}
 \end{enumerate}
