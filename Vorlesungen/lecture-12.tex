@@ -162,7 +162,7 @@ Falls $S\notin V_\epsilon$, dann verwenden wir einfach $S'\defeq S$ als Startsym
 \end{enumerate}
 {\footnotesize(Schritt (2) wird wiederholt, bis keine Änderungen mehr auftreten.)}
 \item Die Produktionsregeln von $G'$ sind:
- \[P' = \bigcup_{A\in V}\Big\{ A\to w\mid \text{es gibt }B\to w\in P\text{ mit }w\notin V\text{ und }B\in E(A)\Big\}\qed\]
+ \[P' = \bigcup_{A\in V}\Big\{ A\to w\mid \text{es gibt }B\to w\in P\text{ mit }w\notin V\text{ und }B\in E(A)\Big\}\hspace{1cm}\qed\]
 %   = \bigcup_{A\in V} \bigcup_{B\in E(A)} \bigcup_{B\to w\in G\setminus G_{\text{KR}}}\{A\to w\}
 \end{itemize}
 
@@ -179,7 +179,7 @@ Grammatik $G$ mit Kettenregeln:
 \Snterm{V} &\to \Sterm{x}\mid\Sterm{y}\mid\Sterm{z}
 \end{align*}\vspace{-1ex}\pause
 
-\codebox{\vspace{-2ex}%
+\codebox{\vspace{0ex}%
 \[P' = \bigcup_{A\in V}\Big\{ A\to w\mid \text{es gibt }B\to w\in P\text{ mit }w\notin V\text{ und }B\in E(A)\Big\}\]
 }\pause
 
@@ -208,7 +208,7 @@ Eine verbreitete Variante bei der Eliminierung von Kettenregeln, die sich in man
 \begin{itemize}
 \item Entferne zunächst zyklische Kettenregeln, d.h. Zyklen der Form
 $B_1\to B_2, B_2\to B_3,\ldots, B_{n-1}\to B_n,B_n\to B_1$
-\item Solche Zyklen kann man algorithmisch leicht finden {\footnotesize(abgewandelte Version der Berechnung erreichbarer Variablen)}
+\item Solche Zyklen kann man algorithmisch leicht finden\\ {\footnotesize(abgewandelte Version der Berechnung erreichbarer Variablen)}
 \item Man kann in diesem Fall alle am Zyklus beteiligten Kettenregeln löschen und alle $B_2,\ldots,B_n$ in den übrigen Regeln durch $B_1$ ersetzten
 \end{itemize}
 
@@ -231,7 +231,7 @@ Für die algorithmische Verarbeitung kontextfreier Grammatiken ist die folgende 
 \theobox{Beobachtung: Ist CFG in Chomsky-Normalform, so gilt $\epsilon\notin\Slang{L}(G)$.}
 
 \begin{enumerate}[$\leadsto$]
-\item Grammatiken, deren Sprache das leere Wort enthalten, können sicher nicht in CNF sein
+\item Grammatiken, deren Sprache das leere Wort enthalten,\\ können sicher nicht in CNF sein
 \item Aber wie wir wissen, gibt es in $\epsilon$-freien CFGs ohnehin höchstens eine Regeln $S\to\epsilon$
 \item Dieser Sonderfall kann in Algorithmen leicht berücksichtigt \ghost{werden}
 \item Wir verzichten darauf, die CNF dafür noch zu erweitern
@@ -550,25 +550,191 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
-% \begin{frame}\frametitle{Komplexität}
-% 
-% \alert{Wie komplex ist der CYK-Algorithmus?}
-% \begin{itemize}
-% \item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
-% \item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
-% \begin{itemize}
-% \item polynomiell bezüglich der Größe der Grammatik
-% \item konstant wenn die Grammatik vorher bekannt und fest ist
-% \end{itemize}
-% \end{itemize}\bigskip
-% 
-% \theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
-% 
-% \emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
-% im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
-% $w=\epsilon$ gesondert testen.
-% 
-% \end{frame}
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	& \cellcolor{purple!20}  &   &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	& \cellcolor{purple!40}  &   &   &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	& \cellcolor{purple!60}  &   &   \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	& \cellcolor{purple!80}  &  \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	& \cellcolor{purple!100}  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}   & \cellcolor{purple!60}  & \cellcolor{purple!80}  \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}  &  \cellcolor{purple!60} \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  & \cellcolor{purple!20}   & \cellcolor{purple!40}  \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!20}  \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	&  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  & \cellcolor{purple!20}  &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	&  & \cellcolor{purple!40}  &   &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  & \cellcolor{purple!60}  &   \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!80} \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	&  \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Bezug zur Tabelle}
+
+\scalebox{0.7}{%
+\begin{minipage}{8cm}\codebox{
+\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$,\\
+\hspace{2cm}CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+%
+% Grundfall:\\
+\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endind. $-$ Startind.}\\
+~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+~~~~~~$j\defeq i+d$\\
+~~~~~~$V[i,j]\defeq \emptyset$\\
+\ghost{\hspace{8.3cm}{\huge$\Leftarrow$}
+\begin{tabular}{c|c|c|c|c|c|}
+%  \multicolumn{1}{c}{}  & \multicolumn{1}{c}{A} & \multicolumn{1}{c}{B} & \multicolumn{1}{c}{C} & \multicolumn{1}{c}{D}  \\\cline{2-5}
+\cline{2-6}
+\Sterm{a}
+	&  &   &   &   &   \\\cline{2-6}
+\MEC{\Sterm{+}} &  
+	& \cellcolor{purple!20} & \cellcolor{purple!50}  & \cellcolor{purple!80}  &   \\\cline{3-6}
+ \MEC{\Sterm{b}} &\MEC{}   &
+	&  &   &  \cellcolor{purple!20} \\\cline{4-6}
+ \MEC{\Sterm{*}} &\MEC{}   &\MEC{}   &   
+	&  & \cellcolor{purple!50} \\\cline{5-6}
+ \MEC{\Sterm{c}} &\MEC{}   &\MEC{}   &\MEC{}   &
+	& \cellcolor{purple!80} \\\cline{6-6}
+ \MEC{}          &\MEC{\Sterm{a}} & \MEC{\Sterm{+}} & \MEC{\Sterm{b}} & \MEC{\Sterm{*}} & \MEC{\Sterm{c}}
+\end{tabular}
+}%
+~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+~~~~~~~~~$V[i,j]\defeq V[i,j]\cup{}$\\
+~~~~~~~~~\hspace{1.4cm}$\{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+~~~~~~~~~\hspace{2cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+}\end{minipage}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Komplexität}
+
+\alert{Wie komplex ist der CYK-Algorithmus?}
+\begin{itemize}
+\item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
+\item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
+\begin{itemize}
+\item polynomiell bezüglich der Größe der Grammatik
+\item konstant wenn die Grammatik vorher bekannt und fest ist
+\end{itemize}
+\end{itemize}\bigskip
+
+\theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+
+\emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
+im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
+$w=\epsilon$ gesondert testen.
+
+\end{frame}
+
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
@@ -576,6 +742,7 @@ Jede Typ-2-Grammatik kann in eine äquivalente Grammatik in \redalert{Chomsky-No
 \bigskip
 
 Mithilfe des \redalert{CYK-Algorithmus} ist das Wortproblem für kontextfreie Sprachen in polynomieller Zeit lösbar
+\bigskip
 
 \anybox{yellow}{
 Offene Fragen:
