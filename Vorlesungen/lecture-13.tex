@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{24. November 2016}
+\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{23. November 2017}
 
 \begin{document}
 
@@ -136,28 +136,28 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
+% \begin{frame}\frametitle{Der CYK-Algorithmus}
+% 
+% \codebox{
+% \emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$, CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
+% \emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
+% %
+% % Grundfall:\\
+% \emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
+% ~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
+% \emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endindex $-$ Startindex}\\
+% ~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
+% ~~~~~~$j\defeq i+d$\\
+% ~~~~~~$V[i,j]\defeq \emptyset$\\
+% ~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
+% ~~~~~~~~~$V[i,j]\defeq V[i,j]\cup \{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
+% ~~~~~~~~~\hspace{3.8cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
+% \emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
+% }
+% 
+% \end{frame}
+
 \begin{frame}\frametitle{Der CYK-Algorithmus}
-
-\codebox{
-\emph{Eingabe:} Wort $w=\Sterm{a_1}\cdots\Sterm{a_n}$, CNF-Grammatik $G=\tuple{V,\Sigma,P, \Snterm{S}}$\\
-\emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(G)$; sonst "`nein"'\\[1ex]
-%
-% Grundfall:\\
-\emph{for} $i=1,\ldots,n$:~~~\textcolor{devilscss}{// Teilwörter der Länge 1}\\
-~~~$V[i,i]\defeq \{\Snterm{A}\in V\mid \Snterm{A}\to\Sterm{a_i}\in P\}$\\[2ex]
-\emph{for} $d=1,\ldots,n-1$:~~~\textcolor{devilscss}{// Differenz Endindex $-$ Startindex}\\
-~~~\emph{for} $i=1,\ldots,n-d$:~~~\textcolor{devilscss}{// Startindex}\\
-~~~~~~$j\defeq i+d$\\
-~~~~~~$V[i,j]\defeq \emptyset$\\
-~~~~~~\emph{for} $k=i,\ldots,j-1$:~~~\textcolor{devilscss}{// Trennindex}\\
-~~~~~~~~~$V[i,j]\defeq V[i,j]\cup \{\Snterm{A}\in V\mid \text{es gibt }\Snterm{A}\to\Snterm{B}\Snterm{C}\in P\text{ mit}$\\
-~~~~~~~~~\hspace{3.8cm}$\Snterm{B}\in V[i,k]\text{ und }\Snterm{C}\in V[k+1,j]\}$\\[2ex]
-\emph{return} $\Snterm{S}\in V[1,n]$ \emph{?} "`ja"' \emph{:} "`nein"'
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Bezug zur Tabelle}
 
 \scalebox{0.7}{%
 \begin{minipage}{8cm}\codebox{
@@ -198,7 +198,7 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
-\begin{frame}\frametitle{Bezug zur Tabelle}
+\begin{frame}\frametitle{Der CYK-Algorithmus}
 
 \scalebox{0.7}{%
 \begin{minipage}{8cm}\codebox{
@@ -239,7 +239,7 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
-\begin{frame}\frametitle{Bezug zur Tabelle}
+\begin{frame}\frametitle{Der CYK-Algorithmus}
 
 \scalebox{0.7}{%
 \begin{minipage}{8cm}\codebox{
@@ -281,7 +281,7 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 \end{frame}
 
 
-\begin{frame}\frametitle{Bezug zur Tabelle}
+\begin{frame}\frametitle{Der CYK-Algorithmus}
 
 \scalebox{0.7}{%
 \begin{minipage}{8cm}\codebox{
@@ -322,25 +322,25 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 
 \end{frame}
 
-\begin{frame}\frametitle{Komplexität}
-
-\alert{Wie komplex ist der CYK-Algorithmus?}
-\begin{itemize}
-\item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
-\item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
-\begin{itemize}
-\item polynomiell bezüglich der Größe der Grammatik
-\item konstant wenn die Grammatik vorher bekannt und fest ist
-\end{itemize}
-\end{itemize}\bigskip
-
-\theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
-
-\emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
-im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
-$w=\epsilon$ gesondert testen.
-
-\end{frame}
+% \begin{frame}\frametitle{Komplexität}
+% 
+% \alert{Wie komplex ist der CYK-Algorithmus?}
+% \begin{itemize}
+% \item Drei geschachtelte Schleifen mit Lauflänge $O(|w|)$
+% \item Operationen für Zugriff auf Grammatik und Teilmengen von $V$:%
+% \begin{itemize}
+% \item polynomiell bezüglich der Größe der Grammatik
+% \item konstant wenn die Grammatik vorher bekannt und fest ist
+% \end{itemize}
+% \end{itemize}\bigskip
+% 
+% \theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+% 
+% \emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
+% im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
+% $w=\epsilon$ gesondert testen.
+% 
+% \end{frame}
 
 \newcommand{\colcell}[2]{\only<#1|handout:0>{\cellcolor{#2}}}
 
@@ -428,7 +428,7 @@ Wort:\\[1ex] $w=\Sterm{ababababa}$\\
  \MEC{\Sterm{a}} &\MEC{}   &\MEC{}   &\MEC{}   &\MEC{}  &\MEC{} &\MEC{} &\MEC{}&
 									& \upcell{11}{\Snterm{S},\Snterm{A}}\colcell{56,57}{purple!80} \\\cline{10-10}
 \end{tabular}}\\
-\ghost{\visible<58->{\raisebox{0.5cm}{\hspace{1.5cm}$S\in V[1,9]$ $\leadsto$ {$w$ kann erzeugt werden}}}}
+\ghost{\visible<58->{\raisebox{0.5cm}{\hspace{3.0cm}$S\in V[1,9]$ $\leadsto$ {$w$ kann erzeugt werden}}}}
 
 \end{frame}
 
@@ -457,7 +457,7 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip\pause
 
@@ -483,7 +483,7 @@ Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i
 \emph{Grundidee beim kontextfreien Pumping Lemma:}
 \begin{itemize}
 \item Grammatiken haben nur endlich viele Variablen
-\item Also muss beim Generieren langer Wörter eine Variable zu etwas expandiert werden, was diese Variable nochmal enthält\ghost{:}\\
+\item Also muss beim Generieren langer Wörter eine Variable zu etwas expandiert werden, das diese Variable nochmal enthält\ghost{:}\\
 	\narrowcentering{$\Snterm{S}\Rightarrow\ldots\Rightarrow u\,\underline{\Snterm{A}}\,y \Rightarrow u\,\underline{z}\,y \Rightarrow\ldots\Rightarrow u\,\underline{v\Snterm{A}x}\,y \Rightarrow \ldots \Rightarrow u\,\underline{vwx}\,y$}
 \item Also gibt es eine Schleife, die man beliebig oft durchlaufen kann
 \end{itemize}
@@ -734,8 +734,8 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (4)}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uwy$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uwy$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -794,8 +794,8 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (5)}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvwxy$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uvwxy$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -865,8 +865,8 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (6)}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvvwxxy$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uvvwxxy$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -947,8 +947,8 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (7)}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uvvvwxxxy$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uvvvwxxxy$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -1040,8 +1040,8 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[fragile,t]\frametitle{Ableitungsbäume aufpumpen (4+$k$)}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -1145,7 +1145,7 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip
 
@@ -1173,7 +1173,7 @@ Offene Fragen:
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip
 
@@ -1244,7 +1244,7 @@ Wenn man einen Ableitungsbaum in $G$ findet, der die Form
 \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
 %
 % \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
-\end{tikzpicture}}} \\hat, dann muss der obere \Snterm{A}-Knoten genau zwei Kinder haben (wie jeder innere Knoten in CNF).
+\end{tikzpicture}}} \hspace{1.35cm}hat, dann muss der obere \Snterm{A}-Knoten genau zwei Kinder haben (wie jeder innere Knoten in CNF).
 Da CNF-Grammatiken $\epsilon$-frei sind, führt jeder Kindknoten zu einem nichtleeren Teilwort.
 Daher muss entweder $v$ oder $x$ mindestens ein Symbol enthalten, d.h. $|vx|\geq 1$.
 % Diese Fragen sind einfacher zu beantworten, wenn man eine Grammatik in CNF annimmt!
@@ -1258,7 +1258,7 @@ Daher muss entweder $v$ oder $x$ mindestens ein Symbol enthalten, d.h. $|vx|\geq
 % Für jede kontextfreie Sprache $\Slang{L}$\\
 % gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 % ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-% ~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+% ~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 % ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 % }\medskip
 
@@ -1291,7 +1291,7 @@ Jeder Ableitungsbaum in $G$ ist ein Binärbaum (bis auf die letzte Ebene, wo Var
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip
 
@@ -1321,7 +1321,7 @@ $|V|$ Schritte von der vorletzten Ebene (d.h. der letzten im inneren Binärbaum)
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
-~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, s.d.:\\
+~~gibt es eine Zerlegung $z=uvwxy$ mit $|vx|\geq 1$ und $|vwx|\leq n$, so dass:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip
 
@@ -1363,8 +1363,8 @@ hat $uv^2wx^2y$ mehr $\Sterm{a}$ oder $\Sterm{b}$ als $\Sterm{c}$. Also ist $uv^
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Der \redalert{CYK-Algorithmus} ist von kubischer Komplexität.
-\bigskip
+% Der \redalert{CYK-Algorithmus} ist ein wichtiger Teil des Vorlesungsstoffes.
+% \bigskip
 
 Das \redalert{Pumping-Lemma für kontextfreie Sprachen} beruht auf der Ausnutzung von Schleifen in Ableitungen einer CNF-Grammatik
 \bigskip
