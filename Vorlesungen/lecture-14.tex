@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{14}{Abschlusseigenschaften kontextfreier Sprachen}{28. November 2016}
+\defineTitle{14}{Abschlusseigenschaften kontextfreier Sprachen}{27. November 2017}
 
 \begin{document}
 
@@ -34,8 +34,8 @@ Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i
 \begin{frame}[t]\frametitle{Ableitungsbäume aufpumpen}
 
 \vspace{-1ex}
-\ghost{\hspace{7.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
-\ghost{\hspace{7.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.5cm}{Abgeleitetes Wort:}}%
+\ghost{\hspace{9.5cm}\raisebox{-6.9cm}{$uv^kwx^ky$}}%
 Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 
 \narrowcentering{%
@@ -542,14 +542,14 @@ $G_1$ sei die Grammatik mit der einen Regel $\Sntermsub{S}{1}\to \Sterm{a}$
 und $G_2$ die Grammatik mit den Regeln $\Sntermsub{S}{2}\to \Sterm{b}$ und 
 $\Sterm{a}\Sntermsub{S}{2}\to \Sterm{c}$.\medskip
 
-Dann ist $\Slang{L}(G_1)=\{\Sterm{a}\}$ und $\Slang{L}(G_2)=\{\Sterm{b}\}$. 
+Dann ist $\Slang{L}(G_1)=\{\Sterm{a}\}$ und $\Slang{L}(G_2)=\{\Sterm{b}\}$. \\
 Trotzdem erlaubt $G_1\circ G_2$ die Ableitung
 $\Snterm{S}\Rightarrow \Sntermsub{S}{1}\Sntermsub{S}{2}\Rightarrow \Sterm{a}\Sntermsub{S}{2}\Rightarrow \Sterm{c}$.
 }\pause
 
 Korrekt ist dagegen:
 
-\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$. Zudem ist $G_1\circ G_2$ in diesem Fall kontextfrei.}
+\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$.\\ Zudem ist $G_1\circ G_2$ in diesem Fall kontextfrei.}
 
 \emph{Beweis:} siehe Tafel.\medskip
 
@@ -611,7 +611,7 @@ G^*:\qquad \Snterm{S}' &\to \epsilon\mid\Snterm{S}\Snterm{S}' & \Snterm{S} &\to 
 Wie schon beim Konkatenation funktioniert diese Operation auf kontextfreien Grammatiken wie
 erwünscht:
 
-\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$. Zudem ist $G^*$ in diesem Fall kontextfrei.}
+\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$.\\ Zudem ist $G^*$ in diesem Fall kontextfrei.}
 
 \emph{Beweis:} siehe Tafel.
 \medskip\pause
@@ -619,7 +619,8 @@ erwünscht:
 Für nicht kontextfreie Grammatiken gilt dieser Satz im Allgemeinen nicht:
 
 \examplebox{Beispiel: Die (kontextsensitive) Grammatik $G$ mit der einen Regel $\Snterm{S}\Snterm{S}\to \Sterm{0}$
-kann nichts hervorbringen. Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
+kann nichts hervorbringen.\\
+Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
 \[ \Snterm{S}'\Rightarrow \Snterm{S}\Snterm{S}\Rightarrow \Sterm{0}\]
 }
 
@@ -714,13 +715,13 @@ Die Behauptung folgt unmittelbar aus dem bereits gezeigten\pause:
 \begin{frame}\frametitle{Eine Warnung zum Nicht-Abschluss}
 
 \begin{center}
-\redalert{Nicht-Abschluss unter Schnitt und Komplement bedeutet nicht, dass Schnitte bzw. Komplemente kontextfreier Sprachen grundsätzlich nicht kontextfrei sein können.}
+\redalert{Nicht-Abschluss unter Schnitt und Komplement bedeutet nicht, dass Schnitte bzw.\ Komplemente kontextfreier Sprachen grundsätzlich nicht kontextfrei sein können.}
 \end{center}\pause
 
 \examplebox{Beispiel: Alle regulären Sprachen sind kontextfrei, aber ihre Schnitte und Komplemente sind
 weiterhin regulär, also auch kontextfrei.}\pause
 
-\examplebox{Beispiel: Das Komplement der nicht-regulären Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ ist
+\examplebox{Beispiel: Das Komplement der nicht-regulären Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ ist
 die Vereinigung der folgenden Sprachen:\\[1ex]
 \narrowcentering{$\Slangsub{L}{1}=\{\Sterm{a},\Sterm{b}\}^*\{\Sterm{ba}\}\{\Sterm{a},\Sterm{b}\}^*$\hfill$\Slangsub{L}{2}=\{\Sterm{a}\}^+ \Slang{L}$\hfill$\Slangsub{L}{3}=\Slang{L}\{\Sterm{b}\}^+$}\\[1ex]
 % 
