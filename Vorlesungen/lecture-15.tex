@@ -1,12 +1,12 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
 \usetikzlibrary{shapes}
 
-\defineTitle{15}{Einleitung Kellerautomaten}{1. Dezember 2016}
+\defineTitle{15}{Einleitung Kellerautomaten}{30. November 2017}
 
 \begin{document}
 
@@ -37,39 +37,6 @@ Ausdrücke keine kontextfreien Sprachen sind:
 \item \mytabnote{$\overline{\Slang{L}}$}{Nichtabschluss unter Komplement}
 \end{enumerate}
 }
-
-\end{frame}
-
-\sectionSlide{Vorschau}
-
-\begin{frame}\frametitle{Plan}
-
-\begin{itemize}
-\item \alert{Grammatiken}
-\item \alert{Reguläre Sprachen}
-\begin{itemize}
-\item DFA und NFA
-\item Umformungen, Abschlusseigenschaften, Minimalisierung
-\item Pumping Lemma
-\end{itemize}
-\item \alert{Kontextfreie Sprachen}
-\begin{itemize}
-\item Wortproblem (CYK)
-\item Pumping Lemma
-\item Kellerautomaten
-\end{itemize}\pause
-\item \alert{Typ 1 und Typ 0}
-\begin{itemize}
-\item Turingmaschinen
-\item (Un)Entscheidbarkeit
-\end{itemize}
-\item \alert{Aussagenlogik}
-\begin{itemize}
-\item Syntax und Semantik
-\item Algorithmen zum logischen Schließen
-\item Die Komplexitätsklasse NP
-\end{itemize}
-\end{itemize}
 
 \end{frame}
 
@@ -186,13 +153,13 @@ Das vorige Beispiel verwendet eine beliebig große \alert{Zahl}.\pause
 \medskip
 
 Im Allgemeinen sind Zahlen aber nicht das sinnvollste Format für die Speicherung der
-Information, die beim Erkennen kontextfreier Sprachen anfallen
+Informationen, die beim Erkennen kontextfreier Sprachen anfallen
 \medskip
 
 \examplebox{Beispiel:
 Die folgende kontextfreie Grammatik erkennt Palindrome über $\Sigma=\{\Sterm{a},\Sterm{b}\}$, deren Mitte mit $\Sterm{c}$ markiert ist:
 \[ \Snterm{S} \to \Sterm{a} \Snterm{S} \Sterm{a} \mid \Sterm{b} \Snterm{S} \Sterm{b}\mid \Sterm{c}\]
-Die Grammatik generiert zum Beispiel die Wörter \Sterm{bacab} und \Sterm{abaabcbaaba}.\medskip
+Die Grammatik generiert zum Beispiel die Wörter \Sterm{abcba} und \Sterm{abaabcbaaba}.\medskip
 
 Diese Sprache ist ebenfalls nicht regulär (Übung).
 }
@@ -309,16 +276,6 @@ wechsle in Zustand $q_2$ und schreibe $\Snterm{D}$ auf den Keller."'
 
 \end{frame}
 
-\begin{frame}\frametitle{Lehrvaluation}
-
-% \huge
-
-\begin{center}
-15min zum Ausfüllen der Fragebögen
-\end{center}
-
-\end{frame}
-
 \begin{frame}\frametitle{Kellerautomaten definieren}
 
 \alert{Übergangsfunktion von Kellerautomaten:}\\
@@ -328,7 +285,7 @@ wechsle in Zustand $q_2$ und schreibe $\Snterm{D}$ auf den Keller."'
 
 \alert{Weitere Designentscheidungen:}
 \begin{itemize}
-\item Wir unterscheiden mögliche Eingabesymbole $\Sigma$ von möglichen Kellersymbolen $\Gamma$ (Gamma)\\
+\item Wir unterscheiden mögliche Eingabesymbole $\Sigma$ von\\möglichen Kellersymbolen $\Gamma$ (Gamma)\\
 % \alert{$\leadsto$ Eingabealphabet $\Sigma$ + Kelleralphabet $\Gamma$ (Gamma)}
 %
 \pause
@@ -352,7 +309,7 @@ $\leadsto$ Übergangsfunktion liefert Menge von Möglichkeiten
 
 \begin{frame}\frametitle{Kellerautomaten}
 
-Zur Vereinfachung der folgenden Definition schreiben wir $\Sigma_\epsilon$ für $\Sigma\cup\{\epsilon\}$ (und analog für $\Gamma_\epsilon$).\bigskip
+Zur Vereinfachung der folgenden Definition schreiben wir $\Sigma_\epsilon$ für $\Sigma\cup\{\epsilon\}$\\ (und analog für $\Gamma_\epsilon$).\bigskip
 
 \defbox{Ein \redalert{Kellerautomat} (international: "`\alert{PDA}"'/"`\alert{Pushdown Automaton}"') 
 \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,Q_0,F}$ mit
@@ -625,6 +582,64 @@ $\tuple{q_s,\Sterm{abba},\epsilon}
 
 \end{frame}
 
+\begin{frame}\frametitle{PDA: Variationen}
+
+Es gibt auch hier viele äquivalente Definitionen\pause
+\begin{itemize}
+\item Ein Startzustand reicht auch aus (Übung: warum?)\pause
+\item Alternative Akzeptanzbedingung: ersetze "`PDA ist in Endzustand"' durch "`PDA hat leeren Keller"'
+(keine Endzustände nötig, dafür manchmal aufwendigere Kodierung)\pause
+% 
+% Statt Endzustände zu verwenden kann man Terminierung von PDAs auch bei leerem Keller erlauben
+\item Die Übergangsfunktion $\delta$ kann auch als Relation $\Delta\subseteq (Q\times\Sigma_\epsilon\times\Gamma_\epsilon)\times (Q\times\Gamma_\epsilon)$ beschrieben werden (wie bei \ghost{NFAs)}\pause
+\item Das Startsymbol des Kellers kann Teil der Definition sein\pause
+\item Man kann erlauben, dass in einem Schritt mehrere Symbole auf den Keller geschrieben werden.
+\\ {\footnotesize \textcolor{devilscss}{Dann kann man auch verlangen, dass in jedem Schritt ein Symbol entnommen wird (\texttt{pop}), da man es bei Bedarf zurücklegen kann}}
+\end{itemize}
+\alert{Jede dieser Varianten führt zur gleichen Ausdrucksstärke}
+
+\end{frame}
+
+\begin{frame}\frametitle{Wörter \texttt{push}en}
+
+Wir können Übergänge der folgenden Form erlauben:\medskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$q_a$};
+\node (b) [circle,draw=black,thick] at (5,0) {$q_b$};
+%
+\path[->,line width=0.5mm](a) edge node[above] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$} (b);
+\end{tikzpicture}}
+\medskip
+
+"`Wenn in Zustand $q_a$ das Zeichen (oder leere Wort) $\sigma$ gelesen wird\\
+und wenn $\Snterm{A}$ oben vom Keller geholt werden kann (\texttt{pop}),\\
+dann wechsle in Zustand $q_b$\\
+und lege die Zeichen $\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$ auf den Keller\\
+(wobei $\Sntermsub{B}{1}$ ganz oben zu liegen kommt)."'
+\medskip\pause
+
+Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
+
+\begin{tikzpicture}[xscale=1.3,baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (1,1.5) {$q_a$};
+\node (n1) [circle,draw=black,thick] at (2,0) {$q_1$};
+\node (n2) [circle,draw=none,thick] at (4,0) {$\cdots$};
+\node (nm1) [circle,draw=black,thick] at (6,0) {$q_{n-1}$};
+\node (b) [circle,draw=black,thick] at (8,0) {$q_b$};
+%
+\path[->,line width=0.5mm](a) edge node[right,yshift=2mm,xshift=-1mm] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{n}$} (n1);
+\path[->,line width=0.5mm](n1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n-1}$} (n2);
+\path[->,line width=0.5mm](n2) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{2}$} (nm1);
+\path[->,line width=0.5mm](nm1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{1}$} (b);
+\end{tikzpicture}
+
+\end{frame}
+
+
 
 \begin{frame}\frametitle{Ausdrucksstärke von PDAs}
 
@@ -643,151 +658,92 @@ Der Beweis erfolgt in zwei Schritten:
 
 \end{frame}
 
-% \begin{frame}\frametitle{PDA: Variationen}
-% 
-% Es gibt auch hier viele äquivalente Definitionen\pause
-% \begin{itemize}
-% \item Ein Startzustand reicht auch aus (Übung: warum?)\pause
-% \item Alternative Akzeptanzbedingung: ersetze "`PDA ist in Endzustand"' durch "`PDA hat leeren Keller"'
-% (keine Endzustände nötig, dafür manchmal aufwendigere Kodierung)\pause
-% % 
-% % Statt Endzustände zu verwenden kann man Terminierung von PDAs auch bei leerem Keller erlauben
-% \item Die Übergangsfunktion $\delta$ kann auch als Relation $\Delta\subseteq (Q\times\Sigma_\epsilon\times\Gamma_\epsilon)\times (Q\times\Gamma_\epsilon)$ beschrieben werden (wie bei \ghost{NFAs)}\pause
-% \item Das Startsymbol des Kellers kann Teil der Definition sein\pause
-% \item Man kann erlauben, dass in einem Schritt mehrere Symbole auf den Keller geschrieben werden.
-% \\ {\footnotesize \textcolor{devilscss}{Dann kann man auch verlangen, dass in jedem Schritt ein Symbol entnommen wird (\texttt{pop}), da man es bei Bedarf zurücklegen kann}}
-% \end{itemize}
-% \alert{Jede dieser Varianten führt zur gleichen Ausdrucksstärke}
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Wörter \texttt{push}en}
-% 
-% Wir können Übergänge der folgenden Form erlauben:\medskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_a$};
-% \node (b) [circle,draw=black,thick] at (5,0) {$q_b$};
-% %
-% \path[->,line width=0.5mm](a) edge node[above] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{1}\cdots\Sntermsub{B}{1}$} (b);
-% \end{tikzpicture}}
-% \medskip
-% 
-% "`Wenn in Zustand $q_a$ das Zeichen (oder leere Wort) $\sigma$ gelesen wird\\
-% und wenn $\Snterm{A}$ oben vom Keller geholt werden kann (\texttt{pop}),\\
-% dann wechsle in Zustand $q_b$\\
-% und lege die Zeichen $\Sntermsub{B}{1}\cdots\Sntermsub{B}{1}$ auf den Keller."'
-% \medskip\pause
-% 
-% Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
-% 
-% \begin{tikzpicture}[xscale=1.3,baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (1,1.5) {$q_a$};
-% \node (n1) [circle,draw=black,thick] at (2,0) {$q_1$};
-% \node (n2) [circle,draw=none,thick] at (4,0) {$\cdots$};
-% \node (nm1) [circle,draw=black,thick] at (6,0) {$q_{n-1}$};
-% \node (b) [circle,draw=black,thick] at (8,0) {$q_b$};
-% %
-% \path[->,line width=0.5mm](a) edge node[right,yshift=2mm,xshift=-1mm] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{1}$} (n1);
-% \path[->,line width=0.5mm](n1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{2}$} (n2);
-% \path[->,line width=0.5mm](n2) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n-1}$} (nm1);
-% \path[->,line width=0.5mm](nm1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n}$} (b);
-% \end{tikzpicture}
-% 
-% \end{frame}
-% 
-% \begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
-% 
-% Wir wollen zunächst eine Richtung zeigen:
-% 
-% \theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\pause\bigskip
-% 
-% \emph{Beweisidee:}
-% \begin{itemize}
-% \item Der PDA simuliert eine Ableitung in der Grammatik
-% \item Der Keller speichert das Zwischenergebnis der Ableitung (Terminale und Nichtterminale), linke Zeichen zuoberst
-% \item Der PDA arbeitet das Zwischenergebnis von links ab:
-% \begin{itemize}
-% \item Terminale werden mit Eingabe verglichen und entfernt
-% \item Nichtterminale werden durch Grammatikregel ersetzt
-% \end{itemize}
-% \item Die Ableitung gelingt, wenn die gesamte Eingabe gelesen werden konnte und der Keller leer ist
-% \end{itemize}
-% 
-% \end{frame}
-% 
-% \begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
-% 
-% Wir wollen zunächst eine Richtung zeigen:
-% 
-% \theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\pause\bigskip
-% 
-% \emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,S}$.
-% Wir definieren einen erweiterten PDA:\bigskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
-% \node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
-% \node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
-% %
-% \path[->,line width=0.5mm](-1,0) edge (a);
-% \path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
-% \path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{A}\mapsto w$ für jede Regel $\Snterm{A}\to w$\\$\Sterm{a},\epsilon\mapsto \Sterm{a}$ für jedes Symbol $\Sterm{a}\in\Sigma$} (b);
-% \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
-% \end{tikzpicture}}
-% 
-% Es sind also\\[1ex]
-% \narrowcentering{$Q=\{q_s, q_l, q_f\}$\hfill $Q_0=\{q_s\}$\hfill $F=\{q_f\}$\hfill  $\Gamma=\Sigma\cup V\cup\{\Snterm{\#}\}$}\\[1ex]
-% % \begin{itemize}
-% % \item $Q=\{q_s, q_l, q_f\}$
-% % \item $Q_0=\{q_s\}$ und $F=\{q_f\}$
-% % \item $\Sigma$ wie in $G$
-% % \item $\Gamma=\Sigma\cup V\cup\{\Snterm{S}\}$
-% % \end{itemize}
-% Durch Entfernen der Wort-\texttt{push}-Operationen wie zuvor gezeigt entsteht der gesuchte PDA $\Smach{P}_G$.
-% \qed
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Beispiel}
-% 
-% Grammatik $\Snterm{S}\to\Sterm{a}\Snterm{S}\Snterm{a}\mid\Sterm{b}\Snterm{S}\Snterm{b}\mid\epsilon$
-% \bigskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
-% \node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
-% \node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
-% %
-% \path[->,line width=0.5mm](-1,0) edge (a);
-% \path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
-% \path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{S}\mapsto \Sterm{a}\Snterm{S}\Snterm{a}$\\$\epsilon,\Snterm{S}\mapsto \Sterm{b}\Snterm{S}\Snterm{b}$\\
-% $\epsilon,\Snterm{S}\mapsto \epsilon$\\
-% $\Sterm{a},\epsilon\mapsto \Sterm{a}$\\$\Sterm{b},\epsilon\mapsto \Sterm{b}$} (b);
-% \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
-% \end{tikzpicture}}\pause\bigskip
-% % 
-% Mögliche Konfigurationsfolge (Wörter werden zur Vereinfachung in einem Schritt auf Stack geschrieben):
-% \medskip
-% 
-% $\tuple{q_s,\Sterm{abba},\epsilon}\pause
-% \vdash\tuple{q_l,\Sterm{abba},\Snterm{S}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{abba},\Sterm{a}\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{bba},\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{bba},\Sterm{b}\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{ba},\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{ba},\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{a},\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\epsilon,\Snterm{\#}}\pause
-% \vdash\tuple{q_f,\epsilon,\epsilon}$\\ (akzeptierender Lauf)
-% \end{frame}
+\begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
+
+Wir wollen zunächst eine Richtung zeigen:
+
+\theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\pause\bigskip
+
+\emph{Beweisidee:}
+\begin{itemize}
+\item Der PDA simuliert eine Ableitung in der Grammatik
+\item Der Keller speichert das Zwischenergebnis der Ableitung (Terminale und Nichtterminale), linke Zeichen zuoberst
+\item Der PDA arbeitet das Zwischenergebnis von links ab:
+\begin{itemize}
+\item Terminale werden mit Eingabe verglichen und entfernt
+\item Nichtterminale werden durch Grammatikregel ersetzt
+\end{itemize}
+\item Die Ableitung gelingt, wenn die gesamte Eingabe gelesen werden konnte und der Keller leer ist
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
+
+Wir wollen zunächst eine Richtung zeigen:
+
+\theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\bigskip
+
+\emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$.
+Wir definieren einen erweiterten PDA\pause:\bigskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
+\node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
+\node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
+%
+\path[->,line width=0.5mm](-1,0) edge (a);
+\path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
+\path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{A}\mapsto w$ für jede Regel $\Snterm{A}\to w$\\$\Sterm{a},\Sterm{a}\mapsto \epsilon$ für jedes Symbol $\Sterm{a}\in\Sigma$} (b);
+\path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
+\end{tikzpicture}}\medskip\pause
+
+Wir verwenden dabei also:\\[1ex]
+\narrowcentering{$Q=\{q_s, q_l, q_f\}$\hfill $Q_0=\{q_s\}$\hfill $F=\{q_f\}$\hfill  $\Gamma=\Sigma\cup V\cup\{\Snterm{\#}\}$}\\[1ex]
+
+Durch Entfernen der Wort-\texttt{push}-Operationen wie zuvor gezeigt entsteht der gesuchte PDA $\Smach{P}_G$.
+\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+Die Grammatik $\Snterm{S}\to\Sterm{a}\Snterm{S}\Sterm{a}\mid\Sterm{b}\Snterm{S}\Sterm{b}\mid\epsilon$
+ergibt den folgenden PDA:
+\bigskip
+
+\narrowcentering{%
+\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
+\node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
+\node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
+%
+\path[->,line width=0.5mm](-1,0) edge (a);
+\path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
+\path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{S}\mapsto \Sterm{a}\Snterm{S}\Sterm{a}$\\$\epsilon,\Snterm{S}\mapsto \Sterm{b}\Snterm{S}\Sterm{b}$\\
+$\epsilon,\Snterm{S}\mapsto \epsilon$\\
+$\Sterm{a},\Sterm{a}\mapsto \epsilon$\\$\Sterm{b},\Sterm{b}\mapsto \epsilon$} (b);
+\path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
+\end{tikzpicture}}\pause\bigskip
+
+Mögliche Konfigurationsfolge (Wörter werden zur Vereinfachung in einem Schritt auf Stack geschrieben):
+\medskip
+
+$\tuple{q_s,\Sterm{abba},\epsilon}\pause
+\vdash\tuple{q_l,\Sterm{abba},\Snterm{S}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{abba},\Sterm{a}\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{bba},\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{bba},\Sterm{b}\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{ba},\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{ba},\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\Sterm{a},\Sterm{a}\Snterm{\#}}\pause
+\vdash\tuple{q_l,\epsilon,\Snterm{\#}}\pause
+\vdash\tuple{q_f,\epsilon,\epsilon}$\\
+~\hfill (akzeptierender Lauf)
+\end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
@@ -798,6 +754,8 @@ der aber nur nach dem LIFO-Prinzip verwendet werden kann.
 
 PDAs erkennen genau die kontextfreien Sprachen.
 \bigskip
+
+Kontextfreie Grammatiken können durch sehr einfache PDAs (nicht-deterministisch) implementiert werden.\bigskip
 
 \anybox{yellow}{
 Offene Fragen:
