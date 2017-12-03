@@ -12,23 +12,25 @@
 
 \maketitle
 
-% \begin{frame}\frametitle{Ankündigung}
-% 
-% \begin{center}
-% \alert{An Donnerstag, dem 14.12.2017, findet das erste Repetitorium statt}
-% 
-% \begin{itemize}
-% \item Besprechung der Lösungen zu Zusatzaufgaben auf vorangegangenen Übungsblättern
-% \item Aufgaben online verfügbar
-% \item Am gewohnten Ort: DS4, HSZ/0003
-% \item Präsentiert von Maximilian Marx
-% \end{itemize}
-% 
-% \end{center}
-% 
-% \end{frame}
+\begin{frame}\frametitle{Ankündigung}
+
+\begin{center}
+\alert{An Donnerstag, dem 14.12.2017, findet das erste Repetitorium statt}
+
+\begin{itemize}
+\item Besprechung der Lösungen zu Zusatzaufgaben auf vorangegangenen Übungsblättern
+\item Aufgaben online verfügbar
+\item Am gewohnten Ort: DS4, HSZ/0003
+\item Präsentiert von Maximilian Marx
+\end{itemize}
+
+\end{center}
+
+\end{frame}
+
 
 \sectionSlide{Vorschau}
+
 
 \begin{frame}\frametitle{Plan}
 
@@ -60,17 +62,6 @@
 \end{itemize}
 
 \end{frame}
-
-% \begin{frame}\frametitle{Lehrevaluation}
-% 
-% % \huge
-% 
-% \begin{center}
-% 15min zum Ausfüllen der Fragebögen
-% \end{center}
-% 
-% \end{frame}
-
 
 \sectionSlideNoHandout{Rückblick}
 
@@ -159,63 +150,6 @@ wobei $\Sigma_\epsilon=\Sigma\cup\{\epsilon\}$ und $\Gamma_\epsilon=\Gamma\cup\{
 
 \end{frame}
 
-% \begin{frame}\frametitle{PDA: Variationen}
-% 
-% Es gibt auch hier viele äquivalente Definitionen\pause
-% \begin{itemize}
-% \item Ein Startzustand reicht auch aus (Übung: warum?)\pause
-% \item Alternative Akzeptanzbedingung: ersetze "`PDA ist in Endzustand"' durch "`PDA hat leeren Keller"'
-% (keine Endzustände nötig, dafür manchmal aufwendigere Kodierung)\pause
-% % 
-% % Statt Endzustände zu verwenden kann man Terminierung von PDAs auch bei leerem Keller erlauben
-% \item Die Übergangsfunktion $\delta$ kann auch als Relation $\Delta\subseteq (Q\times\Sigma_\epsilon\times\Gamma_\epsilon)\times (Q\times\Gamma_\epsilon)$ beschrieben werden (wie bei \ghost{NFAs)}\pause
-% \item Das Startsymbol des Kellers kann Teil der Definition sein\pause
-% \item Man kann erlauben, dass in einem Schritt mehrere Symbole auf den Keller geschrieben werden.
-% \\ {\footnotesize \textcolor{devilscss}{Dann kann man auch verlangen, dass in jedem Schritt ein Symbol entnommen wird (\texttt{pop}), da man es bei Bedarf zurücklegen kann}}
-% \end{itemize}
-% \alert{Jede dieser Varianten führt zur gleichen Ausdrucksstärke}
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Wörter \texttt{push}en}
-% 
-% Wir können Übergänge der folgenden Form erlauben:\medskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_a$};
-% \node (b) [circle,draw=black,thick] at (5,0) {$q_b$};
-% %
-% \path[->,line width=0.5mm](a) edge node[above] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$} (b);
-% \end{tikzpicture}}
-% \medskip
-% 
-% "`Wenn in Zustand $q_a$ das Zeichen (oder leere Wort) $\sigma$ gelesen wird\\
-% und wenn $\Snterm{A}$ oben vom Keller geholt werden kann (\texttt{pop}),\\
-% dann wechsle in Zustand $q_b$\\
-% und lege die Zeichen $\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$ auf den Keller\\
-% (wobei $\Sntermsub{B}{1}$ ganz oben zu liegen kommt)."'
-% \medskip\pause
-% 
-% Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
-% 
-% \begin{tikzpicture}[xscale=1.3,baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (1,1.5) {$q_a$};
-% \node (n1) [circle,draw=black,thick] at (2,0) {$q_1$};
-% \node (n2) [circle,draw=none,thick] at (4,0) {$\cdots$};
-% \node (nm1) [circle,draw=black,thick] at (6,0) {$q_{n-1}$};
-% \node (b) [circle,draw=black,thick] at (8,0) {$q_b$};
-% %
-% \path[->,line width=0.5mm](a) edge node[right,yshift=2mm,xshift=-1mm] {$\sigma,\Snterm{A}\mapsto\Sntermsub{B}{n}$} (n1);
-% \path[->,line width=0.5mm](n1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{n-1}$} (n2);
-% \path[->,line width=0.5mm](n2) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{2}$} (nm1);
-% \path[->,line width=0.5mm](nm1) edge node[above] {$\epsilon,\epsilon\mapsto\Sntermsub{B}{1}$} (b);
-% \end{tikzpicture}
-% 
-% \end{frame}
-
 \sectionSlide{Ausdrucksstärke von PDAs}
 
 \begin{frame}\frametitle{Ausdrucksstärke von PDAs}
@@ -235,92 +169,6 @@ Der Beweis erfolgt in zwei Schritten:
 
 \end{frame}
 
-% \begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
-% 
-% Wir wollen zunächst eine Richtung zeigen:
-% 
-% \theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\pause\bigskip
-% 
-% \emph{Beweisidee:}
-% \begin{itemize}
-% \item Der PDA simuliert eine Ableitung in der Grammatik
-% \item Der Keller speichert das Zwischenergebnis der Ableitung (Terminale und Nichtterminale), linke Zeichen zuoberst
-% \item Der PDA arbeitet das Zwischenergebnis von links ab:
-% \begin{itemize}
-% \item Terminale werden mit Eingabe verglichen und entfernt
-% \item Nichtterminale werden durch Grammatikregel ersetzt
-% \end{itemize}
-% \item Die Ableitung gelingt, wenn die gesamte Eingabe gelesen werden konnte und der Keller leer ist
-% \end{itemize}
-% 
-% \end{frame}
-% 
-% \begin{frame}[t]\frametitle{Grammatik $\leadsto$ PDA}
-% 
-% Wir wollen zunächst eine Richtung zeigen:
-% 
-% \theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\bigskip
-% 
-% \emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$.
-% Wir definieren einen erweiterten PDA\pause:\bigskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
-% \node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
-% \node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
-% %
-% \path[->,line width=0.5mm](-1,0) edge (a);
-% \path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
-% \path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{A}\mapsto w$ für jede Regel $\Snterm{A}\to w$\\$\Sterm{a},\Sterm{a}\mapsto \epsilon$ für jedes Symbol $\Sterm{a}\in\Sigma$} (b);
-% \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
-% \end{tikzpicture}}\medskip\pause
-% 
-% Das heißt, wir haben:\\[1ex]
-% \narrowcentering{$Q=\{q_s, q_l, q_f\}$\hfill $Q_0=\{q_s\}$\hfill $F=\{q_f\}$\hfill  $\Gamma=\Sigma\cup V\cup\{\Snterm{\#}\}$}\\[1ex]
-% 
-% Durch Entfernen der Wort-\texttt{push}-Operationen wie zuvor gezeigt entsteht der gesuchte PDA $\Smach{P}_G$.
-% \qed
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Beispiel}
-% 
-% Die Grammatik $\Snterm{S}\to\Sterm{a}\Snterm{S}\Sterm{a}\mid\Sterm{b}\Snterm{S}\Sterm{b}\mid\epsilon$
-% ergibt den folgenden PDA:
-% \bigskip
-% 
-% \narrowcentering{%
-% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% % \draw[help lines] (0,0) grid (7,2);
-% \node (a) [circle,draw=black,thick] at (0,0) {$q_s$};
-% \node (b) [circle,draw=black,thick] at (3,0) {$q_l$};
-% \node (c) [circle,draw=black,thick,double] at (6,0) {$q_f$};
-% %
-% \path[->,line width=0.5mm](-1,0) edge (a);
-% \path[->,line width=0.5mm](a) edge node[above] {$\epsilon,\epsilon\mapsto\Snterm{S}\Snterm{\#}$} (b);
-% \path[->,line width=0.5mm](b) edge [loop above] node[above,align=left] {$\epsilon,\Snterm{S}\mapsto \Sterm{a}\Snterm{S}\Sterm{a}$\\$\epsilon,\Snterm{S}\mapsto \Sterm{b}\Snterm{S}\Sterm{b}$\\
-% $\epsilon,\Snterm{S}\mapsto \epsilon$\\
-% $\Sterm{a},\Sterm{a}\mapsto \epsilon$\\$\Sterm{b},\Sterm{b}\mapsto \epsilon$} (b);
-% \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{\#}\mapsto\epsilon$} (c);
-% \end{tikzpicture}}\pause\bigskip
-% 
-% Mögliche Konfigurationsfolge (Wörter werden zur Vereinfachung in einem Schritt auf Stack geschrieben):
-% \medskip
-% 
-% $\tuple{q_s,\Sterm{abba},\epsilon}\pause
-% \vdash\tuple{q_l,\Sterm{abba},\Snterm{S}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{abba},\Sterm{a}\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{bba},\Snterm{S}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{bba},\Sterm{b}\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{ba},\Snterm{S}\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{ba},\Sterm{b}\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\Sterm{a},\Sterm{a}\Snterm{\#}}\pause
-% \vdash\tuple{q_l,\epsilon,\Snterm{\#}}\pause
-% \vdash\tuple{q_f,\epsilon,\epsilon}$\\
-% ~\hfill (akzeptierender Lauf)
-% \end{frame}
 
 \begin{frame}[t]\frametitle{PDA $\leadsto$ Grammatik}
 
@@ -502,7 +350,7 @@ $\leadsto$ Die gesuchte Sprache $\Slang{L}(\Smach{P})$ ist genau $\Slangsub{L}{$
 Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes aus $\Slangsub{L}{$q_0,q_f$}$:
 \bigskip
 
-% \narrowcentering{%
+\narrowcentering{%
 % ~\hspace{-6mm}%
 \begin{tikzpicture}[
 	scale=1.00,
@@ -578,7 +426,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 \node (lend) [draw=none,inner sep=1pt,align=center] at (9.8,-1.4) {\alert{End-}\\[-1ex]\alert{zustand $q_f$}};
 \draw[line width=0.3mm,bend right=50,darkblue] (lend.5) edge[->] (q34.360);
 
-\end{tikzpicture}%}
+\end{tikzpicture}}
 
 \end{frame}
 
@@ -587,7 +435,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes aus $\Slangsub{L}{$q_0,q_f$}$:
 \bigskip
 
-% \narrowcentering{%
+\narrowcentering{%
 % ~\hspace{-6mm}%
 \begin{tikzpicture}[
 	scale=1.00,
@@ -680,7 +528,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror,raise=8.5mm}](s2.270) -- (s33.270) node[black,midway,yshift=-1.15cm] {\footnotesize${}\in\Slangsub{L}{$q_5,q_4$}$};
 }
 
-\end{tikzpicture}%}
+\end{tikzpicture}}
 
 \end{frame}
 
@@ -689,7 +537,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes aus $\Slangsub{L}{$q_0,q_f$}$:
 \bigskip
 
-% \narrowcentering{%
+\narrowcentering{%
 % ~\hspace{-6mm}%
 \begin{tikzpicture}[
 	scale=1.00,
@@ -765,7 +613,7 @@ Schematische Darstellung der Konfigurationsfolge bei der Akzeptanz eines Wortes 
 \draw[fill=darkred!66!strongyellow,line width=0.1mm] (\x,\y) -- (\x+\l,\y) -- (\x+\l,\y+\l) -- (\x,\y+\l) -- cycle;
 \draw[line width=0.3mm,bend right=50,darkblue] (lend.5) edge[->] (10.5,-0.5);
 
-\end{tikzpicture}%}
+\end{tikzpicture}}
 
 \bigskip\pause
 \narrowcentering{$\leadsto$ $\Sterm{a}\Slangsub{L}{$q_5,q_4$}\Sterm{b}\subseteq\Slangsub{L}{$q_0,q_f$}$}
@@ -797,7 +645,7 @@ enthalten.
 Es gibt einen zweiten relevanten Fall zur Ableitung von $\Slangsub{L}{$q_0,q_f$}$:
 \bigskip
 
-% \narrowcentering{%
+\narrowcentering{%
 % ~\hspace{-6mm}%
 \begin{tikzpicture}[
 	scale=1.00,
@@ -871,7 +719,7 @@ Es gibt einen zweiten relevanten Fall zur Ableitung von $\Slangsub{L}{$q_0,q_f$}
 %
 \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror,raise=6.5mm}](s1.270) -- (s34.270) node[black,midway,yshift=-0.95cm] {\footnotesize${}\in\Slangsub{L}{$q_0,q_f$}$};
 
-\end{tikzpicture}%}
+\end{tikzpicture}}
 
 \bigskip\pause
 \narrowcentering{$\leadsto$ $\Slangsub{L}{$q_0,q_1$}\Slangsub{L}{$q_1,q_f$}\subseteq\Slangsub{L}{$q_0,q_f$}$}
@@ -905,6 +753,7 @@ Außerdem benötigen wir noch die folgenden Regeln, damit die Ableitung irgendwa
 Bisher haben wir zwei Arten von Konfigurationsfolgen bzw. Grammatikregeln eingeführt:
 \bigskip
 
+\narrowcentering{%
 \begin{minipage}{4.5cm}
 \narrowcentering{%
 $\Sntermsub{V}{q,r} \to \Sterm{a}\Sntermsub{V}{{\Sntermsub{s}{1}},{\Sntermsub{s}{2}}}\Sterm{b}$}
@@ -986,7 +835,7 @@ $\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$}
 \node (L) [draw=none,inner sep=1pt] at (2.85,-3.8) {\Slangsub{L}{$s,r$}};
 
 \end{tikzpicture}}
-\end{minipage}
+\end{minipage}}
 \bigskip
 
 Man könnte auf diese beiden Arten einen beliebigen Lauf 
@@ -1119,6 +968,16 @@ Als Grammatik ergibt sich:
 % 
 % \end{frame}
 
+\begin{frame}\frametitle{Lehrevaluation}
+
+% \huge
+
+\begin{center}
+15min zum Ausfüllen der Fragebögen
+\end{center}
+
+\end{frame}
+
 \sectionSlide{Deterministische Kellerautomaten}
 
 \begin{frame}\frametitle{Deterministische Kellerautomaten?}
@@ -1219,9 +1078,9 @@ akzeptiert wird.}
 Offensichtlich ist jede deterministisch kontextfreie Sprache auch kontextfrei (DPDAs können als PDAs gesehen werden).
 \medskip\pause
 
-Im Gegensatz zur Situation bei DFAs und NFAs gilt die Umkehrung dieser Aussage nicht:
+Im Gegensatz zur Situation bei DFAs und NFAs gilt die Umkehrung dieser Aussage nicht:\medskip
 
-\theobox{Satz: Die deterministisch kontextfreien Sprachen bilden eine echte Untermenge der kontextfreien Sprachen.
+\theobox{Satz: Die deterministisch kontextfreien Sprachen bilden eine echte Untermenge der kontextfreien Sprachen.\\
 Es gibt also kontextfreie Sprachen, die nicht deterministisch sind.}
 
 \end{frame}
@@ -1233,7 +1092,7 @@ Der Unterschied zu allgemeinen kontextfreien Sprachen zeigt sich gut am folgende
 \theobox{Satz: Die Klasse der deterministisch kontextfreien Sprachen ist unter Komplement abgeschlossen.}\medskip
 
 \emph{Beweisidee: } Wie bei DFAs kann man auch bei DPDAs die akzeptierenden und nichtakzeptierenden Zustände 
-vertauschen. Mehrere technische Komplikationen machen den Beweis etwas komplizierter:
+vertauschen. Mehrere technische Komplikationen machen den Beweis etwas aufwändiger:
 
 {\tiny
 \begin{itemize}
