@@ -163,8 +163,8 @@ Wir erhalten das erhoffte Resultat:\medskip
 
 Der Beweis erfolgt in zwei Schritten:
 \begin{enumerate}[(1)]
-\item Umwandlung PDA $\leadsto$ Typ-2-Grammatik
 \item Umwandlung Typ-2-Grammatik $\leadsto$ PDA
+\item Umwandlung PDA $\leadsto$ Typ-2-Grammatik
 \end{enumerate}
 
 \end{frame}
@@ -866,7 +866,7 @@ Den Abschluss bilden die Regeln $\Sntermsub{V}{s,s} \to \epsilon$.
 \anybox{gray}{\emph{Skizze:}
 \begin{itemize}
 \item Übergänge mit \texttt{pop} und \texttt{push} zerlegt man mithilfe eines Zwischenzustands in einen \texttt{pop} und einen \texttt{push}
-\item Übergänge ohne \texttt{pop} oder \texttt{push}, stellt man dar, indem man zunächst ein Hilfsszeichen \texttt{push}t und diese gleich darauf wieder \texttt{pop}t
+\item Übergänge ohne \texttt{pop} oder \texttt{push}, stellt man dar, indem man zunächst ein Hilfsszeichen \texttt{push}t und dieses gleich darauf wieder \texttt{pop}t
 \end{itemize}}
 
 % $\leadsto$ Nach diesen Änderungen lassen sich alle Läufe darstellen
@@ -1042,7 +1042,7 @@ Dieser Automat ist ein DPDA:\medskip
 \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{S}\mapsto\epsilon$} (f);
 \end{tikzpicture}}
 
-\bigskip
+\bigskip\bigskip
 
 Dieser Automat ist \redalert{kein} DPDA:\medskip
 
@@ -1092,7 +1092,8 @@ Der Unterschied zu allgemeinen kontextfreien Sprachen zeigt sich gut am folgende
 \theobox{Satz: Die Klasse der deterministisch kontextfreien Sprachen ist unter Komplement abgeschlossen.}\medskip
 
 \emph{Beweisidee: } Wie bei DFAs kann man auch bei DPDAs die akzeptierenden und nichtakzeptierenden Zustände 
-vertauschen. Mehrere technische Komplikationen machen den Beweis etwas aufwändiger:
+vertauschen.\\
+Mehrere technische Komplikationen machen den Beweis etwas aufwändiger:
 
 {\tiny
 \begin{itemize}
@@ -1113,14 +1114,14 @@ $\epsilon$-Übergängen akzeptieren darf.
 Eine kontextfreie Sprache, deren Komplement nicht kontextfrei ist, kann demnach nicht deterministisch kontextfrei sein.
 
 \examplebox{Beispiel: In Vorlesung 14 haben wir die Sprachen $\Slangsub{L}{1}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}$ und $\Slangsub{L}{2}=\{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i\geq 0, k\geq 0\}$ betrachtet und erkannt,
-dass die Sprache $\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}=\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}$ kontextfrei ist, aber ihr Komplement nicht. Diese Sprache ist demnach nicht deterministisch kontextfrei.}
+dass die Sprache \[\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}=\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}\] kontextfrei ist, aber ihr Komplement nicht. Diese Sprache ist demnach nicht deterministisch kontextfrei.}
 
 Das beweist im wesentlichen die Behauptung, dass die deterministisch kontextfreie Sprachen eine echte Untermenge der
 kontextfreien sind.\medskip\pause
 
 Es gibt noch viele andere nichtdeterministische Sprachen, z.B.:
 
-\examplebox{Beispiel: Die Sprache $\{w w^r\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$ der Palindrome gerader Länge (ohne Markierung in der Mitte) ist kontextfrei aber nicht deterministisch. (Ohne Beweis; siehe z.B. Skript Franz Baader)}
+\examplebox{Beispiel: Die Sprache $\{w w^r\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$ der Palindrome gerader Länge (ohne Markierung in der Mitte) ist kontextfrei aber nicht deterministisch. \\(Ohne Beweis; siehe z.B. Skript Franz Baader)}
 
 \end{frame}
 
@@ -1130,8 +1131,8 @@ Es gibt noch viele andere nichtdeterministische Sprachen, z.B.:
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-PDAs erlauben \redalert{verschiedene äquivalente Definitionen}
-\bigskip
+% PDAs erlauben \redalert{verschiedene äquivalente Definitionen}
+% \bigskip
 
 PDAs erkennen \redalert{genau die kontextfreien Sprachen}:
 \begin{itemize}
