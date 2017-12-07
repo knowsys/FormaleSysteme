@@ -105,25 +105,25 @@ Beispiel: $\Sterm{a}^i\Sterm{b}^i$
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Deterministisch vs. nichtdeterminitisch}
+\begin{frame}\frametitle{Deterministisch vs. nichtdeterminitisch}
 
-\begin{minipage}[t]{4.7cm}
+\begin{minipage}[t]{5.7cm}
 ~~~~\emph{Typ-2-Sprachen}\\
 \begin{itemize}
 \item Erkannt durch PDAs
 \item Nicht unter Komplement abgeschlossen
-\item Echte Obermenge der det. Typ-2-Sprachen, z.B. $\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}$
+\item Echte Obermenge der\\ det. Typ-2-Sprachen,\\ z.B. $\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}$
 \item Wortproblem in $O(|w|^3)$ (CYK-Algorithmus)
 \item Generiert durch CFGs
 \end{itemize}
 \end{minipage}
-\begin{minipage}[t]{4.7cm}
-~~~~\emph{Deterministische}\\
-\mbox{}~~~~\emph{Typ-2-Sprachen}
+\begin{minipage}[t]{5.7cm}
+~~~~\emph{Deterministische} %\\\mbox{}~~~~
+\emph{Typ-2-Sprachen}\\
 \begin{itemize}
 \item Erkannt durch DPDAs
 \item Unter Komplement abgeschlossen
-\item Echte Obermenge der regulären Sprachen, z.B. $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$
+\item Echte Obermenge der\\ regulären Sprachen,\\ z.B. $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$
 \item Wortproblem in $O(|w|)$ (DPDA-Abarbeitung)
 \item Generiert durch deterministische CFGs (kein Vorlesungsstoff)
 \end{itemize}
@@ -529,7 +529,7 @@ Die Sprache ist genau dann nicht leer wenn bei diesem Verfahren das Startsymbol 
 
 \theobox{Satz: Endlichkeit der Sprache $\Slang{L}(G)$ einer CFG $G$ ist entscheidbar.}\pause
 
-\emph{Beweis:} Sei $n$ die Zahl aus dem Pumpinglemma (also $2^{|V|}$).\pause
+\emph{Beweis:} Sei $n$ die Zahl aus dem Pumpinglemma (also $2^{|V|}$ nach Umwandlung in Chomsky NF).\pause
 \begin{itemize}
 \item Wenn es ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|<2n$ gibt, dann ist $\Slang{L}(G)$
 unendlich (da man das Pumpinglemma auf $z$ anwenden \ghost{kann).} \pause
@@ -547,7 +547,7 @@ Das kann man (Brute Force) für alle Wörter dieser Länge tun (da das Wortprobl
 
 \begin{frame}\frametitle{Alles unentscheidbar}
 
-Viele weitere interessante Fragen sind leider ebenfalls unentscheidbar:
+Viele weitere interessante Fragen sind leider \redalert{ebenfalls unentscheidbar}:
 
 \begin{itemize}
 \item \alert{Regularität:} Ist die durch eine CFG gegebene Sprache regulär?
