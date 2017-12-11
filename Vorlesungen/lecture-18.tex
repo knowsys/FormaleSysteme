@@ -58,7 +58,7 @@ Das klassische Automatenmodell\\für diese Sprachklasse ist die \redalert{Turing
 Was kann diese Art von Automaten?\pause\\
 Alles, was überhaupt auf Computern machbar ist!\medskip
 
-\anybox{purple}{Church-Turing-These: Die Turingmaschine kann alle Funktionen berechnen,
+\anybox{purple}{\emph{Church-Turing-These:} Die Turingmaschine kann alle Funktionen berechnen,
 die intuitiv berechenbar sind.}
 
 \end{frame}
@@ -71,7 +71,7 @@ bei der Gestaltung von Turingmaschinen (TMs)\pause:
 \item TMs haben eine \alert{endliche Steuerung} (wie bei NFA und PDA)\pause
 \item Es gibt eine \alert{unbeschränkte Menge an Speicher} (wie bei PDA)\pause
 \item Die TM kann in jedem Schritt \alert{ein Zeichen} aus dem Speicher \alert{lesen} und eines \alert{schreiben} (wie bei PDA)\pause
-\item Der Lese-/Schreibzugriff ist \alert{an jeder beliebigen Speicheradresse} möglich (im Gegensatz zu PDA)\\[1ex]
+\item Der Lese-/Schreibzugriff ist \alert{an jeder beliebigen Speicheradresse} möglich\\ (im Gegensatz zu PDA)\\[1ex]
 
 Zur praktischen Implementierung speichert die TM die aktuelle Adresse und kann diese in jedem
 Schritt um eins erhöhen oder verringern\pause
@@ -152,15 +152,18 @@ Schritt um eins erhöhen oder verringern\pause
 \item Lese-/Schreibkopf kann frei auf Band bewegt werden (pro Schritt um eine Zelle nach links oder rechts)
 \item Am linken Rand kann der Kopf nicht weiter nach links bewegt werden
 \item Am rechten Rand des Speichers kann der Kopf nach rechts bewegt werden: dann wird dort eine neue Speicherzelle mit dem Inhalt $\blank$ (Leerzeichen, Blank) angefügt
-\end{itemize}
+\end{itemize}\bigskip
 
 \alert{Alternative Vorstellung:} Der Speicher ist ein einseitig unendlich langes Band, auf dem am Anfang nur
-eine (endliche) Eingabe steht, gefolgt von unendlich vielen leeren Zellen ($\blank$).
+eine (endliche) Eingabe steht, gefolgt von unendlich vielen leeren Zellen \ghost{($\blank$).}
+
 
 \end{frame}
 
 \begin{frame}
+
 \narrowcentering{\includegraphics[width=9.9cm]{images/TM}}
+
 \narrowcentering{\tiny Modell einer Turingmaschine, (c) Foto: Rocky Acosta, 2012, CC-By 3.0}
 \end{frame}
 
@@ -204,16 +207,16 @@ den folgenden Bestandteilen:
 
 \begin{frame}\frametitle{Beispiel (1)}
 
-Wir konstruieren eine TM mit dem Eingabealphabet $\Sigma=\{\Sterm{0}\}$, welche
+Wir konstruieren eine TM mit dem Eingabealphabet $\Sigma=\{\Sterm{0}\}$,\\ welche
 Wörter der Sprache $\{\Sterm{0}^{2^i}\mid i\geq 0\}$ akzeptiert\\
 (Ketten von $\Sterm{0}$, deren Länge eine Zweierpotenz ist)
 \pause\bigskip
 
 \emph{Arbeitsweise:}
 \begin{enumerate}[(1)]
-\item Laufe von links nach rechts über die Eingabe und ersetzte dabei jede zweite $\Sterm{0}$ durch $\Snterm{X}$
+\item Laufe von links nach rechts über die Eingabe und ersetzte dabei jede zweite $\Sterm{0}$ durch\ghost{ $\Snterm{X}$}
 \item Falls insgesamt nur eine $\Sterm{0}$ gefunden wird, akzeptiere
-\item Falls eine andere ungerade Zahl an $\Sterm{0}$ gefunden wird, verwerfe
+\item Falls eine andere ungerade Zahl an $\Sterm{0}$ gefunden wird, verwirf
 \item Laufe zurück zum Anfang des Bandes
 \item Wiederhole die Schritte ausgehend von (1)
 \end{enumerate}
@@ -453,7 +456,7 @@ Wir haben TMs als \alert{Automaten zur Worterkennung} definiert:
 \begin{enumerate}[(1)]
 \item Berechnungsfragen können als Wortproblem kodiert werden.
 \begin{itemize}
-\item Eingabewörter als Kodierung der beliebiger Eingaben (z.B. als Binärdatei)
+\item Eingabewörter als Kodierung beliebiger Eingaben (z.B. als Binärdatei)
 \item Berechnung einer Booleschen Funktion\\
 $\leadsto$ \redalert{Entscheidungsproblem}
 \end{itemize}\pause
@@ -484,6 +487,30 @@ eine Turingmaschine gibt, die für jede mögliche Eingabe den Wert der Funktion 
 \item \emph{Lesart 1:} Vorschlag einer mathematischen Definition der intuitiven Idee von Berechenbarkeit
 \item \emph{Lesart 2:} "`Naturgesetz"' über die Möglichkeiten und Grenzen des Rechnens an sich
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Computer sind kompliziert}
+
+Das Modell der Turingmaschine ist \redalert{einfach}\\
+das Verhalten von Turingmaschinen ist es \redalert{nicht!}\bigskip
+
+Betrachten wir einen ganz einfachen Sonderfall:
+\begin{itemize}
+\item TMs mit nur \alert{fünf Zuständen}
+\item und nur \alert{zwei Zeichen} im Bandalphabet
+\item bei \alert{Eingabe $\epsilon$} (leeres Wort)
+\end{itemize}\pause\bigskip
+
+Bereits diese "`Spielzeugbeispiele"' werden auch 80 Jahre nach Einführung der TM noch nicht völlig verstanden:
+\begin{itemize}
+\item Es gibt TMs dieser Art, die bei Eingabe $\epsilon$ erst nach über 47 Millionen Übergängen${}^1$ anhalten
+\item Es gibt TMs dieser Art, von denen wir bis heute nicht wissen, ob sie bei Eingabe $\epsilon$ jemals anhalten oder nicht
+\end{itemize}
+
+{\tiny ${}^1$ diese Zahl ist für ein TM-Modell, das am linken und am rechten Bandende Speicher allozieren kann ("`zweiseitig unendliches Band"'); siehe "`Busy Beaver"'.
+
+}
 
 \end{frame}
 
