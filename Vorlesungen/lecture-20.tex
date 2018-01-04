@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{20}{Typ 0 und Typ 1}{5. Januar 2017}
+\defineTitle{20}{Typ 0 und Typ 1}{4. Januar 2017}
 
 \begin{document}
 
@@ -84,20 +84,22 @@ und einer partiellen \redalert{Übergangsfunktion} \\[1ex]
 \begin{frame}\frametitle{Turing-Mächtigkeit}
 
 \begin{itemize}
-\item Die Turingmaschine ist das\\ \redalert{mächstigste bekannte Berechnungsmodell}\\
+\item Die Turingmaschine ist das\\ \redalert{mächtigste bekannte Berechnungsmodell}\\
 $\leadsto$ was nicht Turing-berechenbar ist, gilt als unberechenbar
 \item Zahlreiche andere Modelle sind ebenso Turing-mächtig\\
 \anybox{strongyellow}{\vspace{-2ex}\small%
 \begin{itemize}
 \item \alert{Turingmaschinen} in vielen Varianten (deterministisch/nichtdeterministisch, Einband/Mehrband,
 einseitig/zweiseitig unendlich, \ghost{\ldots)}\vspace{-1.1ex}
-\item alle "`echten"' \alert{Programmiersprachen} (C, PHP, Java, C++, Python, JavaScript, Perl, BASIC, C$^\sharp$, Pascal, Fortran,\\
-{\footnotesize Ruby, COBOL, Lisp, Visual Basic, Assembler, Prolog, Ada, Lua, Haskell, Scheme, ALGOL, TeX, R, Logo, Objective-C, Scratch, AWK, TCL, .NET, Smalltalk, PostScript, \ldots$^*$)}\vspace{-1.1ex}
+\item alle "`echten"' \alert{Programmiersprachen} (C, PHP, Java, C++, Python, JavaScript, Perl, BASIC, Pascal, Fortran,
+{\footnotesize C$^\sharp$, COBOL, Lisp, Ruby, Visual Basic, Assembler, Ada, Prolog, Lua, Haskell, ASP.NET, Scheme, ALGOL, R, Scratch, ASP, Logo, TeX, awk, Embarcadero Delphi, Smalltalk, 
+ Objective-C, APL, Tcl, Go, Visual Basic .NET, 
+ Scala, VHDL, ActionScript, XSLT, Brainfuck, \ldots$^*$)}\vspace{-1.1ex}
 \item theoretische \alert{Kalküle} (Prädikatenlogik erster Stufe, $\lambda$-Kalkül, allgemeine rekursive Funktionen, \ldots)\vspace{-1.1ex}
-\item manch \alert{Unerwartetes} (C++-Templates, SQL, Java Generics, Magic: The Gathering, \ldots)
+\item manch \alert{Unerwartetes} (C++-Templates, SQL, Java Generics, Magic: The Gathering, Microsoft Powerpoint, \ldots)
 \end{itemize}}
 \end{itemize}
-\ghost{\hspace{10.5cm}\rotatebox{90}{\tiny \hspace{5mm}$^*$ populäre Programmiersprachen (geordnet nach Zahl internationaler Wikipedia-Artikel)}}
+\ghost{\hspace{13.8cm}\rotatebox{90}{\tiny \hspace{5mm}$^*$ \href{https://query.wikidata.org/\#SELECT\%20\%3Flanguage\%20\%3FlanguageLabel\%20\%28COUNT\%28DISTINCT\%20\%3Farticle\%29\%20AS\%20\%3FwikipediaArticleCount\%29\%20WHERE\%20\%7B\%0A\%20\%20\%3Flanguage\%20wdt\%3AP31\%2Fwdt\%3AP279\%2a\%20wd\%3AQ9143\%20.\%0A\%20\%20\%3Farticle\%20schema\%3Aabout\%20\%3Flanguage\%20.\%0A\%20\%20FILTER\%20\%28SUBSTR\%28str\%28\%3Farticle\%29\%2C\%2011\%2C\%2015\%29\%20\%3D\%20\%22.wikipedia.org\%2F\%22\%29\%20.\%0A\%20\%20SERVICE\%20wikibase\%3Alabel\%20\%7B\%20bd\%3AserviceParam\%20wikibase\%3Alanguage\%20\%22de\%2Cen\%22.\%20\%7D\%0A\%7D\%20GROUP\%20BY\%20\%3Flanguage\%20\%3FlanguageLabel\%0AORDER\%20BY\%20DESC\%20\%28\%3FwikipediaArticleCount\%29}{populäre Programmiersprachen (geordnet nach Zahl internationaler Wikipedia-Artikel)}}}
 
 \end{frame}
 
@@ -243,7 +245,7 @@ Offenbar gilt: Die TM bei Eingabe $w$ hat genau dann einen erfolgreichen Lauf we
 \begin{itemize}
 \item Ein Wort kann die Konfiguration einer TM kodieren
 \item Berechnungsschritte können durch Ersetzungen von Teilwörtern simuliert werden\pause
-\item Grammatiken müssen die Wörter erzeugen, welche die TM akzeptiert $\leadsto$ Vorgehen einer Grammatik:
+\item Grammatiken müssen die Wörter erzeugen, welche die TM akzeptiert\\ $\leadsto$ Vorgehen einer Grammatik:
 \begin{enumerate}[(1)]
 \item wähle ein beliebiges Eingabewort (nichtdeterministisch)
 \item simuliere die TM auf dieser Eingabe
@@ -311,7 +313,7 @@ $\blank$ (entsteht beim Aufräumen nach akzeptierender Endkonfiguration)
 \item Für jeden TM-Übergang $\tuple{q',y,N}\in\delta(q,x)$ und $\unemph{a}\in\Sigma\cup\{\blank\}$:
 \[ \vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'} \]
 \end{itemize}
-\ghost{\hspace{10.5cm}\rotatebox{90}{\tiny \hspace{5mm}Anmerkung: In Phase 1 vorbereiteter Bandbereich kann nicht verlassen werden!}}
+\ghost{\hspace{13.8cm}\rotatebox{90}{\tiny \hspace{5mm}Anmerkung: In Phase 1 vorbereiteter Bandbereich kann nicht verlassen werden!}}
 
 \end{frame}
 
@@ -467,13 +469,16 @@ $\leadsto$ \redalert{Konfigurationsgraph}
 
 \begin{frame}\frametitle{Das Wortproblem für Typ 1}
 
-\emph{Wortproblem:} Gibt es eine akzeptierende
-Endkonfiguration, die im Konfigurationsgraphen von der Startkonfiguration aus erreichbar \ghost{ist?}
+\emph{Wortproblem (anders ausgedrückt):} Gibt es eine akzeptierende
+Endkonfiguration, die im Konfigurationsgraphen von der Startkonfiguration aus erreichbar ist?
 \medskip\pause
 
 Daraus folgt:\medskip
 
 \theobox{Satz: Das Wortproblem für Typ-1-Sprachen ist entscheidbar.}
+
+\emph{Beweis:} Man kann den folgenden Algorithmus anwenden: (1) Berechne den (exponentiell großen) Konfigurationsgraph einer entsprechenden Turingmaschine für das gegebene Wort; (2) prüfe, ob es in diesem Graphen einen Pfad von der Startkonfiguration zu einer Endkonfiguration gibt.\qed
+\medskip
 
 Unser Algorithmus benötigt (immer) exponentiell viel Zeit.
 \medskip
