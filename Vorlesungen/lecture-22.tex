@@ -1,5 +1,5 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
@@ -14,13 +14,28 @@
 
 \usepackage{setspace}
 
-\defineTitle{22}{Äquivalenzen und Normalformen}{12. Januar 2017}
+\defineTitle{22}{Äquivalenzen und Normalformen}{11. Januar 2018}
 
 \begin{document}
 
 \maketitle
 
 \sectionSlideNoHandout{Rückblick}
+
+\begin{frame}\frametitle{10. Januar 2018}
+
+\begin{center}
+~\hfill
+\includegraphics[height=4.5cm]{images/Knuth}
+\hfill~\\
+{\large Happy 80th Birthday, Don Knuth!}
+\bigskip
+
+\anybox{strongyellow}{
+``If you find that you're spending almost all your time on theory, start turning some attention to practical things; it will improve your theories.\\ If you find that you're spending almost all your time on practice, start turning some attention to theoretical things; it will improve your practice.''}
+\end{center}
+
+\end{frame}
 
 \begin{frame}\frametitle{Aussagenlogik}
 
@@ -207,7 +222,7 @@ Dieser Satz ist ein Sonderfall der allgemeingültigen und intuitiven Tatsache, d
 \setstretch{0.9}
 
 {\tiny ${}^*$ Streng genommen folgt aus der Definition von $\models$ zunächst nur, dass die Ersetzung einer direkten Unterformel
-Äquivalenz erhält. Zum Beispiel folgt $G\wedge H\equiv G'\wedge H$ aus $G\equiv G'$. Um zu zeigen, dass auch Ersetzungen in beliebiger Tiefe Äquivalenz erhalten, ist noch ein induktives Argument nötig, welches die Äquivalenz im Formelbaum "`nach oben"' propagiert. Aus $G\wedge H\equiv G'\wedge H$ folgt z.B. $(G\wedge H)\vee J\equiv (G'\equiv H)\vee J$ usw. usf.
+Äquivalenz erhält. Zum Beispiel folgt $G\wedge H\equiv G'\wedge H$ aus $G\equiv G'$. Um zu zeigen, dass auch Ersetzungen in beliebiger Tiefe Äquivalenz erhalten, ist noch ein induktives Argument nötig, welches die Äquivalenz im Formelbaum "`nach oben"' propagiert. Aus $G\wedge H\equiv G'\wedge H$ folgt z.B. $(G\wedge H)\vee J\equiv (G'\wedge H)\vee J$ usw. usf.
 }
 
 \end{frame}
@@ -527,7 +542,7 @@ Ist diese Umformung korrekt?
 	\redalert{Ja}, denn $\neg$ kommt im Ergebnis nur in Fall $\neg p$ ($p\in\Slang{P}$) vor.
 \end{itemize}\pause
 
-\theobox{Satz: Jede Formal kann (in linearer Zeit) in eine äquivalente Formel in NNF umgewandelt werden.}
+\theobox{Satz: Jede Formel kann (in linearer Zeit) in eine äquivalente Formel in NNF umgewandelt werden.}
 
 \end{frame}
 
@@ -687,7 +702,7 @@ Beispiel: $(a_1\wedge b_1)\vee(a_2\wedge b_2)\vee\ldots\vee(a_n\wedge b_n)$ ist 
 \ldots 
 {}\wedge{} & (c_{n-1} \leftrightarrow (a_n\wedge b_n))
 \end{align*}
-Diese Formel ist "`fast"' äquivalent (bis auf die zusätzlichen $c_i$) und hat eine polynomielle KNF
+Diese Formel ist "`fast"' äquivalent (bis auf die zusätzlichen $c_i$) und hat eine polynomielle KNF\\
 {\tiny (Jede Zeile kann einzeln in KNF übersetzt werden, wobei Formeln fester Größe entstehen, von denen es linear viele
 gibt.)}}
 
