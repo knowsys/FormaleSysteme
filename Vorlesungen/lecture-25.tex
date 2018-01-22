@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{25}{NP-Vollständigkeit}{23. Januar 2017}
+\defineTitle{25}{NP-Vollständigkeit}{22. Januar 2018}
 
 \begin{document}
 
@@ -102,7 +102,7 @@ $\leadsto$ Dazu sollten wir erst einmal $\Scomplclass{NP}$ etwas besser verstehe
 
 \begin{frame}\frametitle{Lösungen prüfen}
 
-\emph{Eine Interessante Eigenschaft von \Slang{SAT}:}
+\emph{Eine interessante Eigenschaft von \Slang{SAT}:}
 \begin{itemize}
 \item Es scheint schwer, die Erfüllbarkeit einer Formel zu ermitteln (z.B. können wir exponentiell viele
 	Wertzuweisungen durchsuchen).
@@ -202,7 +202,7 @@ Folgende Sprache ist nachweis-polynomiell:\\[1ex]
 (Zertifikat: "`\href{https://en.wikipedia.org/wiki/Primality_certificate}{Primality certificate}"', bekannt seit 1975)
 \bigskip\pause
 
-\textcolor{devilscss}{(Seit 2002 wissen wir: $\textbf{PRIMES}\in\Scomplclass{P}$}\\
+\textcolor{devilscss}{(Seit 2002 wissen wir: $\textbf{PRIMES}\in\Scomplclass{P}$}
 \textcolor{devilscss}{$\leadsto$ Primzahlentest nach Agrawal, Kayal und Saxena)}
 
 \end{frame}
@@ -233,7 +233,7 @@ $(\Leftarrow)$ Sei \Smach{M} eine polynomiell-zeitbeschränkte NTM für $\Slang{
 \item In jedem Schritt dieses Laufs wählt \Smach{M} nichtdeterministisch einen Übergang aus.
 \item Der Lauf ist von polynomieller Länge, da \Smach{M} polynomiell-zeitbeschränkt ist.
 \end{itemize}\pause
-$\leadsto$ Die Liste der Übergänge kann als Zertifikat dienen
+$\leadsto$ Die Liste der Übergänge eines akzeptierenden Laufs kann als Zertifikat dienen
 \medskip
 
 \Smach{V} prüft, ob die durch $z$ gegebenen Entscheidungen für die Eingabe $w$ zu einem akzeptierenden Lauf von \Smach{M} führen.\qed 
@@ -255,9 +255,9 @@ Für \Scomplclass{NP} ist das nicht so einfach möglich. Wir haben das schon fü
 
 \examplebox{Beispiele: Es scheint kein einfaches Zertifikat dafür zu geben, dass
 eine Formel \alert{nicht} erfüllbar ist oder dass ein Graph \alert{keine} Dreifärbung zulässt.
-}\pause
+}
 
-\defbox{Die Klasse aller Sprachen $\Slang{L}$, für die $\overline{\Slang{L}}\in\Scomplclass{NP}$ gilt, heißt $\Scomplclass{coNP}$.}
+\visible<3->{\defbox{Die Klasse aller Sprachen $\Slang{L}$, für die $\overline{\Slang{L}}\in\Scomplclass{NP}$ gilt, heißt $\Scomplclass{coNP}$.}}
 
 % Jede nichtdeterministische Klasse kann so komplementiert werden, z.B. $\Scomplclass{coNL}$ oder $\Scomplclass{coNExp}$.
 \medskip
@@ -304,11 +304,11 @@ Darstellung von Farben mit Atomen:
 \bigskip
 
 \uncover<4->{
-Färbe-Bedingungen für Knoten:
+Färbe-Bedingungen für Knoten:\\
 $(\ppred{1}\wedge\neg\pgreen{1}\wedge\neg\pblue{1})\vee
 (\neg\ppred{1}\wedge\pgreen{1}\wedge\neg\pblue{1})\vee
 (\neg\ppred{1}\wedge\neg\pgreen{1}\wedge\pblue{1})$
-\\\mbox{}\hfill(usw. für alle Knoten)
+\hfill(usw. für alle Knoten)
 % $(\ppred{10}\wedge\neg\pgreen{10}\wedge\neg\pblue{10})\vee
 % (\neg\ppred{10}\wedge\pgreen{10}\wedge\neg\pblue{10})\vee
 % (\neg\ppred{10}\wedge\neg\pgreen{10}\wedge\pblue{10})$\\
@@ -658,7 +658,7 @@ Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
   \begin{itemize}
 	\item $\Scomplclass{P} =  \Scomplclass{NP}$ könnte durch einen nicht-konstruktiven Beweis gezeigt werden\pause
 	\item Die Antwort könnte unabhängig von den Standardaxiomen der Mathematik (ZFC) sein\pause
-	\item Selbst wenn $\Scomplclass{P} \neq \Scomplclass{NP}$ gilt, ist weiterhin unklar, ob $\Scomplclass{NP}$-harte Problem wirklich exponentielle Zeit benötigen -- es gibt viele andere super-polynomielle Funktionen \ldots\pause
+	\item Selbst wenn $\Scomplclass{P} \neq \Scomplclass{NP}$ gilt, ist weiterhin unklar, ob $\Scomplclass{NP}$-harte Probleme wirklich exponentielle Zeit benötigen -- es gibt viele andere super-polynomielle Funktionen\\\ldots\pause
 	\item Das Problem könnte für immer ungelöst bleiben\pause
   \end{itemize}\bigskip
   
@@ -721,7 +721,7 @@ darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in 
 Offene Fragen:
 \begin{itemize}
 \item Wie genau stehen die Komplexitätsklassen in Beziehung? Insbesondere: $\Scomplclass{P}\neq \Scomplclass{NP}$?
-\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ Mailingliste!)
+\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ Lernräume nutzen!)
 \item Haben Sie sich ausreichend auf die Prüfung vorbereitet?
 \end{itemize}
 }
