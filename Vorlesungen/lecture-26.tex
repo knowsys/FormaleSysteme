@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{26}{Zusammenfassung und Ausblick}{2. Februar 2017}
+\defineTitle{26}{Zusammenfassung und Ausblick}{29. Januar 2018}
 
 \begin{document}
 
@@ -19,8 +19,11 @@ Zusammenfassung}\bigskip
 ~\hfill
 \includegraphics[height=4.5cm]{images/xkcd-tsp}
 \hfill~
+
 \rotatebox{0}{\tiny Randall Munroe, \url{http://xkcd.com/399/}, CC-BY-NC 2.5}
 \end{center}}
+
+\sectionSlide{Fragen?}
 
 \begin{frame}\frametitle{Sprachen und Berechnung}
 
@@ -46,7 +49,7 @@ Wir haben zwei Hierarchien von Sprachklassen kennengelernt\bigskip
 \begin{enumerate}[(1)]
 \item \alert{Chomsky-Hierarchie:}
 \[ \text{Typ 3}\subset \text{det. kontextfrei}\subset\text{Typ 2}\subset\text{Typ 1}\subset\text{Typ 0}\]
-Ansatz: natürliche Definition über Grammatiken
+Ansatz: natürliche Definition über Grammatiken\bigskip
 \item \alert{Hierarchie der Komplexitätsklassen:}
 \[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
 Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschinen
@@ -54,9 +57,9 @@ Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschin
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Eine Hierarchie?}
+\begin{frame}[t]\frametitle{Eine Hierarchie?\phantom{p}}
 
-% \narrowcentering
+\narrowcentering
 {%
 \scalebox{0.75}{%
 \begin{tikzpicture}[decoration=penciline, decorate,
@@ -119,10 +122,9 @@ Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschin
 
 \begin{frame}[t]\frametitle{Typische Beispiel-Sprachen}
 
-
-\ghost{\hspace{0.5cm}\raisebox{6.3cm}{\includegraphics[height=1.5cm]{images/Sudoku-xkcd74}$*$}
-\hspace{8.5cm}\raisebox{1.5cm}{\rotatebox{90}{\tiny $*$ Randall Munroe, \url{http://xkcd.com/74/}, CC-BY-NC 2.5}}}
-% \narrowcentering
+\ghost{\hspace{2.0cm}\raisebox{6.3cm}{\includegraphics[height=1.5cm]{images/Sudoku-xkcd74}$*$}
+\hspace{10.5cm}\raisebox{1.5cm}{\rotatebox{90}{\tiny $*$ Randall Munroe, \url{http://xkcd.com/74/}, CC-BY-NC 2.5}}}%
+\narrowcentering
 {%
 \scalebox{0.75}{%
 \begin{tikzpicture}[decoration=penciline, decorate,
@@ -200,7 +202,7 @@ Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschin
 
 \begin{frame}[t]\frametitle{Berechnungsmodelle}
 
-% \narrowcentering
+\narrowcentering
 {%
 \scalebox{0.75}{%
 \begin{tikzpicture}[decoration=penciline, decorate,
@@ -346,7 +348,7 @@ Sprache & Zeitkomplexität bzgl. Wortlänge $n$\\\hline
 Typ 3 & $O(n)$ (Abarbeitung DFA)\\
 Det. Typ 2 & $O(n)$ (Abarbeitung DPDA)\\
 Typ 2 &  $O(n^3)$ (CYK-Algorithmus)\\
-\Scomplclass{P} & polynomiell (z.B. Resolution für Hornlogik)\\
+\Scomplclass{P} & polynomiell (z.B. Hyperresolution für Hornlogik)\\
 \Scomplclass{NP} & exponentiell (z.B. Resolution allgemein)\\
 Typ 1 & $O(n\cdot |\Gamma|^n)$ (z.B. über LBA-Konfigurationsgraph)\\
 Typ 0 & unentscheidbar\\
@@ -487,8 +489,8 @@ Nennenswerte Klassen stark optimierter Logiktools:
 
 \begin{frame}\frametitle{}
 
-~\hspace{-1cm}
-\includegraphics[width=11.5cm]{images/fly-brain}
+~\hspace{-1.6cm}
+\includegraphics[width=16.1cm]{images/fly-brain}
 
 \end{frame}
 
@@ -530,6 +532,39 @@ Weiteres Fachgebiet: \redalert{Berechenbarkeitstheorie} (Klassifikation unentsch
 % % Foundations of Semantic Web Technologies
 % % was zu Verifikation?
 
+\begin{frame}\frametitle{TheoLog}
+
+Im nächsten Semester gibt es \alert{"`Theoretische Informatik und Logik"'} {\tiny(Pflicht für einige, offen für alle)}\medskip
+
+Hören Sie die großen Fragen der Mathematik -- und die Antworten der Informatik!
+\begin{itemize}
+\item \redalert{Berechenbarkeit}
+\begin{itemize}
+\item Fleißige Biber und manch Unentscheidbares
+\item Von Turingmaschinen zu Programmen
+\end{itemize}
+\item \redalert{Komplexität}
+\begin{itemize}
+\item NP: Spiele für eine Person
+\item PSpace: einfache Spiele für zwei
+\end{itemize}
+\item \redalert{Prädikatenlogik}
+\begin{itemize}
+\item Die Sprache der Mathematik
+\item Resolution reloaded
+\item Endliche Modelle (besser bekannt als ``Datenbanken'')
+\end{itemize}
+\item \redalert{Mathematikerinnen als Programmiererinnen}
+\begin{itemize}
+\item Die Grenzen der Mathematik
+\item Gödel, Turing und der ganze Rest
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\sectionSlide{Fragen?}
+
 \begin{frame}\frametitle{Zusammenfassung}
 
 \redalert{Formale Sprachen} sind die Grundlage zahlreicher Forschungs- und Anwendungsfelder der Informatik.
@@ -542,10 +577,10 @@ von Berechnungsaufgaben zu treffen
 \redalert{Formale Logik} wird als Spezifikationssprache für (zumeist anspruchsvolle) Probleme in vielen Gebieten verwendet
 \bigskip
 
-\anybox{yellow}{
+\anybox{strongyellow}{
 Offene Fragen:
 \begin{itemize}
-\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ Mailingliste!)
+\item Haben Sie noch inhaltliche Fragen?
 \item Haben Sie sich ausreichend auf die Prüfung vorbereitet?
 \item Sonstiges Feedback?
 \end{itemize}
