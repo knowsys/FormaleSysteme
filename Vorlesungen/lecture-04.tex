@@ -126,7 +126,7 @@ Ein \redalert{Lauf} eines NFA $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ für ein
 ist eine Folge von Zuständen $q_0\ldots q_m$, so dass gilt:
 \begin{itemize}
 \item $q_0\in Q_0$
-\item $q_{i+1}\in \delta(q_i,\sigma_i)$ für alle $0\leq i<m$ 
+\item $q_{i+1}\in \delta(q_i,\sigma_{i+1})$ für alle $0\leq i<m$ 
 \item (1) $m=|w|=n$ oder (2) $m<n$ und $\delta(q_m,\sigma_m)=\emptyset$
 \end{itemize}
 Ein Lauf heißt \redalert{akzeptierend}, falls $m=n$ und $q_n\in F$. Andernfalls
