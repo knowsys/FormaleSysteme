@@ -442,7 +442,7 @@ Teilwort $\Sterm{a_i}\cdots\Sterm{a_{j}}$, also das Infix der Länge $j-i+1$, we
 die gilt $\Snterm{A}\Rightarrow^* w_{i,j}$. Diese Menge nennen wir $V[i,j]$.
 \begin{itemize}
 \item Wir beginnen mit den kürzesten Teilwörtern ($i=j$)
-\item Für längere Wörter betrachten wir jede mögliche Zweiteilung $w_{i,\ell}=w_{i,k}w_{k+1,j}$ und suchen Regeln der Form $\Snterm{A}\to\Snterm{B}\Snterm{C}$ so dass $\Snterm{B}\in V[i,k]$ und $\Snterm{C}\in V[k+1,j]$
+\item Für längere Wörter betrachten wir jede mögliche Zweiteilung $w_{i,j}=w_{i,k}w_{k+1,j}$ und suchen Regeln der Form $\Snterm{A}\to\Snterm{B}\Snterm{C}$ so dass $\Snterm{B}\in V[i,k]$ und $\Snterm{C}\in V[k+1,j]$
 \end{itemize}
 Ist am Ende das Startsymbol $S\in V[1,|w|]$, dann liegt $w$ in der Sprache
 
