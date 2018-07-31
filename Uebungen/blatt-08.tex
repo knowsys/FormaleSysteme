@@ -1,0 +1,78 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage[all]{xy}
+\xyoption{rotate}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 8.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/sprachen-kontextfrei-cyk-einfach}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+\setcounter{exercise}{0}
+\input{pool/sprachen-kontextfrei-nachweis}
+\input{pool/sprachen-kontextfrei-grammatik-angeben}
+\input{pool/sprachen-kontextfrei-cnf-cyk}
+\input{pool/sprachen-kontextfrei-kellerautomaten-angeben}
+\input{pool/baier/736}
+
+\newpage
+
+% old structure: ^^^ restructured due to MK mail
+\iffalse
+%%%%%%%%%%%%%%%%%%%%
+
+\input{pool/sprachen-kontextfrei-abschlusseigenschaften}
+
+% boring:
+%\input{pool/sprachen-typ2-richtig-falsch}
+
+\input{pool/sprachen-kontextfrei-kellerautomaten}
+
+%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\with}{\ensuremath\mid}
+\input{pool/baier/731}
+\input{pool/baier/736}
+\input{pool/baier/734}
+%\input{pool/baier/737}
+
+%%%%%%%%%%%%%%%%%%%%
+\fi
+
+\end{document}

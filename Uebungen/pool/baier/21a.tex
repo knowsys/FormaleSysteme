@@ -1,0 +1,44 @@
+\begin{exercise}
+
+Wir betrachten die folgenden beiden Problemstellungen:
+
+\begin{itemize}
+\item Das Job-Rechnerproblem:
+Gegeben sind $n$ Rechner $R_1,\ldots,R_n$ 
+und $m$ Jobs $J_1,\ldots,J_m$.
+Weiter liegt eine Tabelle 
+$$T = (t_{i,k})_{1 \le i \le n, 1 \le k \le m}
+$$ 
+vor, in der eingetragen ist, welcher Rechner 
+f\"ur welchen Job die notwendige Ausstattung besitzt.
+Dabei ist $t_{i,k} = 1$, falls der $k$-te Job $J_k$ auf Rechner $R_i$
+ausf\"uhrbar ist. Andernfalls ist $t_{i,k} = 0$.
+Gefragt ist, ob es eine Zuordnung
+%\begin{center}
+  Jobs $\longrightarrow$ Rechner
+%\end{center}
+gibt, so da{\ss} die $m$ Jobs gleichzeitig ausgef\"uhrt werden
+k\"onnen.
+
+Wir nehmen dabei an, da{\ss} kein Rechner zwei oder mehr Jobs
+gleichzeitig ausf\"uhren kann.
+
+\item Matchingproblem (einfache Variante f\"ur bipartite Graphen):
+Gegeben ist ein ungerichteter Graph $G = (V,E)$ und eine Partition
+$V = V_L \cup V_R$ mit disjunkten nichtleeren Mengen $V_L$ und $V_R$,
+so da{\ss}  
+jede Kante zwischen $V_L$ und $V_R$ verl\"auft; 
+d.h.~f\"ur jede Kante $e \in E$ gilt:
+\begin{center}
+$ e \cap V_L \not= \emptyset$ und
+$ e \cap V_R \not= \emptyset$ 
+\end{center}
+Gefragt ist, ob es eine Kantenmenge $M \subseteq E$ gibt, so da{\ss}
+jeder Knoten $v \in V$ auf h\"ochstens einer Kante von $M$ liegt und
+$|M| = |V_L|$.
+\end{itemize}
+Zeigen Sie, da{\ss} das Job-Rechnerproblem auf das 
+Matchingproblem
+reduzierbar ist.
+
+\end{exercise}

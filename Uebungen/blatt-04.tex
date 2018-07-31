@@ -1,0 +1,52 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 4.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/sprachen-grammatik-kontextfrei-einfach}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **) 
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.  
+\end{mdframed}
+\end{center}
+
+\setcounter{exercise}{0}
+
+\input{pool/sprachen-regulaerer-ausdruck-einfach}
+\input{pool/sprachen-regulaerer-ausdruck-sprachen}
+\newpage
+\input{pool/sprachen-regulaere-ausdruecke-gleichheit}
+\input{pool/sprachen-regulaerer-ausdruck-nfa}
+\input{pool/sprachen-sprache-regulaerer-ausdruck}
+
+\end{document}

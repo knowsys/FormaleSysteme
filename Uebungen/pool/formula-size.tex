@@ -1,0 +1,18 @@
+\begin{exercise}
+  \label{logic:formula-size}
+  Für eine Formel $F$ ist die Größe \size{F} definiert durch:
+  \begin{align*}
+    \size{p} &:= 1 \\
+    \size{\lnot G} &:= \size{G} + 1 \\
+    \size{(G_1 \vee G_2)} &:= \size{G_1} + \size{G_2} + 1 \\
+    \size{(G_1 \wedge G_2)} &:= \size{G_1} + \size{G_2} + 1 \\
+    \size{(G_1 \rightarrow G_2)} & := \size{G_1} + \size{G_2} + 1 \\
+    \size{(G_1 \leftrightarrow G_2)} & := \size{G_1} + \size{G_2} + 1,
+  \end{align*}
+  wobei $G_1$ und $G_2$ Formeln sind und $p \in {\mathcal{P}}$ ist.  Zeigen Sie
+  die folgenden Aussagen:
+  \begin{enumerate}[label={\alph*)}]
+  \item Die Anzahl der Variablen in $F$ ist beschränkt durch $\size{F}$.
+  \item Die Anzahl der Unterformeln in $F$ ist beschränkt durch $\size{F}$.
+  \end{enumerate}
+\end{exercise}

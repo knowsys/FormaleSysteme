@@ -1,0 +1,47 @@
+
+\begin{exercise}
+	\begin{enumerate}
+\item[S15)] Betrachten Sie die Grammatik $G=(\{ S,U,X,T,V,W,Y,D,E,A,B,C\},\Sigma, P,S)$ \\mit
+  $\Sigma=\{a,b,c\}$ und
+\begin{eqnarray*}
+P&=&\{
+      S\longrightarrow UT,  S\longrightarrow VW,
+      U\longrightarrow XB, U\longrightarrow AB,\\
+&&
+      X \longrightarrow AU,
+      T \longrightarrow TC, T \longrightarrow c,
+      V \longrightarrow AV,\\
+&&V \longrightarrow a,
+      W \longrightarrow BY, W \longrightarrow BC,
+      Y \longrightarrow WC,\\
+&&    D \longrightarrow BC, D \longrightarrow BB, D \longrightarrow  b,
+      E \longrightarrow AB,\\
+&&  E \longrightarrow AA,
+      A\longrightarrow a,
+      B\longrightarrow b,
+      C\longrightarrow c\}\;.
+\end{eqnarray*}
+   Verwenden Sie den CYK-Algorithmus (mit der Matrix-Notation aus der
+    Vorlesung), um f\"ur die W\"orter $w_1 = aabcc$ und $w_2 = aabbcc$ zu entscheiden, ob
+    $w_i\in L(G)$ ist.\\
+
+\item[S16)] Gegeben sind das Wort $w=aaaab$ und die Grammatik $G=(V,\Sigma ,P,S)$ mit\\
+$V=\{S,A,B,C\}, \Sigma =\{a,b\}$ und
+\begin{eqnarray*}
+P&=&\{ S\longrightarrow AB, S\longrightarrow BC, S\longrightarrow bab,\\
+&& A\longrightarrow BA, A\longrightarrow a,\\
+&& B\longrightarrow ABC, B\longrightarrow b,\\
+&& C\longrightarrow AB, C\longrightarrow a, C\longrightarrow \varepsilon\}\;.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item[a)] Transformieren Sie die Grammatik $G$ in eine $\varepsilon$-freie Grammatik $G'$.
+\item[b)] Transformieren Sie die Grammatik $G'$ in ihre {\it
+    Chomsky}-Normalform.
+\item[c)] Entscheiden Sie mithilfe des
+  Cocke-Younger-Kasami-Algorithmus, ob $w\in L(G)$
+  gilt.
+\end{enumerate}
+\end{enumerate}
+
+\end{exercise}

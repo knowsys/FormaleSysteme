@@ -1,0 +1,34 @@
+
+\begin{tikzpicture}[node distance=16ex and 7em]
+    \path{
+      node[state,initial] (q_0) {$q_0$}
+      node[state] (q_1) [right=of q_0]{$q_1$}
+      node[state] (q_2) [right=of q_1]{$q_2$}
+      node[state] (q_8) at ($(q_1)!0.5!(q_2)+(0,2)$) {$q_8$}
+      node[state,accepting] (q_3) [right=of q_2]{$q_3$}
+      node[state] (q_4) [below=of q_0]{$q_4$}
+      node[state] (q_5) [below=of q_1]{$q_5$}
+      node[state,accepting] (q_6) [below=of q_2]{$q_6$}
+      node[state] (q_7) [below=of q_3]{$q_7$}
+    };
+
+    \path[->,draw]{
+      (q_0) edge node[left]{$b$}  (q_4)
+      (q_1) edge node[above]{$b$} (q_2)
+      (q_2) edge node[above]{$b$} (q_3)
+      (q_3) edge node[right]{$a$} (q_7)
+      (q_4) edge node[below]{$b$} (q_5)
+      (q_5) edge node[above]{$a$} (q_6)
+      (q_6) edge node[above]{$b$} (q_7)
+      (q_4) edge node[above]{$a$} (q_3)
+      (q_6) edge node[above]{$a$} (q_3)
+      (q_0) edge[bend left] node[above]{$a$} (q_1)
+      (q_1) edge[bend left] node[below]{$a$} (q_0)
+      (q_2) edge[bend left=90,looseness=2.5] node[above]{$a$} (q_7)
+      (q_7) edge[loop right] node {$a,b$} (q_7)
+      (q_5) edge[bend right=30] node[below]{$b$} (q_7)
+      (q_8) edge node[above]{$b$}(q_2)
+      (q_8) edge node[above]{$a$}(q_1)
+      (q_3) edge[loop right] node {$b$} (q_3)
+    };
+  \end{tikzpicture}

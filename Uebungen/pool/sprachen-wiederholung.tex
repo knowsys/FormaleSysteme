@@ -1,0 +1,40 @@
+
+\begin{exercise}
+
+\begin{enumerate}
+\item[S17)] Gegeben ist der folgende NFA $\mathcal{M}_1=(\{q_0,q_1,q_2,q_3\},\{a,b\},\delta,\{q_0\},\{q_3\})$ mit\\[0.2cm] 
+$\delta$:
+\begin{center}
+  \input{pool/graphics/sprachen-wiederholung}
+\end{center}
+\begin{enumerate}
+    \item[a)] Berechnen Sie mithilfe des {\it{Arden}}-Lemmas einen regul\"aren Ausdruck $\alpha$ mit $L(\mathcal{M}_1)=L(\alpha)$.
+    \item[b)] Geben Sie einen DFA $\overline{\mathcal{M}_2}$ an, der das Komplement von $L$ akzeptiert, indem Sie aus ${\mathcal{M}}_1$ einen DFA ${\mathcal{M}}_2$
+       f\"ur $L$ und aus ${\mathcal{M}}_2$ anschlie\ss{}end den Komplementautomaten $\overline{\mathcal{M}_2}$ bilden.\\
+ \end{enumerate} 
+  
+\item[S18)]  
+\begin{enumerate}
+  \item[a)] Gegeben sind die folgenden Grammatiken $G_i$ mit $1\le i\le 4$:
+    \begin{itemize}
+      \item $G_1=(\{S\},\{a,b\},\{S\rightarrow aS,S\rightarrow Sb,S\rightarrow a\},S)$
+      \item $G_2=(\{S\},\{a,b\},\{S\rightarrow aS,S\rightarrow SbS,S\rightarrow a\},S)$
+      \item $G_3=(\{S,B\},\{a,b\},\{S\rightarrow \varepsilon,S\rightarrow aSb,aS\rightarrow aB, B\rightarrow bB, B\rightarrow b\},S)$
+      \item $G_4=(\{S,A\},\{a,b\},\{S\rightarrow a,A\rightarrow b\},S)$ 
+    \end{itemize}
+   Geben Sie f\"ur jede Grammatik $G_i$ den maximalen Chomsky-Typ $j$ an. Begr\"unden Sie Ihre Antwort.
+   \item[b)] Gegeben sind die folgenden Sprachen $L_i$ mit $1\le i\le 4$:
+ \begin{itemize}
+      \item $L_1=\{a^nb^na^n \;|\;n\in \mathbb{N}, n\ge 1\}$   
+      \item $L_2=\{\varepsilon,a\}$   
+      \item $L_3=\{a^nb^m \;|\;n,m\in \mathbb{N}\setminus \{0\}, n> m\}$   
+      \item $L_4=L(\{a\}\circ \{a\}^*\circ \{b\}\circ \{b\}^*)\setminus L_3$   
+ \end{itemize}
+ Geben Sie f\"ur jede Sprache $L_i$ den maximalen Chomsky-Typ $j$ an. Begr\"unden Sie Ihre Antwort. Die Darlegung der Beweisidee ist ausreichend.
+ \end{enumerate}
+ 
+ \end{enumerate}
+ 
+ \end{exercise}
+ 
+ 

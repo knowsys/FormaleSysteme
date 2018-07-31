@@ -1,0 +1,75 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+\newcommand{\T}{\ensuremath\mathcal{M}}
+\newcommand{\cT}{\T}
+\newcommand{\bin}{\ensuremath\mathit{bin}}
+\newcommand{\poly}{\text{\normalfont poly}}
+\newcommand{\Nat}{\ensuremath\mathbb{N}}
+\newcommand{\eqdef}{\ensuremath\stackrel{\text{def}}{=}}
+
+\newcommand{\notyetknown}[1]{}
+\newcommand{\totutoronly}[1]{\textcolor{gray}{#1}}
+\renewcommand{\totutoronly}[1]{}
+
+\newcommand{\blank}{\text{\textvisiblespace}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 11.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+\input{pool/sprachen-turingmaschine-ai_bi_ci-star}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+%\vspace*{0.5cm}
+%{\bf{Anmerkung}}\\
+%Mit der 9. \"Ubung ist in den verschiedenen \"Ubungsgruppen abzusichern, dass alle bisher aus Zeitgr\"unden noch nicht besprochenen Aufgaben der \"Ubungsbl\"atter 1 bis 8 abgearbeitet sind.
+
+\setcounter{exercise}{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{pool/baier/946}
+\input{pool/baier/1017}
+\newpage
+
+% wahlweise nur teil b:
+\input{pool/baier/14}
+%\input{pool/baier/14b}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

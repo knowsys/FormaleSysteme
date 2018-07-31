@@ -1,0 +1,43 @@
+\begin{exercise}
+
+Gegeben ist die nichtdeterministische $3$-Band Turingmaschine
+ $$\T \ = \ (\{q_0,q_1,q_2\}, \{a,b\}, \{a,b,\Box\}, \delta,q_0,
+\Box,\{q_2\})
+$$
+mit
+$$\begin{array}{lcl}
+  \delta(q_0, a,\Box,\Box) & = & \{ (q_0, \langle a,R\rangle, \langle  a,R
+  \rangle ,\langle  \Box,N  \rangle ), \\
+  &  &  (q_1, \langle a,R\rangle, \langle  a,N
+  \rangle ,\langle  \Box,L  \rangle )   \} \\
+  
+  \delta(q_0, b,\Box,\Box) & = & \{ (q_0, \langle b,R\rangle, \langle  \Box,N
+  \rangle ,\langle  b,R  \rangle ), \\
+  &  &  (q_1, \langle b,R\rangle, \langle  \Box,L
+  \rangle ,\langle  b,N  \rangle )    \} \\
+
+  \delta(q_1, a,a,b) & = & \{ (q_1, \langle a,R\rangle, \langle  \Box,L
+  \rangle ,\langle  b,N  \rangle )    \} \\
+
+  \delta(q_1, a,a,\Box) & = & \{ (q_1, \langle a,R\rangle, \langle  \Box,L
+  \rangle ,\langle  \Box,N  \rangle )    \} \\
+
+  \delta(q_1, b,a,b) & = & \{ (q_1, \langle b,R\rangle, \langle  a,N
+  \rangle ,\langle  \Box,L  \rangle )    \} \\
+
+  \delta(q_1, b,\Box,b) & = & \{ (q_1, \langle b,R\rangle, \langle  \Box,N
+  \rangle ,\langle  \Box,L  \rangle )    \} \\
+
+  \delta(q_1, \Box,\Box,\Box) & = & \{ (q_2, \langle \Box,N\rangle, \langle  \Box,N
+  \rangle ,\langle  \Box,N  \rangle )    \} \\
+
+\end{array}
+$$
+
+Welche Sprache akzeptiert $\T$ ? 
+Hinweis: Sie können die Arbeitsweise von
+$\T$ gerne mithilfe einer graphischen 
+Repräsentation der Übergangsrelation~$\delta$ 
+nachvollziehen.
+
+\end{exercise}

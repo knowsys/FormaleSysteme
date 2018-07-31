@@ -1,0 +1,43 @@
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{wasysym}
+\usepackage{stmaryrd}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{makecmds}
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\rho}{\varrho}
+\renewcommand{\theta}{\vartheta}
+\newcommand{\tuple}[1]{\langle{#1}\rangle} 
+
+\newcommand{\size}[1]{\ensuremath{\lvert #1\rvert}}
+\newcommand{\gdw}{\mathrel{\mathrm{gdw.}}}
+\newcommand{\falls}{\mathrel{\mathrm{falls}}}
+
+\provideenvironment{solution}{\textbf{Lösung}:}{}
+\usepackage{comment}
+
+\usepackage{etex,etoolbox}
+
+\DeclareRobustCommand{\NN}{\ensuremath{\mathbb{N}}}
+
+\newbool{Baader}
+\newbool{Kroetzsch}
+\booltrue{Kroetzsch}
+
+\DeclareMathOperator{\Var}{Var}
+\ifbool{Baader}{%
+  \DeclareMathOperator{\Unt}{Unt}
+  \DeclareMathOperator{\Res}{Res}
+}{}
+\ifbool{Kroetzsch}{%
+  \DeclareMathOperator{\Unt}{Sub}
+  \DeclareMathOperator{\Res}{Res}
+  \usepackage{multicol}         % for resolution
+}{}

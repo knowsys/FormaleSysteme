@@ -1,0 +1,30 @@
+
+\begin{exercise}
+Gegeben ist der NFA $\mathcal M=(\{q_0,q_1,q_2,q_3,q_4\},\{a,b,c,d\}, \delta ,\{q_0\},\{q_2\})$ mit $\delta$:
+\vspace*{0.5cm}
+\begin{center}
+\begin{tikzpicture} [->, >=stealth', initial text=, auto, node
+  distance=25mm, bend angle=20, semithick]%[node distance=2cm,auto]
+ 
+ \node[state,initial] (q_0) {$q_0$}; 
+ \node[state] (q_1) [above right of=q_0] {$q_1$}; 
+ \node[state,accepting] (q_2) [right of=q_1] {$q_2$}; 
+ \node[state] (q_3) [below right of=q_0] {$q_3$};
+ \node[state] (q_4) [right of=q_3] {$q_4$};
+      
+  \path[->]
+  (q_0) edge [bend left]  node {$a, b$} (q_1) 
+  (q_0) edge  [bend right] node {$b, c$} (q_3) 
+  (q_1) edge [loop above] node {$c$} (q_1) 
+  (q_1) edge node {$a$} (q_2) 
+  (q_1) edge node {$d$} (q_3) 
+  (q_3) edge node {$c$} (q_2) 
+  (q_3) edge [bend left] node {$c$} (q_4) 
+  (q_4) edge  node {$a$} (q_2)
+  (q_4) edge [bend left] node {$d$} (q_3);
+\end{tikzpicture}
+\end{center}
+Geben Sie für jedes $z\in \{bc,adc,cda,bcdc,acdc\}$ alle Zerlegungen $z=uvw$ mit
+$u,w\in \Sigma^*$, $v\in \Sigma^{+}$ an, sodass für alle $k\ge 0$ gilt:
+$uv^kw\in L(\mathcal M)$. Begründen Sie Ihre Antworten.
+\end{exercise}

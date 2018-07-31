@@ -1,0 +1,20 @@
+
+\begin{exercise}
+Wie in der Vorlesung dargelegt wurde, werden Turingmaschinen als allgemeines Rechenmodell verstanden (18.\,Vorlesung, Folie 19).\\[0.2cm]
+Geben Sie Turingmaschinen an, die folgende Funktionen 
+berechnen. Dabei wird eine Eingabe $n\in \mathbb N$ als $\emptyset^n$ mit $\emptyset\in \Sigma$ dargestellt. Es kann vorausgesetzt werden, dass die Eingabe wohlgeformt auf dem Band vorliegt. Am Ende der Berechnung h\"alt die Turingmaschine in einem Finalzustand und das Band enth\"alt nur das Berechnungsergebnis. 
+\begin{enumerate}
+\item[a)] Die Turingmaschine $\mathcal M_{0}$ berechnet die
+  Funktion $f:\mathbb N\rightarrow \mathbb N,\,n\mapsto 0$, d.\,h. das Eingabewort auf dem
+  Band wird gelöscht.
+\item[b)] Die Turingmaschine $\mathcal M_{succ}$ berechnet die
+  Funktion $f:\mathbb N\rightarrow \mathbb N,\,n\mapsto n+1$.
+\item[c)] Für $i,n\in \mathbb N$ berechnet die Turingmaschine $\mathcal M_{n}^i$
+  die Funktion $f^i_n:\mathbb N^n\rightarrow \mathbb
+  N$ mit $(x_1,\ldots,x_n)\mapsto x_i$. Es wird empfohlen, zunächst die
+  Turingmaschine $\mathcal M_{4}^2$ anzugeben und diese dann zu
+  $\mathcal M_{n}^i$ zu verallgemeinern.\\[1ex]
+  \textit{Hinweis}: $(3,2,4,0)$ in der Eingabe wird dargestellt als \mbox{$(\emptyset\emptyset\emptyset,\emptyset\emptyset,\emptyset\emptyset\emptyset\emptyset,)\textvisiblespace$ }. 
+\end{enumerate} 
+\end{exercise}
+

@@ -1,0 +1,26 @@
+
+\begin{tikzpicture}[->,
+        >=stealth',
+        semithick,
+        initial text=,
+        shorten <=2pt,
+        shorten >=2pt,
+        auto,
+        on grid,
+        node distance=5ex and 5em,
+        every state/.style={minimum size=0pt,inner sep=2pt,text height=1.5ex,text depth=.25ex},
+        bend angle=15]
+
+      \begin{scope}
+        \node[state, initial]   (q_0) {$q_{0}$};
+        \node[state]            (q_1) [right=4 of q_0] {$q_{1}$};
+        \node[state, accepting] (q_2) [below right=2 and 2 of q_0] {$q_{2}$};
+
+        \path
+        (q_0) edge[bend left] node {$b$} (q_1)
+        (q_1) edge[bend left] node {$b$} (q_0)
+        (q_0) edge            node[below left] {$a,b$} (q_2)
+        (q_1) edge            node {$b$} (q_2);
+      \end{scope}
+
+\end{tikzpicture}

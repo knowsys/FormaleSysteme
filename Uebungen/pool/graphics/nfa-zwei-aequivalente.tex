@@ -1,0 +1,4 @@
+
+\begin{tikzpicture} [->, >=stealth', initial text=, auto, node  distance=17mm, bend angle=20, semithick]   \node[state,initial,initial text= ] (q0) {$q_0$};   \node[state] (q1) [above right of=q0] {$q_1$};   \node[state] (q2) [below right of=q1] {$q_2$};   \node[state] (q3) [above right of=q2] {$q_3$};   \node[state,accepting] (q4) [below right of=q3] {$q_4$};
+   \path[->] (q0) edge               node {$a$} (q1)                   edge               node {$\varepsilon$} (q2)              (q1) edge  [loop above] node {$a$} (q1)                   edge               node {$c$} (q2)              (q2) edge               node {$b$} (q3)                   edge               node {$\varepsilon$} (q4)              (q3) edge  [loop above] node {$b$} (q3)                   edge               node {$d$} (q4) ;
+\end{tikzpicture}

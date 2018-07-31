@@ -1,0 +1,59 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 5.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/sprachen-grammatik-regulaere-ausdruecke-einfach}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+\setcounter{exercise}{0}
+\input{pool/sprachen-dfa-regulaerer-ausdruck}
+
+\newpage
+
+\input{pool/dfa-quotientenautomat}
+\input{pool/nfa-dfa-konstruktion}
+\input{pool/sprachen-nerode-minimal-dfa}
+\input{pool/dfa-quotientenautomat-vertraeglichkeit}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

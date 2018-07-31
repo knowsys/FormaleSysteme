@@ -1,0 +1,57 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 6.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/sprachen-regulaere-ausdruecke-begriffswiederholung}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+\setcounter{exercise}{0}
+
+\newpage
+\input{pool/dfa-reduzierter-dfa}
+\input{pool/sprachen-beweis-gegenbeispiel-aufgabe}
+
+% kam wohl schon in der vorlesung vor - rausgenommen:
+%\input{pool/sprachen-dfa-eigenschaften}
+
+\newpage
+\input{pool/sprachen-regularitaet-inkl-pumping}
+\input{pool/sprachen-nfa-pumping-wortzerlegung}
+
+\end{document}

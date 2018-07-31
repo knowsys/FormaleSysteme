@@ -1,0 +1,51 @@
+
+\begin{exercise}
+Geben Sie in den folgenden Aufgaben	jeweils 
+eine deterministische Turingmaschine 
+mit einem oder mehreren Bändern an.
+\begin{enumerate}
+\item [(a)]
+  Jeweils eine\notyetknown{polynomiell zeitbeschr\"ankte} DTM $\T_{\mathit ADD}$ bzw.\  $\T_{\mathit MULT}$ f\"ur die
+  Additions- bzw. Multiplikationsfunktion
+$$ \begin{array}{lcllcl}
+    f_{\mathit ADD} & : & \mathbb{N} \times \mathbb{N} \to \mathbb{N}, & 
+    f_{\mathit ADD}(n,m) & = & n + m \\[1ex]
+    f_{\mathit MULT} & : & \mathbb{N} \times \mathbb{N} \to \mathbb{N}, &
+    f_{\mathit MULT}(n,m) & = & n \cdot m 
+  \end{array}
+  $$%
+\notyetknown{
+D.h.~es gilt $f_{\T_{\mathit ADD}} = f_{\mathit ADD}$ bzw. $f_{\T_{\mathit MULT}} = f_{\mathit MULT}$
+und 
+$$t_{\T_{\mathit ADD}}(\bin(n)\#\bin(m)) = {\cal O}(\poly( L(n) + L(m)))$$
+bzw.\
+$$t_{\T_{\mathit MULT}}(\bin(n)\#\bin(m))= {\cal O}(\poly( L(n) + L(m)))$$}
+\item [(b)]
+  Jeweils eine DTM an für die Funktionen
+
+  $$ \begin{array}{lcllcl}
+    f_{\mathit fak} & : & \mathbb{N} \to \mathbb{N}, & f_{\mathit fak}(n) & = & n! 
+    \\[1ex]
+    f_{\mathit \log} & : &  \mathbb{N} \to \mathbb{N}, &
+    f_{\mathit \log}(n) & = & \begin{cases}
+       \lfloor \log n  \rfloor & \text{falls $n \ge 1$} \\
+        \bot & \text{sonst}
+     \end{cases}
+  \end{array}
+  $$
+(Zur Erinnerung: 0! = 1.)
+
+\notyetknown{  
+  Geben Sie jeweils die Gr\"o{\ss}enordnungen der 
+   Kostenfunktionen (Zeit und Platz, in Abh\"angigkeit der 
+  Eingabegr\"o{\ss}e)  der konzipierten DTMs an.
+}
+\end{enumerate}
+
+  Es gen\"ugen informelle Beschreibungen; etwa durch 
+  Skizzen, aus denen ersichtlich wird, wie (aus der Vorlesung oder \"Ubung 
+  bekannte oder selbst definierte) 
+  Turingmaschinen miteinander verkn\"upft werden.
+
+\end{exercise}
+

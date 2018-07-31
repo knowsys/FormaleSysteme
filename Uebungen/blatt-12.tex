@@ -1,0 +1,65 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+\newcommand{\T}{\ensuremath\mathcal{M}}
+\newcommand{\cT}{\T}
+\newcommand{\bin}{\ensuremath\mathit{bin}}
+\newcommand{\poly}{\text{\normalfont poly}}
+\newcommand{\Nat}{\ensuremath\mathbb{N}}
+\newcommand{\eqdef}{\ensuremath\stackrel{\text{def}}{=}}
+
+\newcommand{\notyetknown}[1]{}
+\newcommand{\totutoronly}[1]{\textcolor{gray}{#1}}
+\renewcommand{\totutoronly}[1]{}
+
+\newcommand{\blank}{\text{\textvisiblespace}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 12.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/truth-table-2}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+\vskip+4ex
+
+\setcounter{exercise}{0}
+
+\input{pool/vampire-1}
+\input{pool/truth-table-1}
+\input{pool/formula-size}
+
+\end{document}

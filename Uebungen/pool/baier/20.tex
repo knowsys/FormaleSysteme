@@ -1,0 +1,44 @@
+\begin{exercise}
+
+\vskip+2ex
+
+\begin{enumerate}
+\item [(a)]
+Begr\"unden Sie die Entscheidbarkeit des folgenden Problems:
+\begin{itemize}
+\item Gegeben: Spielkonfiguration von 4--gewinnt, in der Spieler X am Zug ist.
+\item Gefragt: Gibt es eine Gewinnstrategie f\"ur Spieler X, d.h.~eine 
+  Zugm\"oglichkeit, die Spieler X den Gewinn garantiert, wenn Spieler
+  X im folgenden stets einen optimalen Zug ausf\"uhrt; unabh\"angig davon,
+  wie sich Spieler O verh\"alt?
+\end{itemize}
+Hinweis: Sie m\"ussen nicht erl\"autern, wie eine solche
+Gewinnstrategie zu finden ist, sondern lediglich die Existenz eines
+Algorithmus, der pr\"uft, ob es eine Gewinnstrategie gibt, belegen.
+
+Spiel 4gewinnt: Ein senkrecht stehendes hohles Brett mit 7 Spalten und 6 Reihen wird von zwei Spielern (X und O) abwechselnd mit unterschiedlich gef\"arbten Spielsteinen (jeder hat 21 Spielsteine) gef\"ullt. Dabei fallen die Spielsteine in den Spalten nach unten. Gewinner ist derjenige, der vier seiner Spielsteine waagerecht, senkrecht oder diagonal in eine Linie bringt. Gelingt das keinem der beiden Spieler, so wird das Spiel als Remis gewertet.
+
+\item [(b)]
+Begr\"unden Sie die Semientscheidbarkeit des folgenden Problems:
+\begin{itemize}
+\item Gegeben ist eine Zahlenfolge $s=s_1 s_2 \ldots s_n \in \{0,1,\ldots,9\}^n$, $n\geq 1$.
+\item Gefragt: Kommt in dem Nachkommateil der Dezimaldarstellung von 
+   $\pi$ die Sequenz $s$ vor?
+\end{itemize}
+Hinweis: Sie d\"urfen als bekannt voraussetzen, da{\ss} es beliebig
+genaue N\"aherungsverfahren f\"ur $\pi$ gibt.
+Skizzieren Sie die Arbeitsweise eines Semientscheidungsverfahren f\"ur 
+das genannte Problem unter Verwendung eines Algorithmus
+$$ \mbox{\it Pi-N\"aherungsverfahren}(k),
+$$
+das als Eingabe eine nat\"urliche Zahl $k \ge 1$ hat 
+und als Ausgabe die $k$ ersten Ziffern des Nachkommateils der 
+Dezimaldarstellung von $\pi$ zur\"uckgibt.
+
+%\item [(c)] Ist das Problem aus Teilaufgabe (b) entscheidbar? 
+%  Begründen Sie Ihre Antwort.
+
+\end{enumerate}
+
+\end{exercise}
+

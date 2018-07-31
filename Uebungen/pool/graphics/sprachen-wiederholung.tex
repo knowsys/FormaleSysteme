@@ -1,0 +1,14 @@
+
+\begin{tikzpicture}[node distance=2cm, auto]
+   \node[state,initial,initial text= ] (q0) {$q_0$};
+   \node[state] (q1) [right of=q0] {$q_1$};
+   \node[state] (q2) [right of=q1] {$q_2$};
+   \node[state, accepting] (q3) [right of=q2] {$q_3$};
+
+\path[->] (q0) edge [loop above] node {$a,b$} ()
+               edge              node {$b$} (q1)
+          (q1) edge              node {$a$} (q2)
+          (q2) edge              node {$b$} (q3)
+          (q3) edge [loop above] node {$a,b$} ()
+;
+\end{tikzpicture}

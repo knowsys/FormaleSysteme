@@ -1,0 +1,66 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+\usepackage{extarrows}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 3.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/nfa-wiederholung-einfach}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **) 
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.  
+\end{mdframed}
+\end{center}
+
+\setcounter{exercise}{0}
+
+\input{pool/nfa-aequivalenz-einfach}
+\newpage
+\input{pool/baier/69}
+\input{pool/baier/730}
+\input{pool/nfa-zwei-aequivalente}
+\newpage
+\input{pool/nfa-vier-mal-epsilonfrei}
+
+% hätten auch noch gepasst:
+%\newpage
+%\input{pool/baier/52}
+%\input{pool/baier/55}
+%\input{pool/baier/61}
+%\input{pool/baier/692}
+%\input{pool/baier/71}
+%\input{pool/baier/712}
+%\input{pool/baier/723}
+%\input{pool/baier/726}
+%\input{pool/baier/742}
+%\input{pool/baier/k2_2a}
+
+\end{document}

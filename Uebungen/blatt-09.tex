@@ -1,0 +1,66 @@
+\documentclass[german]{latteachCD}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fdsymbol}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+%\usepackage{fixltx2e}
+%\usepackage{enumitem}
+%\usepackage{extarrows}
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+
+\usepackage{tikz}
+\input{tikzsettings}
+
+\newcommand{\cKeps}{\ensuremath\mathcal{M}_{\varepsilon}}
+\newcommand{\cLeps}{\ensuremath L_{\varepsilon}}
+\newcommand{\cK}{\ensuremath\mathcal{M}}
+\newcommand{\cL}{\ensuremath L}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\author{~}
+\term{Wintersemester 2017/18}
+\title{\Large 9.\@ Übungsblatt}
+\course{\LARGE Formale Systeme}
+
+\input{uebung-macros}
+\excludecomment{solution}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{mdframed}
+  \renewcommand{\theexercise}{zur Selbstkontrolle
+  (diese werden in den Übungen nicht besprochen)}
+  \input{pool/sprachen-wiederholung}
+%  {\bfseries Hinweis:} Die Aufgaben *) und **)
+%  dienen der Selbstkontrolle und werden in der
+%  Übung nicht besprochen.
+\end{mdframed}
+\end{center}
+
+%\vspace*{0.5cm}
+%{\bf{Anmerkung}}\\
+%Mit der 9. \"Ubung ist in den verschiedenen \"Ubungsgruppen abzusichern, dass alle bisher aus Zeitgr\"unden noch nicht besprochenen Aufgaben der \"Ubungsbl\"atter 1 bis 8 abgearbeitet sind.
+
+\setcounter{exercise}{0}
+
+\input{pool/sprachen-deterministisch-kontextfrei-kellerautomat}
+\input{pool/sprachen-deterministisch-kontextfrei-richtig-falsch}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{pool/baier/739}
+\input{pool/baier/740}
+%\input{pool/baier/741}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

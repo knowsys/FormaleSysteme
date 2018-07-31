@@ -1,0 +1,20 @@
+\begin{exercise}
+
+Wir betrachten das Handlungsreisendenproblem (TSP).
+Gegeben ist ein Digraph $G = (V,E)$ mit einer Kostenfunktion $c : E \to \Nat.$
+
+\begin{itemize}
+  \item Die Optimierungsvariante vom Typ 2 fragt  nach einer k\"urzesten Rundreise. 
+  \item Die Optimierungsvariante vom Typ 1 fragt  nach den Kosten einer k\"urzesten
+Rundreise.
+  \item Die Entscheidungsvariante hat neben $G$ und $c$ eine Zahl $t \in \Nat$ als Eingabe und fragt, ob es eine Rundreise mit den Kosten $\le t$ gibt.
+\end{itemize}
+Zeigen Sie, dass aus der effizienten L\"osbarkeit\footnote{Mit ``effizienter L\"osbarkeit'' ist die Existenz eines
+polynomiell zeitbeschr\"ankten Algorithmus gemeint.
+} einer der drei Varianten  
+die effiziente L\"osbarkeit der beiden anderen Varianten folgt.
+
+{\bfseries Hinweis}:
+Eine Rundreise ist ein Hamiltonkreis, d.h. ein Kreis $v_0v_1\ldots v_n v_0$ in $G$, wobei $n = |V|$ gilt und $v_0, \ldots, v_n$ paarweise verschieden sind. Ein solcher Zyklus durchl\"auft also alle Knoten in $G$ genau einmal.
+\end{exercise}
+

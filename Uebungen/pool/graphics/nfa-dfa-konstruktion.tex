@@ -1,0 +1,29 @@
+
+\begin{tikzpicture}[%
+            ->,
+            >=stealth',
+            semithick,
+            initial text=,
+            shorten <=2pt,   
+            shorten >=2pt,
+            auto, 
+            on grid,
+            node distance=7ex and 8em,
+            every state/.style={minimum size=0pt,inner sep=2pt,text height=1.5ex,text depth=.25ex},
+            bend angle=20]
+    \node[state,initial] (q_0) {$q_0$};
+    \node[state] (q_1) [above right=of q_0] {$q_1$};
+    \node[state,accepting] (q_2) [right=of q_1] {$q_2$};
+    \node[state] (q_3) [below right=of q_0] {$q_3$};
+    \node[state] (q_4) [right=of q_3] {$q_4$};
+    \path[->]
+    (q_0) edge node {$\varepsilon$} (q_1)
+    (q_0) edge node {$b$} (q_3)
+    (q_3) edge node {$a, b$} (q_1)
+    (q_1) edge node {$\varepsilon$} (q_2)
+    (q_2) edge node[above left] {$a$} (q_3)
+    (q_2) edge[bend left] node {$a$} (q_4)
+    (q_3) edge node {$b$} (q_4)
+    (q_4) edge [bend left] node {$a$} (q_2) 
+    (q_4) edge [loop right, white] node [white] {$a,b$} (q_4) ;
+\end{tikzpicture}

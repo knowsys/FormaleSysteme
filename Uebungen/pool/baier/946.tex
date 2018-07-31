@@ -1,0 +1,25 @@
+\begin{exercise}
+Im Folgenden bezeichne $\T_w$ eine deterministische 
+Turingmaschine mit einem Band und dem Eingabe\-alphabet $\Sigma=\{0,1,\#\}$, deren Codewort $\textsf{enc}(\T_w)$ 
+gleich $w$ ist, falls es ein solches gibt (vgl. Vorlesung 19, Folie 15).
+Andernfalls ist $\T_w = \T_{\bot}$, eine fest 
+gew\"ahlte deterministische Turingmaschine 
+mit dem Eingabealphabet $\Sigma=\{0,1\}$, die f\"ur alle 
+Eingabew\"orter endlos l\"auft.
+
+Ist die nachfolgende Sprache entscheidbar?
+\[
+ \begin{array}{lcll}
+  L & = & \bigl\{ \, w \in \{0,1,\#\}^* \, \mid &
+  \mbox{es gibt ein Wort $z\in \{0,1,\#\}^*$ mit $|z| \leqslant |w|^2$,
+        so dass $\T_w$} 
+  \\[0.5ex]
+  & & & 
+  \mbox{das Eingabewort $z$ in h\"ochstens $|z|$ Schritten
+        akzeptiert}
+      \, \bigr\}
+\end{array}
+\]
+Begr\"unden Sie Ihre Antwort.
+\end{exercise}
+

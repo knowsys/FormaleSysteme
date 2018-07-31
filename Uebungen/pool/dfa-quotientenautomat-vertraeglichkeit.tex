@@ -1,0 +1,17 @@
+\newcommand{\simquot}[1]{#1/_{\!\!{\sim}}}
+
+\begin{exercise}
+  Beweisen Sie Lemma~$\varheartsuit$ aus Vorlesung~8:
+
+  \begin{center}
+    Sei $\mathcal{M} = \tuple{Q, \Sigma, \delta, q_{0}, F}$ ein totaler DFA und
+    $\simquot{\mathcal{M}} = \tuple{\simquot{Q}, \Sigma, \delta_{\sim},
+      [q_{0}]_{\sim}, \simquot{F}}$ der zugehörige Quotientenautomat. Dann gilt für beliebige $q \in Q$ und
+    $w \in \Sigma^{*}$:
+    \begin{equation*}
+      [\delta(q, w)]_{\sim} = \delta_{\sim}([q]_{\sim}, w).
+    \end{equation*}
+  \end{center}
+
+  Hinweis: Induktion über $|w|$.
+\end{exercise}
