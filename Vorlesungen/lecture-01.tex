@@ -1,10 +1,11 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{1}{Willkommen/Einleitung formale Sprachen}{9. Oktober 2017}
+\defineTitle{1}{Willkommen/Einleitung formale Sprachen}{26. Oktober 2020}
+% \defineTitle{1}{Willkommen}{26. Oktober 2020}
 
 \begin{document}
 
@@ -24,22 +25,28 @@
 \begin{frame}\frametitle{Raum, Zeit, URL}
 
 \begin{itemize}
+\item \emph{Vorlesungstermine:}\\
+	Montag, DS3 (11:10--12:40), nach Ankündigung, Zoom\\
+	Donnerstag, DS4 (13:00--14:30): keine Vorlesung, aber Übungsgruppen
 \item \emph{Vorlesungen:}\\
-	Montag, DS3 (11:10--12:40), HSZ/0002\\
-	Donnerstag, DS4 (13:00--14:30), HSZ/0003
-\item \emph{Keine Vorlesungen:}\\
-	\redalert{Mo 23.10.}\\
-	Jahreswechsel: Do 21.12., Mo 25.12., Do 28.12., Mo 1.1.
+	Videos werden im Laufe des Semesters bereitgestellt\\
+	\url{https://www.youtube.com/channel/UC0mGxSeFgs3iCNPrypD4Z5g/}\\
+	(siehe Playlists)
+% \item \emph{Keine Vorlesungen:}\\
+% 	\redalert{Mo 23.10.}\\
+% 	Jahreswechsel: Do 21.12., Mo 25.12., Do 28.12., Mo 1.1.
 \item \emph{Vorlesungswebseite}:\\[.5ex]
 	\url{\lectureurl}\\[0.5ex]
 	{\footnotesize(Folien, Übungsblätter, Termine, etc.)}
 \item \emph{Quellen, Bug-Reports, Fragen}:\\[.5ex]
-	\url{https://github.com/mkroetzsch/FormaleSysteme}\\[.5ex]
+	\url{https://github.com/knowsys/FormaleSysteme}\\[.5ex]
 	{\footnotesize(Pull-Requests sind willkommen)}
-\item \emph{Mailingliste}:\\[0.5ex]
-\footnotesize
-	\url{https://mailman.zih.tu-dresden.de/groups/listinfo/inf-thi-fs1718}\\[0.5ex]
-	{\footnotesize(Support bei allen Fragen zur Vorlesung)}
+\item \emph{Chatkanal (Matrix)}\\[.5ex]
+	\url{https://matrix.tu-dresden.de/\#/room/\#fs2020:tu-dresden.de}
+% \item \emph{Mailingliste}:\\[0.5ex]
+% \footnotesize
+% 	\url{https://mailman.zih.tu-dresden.de/groups/listinfo/inf-thi-fs1718}\\[0.5ex]
+% 	{\footnotesize(Support bei allen Fragen zur Vorlesung)}
 \end{itemize}
 
 \end{frame}
@@ -47,10 +54,10 @@
 
 \begin{frame}\frametitle{Übungen}
 \begin{itemize}
-\item \emph{Anmeldung} zu den Übungen über jExam
-\item \emph{Übungsblätter} jeweils donnerstags nach der Vorlesung\\
-	(erstes Übungsblatt am 12. Oktober 2017)
-\item \emph{Beginn der Übungen:} 16. Oktober 2017
+\item \emph{Anmeldung} zu den Übungen über OPAL (Link siehe Vorlesungswebseite)
+\item \emph{Übungsblätter} jeweils donnerstags ``nach der Vorlesung''\\
+	(erstes Übungsblatt am 29. Oktober 2020)
+\item \emph{Beginn der Übungen:} 5. November 2020
 \item \emph{Übungsablauf}, vereinfacht, idealisiert:\\
 	Aufgaben werden zu Hause bearbeitet so gut es geht;\\
 	in der Übung helfen Gruppenleiter/innen bei Fragen und Problemen und zeigen Beispiellösungen\\[1ex]
@@ -61,12 +68,13 @@
 
 \begin{frame}\frametitle{Prüfung und Prüfungsvorbereitung}
 \begin{itemize}
-\item schriftliche Prüfung (90min) am Ende des Wintersemesters
+\item schriftliche Prüfung (90min?) am Ende des Wintersemesters
 \item prüfungsrelevant:\\
 	kompletter Stoff, der in der Vorlesung behandelt wird\\
 	Wiedergeben (Definieren) \alert{und} Anwenden (Rechnen)
 \item Modulnote ergibt sich je nach Studiengang
-\item zur zusätzlichen Vorbereitung gibt es \alert{2--3 Repetitorien} und \alert{eine Probeklausur}, jeweils an einem Vorlesungstermin
+\item zur zusätzlichen Vorbereitung wird es eine Probeklausur geben
+% gibt es \alert{2--3 Repetitorien} und \alert{eine Probeklausur}, jeweils an einem Vorlesungstermin
 \end{itemize}
 
 \end{frame}
@@ -184,7 +192,7 @@ Lehrbücher zum ersten Teil der Vorlesung (formale Sprachen):
 
 \begin{frame}\frametitle{Literatur: Frei zugängliche Skripte}
 
-Es gibt mehrere Skripte zu dieser Vorlesung:
+Es existieren mehrere Skripte zu dieser Vorlesung:
 \begin{itemize}
 \item Franz Baader: \emph{Skript Formale Systeme, Teil 1 -- Automaten und formale Sprachen.} TU Dresden.
 \\{\tiny Siehe \url{https://lat.inf.tu-dresden.de/teaching/ws2013-2014/FS/script_2016-02.pdf}}.
@@ -196,6 +204,10 @@ Es gibt mehrere Skripte zu dieser Vorlesung:
 Die Vorlesungen haben kleine Abweichungen, stimmen aber in vielen wichtigen Punkten überein.
 
 \end{frame}
+
+\sectionSlide{Fragen, Ideen, Anmerkungen}
+
+
 
 \sectionSlide{Sprachen in der Informatik}
 
@@ -545,8 +557,8 @@ Manchmal ist es praktisch, Teile von Wörtern zu bezeichnen:
 Sei $w=\Sterm{a_1}\ldots \Sterm{a_n}$ ein Wort der Länge $n$.
 \begin{itemize}
 \item Ein \redalert{Präfix} von $w$ ist ein Wort $\Sterm{a_1}\ldots \Sterm{a_i}$ mit $0\leq i \leq n$
-\item Ein \redalert{Suffix} von $w$ ist ein Wort $\Sterm{a_j}\ldots \Sterm{a_n}$ mit $0\leq j \leq n + 1$
-\item Ein \redalert{Infix} von $w$ ist ein Wort $\Sterm{a_i}\ldots \Sterm{a_j}$ mit $0\leq i\leq j \leq n$
+\item Ein \redalert{Suffix} von $w$ ist ein Wort $\Sterm{a_j}\ldots \Sterm{a_n}$ mit $1\leq j \leq n + 1$
+\item Ein \redalert{Infix} von $w$ ist ein Wort $\Sterm{a_i}\ldots \Sterm{a_j}$ mit $1\leq i\leq j \leq n$~ \emph{oder} ~$\epsilon$
 \end{itemize}
 }
 \smallskip
