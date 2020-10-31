@@ -1,14 +1,33 @@
 
 \begin{exercise}
-Gegeben ist die Grammatik $G=\tuple{V,\Sigma,P,S}$ mit
-$V=\{S,B\}, \Sigma=\{a,b,c\}$ und\\ 
-$P=\{S\rightarrow aSBc,\;S\rightarrow abc,\;cB\rightarrow B,\;cB\rightarrow Bc,\;bB\rightarrow bb\}$.
-\begin{itemize}
-\item[a)] Von welchem maximalen Typ ist $G$? Begründen Sie Ihre Antwort.
-\item[b)] Bestimmen Sie drei Wörter $w$ der Sprache $L(G)$. Begründen Sie Ihre
-  Antwort.
-\item[c)] Gilt $\varepsilon \in L(G)$? Begründen Sie Ihre Antwort.
-\item[d)] Beschreiben Sie die durch $G$ erzeugte Sprache $L(G)$.
-\end{itemize}
+  Sei $\Sigma =\{a,b\}$. Untersuchen Sie die folgenden Tupel daraufhin, ob sie eine
+  Grammatik definieren. Wenn das der Fall ist, geben Sie
+  jeweils den maximalen Chomsky-Typ
+  der Grammatik an und begründen Sie die Einordnung.
+  \begin{itemize}
+   \item $G_{1}=\tuple{V_1,\Sigma,P_1,S_1}$ mit
+         $V_1=\{S_{1},A\}$ und\\
+         $P_1=\{\varepsilon \rightarrow b,\;S_{1}\rightarrow Ab\}$
+   \item $G_{2}=\tuple{V_2,\Sigma,P_2,S_2}$ mit
+         $V_2=\{S_{2}\}$ und\\
+         $P_2=\{S_{2}\rightarrow aS_{2}b,\;S_{2}\rightarrow \varepsilon\}$
+   \item $G_{3}=\tuple{V_3,\Sigma,P_3,S_3}$ mit
+         $V_3=\{S_{3},X,Y\}$ und\\
+         $P_3=\{XY\rightarrow Y,\;S_{3}\rightarrow$
+         $aYb,\;S_{3}\rightarrow XY,\;Y\rightarrow a\}$
+   \item $G_{4}=\tuple{V_4,\Sigma,P_4,S_4}$ mit
+         $V_{4}=\{S_{4},X,Y\}$ und\\
+         $P_{4}=\{S_{4}\rightarrow aY,\;X\rightarrow
+         a,\;Y\rightarrow bS_{4},\;Y\rightarrow b,\;Y\rightarrow bX\}$
+   \item $G_{5}=\tuple{V_5,\Sigma,P_5,S_5}$ mit
+         $V_5=\{S_{5},X,Y,Z\}$ und \\
+         $P_5=\{X\rightarrow b,\;Y\rightarrow$
+         $aYYb,\;aY\rightarrow aZ,\;ZY\rightarrow ZX,\;S_{5}\rightarrow$
+         $Y,\;Z\rightarrow a\}$
+   \item $G_{6}=\tuple{V_6,\Sigma,P_6,S_6}$ mit
+         $V_6=\{S_{6},W,X,Y,Z\}$ und\\
+         $P_6=\{X\rightarrow b,\;Y\rightarrow
+         aYYb,\;aY\rightarrow aZ,\;ZY\rightarrow ZX,\;S_{6}\rightarrow
+         Y,\;S_{6}\rightarrow \varepsilon,\;Z\rightarrow a,\;W\rightarrow S_{6}\}$
+       \end{itemize}
 \end{exercise}
-
