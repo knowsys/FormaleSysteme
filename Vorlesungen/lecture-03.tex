@@ -6,6 +6,10 @@
 
 \defineTitle{3}{Endliche Automaten}{2. November 2020}
 
+% Anmerkungen:
+% Die Vorlesung enthält eigentlich noch einige Folien zum Thema NFA, um das 90min-Raster zu nutzen
+% Diese sind auskommentiert am Ende und wurden für die Onlineversion Vorlesung 4 zugeordnet, wo sie inhaltlich besser passen
+
 \begin{document}
 
 \maketitle
@@ -407,7 +411,7 @@ $\leadsto$ wird beim Lesen eines Wortes $q_f$ erreicht, dann kann es nicht mehr 
 \begin{frame}\frametitle{Totale Übergänge (2)}
 
 \theobox{
-Satz:
+\emph{Satz:}
 $\Smach{M}_{\text{total}}=\tuple{Q',\Sigma,\delta',q_0,F}$ hat eine totale Übergangsfunktion
 und akzeptiert die selbe Sprache wie $\Smach{M}$, d.h. $\Slang{L}(\Smach{M}_{\text{total}})=\Slang{L}(\Smach{M})$.
 }
@@ -473,7 +477,7 @@ Es zeigt sich: mit DFAs erhält man keine neue Sprachklasse!
 \medskip
 
 \theobox{
-Satz: Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
+\emph{Satz:} Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
 der regulären Sprachen.
 }
 
@@ -490,7 +494,7 @@ Konsequenzen:
 \begin{frame}\frametitle{Von DFAs zu regulären Grammatiken}
 
 \theobox{
-Satz: Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
+\emph{Satz:} Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
 der regulären Sprachen.
 }
 
@@ -577,7 +581,7 @@ $\begin{array}{@{}l@{\hspace{8mm}}l@{\hspace{8mm}}l@{\hspace{8mm}}l@{\hspace{8mm
 \begin{frame}\frametitle{DFAs akzeptieren reguläre Sprachen: Beweis}
 
 \theobox{
-Satz: Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
+\emph{Satz:} Die Klasse der Sprachen, die durch einen DFA erkannt werden können, ist genau die Klasse
 der regulären Sprachen.
 }\bigskip
 
@@ -690,123 +694,127 @@ Kann man die Übersetzung nicht einfach umdrehen?
 \item Für jede reguläre Regel $A\to\Sterm{a}B$ definieren wir $\delta(A,\Sterm{a})=B$
 \item Für jede reguläre Regel $A\to\Sterm{a}$ definieren wir $\delta(A,\Sterm{a})=C$ mit \ghost{$C\in F$}
 \end{itemize}
-Warum funktioniert das nicht?\pause
+\redalert{Warum funktioniert das nicht?}
+% \pause
 
-\alert{Weil die Übergangsfunktion dann mehr als einen Wert hätte!}\medskip
-
-\examplebox{Beispiel: Eine Grammatik kann die Regeln $S\to \Sterm{a}A$, $S\to \Sterm{a}S$ und $A\to\epsilon$ haben, 
-aber wir können nicht $\delta(S,\Sterm{a})=A$ und $\delta(S,\Sterm{a})=S$ gleichzeitig fordern.
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Nichtdeterministische Übergänge}
-
-Kann die Übergangsfunktion "`mehr als einen Wert"' haben?
-\medskip
-
-$\leadsto$ darstellbar als Menge, z.B. $\delta(q,\Sterm{a}) =\{q_1, q_2\}$
-\bigskip
-
-Was soll das bedeuten?
-\begin{itemize}
-\item Der Automat hat die Wahl zwischen mehreren Übergängen
-\item Die Verarbeitung eines Wortes wird \alert{nichtdeterministisch}\\
-(weil die Eingabe nicht völlig bestimmt, in welchen Zustand der Automat gelangt)
-\item Der Automat akzeptiert ein Wort, wenn es eine "`richtige"' Wahl von Zustandsübergängen gibt, die zu einem Endzustand führt
-\end{itemize}
-
+% \alert{Weil die Übergangsfunktion dann mehr als einen Wert hätte!}\medskip
+% 
+% \examplebox{Beispiel: Eine Grammatik kann die Regeln $S\to \Sterm{a}A$, $S\to \Sterm{a}S$ und $A\to\epsilon$ haben, 
+% aber wir können nicht $\delta(S,\Sterm{a})=A$ und $\delta(S,\Sterm{a})=S$ gleichzeitig fordern.
+% }
 
 \end{frame}
 
-\begin{frame}\frametitle{Nichtdeterministische Automaten}
-
-\defbox{
-Ein \redalert{nichtdeterministischer endlicher Automat} (international: "`\alert{NFA}"') 
-\Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
-den folgenden Bestandteilen:
-\begin{itemize}
-\item $Q$: endliche Menge von \redalert{Zuständen}
-\item $\Sigma$: Alphabet
-\item $\delta$: \redalert{Übergangsfunktion}, eine totale Funktion $Q\times\Sigma \to 2^Q$, wobei $2^Q$ die Potenzmenge von $Q$ ist
-\item $Q_0$: Menge möglicher \redalert{Startzustände} $Q_0\subseteq Q$
-\item $F$: Menge von \redalert{Endzuständen} $F\subseteq Q$
-\end{itemize}
-}\pause
-
-\doodlebox{darkgreen}{%
-Beispiel:
-\begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
-% \draw[help lines] (0,0) grid (7,2);
-\node (s1) [circle,draw=black,thick] at (0,0) {q1};
-\node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
-%
-\path[->,line width=0.5mm]
-(-1,0) edge (s1)
-(s1) edge [loop above] node[left] {\Sterm{0}} (s1)
-(s1) edge [loop below] node[right] {\Sterm{1}} (s1)
-(s1) edge node[above] {\Sterm{1}} (s2)
-;
-\end{tikzpicture}%
-\hspace{1cm}
-\begin{minipage}[t]{3cm}
-~\\
-Welche Sprache\\ erkennt dieser\\ Automat?
-\end{minipage}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{NFAs: Alternative Definitionen}
-
-In der Literatur gibt es leicht abgewandelte Definitionen von NFAs
-
-\begin{itemize}
-\item \alert{Übergangsrelation statt Übergangsfunktion}\\
-	Statt einer Funktion $\delta: Q\times\Sigma \to 2^Q$ kann man auch eine Relation $\Delta\subseteq Q\times\Sigma\times Q$ verwenden, wenn für alle $q,q'\in Q$, $\sigma\in\Sigma$ gilt:
-	\[ q'\in\delta(q,\sigma) \qquad\text{ genau dann wenn }\qquad \tuple{q,\sigma,q'}\in\Delta\]
-\item \alert{Einzelner Startzustand $q_0$}\\
-	Manchmal wird statt der Menge $Q_0$ nur ein Startzustand $q_0$ verwendet (es ist leicht, einen NFA unserer Bauart so zu verändern, dass nur ein Startzustand nötig ist)
-\item \alert{Einzelner Endzustand $q_f$}\\
-	Man kann auch die Menge der Endzustände $F$ leicht auf ein einziges Argument reduzieren
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Ist Nichtdeterminismus sinnvoll?}
-
-Nichtdeterministische Automaten müssen jeweils den richtigen Übergang "`erraten"'\\
-\redalert{$\leadsto$ entspricht nicht der Funktionsweise echter Computer}\pause
-\bigskip
-
-Dennoch ist Nichtdeterminismus ein wichtiges Prinzip in der Informatik:
-\begin{itemize}
-\item Kann \alert{kompaktere, natürlichere Darstellungen} ermöglichen
-\item Beschreibt treffend die Schwierigkeit vieler praktischer Probleme -- wichtig für
-\alert{Untersuchung von Komplexität und Berechenbarkeit}
-\item Ist relevant in der \alert{Modellierung parallel arbeitender Systeme}
-\item Bildet Ausgangspunkt für die \alert{Entwicklung deterministischer Algorithmen}
-\end{itemize}
-
-\end{frame}
+% \begin{frame}\frametitle{Nichtdeterministische Übergänge}
+% 
+% Kann die Übergangsfunktion "`mehr als einen Wert"' haben?
+% \medskip
+% 
+% $\leadsto$ darstellbar als Menge, z.B. $\delta(q,\Sterm{a}) =\{q_1, q_2\}$
+% \bigskip
+% 
+% Was soll das bedeuten?
+% \begin{itemize}
+% \item Der Automat hat die Wahl zwischen mehreren Übergängen
+% \item Die Verarbeitung eines Wortes wird \alert{nichtdeterministisch}\\
+% (weil die Eingabe nicht völlig bestimmt, in welchen Zustand der Automat gelangt)
+% \item Der Automat akzeptiert ein Wort, wenn es eine "`richtige"' Wahl von Zustandsübergängen gibt, die zu einem Endzustand führt
+% \end{itemize}
+% 
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{Nichtdeterministische Automaten}
+% 
+% \defbox{
+% Ein \redalert{nichtdeterministischer endlicher Automat} (international: "`\alert{NFA}"') 
+% \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
+% den folgenden Bestandteilen:
+% \begin{itemize}
+% \item $Q$: endliche Menge von \redalert{Zuständen}
+% \item $\Sigma$: Alphabet
+% \item $\delta$: \redalert{Übergangsfunktion}, eine totale Funktion $Q\times\Sigma \to 2^Q$, wobei $2^Q$ die Potenzmenge von $Q$ ist
+% \item $Q_0$: Menge möglicher \redalert{Startzustände} $Q_0\subseteq Q$
+% \item $F$: Menge von \redalert{Endzuständen} $F\subseteq Q$
+% \end{itemize}
+% }\pause
+% 
+% \doodlebox{darkgreen}{%
+% Beispiel:
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {q1};
+% \node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+% %
+% \path[->,line width=0.5mm]
+% (-1,0) edge (s1)
+% (s1) edge [loop above] node[left] {\Sterm{0}} (s1)
+% (s1) edge [loop below] node[right] {\Sterm{1}} (s1)
+% (s1) edge node[above] {\Sterm{1}} (s2)
+% ;
+% \end{tikzpicture}%
+% \hspace{1cm}
+% \begin{minipage}[t]{3cm}
+% ~\\
+% Welche Sprache\\ erkennt dieser\\ Automat?
+% \end{minipage}
+% }
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{NFAs: Alternative Definitionen}
+% 
+% In der Literatur gibt es leicht abgewandelte Definitionen von NFAs
+% 
+% \begin{itemize}
+% \item \alert{Übergangsrelation statt Übergangsfunktion}\\
+% 	Statt einer Funktion $\delta: Q\times\Sigma \to 2^Q$ kann man auch eine Relation $\Delta\subseteq Q\times\Sigma\times Q$ verwenden, wenn für alle $q,q'\in Q$, $\sigma\in\Sigma$ gilt:
+% 	\[ q'\in\delta(q,\sigma) \qquad\text{ genau dann wenn }\qquad \tuple{q,\sigma,q'}\in\Delta\]
+% \item \alert{Einzelner Startzustand $q_0$}\\
+% 	Manchmal wird statt der Menge $Q_0$ nur ein Startzustand $q_0$ verwendet (es ist leicht, einen NFA unserer Bauart so zu verändern, dass nur ein Startzustand nötig ist)
+% \item \alert{Einzelner Endzustand $q_f$}\\
+% 	Man kann auch die Menge der Endzustände $F$ leicht auf ein einziges Argument reduzieren
+% \end{itemize}
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{Ist Nichtdeterminismus sinnvoll?}
+% 
+% Nichtdeterministische Automaten müssen jeweils den richtigen Übergang "`erraten"'\\
+% \redalert{$\leadsto$ entspricht nicht der Funktionsweise echter Computer}\pause
+% \bigskip
+% 
+% Dennoch ist Nichtdeterminismus ein wichtiges Prinzip in der Informatik:
+% \begin{itemize}
+% \item Kann \alert{kompaktere, natürlichere Darstellungen} ermöglichen
+% \item Beschreibt treffend die Schwierigkeit vieler praktischer Probleme -- wichtig für
+% \alert{Untersuchung von Komplexität und Berechenbarkeit}
+% \item Ist relevant in der \alert{Modellierung parallel arbeitender Systeme}
+% \item Bildet Ausgangspunkt für die \alert{Entwicklung deterministischer Algorithmen}
+% \end{itemize}
+% 
+% \end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
 Das \redalert{Wortproblem} ist eine von mehreren wichtigen Fragestellungen zu formalen Sprachen
 \bigskip
 
-\redalert{Deterministische endliche Automaten} lösen das Wortproblem für reguläre Sprachen\\
+\redalert{Deterministische endliche Automaten} (DFAs) können mit partieller oder totaler Übergangsfunktion definiert werden\bigskip
+
+DFAs lösen das Wortproblem für reguläre Sprachen\\
 \textcolor{devilscss}{(Bisher gezeigt: jede durch DFAs erkennbare Sprache ist regulär)}
 \bigskip
 
-\redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
-\bigskip
+% \redalert{Nichtdeterminismus} ermöglicht endlichen Automaten, bei der Worterkennung zu "`raten"'
+% \bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Nächste Themen:
 \begin{itemize}
-\item Was bringen uns nichtdeterministische Automaten?
-\item Wir wollten noch zeigen: alle regulären Sprachen sind durch DFAs erkennbar -- wie?
+% \item Was bringen uns nichtdeterministische Automaten?
+\item Noch zu zeigen: Alle regulären Sprachen sind durch DFAs erkennbar
+\item Nichtdeterministische Automaten
 \item Gibt es noch mehr Darstellungsformen für reguläre Sprachen?
 \end{itemize}
 }
@@ -815,7 +823,7 @@ Offene Fragen:
 
 
 
-\begin{frame}\frametitle{Bildrechte}
+\begin{frame}[noframenumbering,plain]\frametitle{Bildrechte}
 
 Folie 4:\\
 \begin{itemize}
