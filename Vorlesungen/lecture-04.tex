@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{4}{Nichtdeterministische Endliche Automaten}{19. Oktober 2017}
+\defineTitle{4}{Nichtdeterministische Endliche Automaten}{5. November 2020}
 
 \begin{document}
 
@@ -18,18 +18,82 @@
 \item Grammatiken können Sprachen beschreiben und sie grob in Typen unterteilen
 \item Typ-3-Grammatiken \alert{generieren} reguläre Sprachen
 \item Deterministische endliche Automaten \alert{erkennen} reguläre \ghost{Sprachen}
-\item Nichtdeterministische endliche Automaten verallgemeinern die Definition der Übergangsfunktion:\\ der Automat "`rät"', welcher Übergang der richtige ist
+% \item Nichtdeterministische endliche Automaten verallgemeinern die Definition der Übergangsfunktion:\\ der Automat "`rät"', welcher Übergang der richtige ist
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}\frametitle{Wiederholung: NFA}
+% \begin{frame}\frametitle{Wiederholung: NFA}
+% 
+% \defbox{
+% Ein \redalert{nichtdeterministischer endlicher Automat} (international: "`\alert{NFA}"') 
+% \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
+% den folgenden Bestandteilen:
+% \begin{itemize}
+% \item $Q$: endliche Menge von \redalert{Zuständen}
+% \item $\Sigma$: Alphabet
+% \item $\delta$: \redalert{Übergangsfunktion}, eine totale Funktion $Q\times\Sigma \to 2^Q$, wobei $2^Q$ die Potenzmenge von $Q$ ist
+% \item $Q_0$: Menge möglicher \redalert{Startzustände} $Q_0\subseteq Q$
+% \item $F$: Menge von \redalert{Endzuständen} $F\subseteq Q$
+% \end{itemize}
+% }
+% \medskip
+% 
+% \alert{Notation:} Wir schreiben statt $q'\in\delta(q,\Sterm{a})$ auch $q\stackrel{\Sterm{a}}{\to}q'$.
+% 
+% \end{frame}
+
+\begin{frame}\frametitle{Reguläre Grammatiken und DFAs}
+
+Wir haben bisher gezeigt:
+
+\theobox{Jede von DFA erkannte Sprache ist regulär.}
+
+Für die Umkehrung müsste man reguläre Grammatiken in DFAs übersetzen.
+\bigskip
+
+Kann man die Übersetzung nicht einfach umdrehen?
+\begin{itemize}
+\item Für jede reguläre Regel $A\to\Sterm{a}B$ definieren wir $\delta(A,\Sterm{a})=B$
+\item Für jede reguläre Regel $A\to\Sterm{a}$ definieren wir $\delta(A,\Sterm{a})=C$ mit \ghost{$C\in F$}
+\end{itemize}
+\redalert{Warum funktioniert das nicht?}\pause
+
+\alert{Weil die Übergangsfunktion dann mehr als einen Wert hätte!}\medskip
+
+\examplebox{Beispiel: Eine Grammatik kann die Regeln $S\to \Sterm{a}A$, $S\to \Sterm{a}S$ und $A\to\epsilon$ haben, 
+aber wir können nicht $\delta(S,\Sterm{a})=A$ und $\delta(S,\Sterm{a})=S$ gleichzeitig fordern.
+}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Nichtdeterministische Übergänge}
+
+Kann die Übergangsfunktion "`mehr als einen Wert"' haben?
+\medskip
+
+$\leadsto$ darstellbar als Menge, z.B. $\delta(q,\Sterm{a}) =\{q_1, q_2\}$
+\bigskip
+
+Was soll das bedeuten?
+\begin{itemize}
+\item Der Automat hat die Wahl zwischen mehreren Übergängen
+\item Die Verarbeitung eines Wortes wird \alert{nichtdeterministisch}\\
+(weil die Eingabe nicht völlig bestimmt, in welchen Zustand der Automat gelangt)
+\item Der Automat akzeptiert ein Wort, wenn es eine "`richtige"' Wahl von Zustandsübergängen gibt, die zu einem Endzustand führt
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Nichtdeterministische Automaten}
 
 \defbox{
 Ein \redalert{nichtdeterministischer endlicher Automat} (international: "`\alert{NFA}"') 
 \Smach{M} ist ein Tupel $\Smach{M}=\tuple{Q,\Sigma,\delta,Q_0,F}$ mit
-den folgenden Bestandteilen:
+folgenden Bestandteilen:
 \begin{itemize}
 \item $Q$: endliche Menge von \redalert{Zuständen}
 \item $\Sigma$: Alphabet
@@ -37,10 +101,32 @@ den folgenden Bestandteilen:
 \item $Q_0$: Menge möglicher \redalert{Startzustände} $Q_0\subseteq Q$
 \item $F$: Menge von \redalert{Endzuständen} $F\subseteq Q$
 \end{itemize}
-}
-\medskip
+}\medskip
 
 \alert{Notation:} Wir schreiben statt $q'\in\delta(q,\Sterm{a})$ auch $q\stackrel{\Sterm{a}}{\to}q'$.
+
+% \pause
+% 
+% \doodlebox{darkgreen}{%
+% Beispiel:
+% \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
+% % \draw[help lines] (0,0) grid (7,2);
+% \node (s1) [circle,draw=black,thick] at (0,0) {q1};
+% \node (s2) [double,circle,draw=black,thick] at (3,0) {q2};
+% %
+% \path[->,line width=0.5mm]
+% (-1,0) edge (s1)
+% (s1) edge [loop above] node[left] {\Sterm{0}} (s1)
+% (s1) edge [loop below] node[right] {\Sterm{1}} (s1)
+% (s1) edge node[above] {\Sterm{1}} (s2)
+% ;
+% \end{tikzpicture}%
+% \hspace{1cm}
+% \begin{minipage}[t]{3cm}
+% ~\\
+% Welche Sprache\\ erkennt dieser\\ Automat?
+% \end{minipage}
+% }
 
 \end{frame}
 
@@ -117,6 +203,40 @@ $\delta(q_2,\Sterm{1}) = \emptyset$
 
 \end{frame}
 
+\begin{frame}\frametitle{NFAs: Alternative Definitionen}
+
+In der Literatur gibt es leicht abgewandelte Definitionen von NFAs\pause
+
+\begin{itemize}
+\item \alert{Übergangsrelation statt Übergangsfunktion}\\
+	Statt einer Funktion $\delta: Q\times\Sigma \to 2^Q$ kann man auch eine Relation $\Delta\subseteq Q\times\Sigma\times Q$ verwenden, wenn für alle $q,q'\in Q$, $\sigma\in\Sigma$ gilt:
+	\[ q'\in\delta(q,\sigma) \qquad\text{ genau dann wenn }\qquad \tuple{q,\sigma,q'}\in\Delta\]\pause
+\item \alert{Einzelner Startzustand $q_0$}\\
+	Manchmal wird statt der Menge $Q_0$ nur ein Startzustand $q_0$ verwendet (es ist leicht, einen NFA unserer Bauart so zu verändern, dass nur ein Startzustand nötig ist)\pause
+\item \alert{Einzelner Endzustand $q_f$}\\
+	Man kann auch die Menge der Endzustände $F$ leicht auf ein einziges Argument reduzieren
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Ist Nichtdeterminismus sinnvoll?}
+
+Nichtdeterministische Automaten müssen jeweils den richtigen Übergang "`erraten"'\\
+\redalert{$\leadsto$ entspricht nicht der Funktionsweise echter Computer}\pause
+\bigskip
+
+Dennoch ist Nichtdeterminismus ein wichtiges Prinzip in der Informatik:
+\begin{itemize}
+\item Kann \alert{kompaktere, natürlichere Darstellungen} ermöglichen
+\item Beschreibt treffend die Schwierigkeit vieler praktischer Probleme -- wichtig für
+\alert{Untersuchung von Komplexität und Berechenbarkeit}
+\item Ist relevant in der \alert{Modellierung parallel arbeitender Systeme}
+\item Bildet Ausgangspunkt für die \alert{Entwicklung deterministischer Algorithmen}
+\end{itemize}
+\pause
+
+\end{frame}
+
 \sectionSlide{Die Sprache eines NFA}
 
 \begin{frame}\frametitle{Läufe eines NFA}
@@ -129,7 +249,7 @@ ist eine Folge von Zuständen $q_0\ldots q_m$, so dass gilt:
 \item $q_{i+1}\in \delta(q_i,\sigma_{i+1})$ für alle $0\leq i<m$ 
 \item (1) $m=|w|=n$ oder (2) $m<n$ und $\delta(q_m,\sigma_m)=\emptyset$
 \end{itemize}
-Ein Lauf heißt \redalert{akzeptierend}, falls $m=n$ und $q_n\in F$. Andernfalls
+Ein Lauf heißt \redalert{akzeptierend}, falls $m=n$ und $q_n\in F$.\\ Andernfalls
 heißt der Lauf \redalert{verwerfend}.
 }
 
@@ -452,7 +572,7 @@ Wähle $q_{i-1}\in\delta(Q_0,\sigma_1\cdots\sigma_{i-1})$, so dass $q_i\in\delta
 
 Offensichtlich sind NFAs allgemeiner als DFAs:
 
-\theobox{Satz: Jeder DFA kann als NFA aufgefasst werden. Daher wird jede von einem DFA akzeptierbare Sprache auch von einen NFA akzeptiert.}
+\theobox{\emph{Satz:} Jeder DFA kann als NFA aufgefasst werden. Daher wird jede von einem DFA akzeptierbare Sprache auch von einen NFA akzeptiert.}
 
 \emph{Beweis:} Für jeden DFA  $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ gibt es
 einen entsprechenden NFA $\Smach{M}'=\tuple{Q,\Sigma,\delta_{\textsf{NFA}},\{q_0\},F}$
@@ -461,7 +581,7 @@ mit $\delta_{\textsf{NFA}}(q,\Sterm{a}) = \{\delta(q,\Sterm{a})\}$.\qed
 \pause
 
 Die Umkehrung dieses Satzes gilt allerdings auch:
-\theobox{Satz: Jede von einem NFA akzeptierbare Sprache wird auch von einen DFA akzeptiert.}
+\theobox{\emph{Satz:} Jede von einem NFA akzeptierbare Sprache wird auch von einen DFA akzeptiert.}
 
 In diesem Sinne sind NFA nicht ausdrucksstärker als DFA -- wie kann das sein?
 
@@ -498,12 +618,12 @@ wie folgt:%
 }
 \smallskip
 
-\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+\theobox{\emph{Satz (Rabin/Scott):} $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
 
-(Beweis später)\hspace{5cm}\ghost{\raisebox{-1.7cm}{\includegraphics[height=2cm]{images/Rabin-Scott}~\rotatebox{90}{\tiny Andrej Bauer, CC-BY-SA 2.5}}}
+(Beweis später)\hspace{8.1cm}\ghost{\raisebox{-1.7cm}{\includegraphics[height=2cm]{images/Rabin-Scott}~\rotatebox{90}{\tiny Andrej Bauer, CC-BY-SA 2.5}}}
 \vspace{1.5cm}
 
-\hspace{7cm} \ghost{{\tiny Michael Oser Rabin~~~~~~Dana Scott}}
+\hspace{10.1cm} \ghost{{\tiny Michael Oser Rabin~~~~~~Dana Scott}}
 
 % 
 % Beispiel:
@@ -545,10 +665,10 @@ wie folgt:%
 \node (s1) [circle,draw=black,thick,onslide={<5,6,9,10>{fill=strongyellow}}] at (0,0) {$q_0$};
 \node (s2) [double,circle,draw=black,thick,onslide={<3,7,8,9,10>{fill=strongyellow}}] at (3,0) {$q_1$};
 %
-\path[->,line width=0.5mm,onslide={<4,10>{dashed,darkred}}](0,1) edge (s1);
-\path[->,line width=0.5mm,onslide={<4,10>{dashed,darkred}}](3,1) edge (s2);
-\path[->,line width=0.5mm,onslide={<6>{dashed,darkred}}](s1) edge [loop below] node[left] {\Sterm{1}} (s1);
-\path[->,line width=0.5mm,bend left,onslide={<6>{dashed,darkred}}](s1) edge node[above] {\Sterm{1}} (s2);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](0,1) edge (s1);
+\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](3,1) edge (s2);
+\path[->,line width=0.5mm,onslide={<6,10>{dashed,darkred}}](s1) edge [loop below] node[left] {\Sterm{1}} (s1);
+\path[->,line width=0.5mm,bend left,onslide={<6,10>{dashed,darkred}}](s1) edge node[above] {\Sterm{1}} (s2);
 \path[->,line width=0.5mm,bend left,onslide={<7,9>{dashed,darkred}}](s2) edge node[above] {\Sterm{0}} (s1);
 % \path[->,line width=0.5mm](s1) edge node[above] {\Sterm{1}} (s2);
 \end{tikzpicture}
@@ -673,7 +793,7 @@ Vermeidung unnötiger Zustände durch schrittweise Konstruktion vom Startzustand
 
 \begin{frame}[t]\frametitle{Potenzmengenkonstruktion: Korrektheit}
 
-\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+\theobox{\emph{Satz (Rabin/Scott):} $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
 
 \emph{Beweis:} Wir nutzen die Korrespondenz der verallgemeinerten Übergangsfunktionen aus. Zuerst zeigen wir,
 dass für jedes Wort $w\in\Sigma^*$ und jede Zustandsmenge $R$ gilt: $\delta_{\textsf{DFA}}(R,w) = \delta(R,w)$.\pause
@@ -685,8 +805,8 @@ dass für jedes Wort $w\in\Sigma^*$ und jede Zustandsmenge $R$ gilt: $\delta_{\t
 \item $\delta_{\textsf{DFA}}(R,\Sterm{a}) = \bigcup_{q\in R}\delta(q,\Sterm{a}) = \delta(R,\Sterm{a})$\pause
 \end{enumerate}\medskip
 
-\alert{Induktionshypothese:} $\delta_{\textsf{DFA}}(R,v) = \delta(R,v)$ für Wörter $v$ mit $|v|<|w|$\\[1ex]
-\alert{Induktionsschritt:}
+\alert{Induktionshypothese:} $\delta_{\textsf{DFA}}(R,v) = \delta(R,v)$ für Wörter $v$ der Länge $\ell$\\[1ex]
+\alert{Induktionsschritt:} wir zeigen $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta(R,\Sterm{a}v)$ ein beliebiges Wort $\Sterm{a}v$ der \ghost{Länge $\ell+1$}
 \begin{enumerate}[(3)]
 \item $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta_{\textsf{DFA}}(\delta_{\textsf{DFA}}(R,\Sterm{a}),v)$\\\pause
 \hspace{1.58cm}${}= \delta_{\textsf{DFA}}(\delta(R,\Sterm{a}),v)$ \hspace{1cm}(wegen (2))\\\pause
@@ -698,7 +818,7 @@ dass für jedes Wort $w\in\Sigma^*$ und jede Zustandsmenge $R$ gilt: $\delta_{\t
 
 \begin{frame}[t]\frametitle{Potenzmengenkonstruktion: Korrektheit (2)}
 
-\theobox{Satz (Rabin/Scott): $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
+\theobox{\emph{Satz (Rabin/Scott):} $\Slang{L}(\Smach{M}) = \Slang{L}(\Smach{M}_{\textsf{DFA}})$}
 
 \emph{Beweis (Fortsetzung):} Wir haben gezeigt: $\delta_{\textsf{DFA}}(R,w) = \delta(R,w)$.\pause
 \medskip
@@ -869,7 +989,7 @@ Es gilt:
 % NFA fuer G heisst $\Smach{M}_G$
 
 \theobox{
-Satz: Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
+\emph{Satz:} Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
 der regulären Sprachen.
 }
 
@@ -922,7 +1042,7 @@ Entsprechender NFA:
 % Zuerst esp. Fall, dann Behauptung fuer Woerter in Sigma+
 
 \theobox{
-Satz: Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
+\emph{Satz:} Die Klasse der Sprachen, die durch DFAs oder NFAs erkannt werden können, ist genau die Klasse
 der regulären Sprachen.
 }
 
