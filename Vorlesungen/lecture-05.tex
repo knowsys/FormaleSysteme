@@ -1,5 +1,5 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
@@ -117,7 +117,7 @@ Akzeptierte Sprache\only<2>{?}\visible<3->{:}\\
 
 \begin{frame}\frametitle{Wortübergänge machen NFAs nicht stärker}
 
-\theobox{Satz: Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+\theobox{\emph{Satz:} Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
 \pause
 
 \emph{Beweis:} Wir eliminieren zunächst Wortübergänge für Wörter $w\neq\epsilon$.\medskip
@@ -145,7 +145,7 @@ $q_1\stackrel{\Sterm{a}}{\to}q_2$ oder $q_1\stackrel{\epsilon}{\to}q_2$ haben, w
 
 Um den vorigen Beweis abzuschließen müssen wir noch zeigen:
 
-\theobox{Satz: Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}\pause
+\theobox{\emph{Satz:} Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}\pause
 
 \emph{Beweis:} Sei $\epstrastar$ der reflexive, transitive Abschluss von $\stackrel{\epsilon}{\to}$, d.h. die Menge aller Zustandspaare $\tuple{q,q'}\in Q^2$ für die es Übergänge $q=p_0\stackrel{\epsilon}{\to} p_1\stackrel{\epsilon}{\to}\ldots\stackrel{\epsilon}{\to}p_n=q'$ gibt, mit $n\geq 0$.
 \medskip\pause
@@ -154,7 +154,7 @@ Für einen $\epsilon$-NFA $\Smach{M}=\tuple{Q,\Sigma,\Delta,Q_0,F}$ definieren w
 $\Smach{M}'=\tuple{Q,\Sigma,\delta,Q_0',F}$ wobei
 \begin{itemize}
 \item $\delta(q,\Sterm{a})=\{ q'\mid q\stackrel{\Sterm{a}}{\to}r\epstrastar q'\text{ für ein }r\in Q\}$
-\item $Q_0'=\{q\mid q_0\epstrastar q\text{ für ein }q_0\in Q\}$
+\item $Q_0'=\{q\mid q_0\epstrastar q\text{ für ein }q_0\in Q_0\}$
 \end{itemize}
 Wir behaupten $\Slang{L}(\Smach{M})=\Slang{L}(\Smach{M}')$.
 
@@ -340,7 +340,7 @@ Man kann alternative Konstruktionen für den Beweis angeben:
 Reguläre Sprachen sind unter zahlreichen Operationen abgeschlossen:
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -355,7 +355,7 @@ folgenden Ausdrücke reguläre Sprachen:
 \alert{Operation auf Automaten}. Dadurch konstruieren wir Automaten, welche die
 gesuchte Sprache erkennen (daher muss die Sprache regulär sein).
 
-% Satz: Abschluss unter cup cap circ compl *
+% \emph{Satz:} Abschluss unter cup cap circ compl *
 % Erläuterung
 % Beweisplan (via Automaten)
 
@@ -379,7 +379,7 @@ gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta_{12},Q_{0,1}\cup Q_{0,2},F_1\cup
 
 Das folgende Ergebnis ist leicht zu sehen:
 
-\theobox{Satz: $\Slang{L}(\Smach{M}_1\oplus\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cup\Slang{L}(\Smach{M}_2)$.
+\theobox{\emph{Satz:} $\Slang{L}(\Smach{M}_1\oplus\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cup\Slang{L}(\Smach{M}_2)$.
 }
 
 Also sind reguläre Sprachen unter Vereinigung abgeschlossen.
@@ -448,7 +448,7 @@ ergibt den NFA \ldots\pause\bigskip
 \begin{frame}\frametitle{Abschluss unter Schnitt}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -495,7 +495,7 @@ gegeben durch $\tuple{Q_1\times Q_2,\Sigma,\delta,Q_{0,1}\times Q_{0,2},F_1\time
 
 Wir werden zeigen, dass dies der gesuchte Automat ist:
 
-\theobox{Satz: $\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$.
+\theobox{\emph{Satz:} $\Slang{L}(\Smach{M}_1\otimes\Smach{M}_2) = \Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)$.
 }
 
 Also sind reguläre Sprachen unter Schnitten abgeschlossen.
@@ -595,7 +595,7 @@ Analoge Schlussfolgerungen in entgegengesetzter Richtung.\qed
 \begin{frame}\frametitle{Abschluss unter Komplement}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -656,7 +656,7 @@ DFA $\tuple{Q,\Sigma,\delta,q_0,Q\setminus F}$.}
 
 \begin{frame}\frametitle{Korrektheitsbeweis Komplementierung}
 
-\theobox{Satz: Für jeden DFA gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}\pause
+\theobox{\emph{Satz:} Für jeden DFA gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}\pause
 
 \emph{Beweis:} "`$\Slang{L}(\overline{\Smach{M}}) \subseteq \overline{\Slang{L}(\Smach{M})}$"'~~
 Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\Slang{L}(\overline{\Smach{M}})$.\pause
@@ -712,7 +712,7 @@ Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
 \end{tikzpicture}}\bigskip
 
 
-\onslide<2->{\narrowcentering{Wörter der Form $\Sterm{0}^*\Sterm{1}^+$\hfill \onslide<3->{Wörter der Form $\Sterm{0}^*$}}}
+\onslide<2->{\narrowcentering{Wörter der Form $\{\Sterm{0}\}^*\{\Sterm{1}\}^+$\hfill \onslide<3->{Wörter der Form $\{\Sterm{0}\}^*$}}}
 \bigskip
 
 \onslide<4->{Das Wort $\Sterm{010}$ zum Beispiel wird von keinem der beiden Automaten erkannt.}
@@ -725,7 +725,7 @@ Sei $w=\Sterm{a_1}\cdots\Sterm{a_n}\in\overline{\Slang{L}(\Smach{M})}$\pause
 \begin{frame}\frametitle{Korrekte Komplementierung}
 % Diskussion warum das auch nicht geht, mit Beispiel
 
-\theobox{Satz: Für jeden DFA \alert{mit totaler Übergangsfunktion} gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}
+\theobox{\emph{Satz:} Für jeden DFA $\Smach{M}$ \alert{mit totaler Übergangsfunktion} gilt $\Slang{L}(\overline{\Smach{M}}) = \overline{\Slang{L}(\Smach{M})}$.}
 
 \emph{Beweis:} Wie vorher für den falschen Satz, aber diesmal kann der Problemfall (2) der Rückrichtung nicht auftreten.
 \bigskip
@@ -757,7 +757,7 @@ Daraus folgt der Abschluss regulärer Sprachen unter Komplement, da wir jeden DF
 \begin{frame}\frametitle{Abschluss unter Konkatenation}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -860,7 +860,7 @@ $\Smach{M}_1\odot\Smach{M}_2$ nichtdeterministisch, diese Simulation fortzusetze
 \narrowcentering{(Übung: Welche Wörter akzeptiert dieser Automat \alert{nicht}?)}\pause
 \bigskip
 
-\theobox{Satz: Für alle NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
+\theobox{\emph{Satz:} Für alle NFA $\Smach{M}_1$ und $\Smach{M}_2$ gilt 
 $\Slang{L}(\Smach{M}_1\odot \Smach{M}_2)=\Slang{L}(\Smach{M}_1)\circ\Slang{L}(\Smach{M}_2)$.}
 
 Der Beweis ist einfach und analog zu den bisher gezeigten.
@@ -870,7 +870,7 @@ Der Beweis ist einfach und analog zu den bisher gezeigten.
 \begin{frame}\frametitle{Abschluss unter Kleene-Stern}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -903,7 +903,7 @@ gegeben durch $\tuple{Q',\Sigma,\delta',Q_0',F'}$ wobei
 \end{itemize}
 }\medskip
 
-\theobox{Satz: $\Slang{L}(\Smach{M}^*)=\Slang{L}(\Smach{M})^*$.}
+\theobox{\emph{Satz:} $\Slang{L}(\Smach{M}^*)=\Slang{L}(\Smach{M})^*$.}
 
 Der Beweis ist einfach und analog zu den bisher gezeigten.
 
