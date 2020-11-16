@@ -1,10 +1,10 @@
-\documentclass[onlymath]{beamer}
-% \documentclass[onlymath,handout]{beamer}
+\documentclass[aspectratio=1610,onlymath]{beamer}
+% \documentclass[aspectratio=1610,onlymath,handout]{beamer}
 
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{6}{Reguläre Ausdrücke}{30. Oktober 2017}
+\defineTitle{6}{Reguläre Ausdrücke}{12. November 2020}
 
 \begin{document}
 
@@ -464,6 +464,27 @@ bezeichnet und rekursiv definiert:
 
 \end{frame}
 
+\begin{frame}\frametitle{Äquivalenz regulärer Ausdrücke}
+
+\defbox{Zwei reguläre Ausdrücke $\alpha$ und $\beta$ sind \redalert{äquivalent},
+in Symbolen $\alpha\equiv\beta$, wenn $\Slang{L}(\alpha)=\Slang{L}(\beta)$.}
+\medskip
+
+\examplebox{%
+Typische Rechenregeln der Sprachoperationen gelten analog:
+\begin{align*}
+\alpha\mid\beta &\equiv \beta\mid\alpha
+	& \epsilon\alpha &\equiv \alpha\epsilon\equiv\alpha\\
+\alpha(\beta\mid\gamma) &\equiv \alpha\beta\mid\alpha\gamma
+	& \emptyset\alpha &\equiv \alpha\emptyset\equiv\emptyset\\
+(\beta\mid\gamma)\alpha &\equiv \beta\alpha\mid\gamma\alpha
+	& \emptyset\mid\alpha &\equiv \alpha\mid\emptyset\equiv\alpha\\
+\epsilon^* &\equiv \epsilon
+	& \emptyset^* &\equiv\epsilon
+\end{align*}}
+
+\end{frame}
+
 \begin{frame}\frametitle{Vereinfachte Klammerung}
 
 Reguläre Ausdrücke können durch Klammerungsregeln vereinfacht werden:
@@ -508,7 +529,7 @@ Implementierungen regulärer Ausdrücke bieten auch Kurzformen für Alternativen
 \item Weitere Kurzformen für praktisch wichtige Fälle, z.B. \texttt{\textbackslash s} oder \texttt{[:blank:]} für Leerzeichen, \texttt{\textbackslash d} oder \texttt{[:digit:]} für Ziffern
 \end{itemize}}
 
-\redalert{Theoretiker meiden Kurzformen {\tiny(mehr Formen = mehr Fälle in Beweisen und Definitionen)}}
+\redalert{TheoretikerInnen meiden Kurzformen {\tiny(mehr Formen = mehr Fälle in Beweisen und Definitionen)}}
 
 \end{frame}
 
@@ -528,27 +549,6 @@ Unterschiede zur reinen Lehre:
 \item \alert{Referenzen:} praktische Implementierungen erlauben es meist, Teile eines Matches im Muster wieder zu verwenden $\leadsto$ keine reguläre Sprache mehr
 \item \alert{Escaping:} Unterscheidung von Steuerzeichen (Metazeichen) und Alphabetssymbolen ist praktisch aufwändig
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Äquivalenz regulärer Ausdrücke}
-
-\defbox{Zwei reguläre Ausdrücke $\alpha$ und $\beta$ sind \redalert{äquivalent},
-in Symbolen $\alpha\equiv\beta$, wenn $\Slang{L}(\alpha)=\Slang{L}(\beta)$.}
-\medskip
-
-\examplebox{%
-Typische Rechenregeln der Sprachoperationen gelten analog:
-\begin{align*}
-\alpha\mid\beta &\equiv \beta\mid\alpha
-	& \epsilon\alpha &\equiv \alpha\epsilon\equiv\alpha\\
-\alpha(\beta\mid\gamma) &\equiv \alpha\beta\mid\alpha\gamma
-	& \emptyset\alpha &\equiv \alpha\emptyset\equiv\emptyset\\
-(\beta\mid\gamma)\alpha &\equiv \beta\alpha\mid\gamma\alpha
-	& \emptyset\mid\alpha &\equiv \alpha\mid\emptyset\equiv\alpha\\
-\epsilon^* &\equiv \epsilon
-	& \emptyset^* &\equiv\epsilon
-\end{align*}}
 
 \end{frame}
 
@@ -1122,7 +1122,7 @@ Regulärer Ausdruck: $\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$
 \footnotesize Fast ohne Löschen (außer $\epsilon$-Übergänge)
 &
 \footnotesize Übergänge werden oft gelöscht
-\end{tabular}}
+\end{tabular}}\bigskip
 
 {\footnotesize ${}^*$) Bzgl. Länge des reg. Ausdrucks bzw. bzgl. Anzahl seiner Operationen}
 
