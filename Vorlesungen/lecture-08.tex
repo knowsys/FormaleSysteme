@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{8}{Minimale Automaten}{6. November 2017}
+\defineTitle{8}{Minimale Automaten}{19. November 2020}
 
 % Notes (2016): did not finish M&N theorem on time, since some extra time was used to
 % sketch basic properties of equivalence relations on the board;
@@ -207,7 +207,7 @@ $\leadsto$ $A\sim C$\\
 
 \begin{frame}\frametitle{Eigenschaften von $\sim_{\Smach{M}}$}
 
-\defbox{ Definition (kurz): $q\sim_{\Smach{M}}p$ genau dann wenn $\Slang{L}(\Smach{M}_{p}) = \Slang{L}(\Smach{M}_{q})$.}%
+\defbox{ \emph{Definition (kurz):} $q\sim_{\Smach{M}}p$ genau dann wenn $\Slang{L}(\Smach{M}_{p}) = \Slang{L}(\Smach{M}_{q})$.}%
 \smallskip\pause
 
 Damit sehen wir leicht:
@@ -319,7 +319,7 @@ $\leadsto$ Definition unabhängig vom gewählten Repräsentanten von $[q]_{\sim}
 
 \begin{frame}\frametitle{Korrektheit Quotientenautomat}
 
-\theobox{Satz: Für jeden totalen DFA $\Smach{M}$ gilt $\Slang{L}(\Smach{M})=\Slang{L}(\simquot{\Smach{M}})$.}
+\theobox{\emph{Satz:} Für jeden totalen DFA $\Smach{M}$ gilt $\Slang{L}(\Smach{M})=\Slang{L}(\simquot{\Smach{M}})$.}
 
 \emph{Beweis:}
 Für alle $w\in\Sigma^*$ gilt:
@@ -541,20 +541,20 @@ Der \redalert{reduzierte Automat $\Smach{M}_r$} ergibt sich durch folgende Schri
 
 Dieses Verfahren erzeugt den gewünschten minimalen DFA:
 
-\theobox{Satz: $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}\pause
+\theobox{\emph{Satz:} $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}\pause
 
 Zudem stellt sich heraus, dass dieser minimale DFA eindeutig ist:
 
-\theobox{Satz: Alle minimalen DFA mit totaler Übergangsfunktion, die $\Slang{L}(\Smach{M})$ erkennen, sind bis auf Umbenennung von Zuständen gleich (sie sind \alert{isomorph}). Daher hängt $\Smach{M}_r$ nur von $\Slang{L}(\Smach{M})$ ab, nicht von $\Smach{M}$.}
+\theobox{\emph{Satz:} Alle minimalen DFA mit totaler Übergangsfunktion, die $\Slang{L}(\Smach{M})$ erkennen, sind bis auf Umbenennung von Zuständen gleich (sie sind \alert{isomorph}). Daher hängt $\Smach{M}_r$ nur von $\Slang{L}(\Smach{M})$ ab, nicht von $\Smach{M}$.}
 
 \end{frame}
 
 \begin{frame}\frametitle{Korrektheit Minimalautomat}
 
-\theobox{Satz: $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}
+\theobox{\emph{Satz:} $\Smach{M}_r$ ist bezüglich der Zustandsmenge der minimale DFA mit totaler Übergangsfunktion, der die Sprache $\Slang{L}(\Smach{M})$ erkennt.}
 
 \emph{Beweisplan:}
-\begin{enumerate}[({Behauptung} 1)]
+\begin{enumerate}%[({Behauptung} 1)]
 \item $\Smach{M}_r$ erkennt $\Slang{L}(\Smach{M})$: Dies folgt aus der Korrektheit der Quotientenbildung bei Automaten
 \item $\Smach{M}_r$ ist minimal für diese Eigenschaft: Wir werden dies in mehreren Schritten zeigen:
 \begin{itemize}
@@ -591,7 +591,7 @@ Dies kann mit der Idee der Zustandsäquivalenz verglichen werden:
 
 \begin{frame}\frametitle{Eigenschaften von $\simeq$}
 
-\defbox{Definition (kurz): $u\simeq_{\Slang{L}}v$ wenn
+\defbox{\emph{Definition (kurz):} $u\simeq_{\Slang{L}}v$ wenn
 für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ genau dann wenn $vw\in\Slang{L}$.
 }%
 \smallskip\pause
@@ -643,7 +643,7 @@ Dies rechtfertigt die Bezeichnung \alert{Rechtskongruenz}.
 \only<7->{\item $[\Sterm{a}]_{\simeq} = \{\Sterm{a}\}$: $\Sterm{a}w\in\Slang{L}$ gdw. $w\in\{\epsilon,\Sterm{b}\}$}
 \only<8->{\item $[\Sterm{b}]_{\simeq} = \{\Sterm{b}\}$: $\Sterm{b}w\in\Slang{L}$ gdw. $w = \Sterm{a}$}
 \only<9->{\item $[\Sterm{ab}]_{\simeq} = \{\Sterm{ab},\Sterm{ba}\}$: für jedes $v\in[\Sterm{ab}]_{\simeq}$ ist $vw\in\Slang{L}$ gdw. $w=\epsilon$}
-\only<10->{\item $[\Sterm{bb}]_{\simeq} = \Sigma^*\setminus\{\epsilon,\Sterm{a},\Sterm{ab},\Sterm{ba}\}$: für jedes $v\in[\Sterm{bb}]_{\simeq}$ ist $vw\notin\Slang{L}$ für alle $w\in\Sigma^*$}
+\only<10->{\item $[\Sterm{bb}]_{\simeq} = \Sigma^*\setminus\{\epsilon,\Sterm{a},\Sterm{b},\Sterm{ab},\Sterm{ba}\}$: für jedes $v\in[\Sterm{bb}]_{\simeq}$ ist $vw\notin\Slang{L}$ für alle $w\in\Sigma^*$}
 \end{itemize}}
 }}
 
@@ -676,7 +676,7 @@ Wir werden zeigen, dass jede reguläre Sprache endlich viele $\simeq$-Äquivalen
 
 Es gilt sogar noch etwas stärkeres:\medskip
 
-\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}
+\theobox{\emph{Satz (Myhill \& Nerode):} Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}
 
 \emph{Beweis:} Siehe nächste Vorlesung.
 \bigskip
