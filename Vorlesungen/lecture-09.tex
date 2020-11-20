@@ -4,8 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{9}{Minimale Automaten (2)}{9. November 2017}
-\author{\href{http://korrekt.org/}{Markus Kr\"{o}tzsch}}
+\defineTitle{9}{Minimale Automaten (2)}{23. November 2020}
 
 \begin{document}
 
@@ -104,7 +103,7 @@ für alle $w\in\Sigma^*$ gilt: $uw\in\Slang{L}$ gdw. $vw\in\Slang{L}$.}%
 
 \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen}
 
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+\theobox{\emph{Satz:} Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
 (Die Zahl der Äquivalenzklassen wird auch als \redalert{Index} bezeichnet)\medskip\pause
 
 \emph{Beweis:} Wir erhalten diese Eigenschaft aus der Darstellung von $\Slang{L}$ mit einem DFA.
@@ -126,7 +125,7 @@ Offensichtlich ist $\simeq_{\Smach{M}}$ eine Äquivalenzrelation (Eigenschaften 
 
 \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (2)}
 
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+\theobox{\emph{Satz:} Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
 
 \emph{Beweis (Fortsetzung):} 
 Behauptung: ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$ das heißt\\[1ex]
@@ -148,7 +147,7 @@ Damit ist die Behauptung gezeigt.
 
 \begin{frame}[t]\frametitle{$\simeq$ und reguläre Sprachen (3)}
 
-\theobox{Satz: Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
+\theobox{\emph{Satz:} Wenn $\Slang{L}$ regulär ist, dann hat $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen.}
 
 \emph{Beweis (Fortsetzung):} Wir haben gezeigt, dass ${\simeq_{\Smach{M}}}\subseteq {\simeq_{\Slang{L}}}$.\pause
 \medskip
@@ -198,7 +197,7 @@ gilt: $\delta(q_0,u)=\delta(q_0,v)$.}%
 
 Das vorige Resultat kann noch verstärkt werden:
 
-\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\pause
+\theobox{\emph{Satz (Myhill \& Nerode):} Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\pause
 
 \emph{Beweis:}
 Die Richtung "`$\Rightarrow$"' haben wir soeben gezeigt.\pause\medskip
@@ -280,7 +279,7 @@ Für reguläre $\Slang{L}$ haben wir bereits gezeigt:
 
 Als nächstes interessiert uns der Bezug zum Minimalautomat\pause:
 
-\theobox{Satz: $\Smach{M}_{\Slang{L}}$ hat unter allen totalen DFAs, die $\Slang{L}$ erkennen, eine minimale Anzahl an Zuständen.}\pause
+\theobox{\emph{Satz:} $\Smach{M}_{\Slang{L}}$ hat unter allen totalen DFAs, die $\Slang{L}$ erkennen, eine minimale Anzahl an Zuständen.}\pause
 
 \emph{Beweis:} Sei $\Smach{M}$ ein beliebiger totaler DFA mit $\Slang{L}(\Smach{M})=\Slang{L}$
 \begin{itemize}
@@ -340,7 +339,7 @@ Man kann leicht zeigen, dass isomorphe Automaten die selbe Sprache akzeptieren
 
 \begin{frame}[t]\frametitle{Eindeutigkeit des Minimalautomaten}
 
-\theobox{Satz: Ist $\Slang{L}$ eine reguläre Sprache, $\Smach{M}$ ein DFA mit totaler Übergangsfunktion
+\theobox{\emph{Satz:} Ist $\Slang{L}$ eine reguläre Sprache, $\Smach{M}$ ein DFA mit totaler Übergangsfunktion
 und $\Slang{L}(\Smach{M})=\Slang{L}$, so sind der reduzierte Automat $\Smach{M}_r$ und der Myhill-Nerode-Minimalautomat $\Smach{M}_{\Slang{L}}$ isomorph.}
 
 \emph{Beweis:}
@@ -444,7 +443,7 @@ Es bleibt zu zeigen: $f$ ist ein Isomorphismus von $\Smach{M}_r$ zu $\Smach{M}_{
 
 Damit ist der Satz bewiesen:
 
-\theobox{Satz: Ist $\Slang{L}$ eine reguläre Sprache, $\Smach{M}$ ein DFA mit totaler Übergangsfunktion
+\theobox{\emph{Satz:} Ist $\Slang{L}$ eine reguläre Sprache, $\Smach{M}$ ein DFA mit totaler Übergangsfunktion
 und $\Slang{L}(\Smach{M})=\Slang{L}$, so sind der reduzierte Automat $\Smach{M}_r$ und der Myhill-Nerode-Minimalautomat $\Smach{M}_{\Slang{L}}$ isomorph.}
 
 \end{frame}
@@ -463,7 +462,7 @@ Für reguläre $\Slang{L}$ haben wir bereits gezeigt:
 
 Daraus folgt auch:
 
-\theobox{Satz: Alle minimalen DFA mit totaler Übergangsfunktion, die $\Slang{L}(\Smach{M})$ erkennen, sind bis auf Umbenennung von Zuständen gleich (sie sind \alert{isomorph}). Daher hängt $\Smach{M}_r$ nur von $\Slang{L}(\Smach{M})$ ab, nicht von $\Smach{M}$.}
+\theobox{\emph{Satz:} Alle minimalen DFA mit totaler Übergangsfunktion, die $\Slang{L}(\Smach{M})$ erkennen, sind bis auf Umbenennung von Zuständen gleich (sie sind \alert{isomorph}). Daher hängt $\Smach{M}_r$ nur von $\Slang{L}(\Smach{M})$ ab, nicht von $\Smach{M}$.}
 
 \end{frame}
 
