@@ -405,7 +405,7 @@ Startzustand $q_r$ aus erreichbar sind.\pause
 \item die Wahl von $w$ ist dabei unerheblich: 
 \begin{itemize}
 \item wenn $\delta_r(q_r,w)=q=\delta_r(q_r,w')$ 
-\item dann $w\simeq_{\Smach{M}} w'$
+\item dann $w\simeq_{\Smach{M}_r} w'$
 \item dann $w\simeq_{\Slang{L}} w'$ (wie zuvor gezeigt)
 \item dann $[w]_\simeq=[w']_\simeq$
 \end{itemize}
@@ -425,8 +425,8 @@ Es bleibt zu zeigen: $f$ ist ein Isomorphismus von $\Smach{M}_r$ zu $\Smach{M}_{
 \item "`$f(q_r)=q_0$"': \pause es gilt $\delta_r(q_r,\epsilon)=q_r$ und daher $f(q_r)=[\epsilon]_\simeq=q_0$ \pause
 \item "`$f(\delta_r(q,\Sterm{a})) = \delta(f(q),\Sterm{a})$"': \pause
 	\begin{itemize}
-	\item Sei $w$ ein Wort mit $\delta_r(q_0,w)=q$\pause
-	\item Dann ist $\delta_r(q_0,w\Sterm{a})=\delta_r(q,\Sterm{a})$ und daher $f(\delta_r(q,\Sterm{a}))=[w\Sterm{a}]_\simeq$\pause
+	\item Sei $w$ ein Wort mit $\delta_r(q_r,w)=q$\pause
+	\item Dann ist $\delta_r(q_r,w\Sterm{a})=\delta_r(q,\Sterm{a})$ und daher $f(\delta_r(q,\Sterm{a}))=[w\Sterm{a}]_\simeq$\pause
 	\item Andererseits gilt $f(q)=[w]_\simeq$ und daher $\delta(f(q),\Sterm{a})=[w\Sterm{a}]_\simeq$
 	\end{itemize}\pause
 \item "`$\{f(q)\mid q\in F_r\}=F$"': \pause
@@ -441,12 +441,13 @@ Es bleibt zu zeigen: $f$ ist ein Isomorphismus von $\Smach{M}_r$ zu $\Smach{M}_{
 \qed
 \bigskip
 
-Damit ist der Satz bewiesen:
+Damit ist der Satz bewiesen:\smallskip
 
 \theobox{\emph{Satz:} Ist $\Slang{L}$ eine reguläre Sprache, $\Smach{M}$ ein DFA mit totaler Übergangsfunktion
 und $\Slang{L}(\Smach{M})=\Slang{L}$, so sind der reduzierte Automat $\Smach{M}_r$ und der Myhill-Nerode-Minimalautomat $\Smach{M}_{\Slang{L}}$ isomorph.}
 
 \end{frame}
+
 
 \begin{frame}[t]\frametitle{Zusammenfassung: Eigenschaften von $\Smach{M}_{\Slang{L}}$}
 
