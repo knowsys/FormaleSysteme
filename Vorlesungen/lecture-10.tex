@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{13. November 2017}
+\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{26. November 2020}
 
 \begin{document}
 
@@ -53,14 +53,14 @@ Sind alle Typ-0-Sprachen regulär?\\
 
 Myhill \& Nerode liefern uns ein besseres Kriterium:
 
-\theobox{Satz (Myhill \& Nerode): Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\medskip
+\theobox{\emph{Satz (Myhill \& Nerode):} Eine Sprache $\Slang{L}$ ist genau dann regulär, wenn $\simeq_{\Slang{L}}$ endlich viele Äquivalenzklassen hat.}\medskip
 
 Daraus folgt:
 
-\theobox{Satz: Wenn $\simeq_{\Slang{L}}$ unendlich viele Äquivalenzklassen hat, dann ist $\Slang{L}$ nicht regulär.}%
+\theobox{\emph{Satz:} Wenn $\simeq_{\Slang{L}}$ unendlich viele Äquivalenzklassen hat, dann ist $\Slang{L}$ nicht regulär.}%
 \medskip\pause
 
-\examplebox{Beispiel: Wir haben gesehen, dass die Sprache $\{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$
+\examplebox{\emph{Beispiel:} Wir haben gesehen, dass die Sprache $\{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$
 unendlich viele Äquivalenzklassen erzeugt. Diese Sprache ist demnach nicht regulär.}
 
 \end{frame}
@@ -87,14 +87,14 @@ Viele Sprachdefinitionen mit Bezug zu konkreten Zahlen verhalten sich ähnlich
 
 Wir haben bereits gezeigt:
 
-\theobox{Satz: Wenn $\Slang{L}_1$ und $\Slang{L}_2$ regulär sind, dann auch $\Slang{L}_1\cap \Slang{L}_2$,
+\theobox{\emph{Satz:} Wenn $\Slang{L}_1$ und $\Slang{L}_2$ regulär sind, dann auch $\Slang{L}_1\cap \Slang{L}_2$,
 $\Slang{L}_1\cup \Slang{L}_2$, $\Slang{L}_1^*$ und $\overline{\Slang{L}}_1$.}\medskip
 
 Auch hier liefert die Umkehrung gute Kriterien, z.B.
-\theobox{Satz: Wenn $\Slang{L}_1$ regulär und $\Slang{L}_1\cap \Slang{L}_2$ nicht regulär ist, dann ist
+\theobox{\emph{Satz:} Wenn $\Slang{L}_1$ regulär und $\Slang{L}_1\cap \Slang{L}_2$ nicht regulär ist, dann ist
 $\Slang{L}_2$ ebenfalls nicht regulär.}\medskip\pause
 
-\examplebox{Beispiel: Wir betrachten über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ die Sprache\\ $\Slang{L}=\{w\mid w\text{ enthält ebenso viele $\Sterm{a}$ wie $\Sterm{b}$}\}$.
+\examplebox{\emph{Beispiel:} Wir betrachten über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ die Sprache\\ $\Slang{L}=\{w\mid w\text{ enthält ebenso viele $\Sterm{a}$ wie $\Sterm{b}$}\}$.
 \medskip
 
 \only<3->{Dann gilt $\Slang{L}\cap \{\Sterm{a}\}^*\{\Sterm{b}\}^* = \{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$.
@@ -152,7 +152,7 @@ beliebig "`aufgepumpt"' werden können.
 
 \begin{frame}\frametitle{Das Pumping-Lemma}
 
-\theobox{Satz (Pumping-Lemma):
+\theobox{\emph{Satz (Pumping-Lemma):}
 Für jede reguläre Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -185,7 +185,7 @@ Der Lauf $(q_0\ldots q_{i-1} p) (q_{i+1}\ldots q_{j-1}p)^k (q_{j+1}\ldots q_\ell
 \begin{frame}\frametitle{Beispiel}
 
 \examplebox{%
-Beispiel: Die Sprache von $\Sterm{b}^*(\Sterm{a}\Sterm{b}^*\Sterm{a}\Sterm{b}^*)^*$ (Wörter mit gerader Anzahl $\Sterm{a}s$).
+\emph{Beispiel:} Die Sprache von $\Sterm{b}^*(\Sterm{a}\Sterm{b}^*\Sterm{a}\Sterm{b}^*)^*$ (Wörter mit gerader Anzahl $\Sterm{a}s$).
 Der Parameter $n$ aus dem Pumping-Lemma kann $2$ sein:
 \begin{itemize}
 \item Wenn $z$ die Form $\Sterm{b}y$ hat, wähle $u=\epsilon$, $v=\Sterm{b}$ und $w=y$
@@ -194,7 +194,7 @@ Der Parameter $n$ aus dem Pumping-Lemma kann $2$ sein:
 \end{itemize}
 }\medskip\pause
 
-\examplebox{Beispiel: Für endliche Sprachen ist die Eigenschaft trivial. Man wählt $n$ einfach so groß, dass
+\examplebox{\emph{Beispiel:} Für endliche Sprachen ist die Eigenschaft trivial. Man wählt $n$ einfach so groß, dass
 es keine Wörter $z$ mit $|z|\geq n$ gibt, für welche weitere Eigenschaften gefordert werden.}
 
 \end{frame}
@@ -207,7 +207,7 @@ Die Pump-Eigenschaft ist für Regularität \alert{notwendig}, aber \alert{nicht 
 Daher eignet sich das Pumping-Lemma eher zum Beweis der Nichtregularität
 \medskip\pause
 
-\examplebox{Beispiel: Sei $\Slang{L}=\{\Sterm{a}^k\mid k\text{ ist Primzahl}\}$.
+\examplebox{\emph{Beispiel:} Sei $\Slang{L}=\{\Sterm{a}^k\mid k\text{ ist Primzahl}\}$.
 \only<3->{\medskip
 
 Angenommen es gäbe einen Wert $n$ für den diese Sprache aufgepumpt werden kann.
@@ -338,7 +338,7 @@ Konsistenzprüfung einer Systemspezifikation
 
 Das Leerheitsproblem ist leicht zu lösen:
 
-\theobox{Satz: Die Leerheit eines NFA (oder auch DFA) kann in polynomieller Zeit entschieden werden.}
+\theobox{\emph{Satz:} Die Leerheit eines NFA (oder auch DFA) kann in polynomieller Zeit entschieden werden.}
 
 \pause
 \emph{Beweis:} Leerheit = "`Es gibt keinen von einem Startzustand aus erreichbaren Endzustand"'
@@ -400,7 +400,7 @@ Wie aufwändig ist es, $\Slang{L}(\Smach{M}_1\otimes\overline{\Smach{M}_2})=\emp
 \item Leerheitstest: polynomiell
 \end{itemize}\pause
 
-\theobox{Satz: Für NFAs $\Smach{M}_1$ und $\Smach{M}_2$ kann $\Slang{L}(\Smach{M}_1)\subseteq\Slang{L}(\Smach{M}_2)$ \ldots
+\theobox{\emph{Satz:} Für NFAs $\Smach{M}_1$ und $\Smach{M}_2$ kann $\Slang{L}(\Smach{M}_1)\subseteq\Slang{L}(\Smach{M}_2)$ \ldots
 \begin{itemize}
 \item in exponentieller Zeit entschieden werden
 \item in polynomieller Zeit entschieden werden, wenn $\Smach{M}_2$ DFA ist
@@ -449,7 +449,7 @@ Das Äquivalenzproblem kann auf das Inklusionsproblem reduziert werden:\\[1ex]
 
 Daraus ergibt sich eine obere Schranke der Komplexität:
 
-\theobox{Satz: Für NFAs $\Smach{M}_1$ und $\Smach{M}_2$ kann $\Slang{L}(\Smach{M}_1)=\Slang{L}(\Smach{M}_2)$
+\theobox{\emph{Satz:} Für NFAs $\Smach{M}_1$ und $\Smach{M}_2$ kann $\Slang{L}(\Smach{M}_1)=\Slang{L}(\Smach{M}_2)$
 \begin{itemize}
 \item in exponentieller Zeit entschieden werden
 \item in polynomieller Zeit entschieden werden, wenn $\Smach{M}_1$ und $\Smach{M}_2$ DFAs sind
@@ -469,7 +469,7 @@ Auch hier ist nicht bekannt, ob es für den Worst Case effizientere Algorithmen 
 % \emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}(\Smach{M})$ und "`nein"' wenn $w\notin\Slang{L}(\Smach{M})$
 % }
 
-\theobox{Satz: Das Wortproblem für DFAs kann in polynomieller Zeit entschieden werden.}\pause
+\theobox{\emph{Satz:} Das Wortproblem für DFAs kann in polynomieller Zeit entschieden werden.}\pause
 
 \emph{Beweis:} Es genügt, den DFA für $|w|$ Schritte zu simulieren und zu prüfen, ob danach ein
 Endzustand erreicht ist. Die Berechnung von $\delta(q,\Sterm{a})$ ist in
@@ -478,7 +478,7 @@ polynomieller Zeit möglich -- die Details hängen davon ab, wie genau $\Smach{M
 
 \bigskip
 
-\theobox{Satz: Das Wortproblem für reguläre Sprachen kann in linearer Zeit $O(|w|)$ entschieden werden.}\pause
+\theobox{\emph{Satz:} Das Wortproblem für reguläre Sprachen kann in linearer Zeit $O(|w|)$ entschieden werden.}\pause
 
 \emph{Beweis:} Man kann den DFA als gegebenen Bestandteil des Problems annehmen, der nicht Teil der Eingabe ist.
 Die Berechnung von $\delta(q,\Sterm{a})$ kann daher in
@@ -603,7 +603,7 @@ $\Slang{L}(\Smach{M})\cap \Slang{L}(\Smach{M}_w) \neq\emptyset$}
 
 Mit Variante 2 und 3 erhalten wir:\medskip
 
-\theobox{Satz: Das Wortproblem für NFAs kann in polynomieller Zeit entschieden werden.}
+\theobox{\emph{Satz:} Das Wortproblem für NFAs kann in polynomieller Zeit entschieden werden.}
 
 \end{frame}
 
