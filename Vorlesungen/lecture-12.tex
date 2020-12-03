@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{12}{Das Wortproblem für kontextfreie Sprachen}{20. November 2017}
+\defineTitle{12}{Das Wortproblem für kontextfreie Sprachen}{3. Dezember 2020}
 
 \begin{document}
 
@@ -232,7 +232,7 @@ Für die algorithmische Verarbeitung kontextfreier Grammatiken ist die folgende 
 
 \begin{enumerate}[$\leadsto$]
 \item Grammatiken, deren Sprache das leere Wort enthalten,\\ können sicher nicht in CNF sein
-\item Aber wie wir wissen, gibt es in $\epsilon$-freien CFGs ohnehin höchstens eine Regeln $S\to\epsilon$
+\item Aber wie wir wissen, gibt es in $\epsilon$-freien CFGs ohnehin höchstens eine Regel $S\to\epsilon$
 \item Dieser Sonderfall kann in Algorithmen leicht berücksichtigt \ghost{werden}
 \item Wir verzichten darauf, die CNF dafür noch zu erweitern
 \end{enumerate}
@@ -241,7 +241,7 @@ Für die algorithmische Verarbeitung kontextfreier Grammatiken ist die folgende 
 
 \begin{frame}[t]\frametitle{Umwandlung in CNF}
 
-\theobox{Satz: Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}\pause
+\theobox{\emph{Satz:} Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}\pause
 
 \emph{Beweis: } Wir haben bereits gezeigt:
 \begin{enumerate}[(1)]
@@ -258,7 +258,7 @@ nur noch mit $n=2$ auftauchen.
 
 \begin{frame}[t]\frametitle{Umwandlung in CNF (2)}
 
-\theobox{Satz: Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
+\theobox{\emph{Satz:} Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
 
 \emph{Beweis: } Schritt (3): \alert{Extrahiere Regeln der Form $\Snterm{A}\to\Sterm{c}$}, so dass alle anderen Regeln $\Snterm{B}\to w$ keine Terminale mehr in $w$ enthalten.\pause
 
@@ -276,7 +276,7 @@ Regeln $\Snterm{A}\to w$ mit $|w|=1$ haben die Form $\Snterm{A}\to\Sterm{c}$ (ke
 
 \begin{frame}[t]\frametitle{Umwandlung in CNF (3)}
 
-\theobox{Satz: Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
+\theobox{\emph{Satz:} Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
 
 \emph{Beweis: } Schritt (4): \alert{Zerlege Regeln der Form $\Snterm{A}\to\Sntermsub{B}{1}\cdots\Sntermsub{B}{n}$}, so dass solche Regeln nur noch mit $n=2$ auftauchen.\pause
 \bigskip
@@ -300,7 +300,7 @@ Für jede Produktionsregel $\Snterm{A}\to \Sntermsub{B}{1}\cdots\Sntermsub{B}{n}
 
 \begin{frame}[t]\frametitle{Umwandlung in CNF (4)}
 
-\theobox{Satz: Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
+\theobox{\emph{Satz:} Für jede CFG $G$ mit $\epsilon\notin\Slang{L}(G)$ gibt es eine äquivalente CFG $\textsf{CNF}(G)$ in Chomsky-Normalform, d.h. so dass $\Slang{L}(G)=\Slang{L}(\textsf{CNF}(G))$.}
 
 \emph{Beweis: } Die Korrektheit der Schritte lässt sich zeigen, indem man für eine beliebige Ableitung einer Grammatik, eine Ableitung der umgeformten Grammatik angibt. \bigskip
 
@@ -362,7 +362,7 @@ zu ersetzenden Variablen um $1$
 \end{itemize}\pause
 Wir folgern:
 
-\theobox{Satz: Wenn $w\in\Slang{L}(G)$ für eine Grammatik $G$ in CNF, dann hat jede Ableitung für $w$ genau $2|w|-1$ Ableitungsschritte.}
+\theobox{\emph{Satz:} Wenn $w\in\Slang{L}(G)$ für eine Grammatik $G$ in CNF, dann hat jede Ableitung für $w$ genau $2|w|-1$ Ableitungsschritte.}
 
 \end{frame}
 
@@ -727,7 +727,7 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 \end{itemize}
 \end{itemize}\bigskip
 
-\theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+\theobox{\emph{Satz:} Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
 
 \emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
 im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
@@ -738,7 +738,8 @@ $w=\epsilon$ gesondert testen.
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Jede Typ-2-Grammatik kann in eine äquivalente Grammatik in \redalert{Chomsky-Normalform} umgewandelt werden.
+Jede Typ-2-Grammatik kann in eine äquivalente$^*$ Grammatik in \redalert{Chomsky-Normalform} umgewandelt werden.\\
+{\tiny $^*$ besser: äquivalent bis auf das leere Wort, welches von der normalisierten Grammatik nicht erzeugt wird}
 \bigskip
 
 Mithilfe des \redalert{CYK-Algorithmus} ist das Wortproblem für kontextfreie Sprachen in polynomieller Zeit lösbar

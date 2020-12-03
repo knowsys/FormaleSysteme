@@ -6,7 +6,7 @@
 
 \usepackage{verbatim}
 
-\defineTitle{11}{Von regulären zu kontextfreien Sprachen}{16. November 2017}
+\defineTitle{11}{Von regulären zu kontextfreien Sprachen}{30. November 2020}
 
 \begin{document}
 
@@ -46,7 +46,7 @@ Die \redalert{Chomsky-Hierarchie} unterteilt Grammatiken in vier Stufen:
 
 \end{frame}
 
-\begin{frame}\frametitle{Chomsky's Hierarchie ist eine Hierarchie}
+\begin{frame}\frametitle{Chomskys Hierarchie ist eine Hierarchie}
 
 \begin{tikzpicture}[decoration=penciline, decorate]
 \node (nl) [decorate,draw=nightblue, text depth = 4cm, text width = \linewidth, fill=nightblue!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at (0,0) {Formale Sprachen};
@@ -253,7 +253,7 @@ Eine  Sprache ist \redalert{kontextfrei} (oder \redalert{Typ 2}), wenn sie durch
 
 Das genügt, um nichtreguläre Sprachen darzustellen:
 
-\examplebox{Beispiel: Die Sprache $\{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$ ist kontextfrei, da sie durch die folgende CFG dargestellt werden kann:
+\examplebox{\emph{Beispiel:} Die Sprache $\{\Sterm{a}^n\Sterm{b}^n\mid n\geq 0\}$ ist kontextfrei, da sie durch die folgende CFG dargestellt werden kann:
 \begin{align*}
 \Snterm{S} & \to \epsilon \mid \Sterm{a}\Snterm{S}\Sterm{b}
 \end{align*}
@@ -267,7 +267,7 @@ Das genügt, um nichtreguläre Sprachen darzustellen:
 CFGs eignen sich zur Darstellung vollständig geklammerter Ausdrücke.
 \bigskip
 
-\examplebox{Beispiel: Vollständig geklammerte reguläre Ausdrücke über Alphabet $\Sigma=\{\sigma_1, \ldots, \sigma_n\}$ sind als CFG über dem Alphabet $\Sigma\cup\{\Sterm{\emptyset},\Sterm{\epsilon},\Sterm{(},\Sterm{)},\Sterm{\mid},\Sterm{{}^*}\}$ darstellbar:
+\examplebox{\emph{Beispiel:} Vollständig geklammerte reguläre Ausdrücke über Alphabet $\Sigma=\{\sigma_1, \ldots, \sigma_n\}$ sind als CFG über dem Alphabet $\Sigma\cup\{\Sterm{\emptyset},\Sterm{\epsilon},\Sterm{(},\Sterm{)},\Sterm{\mid},\Sterm{{}^*}\}$ darstellbar:
 \begin{align*}
  \Snterm{S} & \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Snterm{A} \mid \Sterm{(}\Snterm{S}\Snterm{S}\Sterm{)} \mid \Sterm{(}\Snterm{S}\Sterm{\mid}\Snterm{S}\Sterm{)}\mid \Sterm{(}\Snterm{S}\Sterm{)}\Sterm{{}^*}\\
  \Snterm{A} & \to \sigma_1\mid \ldots \mid \sigma_n
@@ -704,7 +704,7 @@ Beobachtung:
 \item Jede topologische Sortierung der Knoten eines Ableitungsbaumes führt zu einer erlaubten Ableitung
 \end{enumerate}
 
-\doodlebox{darkgreen}{Beispiel: 
+\doodlebox{darkgreen}{\emph{Beispiel:}
 \begin{tikzpicture}[xscale=0.5,yscale=0.7,baseline=(s1.base)]
 % \draw[help lines] (0,0) grid (7,2);
 \node (s1) [circle,draw=black,inner sep=1pt,minimum height=5mm] at (0,0) {$a$};
@@ -865,7 +865,7 @@ syntaktische Struktur zu ermitteln}%
 \emph{Beispiele:}
 \begin{itemize}
 \item Parsebäume in der \alert{Verarbeitung natürlicher Sprache} können Aufschluss über die Bedeutung eines Satzes geben
-\item Syntaxbäume in \alert{Programmiersprachen} sind die Grundlage zur inhaltlichen Interpretation des Codes
+\item Syntaxbäume in \alert{Programmiersprachen} sind die Grundlage für die inhaltliche Interpretation des Codes
 \item Ableitungsbäume in \alert{Mark-Up-Sprachen} wie HTML oder XML sind entscheidend für die Adressierung von Elementen ("`DOM-Tree"')
 \end{itemize}
 
