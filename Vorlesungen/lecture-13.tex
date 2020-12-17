@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{23. November 2017}
+\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{7. Dezember 2020}
 
 \begin{document}
 
@@ -334,7 +334,7 @@ Berechnung der Mengen $V[i,j]$:\bigskip
 % \end{itemize}
 % \end{itemize}\bigskip
 % 
-% \theobox{Satz: Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
+% \theobox{\emph{Satz:} Das Wortproblem für kontextfreie Sprachen ist in $O(n^3)$ lösbar.}\bigskip
 % 
 % \emph{Anmerkung:} Die Umwandlung in CNF verlangt $\epsilon\notin\Slang{L}(G)$, aber 
 % im Fall $\epsilon\in\Slang{L}(G)$ kann man eine Grammatik $G'$ mit $\epsilon\notin\Slang{L}(G')$ erzeugen und
@@ -436,7 +436,7 @@ Wort:\\[1ex] $w=\Sterm{ababababa}$\\
 
 \begin{frame}\frametitle{Rückblick: Pumpen regulärer Sprachen}
 
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede reguläre Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -453,7 +453,7 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 
 \begin{frame}\frametitle{Pumpen für kontextfreie Sprachen}
 
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -461,7 +461,7 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip\pause
 
-\examplebox{Beispiel: Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
+\examplebox{\emph{Beispiel:} Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
 Sei $z=\Sterm{a}^i\Sterm{b}^i$ mit $i\geq 1$ ein beliebiges Wort mit $|z|\geq 2$. Wir wählen die Zerlegung $u=\Sterm{a}^{i-1}$,
 $v=\Sterm{a}$, $w=\epsilon$, $x=\Sterm{b}$ und $y=\Sterm{b}^{i-1}$.\\
 Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i-1}=\Sterm{a}^{i+k-1}\Sterm{b}^{i+k-1}\in\Slang{L}$ für alle $k\geq 0$.
@@ -1141,7 +1141,7 @@ Die Idee des Lemmas lässt sich gut am Ableitungsbaum darstellen:\\[1ex]
 \begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma}
 
 \vspace{-1ex}
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -1169,7 +1169,7 @@ Offene Fragen:
 \begin{frame}[t,fragile]\frametitle{Beweis des kontextfreien Pumping Lemma (2)}
 
 \vspace{-1ex}
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -1287,7 +1287,7 @@ Jeder Ableitungsbaum in $G$ ist ein Binärbaum (bis auf die letzte Ebene, wo Var
 \begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma (4)}
 
 \vspace{-1ex}
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -1317,7 +1317,7 @@ $|V|$ Schritte von der vorletzten Ebene (d.h. der letzten im inneren Binärbaum)
 \begin{frame}[t]\frametitle{Beweis des kontextfreien Pumping Lemma (5)}
 
 \vspace{-1ex}
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
