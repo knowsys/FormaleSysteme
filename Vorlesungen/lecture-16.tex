@@ -1097,7 +1097,13 @@ $\epsilon$-Übergängen akzeptieren darf.
 Eine kontextfreie Sprache, deren Komplement nicht kontextfrei ist, kann demnach nicht deterministisch kontextfrei sein.
 
 \examplebox{Beispiel: In Vorlesung 14 haben wir die Sprachen $\Slangsub{L}{1}=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\mid i\geq 0, k\geq 0\}$ und $\Slangsub{L}{2}=\{\Sterm{a}^i\Sterm{b}^k\Sterm{c}^k\mid i\geq 0, k\geq 0\}$ betrachtet und erkannt,
-dass die Sprache \[\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}=\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}\] kontextfrei ist, aber ihr Komplement nicht. Diese Sprache ist demnach nicht deterministisch kontextfrei.}
+dass die Sprache 
+\[
+\overline{\Slangsub{L}{1}}\cup\overline{\Slangsub{L}{2}}=\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j \text{ oder }j\neq k\}\,\cup\,
+\big(\{\Sterm{a},\Sterm{b},\Sterm{c}\}^*\circ\{\Sterm{ba},\Sterm{ca},\Sterm{cb}\}\circ\{\Sterm{a},\Sterm{b},\Sterm{c}\}^*\big)
+% \Slang{L}()
+\]
+kontextfrei ist, aber ihr Komplement nicht. Diese Sprache ist demnach nicht deterministisch kontextfrei.}
 
 Das beweist im wesentlichen die Behauptung, dass die deterministisch kontextfreie Sprachen eine echte Untermenge der
 kontextfreien sind.\medskip\pause
