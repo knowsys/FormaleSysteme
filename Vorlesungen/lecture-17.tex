@@ -6,7 +6,7 @@
 
 % \usetikzlibrary{shapes}
 
-\defineTitle{17}{Deterministische Sprachen / Entscheidungsprobleme}{7. Dezember 2017}
+\defineTitle{17}{Deterministische Sprachen / Entscheidungsprobleme}{4. Januar 2021}
 
 \begin{document}
 
@@ -68,7 +68,7 @@
 	$\Sntermsub{V}{q,r} \to \Sntermsub{V}{q,s}\Sntermsub{V}{s,r}$\\[-0.7mm]
 	$\Sntermsub{V}{q,q} \to \epsilon$};
 
-\node (thm) [decorate,draw=darkblue, fill=darkblue!10,thick,align=left,text width=40mm, inner ysep=2mm, inner xsep=2mm] at (4,0) {Satz: Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.};
+\node (thm) [decorate,draw=darkblue, fill=darkblue!10,thick,align=left,text width=40mm, inner ysep=2mm, inner xsep=2mm] at (4,0) {\emph{Satz:} Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.};
 \end{tikzpicture}
 
 \end{frame}
@@ -374,9 +374,11 @@ beschreiben:
 \begin{itemize}
 \item Dies führt zu \redalert{deterministischen kontextfreien Grammatiken} (DCFGs)
 \item Die eigentliche Definition ist relativ technisch
-\item DPDAs erkennen \alert{im Prinzip} dieselben Sprachen wie DCFGs\\
+\item DPDAs erkennen \alert{im Prinzip} dieselben Sprachen wie DCFGs\\[0.5ex]
 {\tiny sofern man sich auf Sprachen beschränkt, bei denen
-jedes Wort als letztes Zeichen ein spezielles Schlusssymbol verwendet, um das Ende zu markieren!}
+jedes Wort als letztes Zeichen\\ ein spezielles Schlusssymbol verwendet, um das Ende zu markieren!
+
+}
 \end{itemize}\pause
 
 \emph{Gute Nachricht:} Man kann effektiv entscheiden, ob eine gegebene CFG deterministisch ist.\pause
@@ -428,7 +430,7 @@ Wir wissen bereits, dass deterministische Typ-2-Sprachen unter Komplement abgesc
 Für Schnitte gilt das allerdings nicht:
 \medskip
 
-\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Schnitten abgeschlossen.}\pause
+\theobox{\emph{Satz:} Deterministische Typ-2-Sprachen sind nicht unter Schnitten abgeschlossen.}\pause
 
 \emph{Beweis:} Der Beweis für Typ-2-Sprachen funktioniert auch hier.
 Die Sprachen
@@ -444,7 +446,7 @@ sind deterministisch kontextfrei (Übung: Geben Sie entsprechende DPDAs an). Ihr
 
 Der Nichtabschluss unter Schnitten hat weitere Konsequenzen:\medskip
 
-\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Vereinigung abgeschlossen.}\pause
+\theobox{\emph{Satz:} Deterministische Typ-2-Sprachen sind nicht unter Vereinigung abgeschlossen.}\pause
 
 \emph{Beweis:} Angenommen sie wären unter Vereinigung abgeschlossen, dann
 wären sie auch unter Schnitten abgeschlossen, da sie bereits unter Komplement abgeschlossen sind (De Morgan).
@@ -457,7 +459,7 @@ Widerspruch.
 
 Bei anderen Operationen sieht es nicht besser aus:\medskip
 
-\theobox{Satz: Deterministische Typ-2-Sprachen sind nicht unter Konkatenation oder Kleene-Stern abgeschlossen.}\pause
+\theobox{\emph{Satz:} Deterministische Typ-2-Sprachen sind nicht unter Konkatenation oder Kleene-Stern abgeschlossen.}\pause
 
 \emph{Beweisidee:} Vereinigungen kann man deterministisch machen, indem man einer der Alternativen ein Markierungszeichen $\Sterm{X}$ vorschaltet, das ansonsten nie am Anfang des Wortes auftauchen darf. Falls man die Sprache dann aber an die (deterministische Sprache) $\Sterm{X}^*$ anhängt, ist die Markierung nicht mehr als Entscheidungshilfe nutzbar.
 Die Idee beim Stern ist ähnlich.\qed
@@ -499,14 +501,14 @@ Dabei könnten Sprachen durch verschiedene Beschreibungen gegeben sein (Automate
 
 Viele interessante Fragen sind leider im Allgemeinen nicht durch Algorithmen lösbar:\medskip
 
-\theobox{Satz: Inklusion, Äquivalenz und Universalität von CFGs ist unentscheidbar.}
+\theobox{\emph{Satz:} Inklusion, Äquivalenz und Universalität von CFGs ist unentscheidbar.}
 
 (ohne Beweis, da wir noch gar nicht über Entscheidbarkeit gesprochen haben \ldots)
 \medskip\pause
 
 Einiges ist aber doch machbar:
 
-\theobox{Satz: Leerheit und Endlichkeit einer CFG sind entscheidbar.}\medskip
+\theobox{\emph{Satz:} Leerheit und Endlichkeit einer CFG sind entscheidbar.}\medskip
 
 Diese Ergebnisse gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese ja in CFGs umwandeln können.
 
@@ -514,12 +516,12 @@ Diese Ergebnisse gelten ebenso, wenn PDAs statt CFGs gegeben sind, da wir diese 
 
 \begin{frame}\frametitle{Leerheit entscheiden}
 
-\theobox{Satz: Die Leerheit einer CFG ist entscheidbar.}
+\theobox{\emph{Satz:} Die Leerheit einer CFG ist entscheidbar.}
 
 \emph{Beweis:} Man markiert Variablen mit folgender Prozedur:
 \begin{itemize}
 \item Markiere alle Variablen, welche direkt in ein Wort aus Terminalzeichen umgeschrieben werden können
-\item Markiere rekursiv alle Variablen, welche in ein Wort aus Terminalzeichen und markierten Variablen umgeschrieben werden können
+\item Markiere iterativ alle Variablen, welche in ein Wort aus Terminalzeichen und markierten Variablen umgeschrieben werden können
 \end{itemize}
 Die Sprache ist genau dann nicht leer wenn bei diesem Verfahren das Startsymbol markiert wird.\qed
 
@@ -527,7 +529,7 @@ Die Sprache ist genau dann nicht leer wenn bei diesem Verfahren das Startsymbol 
 
 \begin{frame}\frametitle{Endlichkeit entscheiden}
 
-\theobox{Satz: Endlichkeit der Sprache $\Slang{L}(G)$ einer CFG $G$ ist entscheidbar.}\pause
+\theobox{\emph{Satz:} Endlichkeit der Sprache $\Slang{L}(G)$ einer CFG $G$ ist entscheidbar.}\pause
 
 \emph{Beweis:} Sei $n$ die Zahl aus dem Pumpinglemma (also $2^{|V|}$ nach Umwandlung in Chomsky NF).\pause
 \begin{itemize}
@@ -702,7 +704,7 @@ $\leadsto$ Wir wollen lieber unser Automatenmodell erweitern
 \begin{frame}\frametitle{Jenseits PDAs (1)\visible<2->{: Mehr Stapel}}
 
 \anybox{purple}{%
-Die Haupteinschränkung von Kellerautomaten war das eingeschränkte Speichermodell. Wir könnte man das erweitern?}%
+Die Haupteinschränkung von Kellerautomaten war das eingeschränkte Speichermodell. Wie könnte man das erweitern?}%
 \pause\smallskip
 
 \begin{itemize}
