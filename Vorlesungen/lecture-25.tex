@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{25}{NP-Vollständigkeit}{22. Januar 2018}
+\defineTitle{25}{NP-Vollständigkeit}{1. Februar 2021}
 
 \begin{document}
 
@@ -155,11 +155,11 @@ Zertifikate werden auch \alert{Nachweis}, \alert{Beweis} oder \alert{Zeuge} gena
 \defbox{Eine Sprache $\Slang{L}$ ist \redalert{nachweis-polynomiell} wenn es für sie einen polynomiellen
 Verifikator gibt.}\medskip\pause
 
-\examplebox{Beispiel: \Slang{SAT} ist nachweis-polynomiell. Ein möglicher polynomiellen Verifikator für
+\examplebox{\emph{Beispiel:} \Slang{SAT} ist nachweis-polynomiell. Ein möglicher polynomiellen Verifikator für
 \Slang{SAT} akzeptiert Wörter $F\#w$, wobei $F$ die Kodierung einer erfüllbaren Formel ist und $w$ eine Kodierung einer
 Wertzuweisung, die $F$ erfüllt.}\medskip\pause
 
-\examplebox{Beispiel: Jede Sprache $\Slang{L}\in\Scomplclass{P}$ ist nachweis-polynomiell. Als Verifikator
+\examplebox{\emph{Beispiel:} Jede Sprache $\Slang{L}\in\Scomplclass{P}$ ist nachweis-polynomiell. Als Verifikator
 verwenden wir einfach einen polynomiell-zeitbeschränkten Entscheider für $\Slang{L}$. Das Zertifikat kann leer sein.}
 
 \end{frame}
@@ -209,7 +209,7 @@ Folgende Sprache ist nachweis-polynomiell:\\[1ex]
 
 \begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (1)}
 
-\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip\pause
+\theobox{\emph{Satz:} Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip\pause
 
 \emph{Beweis:}
 $(\Rightarrow)$ Sei $\Slang{L}$ nachweis-polynomiell mit Verifikator \Smach{V}. Wir erhalten eine polynomiell-zeitbeschränkte NTM \Smach{M} für $\Slang{L}$ wie folgt:\pause
@@ -223,7 +223,7 @@ $(\Rightarrow)$ Sei $\Slang{L}$ nachweis-polynomiell mit Verifikator \Smach{V}. 
 
 \begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (2)}
 
-\theobox{Satz: Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip
+\theobox{\emph{Satz:} Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip
 
 \emph{Beweis:}
 $(\Leftarrow)$ Sei \Smach{M} eine polynomiell-zeitbeschränkte NTM für $\Slang{L}$. Wir erhalten einen polynomiellen Verifikator \Smach{V} für $\Slang{L}$ wie folgt.\pause
@@ -244,7 +244,7 @@ $\leadsto$ Die Liste der Übergänge eines akzeptierenden Laufs kann als Zertifi
 
 Es ist leicht zu sehen:
 
-\theobox{Satz: Die Klasse \Scomplclass{P} ist unter Komplement abgeschlossen.}
+\theobox{\emph{Satz:} Die Klasse \Scomplclass{P} ist unter Komplement abgeschlossen.}
 
 \emph{Beweis:} Wenn es für \Slang{L} eine polynomiell-zeitbeschränkte TM \Smach{M}
 gibt, dann erhält man eine TM für $\overline{\Slang{L}}$ indem man akzeptierende
@@ -253,7 +253,7 @@ und nicht-akzeptierende Zustände von \Smach{M} vertauscht.\qed
 
 Für \Scomplclass{NP} ist das nicht so einfach möglich. Wir haben das schon für NFAs beobachtet (eine spezielle Art von NTMs).${}^*$
 
-\examplebox{Beispiele: Es scheint kein einfaches Zertifikat dafür zu geben, dass
+\examplebox{\emph{Beispiele:} Es scheint kein einfaches Zertifikat dafür zu geben, dass
 eine Formel \alert{nicht} erfüllbar ist oder dass ein Graph \alert{keine} Dreifärbung zulässt.
 }
 
@@ -284,7 +284,7 @@ Manche Probleme lassen sich auf andere zurückführen\pause
 % \bigskip
 % 
 % \alert{Beispiel:}\\
-Beispiel: Drei-Farben-Problem ist auf \Slang{SAT} reduzierbar.
+\emph{Beispiel:} Drei-Farben-Problem ist auf \Slang{SAT} reduzierbar.
 \bigskip
 
 \only<2>{\includegraphics[width=2.5cm]{images/graph1}}%
@@ -342,10 +342,10 @@ Sprache $\Slang{L}$ auf eine Sprache $\Slang{G}$, wenn für alle Wörter $w\in\S
 \narrowcentering{$w\in\Slang{L}\quad$ genau dann wenn $\quad f(w)\in\Slang{G}$}
 }\bigskip\pause
 
-\examplebox{Beispiel: Die soeben skizzierte Funktion von Graphen auf logische Formeln ist eine polynomielle Reduktion
+\examplebox{\emph{Beispiel:} Die soeben skizzierte Funktion von Graphen auf logische Formeln ist eine polynomielle Reduktion
 des Drei-Farben-Problems auf \Slang{SAT}.}
 
-\examplebox{Beispiel: Wir haben das Äquivalenzproblem endlicher Automaten in Vorlesung~10 polynomiell auf das Inklusionsproblem reduziert.}
+\examplebox{\emph{Beispiel:} Wir haben das Inklusionsproblem endlicher Automaten in Vorlesung~10 auf das Leerheitsproblem reduziert. Diese Reduktion war bei deterministischen Automaten polynomiell.}
 
 \end{frame}
 
@@ -373,7 +373,7 @@ Idee: polynomielle Reduzierbarkeit definiert eine Art Ordnung auf Problemen
 \begin{minipage}{1.5cm}\includegraphics[height=1.4cm]{images/karp}\\\scalebox{0.8}{Richard Karp}\end{minipage}\hfill~
 \bigskip
 
-\theobox{Satz von Cook [1971] \& Levin [1973]:
+\theobox{\emph{Satz von Cook [1971] \& Levin [1973]:}
 Alle Probleme in \Scomplclass{NP} können polynomiell auf \Slang{SAT} reduziert werden.}\pause
 
 \begin{itemize}
@@ -389,72 +389,56 @@ Alle Probleme in \Scomplclass{NP} können polynomiell auf \Slang{SAT} reduziert 
 
 \end{frame}
 
-\begin{frame}\frametitle{\Scomplclass{NP}-Härte und \Scomplclass{NP}-Vollständigkeit}
+\begin{frame}\frametitle{\Scomplclass{NP}-Schwere und \Scomplclass{NP}-Vollständigkeit}
 
 \defbox{Eine Sprache ist
 \begin{itemize}
-\item \redalert{\Scomplclass{NP}-hart,} wenn jede Sprache in \Scomplclass{NP} polynomiell darauf reduzierbar ist
-\item \redalert{\Scomplclass{NP}-vollständig,} wenn sie \Scomplclass{NP}-hart ist und in \Scomplclass{NP} liegt
+\item \redalert{\Scomplclass{NP}-schwer,} wenn jede Sprache in \Scomplclass{NP} polynomiell darauf reduzierbar ist
+\item \redalert{\Scomplclass{NP}-vollständig,} wenn sie \Scomplclass{NP}-schwer ist und in \Scomplclass{NP} liegt
 \end{itemize}}\medskip\pause
 
-\examplebox{Beispiel: \Slang{SAT} ist \Scomplclass{NP}-vollständig (Cook \& Levin).}
+\examplebox{\emph{Beispiel:} \Slang{SAT} ist \Scomplclass{NP}-vollständig (Cook \& Levin).}
 
-\examplebox{Beispiel: \Slang{PRIMES} ist in \Scomplclass{NP}, aber \alert{vermutlich} nicht \Scomplclass{NP}-hart. Gleiches gilt für viele Probleme in \Scomplclass{P} (bei einigen ist dagegen sicher, dass sie nicht \Scomplclass{NP}-hart sind).}
+\examplebox{\emph{Beispiel:} \Slang{PRIMES} ist in \Scomplclass{NP}, aber \alert{vermutlich} nicht \Scomplclass{NP}-schwer. Gleiches gilt für viele Probleme in \Scomplclass{P} (bei einigen ist dagegen sicher, dass sie nicht \Scomplclass{NP}-schwer sind).}
 
-\examplebox{Beispiel: Das Halteproblem ist \Scomplclass{NP}-hart aber sicher nicht in \Scomplclass{NP}. Gleiches gilt für jedes unentscheidbare Problem.}
+\examplebox{\emph{Beispiel:} Das Halteproblem ist \Scomplclass{NP}-schwer aber sicher nicht in \Scomplclass{NP}. Gleiches gilt für jedes unentscheidbare Problem.}
 
 
 \end{frame}
 
 \begin{frame}\frametitle{Beispiele}
 
-\examplebox{Beispiel: Das Drei-Farben-Problem ist \Scomplclass{NP}-vollständig.}
+\examplebox{\emph{Beispiel:} Das Drei-Farben-Problem ist \Scomplclass{NP}-vollständig.}
 
-\examplebox{Beispiel: Verallgemeinertes Sudoku ($n$ Zahlen in einem $n^2\times n^2$-Feld mit $n\times n$-Unterfeldern) ist \Scomplclass{NP}-vollständig. Das Entscheidungsproblem dabei ist, ob das gegebene, teilweise gefüllte Feld eine Lösung zulässt. Gleiches gilt für Verallgemeinerungen vieler anderer Solitärspiele (z.B. Minesweeper).}
+\examplebox{\emph{Beispiel:} Verallgemeinertes Sudoku ($n^2$ Zahlen in einem $n^2\times n^2$-Feld mit $n\times n$-Unterfeldern) ist \Scomplclass{NP}-vollständig. Das Entscheidungsproblem dabei ist, ob das gegebene, teilweise gefüllte Feld eine Lösung zulässt. Gleiches gilt für Verallgemeinerungen vieler anderer Solitärspiele (z.B. Minesweeper).}
 
-\examplebox{Beispiel: Das Wortproblem für Typ-1-Sprachen (gegeben als Grammatik) ist \Scomplclass{NP}-hart aber \alert{vermutlich} nicht in \Scomplclass{NP}. Gleiches gilt für das Halteproblem von LBAs.}
+\examplebox{\emph{Beispiel:} Das Wortproblem für Typ-1-Sprachen (gegeben als Grammatik) ist \Scomplclass{NP}-schwer aber \alert{vermutlich} nicht in \Scomplclass{NP}. Gleiches gilt für das Halteproblem von LBAs.}
 
-\examplebox{Beispiel: Das Problem des Handelsreisenden ist \Scomplclass{NP}-vollständig. Es besteht darin, in einem
+\examplebox{\emph{Beispiel:} Das Problem des Handelsreisenden ist \Scomplclass{NP}-vollständig. Es besteht darin, in einem
 Graph mit bewerteten Kanten einen Pfad durch alle Knoten zu finden, so dass die Summe der Kantenwerte unter einem
 gegebenen Maximum liegt.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Wie findet man \Scomplclass{NP}-harte Probleme?}
+\begin{frame}\frametitle{Wie findet man \Scomplclass{NP}-schwere Probleme?}
 
 Schwer ist, worauf sich schwere Dinge leicht zurückführen lassen:
 
-\theobox{Satz: Wenn $\Slang{L}$ \Scomplclass{NP}-hart ist und polynomiell auf $\Slang{G}$
-reduziert werden kann, dann ist $\Slang{G}$ auch \Scomplclass{NP}-hart.}
+\theobox{\emph{Satz:} Wenn $\Slang{L}$ \Scomplclass{NP}-schwer ist und polynomiell auf $\Slang{G}$
+reduziert werden kann, dann ist $\Slang{G}$ auch \Scomplclass{NP}-schwer.}
 
 \emph{Beweis:} Folgt direkt aus der Definition, da die Komposition von zwei polynomiellen Reduktionen ebenfalls eine
 polynomielle Reduktion ist.\qed
 \bigskip\pause
 
-\emph{Technik zum Beweis von \Scomplclass{NP}-Härte:}
+\emph{Technik zum Beweis von \Scomplclass{NP}-Schwere:}
 \begin{itemize}
-\item Suche ein bekanntes \Scomplclass{NP}-hartes Problem, welches dem untersuchten Problem möglichst ähnlich ist.
+\item Suche ein bekanntes \Scomplclass{NP}-schweres Problem, welches dem untersuchten Problem möglichst ähnlich ist.
 \item Gib eine polynomielle Reduktion an und zeige, dass sie korrekt ist.
 \end{itemize}
 \begin{enumerate}[$\leadsto$]
-\item Oft nicht schwer, wenn man bereits viele \Scomplclass{NP}-harte Probleme kennt -- aber wo fängt man an?
+\item Oft nicht schwer, wenn man bereits viele \Scomplclass{NP}-schwere Probleme kennt -- aber wo fängt man an?
 \end{enumerate}
-
-\end{frame}
-
-\begin{frame}\frametitle{Das erste \Scomplclass{NP}-vollständige Problem}
-
-Ein Problem ist per Definition \Scomplclass{NP}-vollständig:\\[1ex]
-
-\defbox{Das \redalert{Wortpoblem für polynomiell-zeitbeschränkte nichtdeterministische Turingmaschinen}
-besteht darin zu entscheiden, ob ein gegebenes Wort $w$ von einer gegebenen polynomiell-zeitbeschränkten NTM
-akzeptiert wird.}
-
-Offenbar kann jedes Problem in \Scomplclass{NP} darauf reduziert werden.
-\bigskip
-
-Für den Satz von Cook \& Levin zeigt man die \Scomplclass{NP}-Vollständigkeit von \Slang{SAT} durch Reduktion auf dieses
-Urproblem.
 
 \end{frame}
 
@@ -465,9 +449,8 @@ Urproblem.
 
 \emph{Idee:}
 \begin{itemize}
-\item Eine Instanz des Wortproblems ist eine polynomiell-zeitbeschränkte NTM \Smach{M} und ein Eingabewort
-\item Die Zeitbeschränkung für \Smach{M} kann durch ein konkretes Polynom $p$ angegeben werden
-\item Wir kennen also die maximale Zahl an Schritten $p(|w|)$ für diese Berechnung
+\item Jedes Problem in \Scomplclass{NP} ist durch eine konkrete NTM \Smach{M} in einer Zeit lösbar, die durch ein konkretes Polynom $p$ gegeben ist.
+\item Für eine Eingabe $|w|$ kennen wir also die maximale Zahl an Schritten $p(|w|)$ dieser Berechnung.
 \end{itemize}
 \begin{enumerate}[$\leadsto$]
 \item Ein Lauf ist eine Folge von maximal $p(|w|)$ Konfigurationen, die jeweils maximal $p(|w|)$ Speicherstellen verwenden
@@ -477,6 +460,7 @@ Urproblem.
 \emph{Ansatz:} Kodiere \Smach{M} und $w$ so in Logik, dass die möglichen Läufe genau den erfüllenden Wertzuweisungen entsprechen
 
 \end{frame}
+
 
 \begin{frame}\frametitle{Cook/Levin: Beweisskizze (2)}
 
@@ -597,6 +581,24 @@ Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
 
 \end{frame}
 
+\begin{frame}\frametitle{\Scomplclass{P}-Schwere}
+
+Man kann Schwere und Vollständigkeit auch für andere Klassen definieren. Bei schwächeren Klassen
+muss man allerdings sicherstellen, dass die Reduktion selbst nicht schon so viele Ressourcen benötigt wie
+die Lösung des Problems!
+
+\defbox{Eine Sprache ist \Scomplclass{P}-schwer wenn jede Sprache in \Scomplclass{P} mit logarithmischem Speicherbedarf
+darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in \Scomplclass{P} liegt.}\pause
+
+\begin{itemize}
+\item \Scomplclass{P}-vollständige Probleme sind die schwersten polynomiell lösbaren Probleme.
+\item Sie gelten als inhärent seriell, d.h. als nicht gut parallelisierbar (bisher nicht bewiesen).
+\end{itemize}\pause
+
+\examplebox{\emph{Beispiel:} Die Erfüllbarkeit von aussagenlogischen Horn-Formeln (\Slang{HornSAT}) ist ein \Scomplclass{P}-vollständiges Problem.}
+
+\end{frame}
+
 \begin{frame}\frametitle{Deterministisch vs. Nichtdeterministisch}
 
 	Wir haben bereits bemerkt, dass \Scomplclass{P} ${}\subseteq{}$ \Scomplclass{NP} gilt, da DTMs spezielle NTMs sind.
@@ -612,6 +614,7 @@ Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
   \end{itemize}
    
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}\frametitle{Status of \PTime vs. \NP}
@@ -658,13 +661,32 @@ Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
   \begin{itemize}
 	\item $\Scomplclass{P} =  \Scomplclass{NP}$ könnte durch einen nicht-konstruktiven Beweis gezeigt werden\pause
 	\item Die Antwort könnte unabhängig von den Standardaxiomen der Mathematik (ZFC) sein\pause
-	\item Selbst wenn $\Scomplclass{P} \neq \Scomplclass{NP}$ gilt, ist weiterhin unklar, ob $\Scomplclass{NP}$-harte Probleme wirklich exponentielle Zeit benötigen -- es gibt viele andere super-polynomielle Funktionen\\\ldots\pause
+	\item Selbst wenn $\Scomplclass{P} \neq \Scomplclass{NP}$ gilt, ist weiterhin unklar, ob $\Scomplclass{NP}$-schwere Probleme wirklich exponentielle Zeit benötigen -- es gibt viele andere super-polynomielle Funktionen\\\ldots\pause
 	\item Das Problem könnte für immer ungelöst bleiben\pause
   \end{itemize}\bigskip
   
   Über 100 "`Beweise"' zeigen, dass $\Scomplclass{P} = \Scomplclass{NP}$ wahr/falsch/beides/keines der beiden ist: \url{https://www.win.tue.nl/~gwoegi/P-versus-NP.htm}
    
 \end{frame}
+
+\begin{frame}\frametitle{Most researchers think that \ldots}
+
+Häufig wird im Bezug auf \Scomplclass{P} vs. \Scomplclass{NP} angeführt, dass die meisten
+Experten an die Ungleichheit glauben. Das wurde zumindest punktuell bestätigt:\bigskip
+
+  \alert{Ergebnisse einer Umfrage unter 152 Experten [Gasarch 2012]:}
+	\begin{itemize}
+	\item $\Scomplclass{P} \neq \Scomplclass{NP}$: 126 (83\%)
+	\item $\Scomplclass{P} = \Scomplclass{NP}$: 12 (9\%)
+	\item Weiß nicht/ist mir egal: 7 (4\%)
+	\item Unabhängig von ZFC: 5 (3\%)
+	\item "`I don't \emph{want} it to be equal."': 1 (0.6\%)
+	\end{itemize}\medskip
+	
+Aber Experten haben sich auch schon früher geirrt \ldots
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}\frametitle{Status von \Scomplclass{P} vs. \Scomplclass{NP} (3)}
@@ -687,23 +709,6 @@ Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
 %    
 % \end{frame}
 
-\begin{frame}\frametitle{\Scomplclass{P}-Härte}
-
-Man kann Härte und Vollständigkeit auch für andere Klassen definieren. Bei schwächeren Klassen
-muss man allerdings sicherstellen, dass die Reduktion selbst nicht schon so viele Ressourcen benötigt wie
-die Lösung des Problems!
-
-\defbox{Eine Sprache ist \Scomplclass{P}-hart wenn jede Sprache in \Scomplclass{P} mit logarithmischem Speicherbedarf
-darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in \Scomplclass{P} liegt.}\pause
-
-\begin{itemize}
-\item \Scomplclass{P}-vollständige Probleme sind die schwersten polynomiell lösbaren Probleme.
-\item Sie gelten als inhärent seriell, d.h. als nicht gut parallelisierbar (bisher nicht bewiesen).
-\end{itemize}\pause
-
-\examplebox{Beispiel: Die Erfüllbarkeit von aussagenlogischen Horn-Formeln (\Slang{HornSAT}) ist ein \Scomplclass{P}-vollständiges Problem.}
-
-\end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
@@ -720,9 +725,9 @@ darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in 
 \anybox{yellow}{
 Offene Fragen:
 \begin{itemize}
-\item Wie genau stehen die Komplexitätsklassen in Beziehung? Insbesondere: $\Scomplclass{P}\neq \Scomplclass{NP}$?
-\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ Lernräume nutzen!)
+% \item Wie genau stehen die Komplexitätsklassen in Beziehung? Insbesondere: $\Scomplclass{P}\neq \Scomplclass{NP}$?
 \item Haben Sie sich ausreichend auf die Prüfung vorbereitet?
+\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ wir werden Konsultationstermine anbieten)
 \end{itemize}
 }
 

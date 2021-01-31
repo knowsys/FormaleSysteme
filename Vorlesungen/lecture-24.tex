@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{18. Januar 2018}
+\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{28. Januar 2021}
 
 \begin{document}
 
@@ -34,16 +34,37 @@ $\leadsto$ Alle schlimmstenfalls exponentiell und oft zu ineffizient
 
 \sectionSlide{Horn-Logik}
 
-\begin{frame}\frametitle{Rückblick: Horn-Logik}
+\begin{frame}\frametitle{Horn-Logik}
+
+Bisher waren alle unsere Ansätze für aussagenlogisches Schließen exponentiell -- geht es auch einfacher?
+\bigskip\pause
+
+\emph{Idee:} Beschränke die Form von Formeln
+\bigskip
 
 \defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nicht-negiertes Literal enthält.
 Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
 {\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
 
-Man kann Horn-Formeln als Implikationen auffassen \\
-(sogenannte \redalert{Horn-Regeln}):
+\pause
+\examplebox{\emph{Beispiele:}
+\begin{itemize}
+\item $\neg p\vee \neg q \vee r$ ist eine Horn-Klausel
+\item $q\vee p$ ist keine Horn-Klausel
+\item $p$ ist eine Horn-Klausel
+\item $\neg p\vee \neg q$ ist eine Horn-Klausel
+\item $p\vee p$ ist keine Horn-Klausel (aber äquivalent zu einer)
+\end{itemize}
+}
 
-\examplebox{Beispiele:\vspace{-4ex}
+\end{frame}
+
+\begin{frame}\frametitle{Horn-Klauseln als Implikationen}
+
+Jede Horn-Klausel kann als eine Implikation ohne Negation und Disjunktion ausgedrückt werden
+\bigskip
+
+\examplebox{\emph{Beispiele:}
 \begin{align*}
 \neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
 p \qquad \equiv &&\top&\to p\\
@@ -53,11 +74,47 @@ p \qquad \equiv &&\top&\to p\\
 
 \begin{itemize}
 \item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
-% \item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
+\item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
 \item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
 \end{itemize}
 
 \end{frame}
+
+% \begin{frame}\frametitle{Ausblick}
+% 
+% \emph{Nächste Vorlesung:} Wir werden logisches Schließen für Horn-Regeln noch etwas genauer betrachten
+% \begin{itemize}
+% \item Resolution kann in diesem Fall spezialisiert werden
+% \item Dadurch erhält man polynomielle Algorithmen
+% \end{itemize}
+% 
+% \end{frame}
+
+
+% \begin{frame}\frametitle{Rückblick: Horn-Logik}
+% 
+% \defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nicht-negiertes Literal enthält.
+% Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
+% {\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
+% 
+% Man kann Horn-Formeln als Implikationen auffassen \\
+% (sogenannte \redalert{Horn-Regeln}):
+% 
+% \examplebox{Beispiele:\vspace{-4ex}
+% \begin{align*}
+% \neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
+% p \qquad \equiv &&\top&\to p\\
+% \neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
+% \end{align*}
+% }
+% 
+% \begin{itemize}
+% \item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
+% % \item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
+% \item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
+% \end{itemize}
+% 
+% \end{frame}
 
 \begin{frame}\frametitle{Beispiel}
 
@@ -84,7 +141,7 @@ Die Resolution von Horn-Klauseln = Verknüpfung von Regeln:
 
 Man kann zeigen (ohne Beweis):
 
-\theobox{Satz: Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
+\theobox{\emph{Satz:} Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
 beschränkt, bei denen eine Klausel die Form $\{p\}$ (also $\top\to p$) hat.
 }
 
@@ -125,7 +182,7 @@ Dies führt zu einer polynomiellen Laufzeit, nicht zu einer linearen (da jeder R
 
 Es geht aber auch noch besser:
 
-\theobox{Satz (Dowling \& Gallier): Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
+\theobox{\emph{Satz (Dowling \& Gallier):} Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
 
 (Ohne Beweis)
 % \bigskip
@@ -153,7 +210,7 @@ Es geht aber auch noch besser:
 % 
 % Eine interessante Eigenschaft der Aussagenlogik folgt aus dem, was wir bereits wissen:
 % 
-% \theobox{Satz (Kompaktheit der Aussagenlogik): Wenn $\mathcal{F}$ eine unendliche Formelmenge ist und $\mathcal{F}\models G$ gilt, dann gibt es eine endliche Teilmenge $\mathcal{F}'\subseteq\mathcal{F}$ mit $\mathcal{F}'\models G$.}
+% \theobox{\emph{Satz (Kompaktheit der Aussagenlogik):} Wenn $\mathcal{F}$ eine unendliche Formelmenge ist und $\mathcal{F}\models G$ gilt, dann gibt es eine endliche Teilmenge $\mathcal{F}'\subseteq\mathcal{F}$ mit $\mathcal{F}'\models G$.}
 % 
 % \emph{Beweis:} Die Vollständigkeit der Resolution 
 % 
@@ -286,7 +343,7 @@ Feste Schranken ergeben wenig Sinn (endliche Automaten)\\
 \end{enumerate}
 \bigskip
 
-\examplebox{Beispiel: LBAs beschränken den verfügbaren Speicher auf die Anzahl der Symbole in der Eingabe.
+\examplebox{\emph{Beispiel:} LBAs beschränken den verfügbaren Speicher auf die Anzahl der Symbole in der Eingabe.
 Dies entspricht einer Funktion, welche die Länge $n$ der Eingabe auf den Maximalwert von $n$ Speicherzellen abbildet.}
 
 \end{frame}
@@ -305,12 +362,12 @@ wenn gilt:\\[1ex]
 Das bedeutet, $f$ wächst nicht wesentlich schneller als $g$.
 }\pause
 
-\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$ (allerdings ist $=$ dann eine
+\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$\\ (allerdings ist $=$ dann eine
 asymmetrische Relation).\medskip
 
-\emph{Notation 2:} Manchmal schreibt man statt $f\in O(g)$ (oder $f=O(g)$) oft auch $f(n)\in O(g(n))$ (oder $f(n)=O(g(n))$).
+\emph{Notation 2:} Oft schreibt man statt $f\in O(g)$ auch $f(n)\in O(g(n))$\\ (bzw. für $f=O(g)$ auch $f(n)=O(g(n))$).
 
-\examplebox{Beispiele:
+\examplebox{\emph{Beispiele:}
 \begin{minipage}[t]{7cm}\vspace{-1.7ex}
 \begin{itemize}
 \item $(10 n^3+42 n^2 - n + 100)\in O(n^3)$
@@ -337,9 +394,9 @@ dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ hält und zuvor maxi
 \end{itemize}
 }\pause
 
-\examplebox{Beispiel: Ein LBA entspricht einer $O(n)$-speicherbeschränkten \ghost{TM.${}^*$}}
+\examplebox{\emph{Beispiel:} Ein LBA entspricht einer $O(n)$-speicherbeschränkten \ghost{TM.${}^*$}}
 
-\examplebox{Beispiel: Der naive Erfüllbarkeitstest für $\Slang{SAT}$ ist \mbox{$O(2^n)$-zeitbeschränkt}.}
+\examplebox{\emph{Beispiel:} Der naive Erfüllbarkeitstest für $\Slang{SAT}$ ist \mbox{$O(2^n)$-zeitbeschränkt}.}
 
 {\tiny ${}^\ast)$ Wobei man die bei LBAs erzwungene Speicherbeschränkung in das Programm der TM einbauen muss.
 Unsere LBA-Definition erlaubt keine linearen Faktoren für den Speicherbedarf. Diese haben
@@ -361,9 +418,9 @@ Beschränkte TMs können verwendet werden, um viele weitere Sprachklassen zu def
 \end{itemize}
 }\pause
 
-\examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
+\examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
 
-\examplebox{Beispiel: Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
+\examplebox{\emph{Beispiel:} Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
 
 \end{frame}
 
@@ -375,7 +432,7 @@ Es gibt viele unterschiedliche Versionen von deterministischen Turingmaschinen (
 
 \emph{Antwort:} "`Bei vielen kleineren Variationen sind sie es, aber nicht in allen Fällen (oder zumindest ist dies nicht immer bekannt)."'
 
-\examplebox{Beispiel: Jede $O(f(n))$-zeitbeschränkte $k$-Band-TM kann durch eine $O(k\cdot f^2(n))$-zeitbeschränkte
+\examplebox{\emph{Beispiel:} Jede $O(f(n))$-zeitbeschränkte $k$-Band-TM kann durch eine $O(k\cdot f^2(n))$-zeitbeschränkte
 1-Band TM simuliert werden (wie in Vorlesung 18 gezeigt). Einfacher gesagt: Der Verzicht auf mehrere Bänder verursacht maximal quadratische Zeitkosten ($k$ ist hier ein linearer Faktor).}\pause
 
 \begin{enumerate}[$\leadsto$]
@@ -459,7 +516,7 @@ Offensichtlich führen (asymptotisch) höhere Ressourcenschranken zu größeren 
 Oft ist aber nicht klar, ob man mit mehr Ressourcen auch wirklich mehr (oder einfach nur gleich viele) Probleme lösen kann. Bei
 unseren Klassen ist das aber bekannt:\medskip
 
-\theobox{Fakt: Es gilt $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$ und
+\theobox{\emph{Fakt:} Es gilt $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$ und
 $\Scomplclass{LogSpace}\subsetneq\Scomplclass{PSpace}$.
 }\medskip\pause
 
@@ -470,7 +527,7 @@ Weiterhin kann man Speicher mit Zeit in Beziehung bringen:
 {\tiny (für LBAs haben wir das in Vorlesung 20 besprochen; siehe "`Konfigurationsgraph"')}
 \end{itemize}
 
-\theobox{Fakt: Es gilt $\Scomplclass{LogSpace}\subseteq\Scomplclass{P}\subseteq\Scomplclass{PSpace}\subseteq\Scomplclass{Exp}$.
+\theobox{\emph{Fakt:} Es gilt $\Scomplclass{LogSpace}\subseteq\Scomplclass{P}\subseteq\Scomplclass{PSpace}\subseteq\Scomplclass{Exp}$.
 }
 
 \end{frame}
@@ -482,15 +539,15 @@ auf die Einordnung eines Problems.\\
 \alert{Oft genügt eine Implementierungsskizze um zu zeigen, dass eine Sprache
 in einer dieser Klassen liegt.}\pause
 
-\examplebox{Beispiel: Erfüllbarkeit von propositionaler Horn-Logik ist in $\Scomplclass{P}$. Unser Resolutionsalgorithmus
+\examplebox{\emph{Beispiel:} Erfüllbarkeit von propositionaler Horn-Logik ist in $\Scomplclass{P}$. Unser Resolutionsalgorithmus
 liefert allerdings keinen Hinweis auf Machbarkeit in $\Scomplclass{LogSpace}$.}\pause
 
-\examplebox{Beispiel: $\Slang{SAT}$ ist in $\Scomplclass{ExpTime}$ aber auch in $\Scomplclass{PSpace}$.}\pause
+\examplebox{\emph{Beispiel:} $\Slang{SAT}$ ist in $\Scomplclass{ExpTime}$ aber auch in $\Scomplclass{PSpace}$.}\pause
 
-\examplebox{Beispiel: Das Wortproblem jeder regulären Sprache ist in $\Scomplclass{LogSpace}$. Tatsächlich benötigt ein DFA
+\examplebox{\emph{Beispiel:} Das Wortproblem jeder regulären Sprache ist in $\Scomplclass{LogSpace}$. Tatsächlich benötigt ein DFA
 gar keinen Speicher.}\pause
 
-\examplebox{Beispiel: Die Transformation einer Formel in Negationsnormalform ist in $\Scomplclass{LogSpace}$ möglich. Dies ist kein Spracherkennungsproblem sondern eine Berechnung mit Ein- und Ausgabe.}
+\examplebox{\emph{Beispiel:} Die Transformation einer Formel in Negationsnormalform ist in $\Scomplclass{LogSpace}$ möglich. Dies ist kein Spracherkennungsproblem sondern eine Berechnung mit Ein- und Ausgabe.}
 
 \end{frame}
 
@@ -528,9 +585,9 @@ Die entsprechenden Sprachklassen werden genau wie bei deterministischen TMs defi
 \end{itemize}
 }%\pause
 % 
-% \examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
+% \examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
 % 
-% \examplebox{Beispiel: Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
+% \examplebox{\emph{Beispiel:} Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
 
 \end{frame}
 
@@ -568,7 +625,7 @@ Auch hier beschränken wir uns auf einige wichtige Fälle:
 \end{align*}
 }\pause
 
-\examplebox{Beispiel: $\Slang{SAT}\in\Scomplclass{NP}$. Man kann unseren naiven Erfüllbarkeitstest auf einer NTM
+\examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{NP}$. Man kann unseren naiven Erfüllbarkeitstest auf einer NTM
 so implementieren, dass nur eine (erfüllende) Wertzuweisung geraten wird. Der Wahrheitswert der Formel für diese Zuweisung kann in polynomieller Zeit überprüft werden.
 }
 

@@ -14,7 +14,7 @@
 
 \usepackage{setspace}
 
-\defineTitle{22}{Äquivalenzen und Normalformen}{11. Januar 2018}
+\defineTitle{22}{Äquivalenzen und Normalformen}{21. Januar 2021}
 
 \begin{document}
 
@@ -22,20 +22,20 @@
 
 \sectionSlideNoHandout{Rückblick}
 
-\begin{frame}\frametitle{10. Januar 2018}
-
-\begin{center}
-~\hfill
-\includegraphics[height=4.5cm]{images/Knuth}
-\hfill~\\
-{\large Happy 80th Birthday, Don Knuth!}
-\bigskip
-
-\anybox{strongyellow}{
-``If you find that you're spending almost all your time on theory, start turning some attention to practical things; it will improve your theories.\\ If you find that you're spending almost all your time on practice, start turning some attention to theoretical things; it will improve your practice.''}
-\end{center}
-
-\end{frame}
+% \begin{frame}\frametitle{10. Januar 2018}
+% 
+% \begin{center}
+% ~\hfill
+% \includegraphics[height=4.5cm]{images/Knuth}
+% \hfill~\\
+% {\large Happy 80th Birthday, Don Knuth!}
+% \bigskip
+% 
+% \anybox{strongyellow}{
+% ``If you find that you're spending almost all your time on theory, start turning some attention to practical things; it will improve your theories.\\ If you find that you're spending almost all your time on practice, start turning some attention to theoretical things; it will improve your practice.''}
+% \end{center}
+% 
+% \end{frame}
 
 \begin{frame}\frametitle{Aussagenlogik}
 
@@ -402,21 +402,21 @@ $\leadsto$ vgl. \redalert{funktionale Programmierung}
 
 \end{frame}
 
-\sectionSlideNoHandout{Normalformen}
+% \sectionSlideNoHandout{Normalformen}
 % 
-\begin{frame}\frametitle{}
-
-~\hfill
-\includegraphics[height=6.5cm]{images/aaron-swartz}~~
-\rotatebox{90}{\tiny (C) Fred Benenson, 2008, CC-BY 2.0}
-\hfill~
-
-\narrowcentering{Aaron Swartz}\\
-\narrowcentering{8. November 1986 -- 11. Januar 2013}\\
-\narrowcentering{"`The Internet's Own Boy"'}
-
-
-\end{frame}
+% \begin{frame}\frametitle{}
+% 
+% ~\hfill
+% \includegraphics[height=6.5cm]{images/aaron-swartz}~~
+% \rotatebox{90}{\tiny (C) Fred Benenson, 2008, CC-BY 2.0}
+% \hfill~
+% 
+% \narrowcentering{Aaron Swartz}\\
+% \narrowcentering{8. November 1986 -- 11. Januar 2013}\\
+% \narrowcentering{"`The Internet's Own Boy"'}
+% 
+% 
+% \end{frame}
 
 \sectionSlide{Normalformen}
 
@@ -539,7 +539,12 @@ Ist diese Umformung korrekt?
 \item \alert{Terminierung:} Ist sichergestellt, dass die rekursive Berechnung terminiert?\\\pause
 	\redalert{Ja}, denn $\textsf{NNF}$ wir in jedem Rekursionsschritt auf Formeln angewendet, die insgesamt weniger Junktoren haben als zuvor.\pause
 \item \alert{Korrektheit:} Ist das Ergebnis der rekusiven Umwandlung in NNF?\\\pause
-	\redalert{Ja}, denn $\neg$ kommt im Ergebnis nur in Fall $\neg p$ ($p\in\Slang{P}$) vor.
+	\redalert{Ja}, denn $\neg$ kommt im Ergebnis nur in Fall $\neg p$ ($p\in\Slang{P}$) vor.\\\pause
+	Ist das Ergebnis semantisch äquivalent zur Eingabe?\\\pause
+	\redalert{Ja}, wie man durch ein induktives Argument leicht zeigen kann\\
+	{\tiny Induktionsanfang: Äquivalenz gilt für $p$ und $\neg p$; Induktionshypothese: $F\equiv \textsf{NNF}(F)$ und $G\equiv \textsf{NNF}(G)$; Induktionsschritt: für jeden rekursiven Fall folgt Äquivalenz aus Hypothese, Ersetzungstheorem und bekannten Äquivalenzgesetzen.
+	
+	}
 \end{itemize}\pause
 
 \theobox{Satz: Jede Formel kann (in linearer Zeit) in eine äquivalente Formel in NNF umgewandelt werden.}
