@@ -14,7 +14,7 @@ printf "\\documentclass[aspectratio=1610,onlymath,handout]{beamer}\n\n" > $tmpfi
 tail -n +3 lecture-$1.tex >> $tmpfilename.tex
 pdflatex $tmpfilename.tex
 pdflatex $tmpfilename.tex
-pdfnup --nup 2x2 --outfile $printfilename $tmpfilename.pdf
+pdfjam --nup 2x2 --outfile $printfilename $tmpfilename.pdf
 
 printf "\\documentclass[aspectratio=1610,onlymath]{beamer}\n\n" > $tmpfilename.tex
 tail -n +3 lecture-$1.tex >> $tmpfilename.tex
