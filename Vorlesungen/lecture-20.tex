@@ -348,7 +348,7 @@ Wir haben also gezeigt:\medskip
 
 Der Satz von Rice ist daher auf Typ-0-Grammatiken übertragbar:
 
-\theobox{\emph{Satz (informell):} Für eine gegebene Typ-0-Grammatik $G$ und eine nichttriviale Eigenschaft $E$ von Typ-0-Sprachen ist es unentscheidbar, ob $\Slang{L}(G)$ die Eigenschaft $E$ hat.}
+\theobox{\emph{Satz (informell):} Für eine gegebene Typ-0-Grammatik $G$ und eine nicht-triviale Eigenschaft $E$ von Typ-0-Sprachen ist es unentscheidbar, ob $\Slang{L}(G)$ die Eigenschaft $E$ hat.}
 
 Probleme wie Leerheit, Universalität, Äquivalenz zu einer anderen Typ-0-Grammatik, usw.\ sind daher für Typ-0-Grammatiken (wie auch für TMs) unentscheidbar
 
@@ -383,8 +383,8 @@ Arbeitsweise:
 \begin{enumerate}[(1)]
 % \item Falls $\blank$ gelesen wird, akzeptiere
 \item Ersetze, angefangen von links, Vorkommen von $\Sterm{a}$ durch $\Snterm{$\hat{a}$}$
-\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetzte es durch $\Snterm{$\hat{b}$}$,
-suche anschließend rechts davon ein $\Sterm{c}$ und ersetzte es durch $\Snterm{$\hat{c}$}$
+\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetze es durch $\Snterm{$\hat{b}$}$,
+suche anschließend rechts davon ein $\Sterm{c}$ und ersetze es durch $\Snterm{$\hat{c}$}$
 \item Gehe danach zurück zum ersten noch nicht ersetzten $\Sterm{a}$ und führe die Ersetzung (1) fort, bis alle $\Sterm{a}$ ersetzt worden sind
 \item Akzeptiere, falls der Inhalt des Bandes die Form $\Snterm{$\hat{a}$}^*\Snterm{$\hat{b}$}^*\Snterm{$\hat{c}$}^*$ hat
 \item Andernfalls oder falls eine der Ersetzungen in Schritt (2) fehlschlägt, weil es zu wenige $\Sterm{b}$ oder $\Sterm{c}$ gibt, lehne die Eingabe ab
