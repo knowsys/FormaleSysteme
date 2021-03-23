@@ -131,9 +131,9 @@ $\{\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)\mid \text{$\Smach{
 
 Ein interessantes Resultat von Henry Gordon Rice zeigt die Probleme Turing-mächtiger Formalismen:\medskip
 
-\theobox{\emph{Satz von Rice (informelle Version):} Jede nicht-triviale Frage über die von einer TM ausgeführte Berechnung ist unentscheidbar.}\bigskip\pause
+\theobox{\emph{Satz von Rice (informelle Version):} Jede nichttriviale Frage über die von einer TM ausgeführte Berechnung ist unentscheidbar.}\bigskip\pause
 
-\theobox{\emph{Satz von Rice (formell):} Sei $E$ eine Eigenschaft von Sprachen, die für manche Turing-erkennbare Sprachen gilt und für manche Turing-erkennbare Sprachen nicht gilt (="`nicht-triviale Eigenschaft"'). Dann ist das folgende Problem unentscheidbar:
+\theobox{\emph{Satz von Rice (formell):} Sei $E$ eine Eigenschaft von Sprachen, die für manche Turing-erkennbare Sprachen gilt und für manche Turing-erkennbare Sprachen nicht gilt (="`nichttriviale Eigenschaft"'). Dann ist das folgende Problem unentscheidbar:
 \begin{itemize}
 \item Eingabe: Turingmaschine $\Smach{M}$
 \item Ausgabe: Hat $\Slang{L}(\Smach{M})$ die Eigenschaft $E$?
@@ -383,8 +383,8 @@ Arbeitsweise:
 \begin{enumerate}[(1)]
 % \item Falls $\blank$ gelesen wird, akzeptiere
 \item Ersetze, angefangen von links, Vorkommen von $\Sterm{a}$ durch $\Snterm{$\hat{a}$}$
-\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetzte es durch $\Snterm{$\hat{b}$}$,
-suche anschließend rechts davon ein $\Sterm{c}$ und ersetzte es durch $\Snterm{$\hat{c}$}$
+\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetze es durch $\Snterm{$\hat{b}$}$,
+suche anschließend rechts davon ein $\Sterm{c}$ und ersetze es durch $\Snterm{$\hat{c}$}$
 \item Gehe danach zurück zum ersten noch nicht ersetzten $\Sterm{a}$ und führe die Ersetzung (1) fort, bis alle $\Sterm{a}$ ersetzt worden sind
 \item Akzeptiere, falls der Inhalt des Bandes die Form $\Snterm{$\hat{a}$}^*\Snterm{$\hat{b}$}^*\Snterm{$\hat{c}$}^*$ hat
 \item Andernfalls oder falls eine der Ersetzungen in Schritt (2) fehlschlägt, weil es zu wenige $\Sterm{b}$ oder $\Sterm{c}$ gibt, lehne die Eingabe ab
@@ -517,7 +517,7 @@ Weitere Abschlusseigenschaften sind nicht schwer zu finden:
 \begin{itemize}
 \item \alert{Schnitt:} Simuliere erst die erste TM, dann (bei Akzeptanz) die zweite; verwende ein "`mehrspuriges"' Alphabet, um die Eingabe für die zweite Simulation zu speichern
 \item \alert{Konkatenation:} Rate und markiere die Trennstelle der beiden Wörter; teste dann jedes der Wörter einzeln
-\item \alert{Kleene-Stern:} Rate und teste einen ersten nicht-leeren Teilabschnitt; wiederhole dies bis das gesamte Wort erkannt wurde
+\item \alert{Kleene-Stern:} Rate und teste einen ersten nichtleeren Teilabschnitt; wiederhole dies bis das gesamte Wort erkannt wurde
 \end{itemize}\pause
 
 Diese Konstruktionen funktionieren auch bei linear beschränktem Speicher, also:\medskip

@@ -219,7 +219,7 @@ Wie würde man die Sprache aus diesem Beispiel erkennen?
 
 \anybox{gray}{
 Ein \redalert{Stack} (oder auch \redalert{Keller} oder auch \redalert{Stapel}) ist eine 
-Datenstruktur, die ein Liste von Einträgen speichert.\medskip
+Datenstruktur, die eine Liste von Einträgen speichert.\medskip
 
 Wir denken uns die Liste vertikal, letzte Einträge oben\\(daher der Name).
 \medskip
@@ -419,7 +419,7 @@ Beispiel des vorigen PDA für $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$:
 \path[->,line width=0.5mm](b) edge node[above] {$\epsilon,\Snterm{S}\mapsto\epsilon$} (f);
 \end{tikzpicture}}\bigskip
 
-\alert{Kodierungstrick:} Wir implementieren hier die Funktion \texttt{isEmtpy} indem wir den Kelleranfang mit
+\alert{Kodierungstrick:} Wir implementieren hier die Funktion \texttt{isEmpty} indem wir den Kelleranfang mit
 einem speziellen Symbol $\Snterm{S}$ markieren, welches den (fast) leeren Keller signalisiert.
 
 \end{frame}
@@ -755,7 +755,7 @@ der aber nur nach dem LIFO-Prinzip verwendet werden kann.
 PDAs erkennen genau die kontextfreien Sprachen.
 \bigskip
 
-Kontextfreie Grammatiken können durch sehr einfache PDAs (nicht-deterministisch) implementiert werden.\bigskip
+Kontextfreie Grammatiken können durch sehr einfache PDAs (nichtdeterministisch) implementiert werden.\bigskip
 
 \anybox{yellow}{
 Offene Fragen:

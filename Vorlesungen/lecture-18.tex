@@ -214,7 +214,7 @@ Wörter der Sprache $\{\Sterm{0}^{2^i}\mid i\geq 0\}$ akzeptiert\\
 
 \emph{Arbeitsweise:}
 \begin{enumerate}[(1)]
-\item Laufe von links nach rechts über die Eingabe und ersetzte dabei jede zweite $\Sterm{0}$ durch\ghost{ $\Snterm{X}$}
+\item Laufe von links nach rechts über die Eingabe und ersetze dabei jede zweite $\Sterm{0}$ durch\ghost{ $\Snterm{X}$}
 \item Falls insgesamt nur eine $\Sterm{0}$ gefunden wird, akzeptiere
 \item Falls eine andere ungerade Zahl an $\Sterm{0}$ gefunden wird, verwirf
 \item Laufe zurück zum Anfang des Bandes
@@ -432,8 +432,8 @@ Diese TM entscheidet die Sprache $\{\Sterm{0}^{2^i}\mid i\geq 0\}$.
 \begin{enumerate}[(1)]
 % \item Falls $\blank$ gelesen wird, akzeptiere
 \item Ersetze, angefangen von links, Vorkommen von $\Sterm{a}$ durch $\Snterm{$\hat{a}$}$
-\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetzte es durch $\Snterm{$\hat{b}$}$,
-suche anschließend rechts davon ein $\Sterm{c}$ und ersetzte es durch $\Snterm{$\hat{c}$}$
+\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetze es durch $\Snterm{$\hat{b}$}$,
+suche anschließend rechts davon ein $\Sterm{c}$ und ersetze es durch $\Snterm{$\hat{c}$}$
 \item Gehe danach zurück zum ersten noch nicht ersetzten $\Sterm{a}$ und führe die Ersetzung (1) fort, bis alle $\Sterm{a}$ ersetzt worden sind
 \item Akzeptiere, falls der Inhalt des Bandes die Form $\Snterm{$\hat{a}$}^*\Snterm{$\hat{b}$}^*\Snterm{$\hat{c}$}^*$ hat
 \item Andernfalls oder falls eine der Ersetzungen in Schritt (2) fehlschlägt, weil es zu wenige $\Sterm{b}$ oder $\Sterm{c}$ gibt, lehne die Eingabe ab

@@ -29,9 +29,9 @@ Allerdings ist der minimale DFA unter Umständen viel größer als ein minimaler
 \end{frame}
 
 
-\sectionSlide{Nicht-reguläre Sprachen}
+\sectionSlide{Nichtreguläre Sprachen}
 
-\begin{frame}\frametitle{Nicht-reguläre Sprachen}
+\begin{frame}\frametitle{Nichtreguläre Sprachen}
 
 Sind alle Sprachen regulär?\\
 \redalert{Sicher nicht} (dazu gibt es zu viele Sprachen)
@@ -67,7 +67,7 @@ unendlich viele Äquivalenzklassen erzeugt. Diese Sprache ist demnach nicht regu
 
 \begin{frame}\frametitle{$\Sterm{a}^n\Sterm{b}^n$}
 
-Die Sprache $\Sterm{a}^n\Sterm{b}^n$ gilt als Musterbeispiel nicht-regulärer Sprachen
+Die Sprache $\Sterm{a}^n\Sterm{b}^n$ gilt als Musterbeispiel nichtregulärer Sprachen
 \bigskip
 
 \anybox{purple}{Intuition: "`Reguläre Sprachen können nicht zählen."'}%
@@ -119,7 +119,7 @@ $\Slang{L}$ ebenfalls nicht regulär sein.}
 
 \begin{frame}\frametitle{Nichtregularität durch Pumpen}
 
-Ein weiteres klassisches Kriterium für Nicht-Regularität ist, dass die Wörter regulärer Sprachen
+Ein weiteres klassisches Kriterium für Nichtregularität ist, dass die Wörter regulärer Sprachen
 beliebig "`aufgepumpt"' werden können.
 \bigskip
 
@@ -201,7 +201,7 @@ es keine Wörter $z$ mit $|z|\geq n$ gibt, für welche weitere Eigenschaften gef
 
 \begin{frame}[t]\frametitle{Pumpen für Nichtregularität}
 
-Die Pump-Eigenschaft ist für Regularität \alert{notwendig}, aber \alert{nicht hinreichend}: man kann auch manche nicht-reguläre Sprachen pumpen.
+Die Pump-Eigenschaft ist für Regularität \alert{notwendig}, aber \alert{nicht hinreichend}: man kann auch manche nichtreguläre Sprachen pumpen.
 \medskip
 
 Daher eignet sich das Pumping-Lemma eher zum Beweis der Nichtregularität
@@ -227,7 +227,7 @@ $\Slang{L}$ ist daher nicht regulär.}
 % Diskussion:
 \begin{itemize}
 \item \emph{Kontra:} Myhill-Nerode liefert ein notwendiges \redalert{und} hinreichendes Kriterium für Regularität\\
-$\leadsto$ immer anwendbar, um (Nicht-)Regularität zu zeigen
+$\leadsto$ immer anwendbar, um (Nicht)Regularität zu zeigen
 \item \emph{Pro:} Pumping funktioniert in den allermeisten praktischen Fällen auch\\
 (notfalls kann man Abschlusseigenschaften zu Hilfe nehmen)
 \item \emph{Pro:} Manchmal ist der Beweis mit Pumping einfacher
@@ -344,7 +344,7 @@ Das Leerheitsproblem ist leicht zu lösen:
 \emph{Beweis:} Leerheit = "`Es gibt keinen von einem Startzustand aus erreichbaren Endzustand"'
 \bigskip
 
-Erreichbarkeit von Endzuständen kann mithilfe von Graphalgorithmen zur Erreichbarkeitspräfung (Breadth-First-Search, Depth-First-Search, \ldots) getestet werden. Einfache Algorithmen laufen in $O(|Q|\times |\delta|)$, wobei $|Q|$ die Zahl der Zustände und $|\delta|$ die Gesamtzahl der Kanten im Graph des Automaten ist.\qed
+Erreichbarkeit von Endzuständen kann mithilfe von Graphalgorithmen zur Erreichbarkeitsprüfung (Breadth-First-Search, Depth-First-Search, \ldots) getestet werden. Einfache Algorithmen laufen in $O(|Q|\times |\delta|)$, wobei $|Q|$ die Zahl der Zustände und $|\delta|$ die Gesamtzahl der Kanten im Graph des Automaten ist.\qed
 
 \end{frame}
 
@@ -635,7 +635,7 @@ $\leadsto$ Komplexität abhängig von FA-Komplementierung
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Es gibt viele \redalert{nicht-reguläre Sprachen}, was man mit verschiedenen Methoden beweisen kann (Myhill-Nerode, Abschlusseigenschaften, Pumping)
+Es gibt viele \redalert{nichtreguläre Sprachen}, was man mit verschiedenen Methoden beweisen kann (Myhill-Nerode, Abschlusseigenschaften, Pumping)
 \bigskip
 
 \redalert{$\{\Sterm{a}^n\Sterm{b}^n\mid  n\geq 0\}$ ist nicht regulär}, da FAs nicht zählen können
