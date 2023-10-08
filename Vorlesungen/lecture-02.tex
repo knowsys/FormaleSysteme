@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{2}{Grammatiken und die Chomsky-Hierarchie}{1. November 2020}
+\defineTitle{2}{Grammatiken und die Chomsky-Hierarchie}{12. Oktober 2023}
 
 \begin{document}
 
@@ -53,7 +53,7 @@ Wir haben hier eine unendliche Sprache mit einfachen Grundoperationen aus endlic
 
 \pause
 
-\theobox{Satz: Es gibt \redalert{abzählbar viele} Wörter über jedem Alphabet $\Sigma$. Jede Sprache ist also entweder endlich oder abzählbar unendlich.}
+\theobox{\emph{Satz:} Es gibt \redalert{abzählbar viele} Wörter über jedem Alphabet $\Sigma$. Jede Sprache ist also entweder endlich oder abzählbar unendlich.}
 \pause
 
 \emph{Idee:} Zum "`Abzählen"' reihen wir die Wörter in $\Sigma^*$ der Länge nach auf, beginnend mit den kurzen Wörtern.\\
@@ -77,7 +77,7 @@ Zum Beispiel: $\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba
 
 \pause
 
-\theobox{Satz: Es gibt \redalert{überabzählbar viele} Sprachen über jedem beliebigen Alphabet $\Sigma$.}
+\theobox{\emph{Satz:} Es gibt \redalert{überabzählbar viele} Sprachen über jedem beliebigen Alphabet $\Sigma$.}
 \pause
 
 \emph{Beweis:}
@@ -85,7 +85,7 @@ Zum Beispiel: $\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba
 \item Die Menge aller Wörter \alert{$\Sigma^*$ ist abzählbar unendlich}, selbst wenn $\Sigma$ nur ein Symbol enthält.
 \item Eine Sprache ist eine beliebige Teilmenge von $\Sigma^*$.
 \item Die Menge aller Sprachen über $\Sigma$ ist die Menge aller Teilmengen (\alert{Potenzmenge}) von $\Sigma^*$.
-\item Die Kardinalität der Potenzmenge ist immer größer als die der Menge selbst (\alert{Satz von Cantor}).
+\item Die Kardinalität der Potenzmenge ist immer größer als die der Menge selbst\\(\alert{Satz von Cantor}).
 \item Also gibt es überabzählbar viele Sprachen.\qed
 \end{itemize}
 
@@ -110,11 +110,11 @@ Es gibt \redalert{viel mehr} Sprachen als Texte, Programme oder \ghost{Formeln!}
 \pause
 \bigskip
 
-\theobox{Satz: Fast alle Sprachen können in keiner Weise endlich beschrieben werden.
+\theobox{\emph{Satz:} Fast alle Sprachen können in keiner Weise endlich beschrieben werden.\\
 Fast alle Sprachen werden durch kein Computerprogramm korrekt erkannt.}
 
 Ein starker Satz, aber er gibt uns keine Hinweise, welche Sprachen man wie beschreiben kann.
-Zum Beispiel gibt es eindeutig beschreibbare Sprachen, für die es kein Computerprogramm gibt.
+Zum Beispiel gibt es Sprachen, für die es eine endliche mathematische Beschreibung gibt, aber kein Computerprogramm.
 
 \end{frame}
 
@@ -131,7 +131,7 @@ Grammatiken sind die wichtigste Methode zur Beschreibung von Sprachen.
 
 Sie verwenden \redalert{Ersetzungsregeln} um Wörter zu \redalert{erzeugen}.
 
-\examplebox{Beispiel: Die folgende Grammatik erzeugt Dezimalzahlen.
+\examplebox{\emph{Beispiel:} Die folgende Grammatik erzeugt Dezimalzahlen.
 \begin{align*}
 \Snterm{Dezimalzahl} &\to \Snterm{Vorzeichen}\;\Snterm{DZahl} \mid \Snterm{DZahl}& (1)\\
 \Snterm{Vorzeichen} &\to \Sterm{+} \mid \Sterm{-}& (2)\\
@@ -196,7 +196,7 @@ $w\to v_1, w\to v_2,\ldots, w\to v_n$.
 
 \begin{frame}\frametitle{Beispiele: Grammatiken}
 
-\examplebox{Beispiel: Eine Grammatik $\tuple{V,\Sigma,P,\Snterm{Start}}$ sei gegeben durch
+\examplebox{\emph{Beispiel:} Eine Grammatik $\tuple{V,\Sigma,P,\Snterm{Start}}$ sei gegeben durch
 $V=\{\Snterm{Start},\Snterm{Summe},\Snterm{Var}\}$,
 $\Sigma=\{\Sterm{(},\Sterm{)},\Sterm{+},\Sterm{*},\Sterm{x},\Sterm{y},\Sterm{z}\}$ 
 und Regeln $P$:\\[0.5ex]
@@ -221,7 +221,7 @@ Diese Grammatik erzeugt zum Beispiel das Wort $\Sterm{(x+y)*(x+z)}$.%:
 % \end{align*}
 }\pause
 
-\examplebox{Beispiel: Die selbe Sprache wird auch durch die Grammatik
+\examplebox{\emph{Beispiel:} Die selbe Sprache wird auch durch die Grammatik
 $\tuple{\{\Snterm{Start},\Snterm{Var}\},\Sigma,P',\Snterm{Start}}$ definiert, mit $\Sigma$ wie oben und Regeln $P'$:\\[0.5ex]
 \narrowcentering{$
 \begin{array}{r@{}l}
@@ -277,7 +277,7 @@ Insbesondere gilt $u\Rightarrow^* u$ für alle $u\in (V\cup\Sigma)^*$ (Fall $n=1
 }
 
 {\footnotesize \textcolor{devilscss}{Anmerkung: Der Begriff "`Herleitungsrelation"' ist auch gebräuchlich. Wir verwenden "`Ableitung"' und "`Herleitung"' synonym.\\
-Anmerkung 2: Manche Autoren schreiben $\vdash$ statt $\Rightarrow$.}}
+Anmerkung 2: Manche Autor:innen schreiben $\vdash$ statt $\Rightarrow$.}}
 
 \end{frame}
 
@@ -292,7 +292,7 @@ man von $S$ ableiten kann:\\[1ex]
 alle Kleinbuchstaben Terminalsymbole sind, wobei $\Snterm{S}$ die Startvariable ist.
 \medskip
 
-\examplebox{ Beispiel: Wir betrachten die Grammatik $G_{\text{id}}$ mit den Regeln:\\[1ex]
+\examplebox{\emph{Beispiel:} Wir betrachten die Grammatik $G_{\text{id}}$ mit den Regeln:\\[1ex]
 \narrowcentering{$\Snterm{S} \to \Snterm{B}\Snterm{A}\qquad\quad
 	\Snterm{A} \to \Snterm{B}\Snterm{A} \mid \Snterm{Z}\Snterm{A} \mid \epsilon\qquad\quad
 	\Snterm{B} \to \Sterm{b}\qquad\quad
@@ -504,28 +504,28 @@ Die \redalert{Chomsky-Hierarchie} unterteilt Grammatiken in vier Stufen:
 
 \begin{frame}\frametitle{Chomsky-Hierarchie: Beispiele}
 
-\examplebox{Beispiel: Eine Typ-3-Grammatik (regulär):\\[1ex]
+\examplebox{\emph{Beispiel:} Eine Typ-3-Grammatik (regulär):\\[1ex]
 %
 \narrowcentering{$\Snterm{S}\to \Sterm{b}\Snterm{A}$
 	\hfill $\Snterm{A}\to \Sterm{z}\Snterm{A}$
 	\hfill $\Snterm{A}\to \Sterm{z}$}
 }\pause
 
-\examplebox{Beispiel: Eine Typ-2-Grammatik (kontextfrei, nicht regulär):\\[1ex]
+\examplebox{\emph{Beispiel:} Eine Typ-2-Grammatik (kontextfrei, nicht regulär):\\[1ex]
 %
 \narrowcentering{$\Snterm{S}\to \Sterm{b}\Snterm{B}\Sterm{z}$
 	\hfill $\Snterm{B}\to \Snterm{B}\Sterm{z}\Snterm{B}$
 	\hfill $\Snterm{B}\to \epsilon$}
 }\pause
 
-\examplebox{Beispiel: Eine Typ-1-Grammatik (kontextsensitiv, nicht kontextfrei):\\[1ex]
+\examplebox{\emph{Beispiel:} Eine Typ-1-Grammatik (kontextsensitiv, nicht kontextfrei):\\[1ex]
 %
 \narrowcentering{$\Snterm{S}\to \Sterm{b}\Snterm{C}$
 	\hfill $\Sterm{b}\Snterm{C}\to \Snterm{S}\Sterm{z}$
 	\hfill $\Snterm{S}\Sterm{z}\to \Sterm{bz}$}
 }\pause
 
-\examplebox{Beispiel: Eine Typ-0-Grammatik (nicht kontextsensitiv):\\[1ex]
+\examplebox{\emph{Beispiel:} Eine Typ-0-Grammatik (nicht kontextsensitiv):\\[1ex]
 %
 \narrowcentering{$\Snterm{S}\to \Sterm{bz}\Snterm{D}\Sterm{z}\Snterm{D}\Sterm{z}$
 	\hfill $\Sterm{z}\Snterm{D}\to \Sterm{zz}\Snterm{D}$
@@ -615,7 +615,7 @@ Wir erweitern unsere Definition wie folgt:
 \end{enumerate}
 }
 
-\examplebox{Beispiel: Die reguläre Grammatik $G$ mit den Regeln\\[1ex]
+\examplebox{\emph{Beispiel:} Die reguläre Grammatik $G$ mit den Regeln\\[1ex]
 \narrowcentering{$\Snterm{S}\to \epsilon \mid \Snterm{A}$
 	\hfill $\Snterm{A}\to \Sterm{nyan}\Snterm{A}$
 	\hfill $\Snterm{A}\to \Sterm{nyan}$}\\[1ex]
@@ -631,7 +631,7 @@ ist kontextsensitiv nach der erweiterten Definition. $\Slang{L}(G)=\{\Sterm{nyan
 \begin{frame}\frametitle{Kontextfrei vs. kontextsensitiv mit $\epsilon$}
 
 Manche Typ-2-Grammatiken sind weiterhin nicht von Typ 1:
-\examplebox{Beispiel: Die kontextfreie (und reguläre) Grammatik\\[1ex]
+\examplebox{\emph{Beispiel:} Die kontextfreie (und reguläre) Grammatik\\[1ex]
 \narrowcentering{$\Snterm{S}\to \Sterm{b}\Snterm{A}$
 	\hfill $\Snterm{A}\to \Sterm{z}\Snterm{A}$
 	\hfill $\Snterm{A}\to \epsilon$}
@@ -720,16 +720,14 @@ wähle eine solche Regel und setze $V_\epsilon\defeq V_\epsilon\cup \{\Snterm{B}
 \end{itemize}
 }\pause
 
-\examplebox{Beispiel:
-\begin{minipage}[t]{8cm}
+\examplebox{\emph{Beispiel:}%
 \narrowcentering{%
 	$\Snterm{S}\to \Sterm{a}\Snterm{B}\mid \Snterm{BAA}$\hfill
 	$\Snterm{B}\to \Sterm{a}\mid \Snterm{AC}$\hfill
-	$\Snterm{A}\to \Sterm{bb} \mid \epsilon$}\\[0.5ex]
-\narrowcentering{%
+	$\Snterm{A}\to \Sterm{bb} \mid \epsilon$\hfill
 	$\Snterm{C}\to \Snterm{DS} \mid \epsilon$\hfill
-	$\Snterm{D}\to \Sterm{a}\Snterm{AS}$
-}\end{minipage}\\[1ex]
+	$\Snterm{D}\to \Sterm{a}\Snterm{AS}$%
+}\\[1ex]
 Initialisierung: $V_\epsilon= \{\Snterm{A},\Snterm{C}\}$\\
 Schritt 1: $V_\epsilon= \{\Snterm{A},\Snterm{C},\Snterm{B}\}$\\
 Schritt 2: $V_\epsilon= \{\Snterm{A},\Snterm{C},\Snterm{B},\Snterm{S}\}$ -- Terminierung
@@ -781,7 +779,7 @@ $
 
 Wir können jede CFG in eine $\epsilon$-freie CFG umschreiben. Daher gilt:
 
-\theobox{Satz: Jede kontextfreie Sprache ist kontextsensitiv im erweiterten Sinn (mit $\epsilon$-Sonderfall).}
+\theobox{\emph{Satz:} Jede kontextfreie Sprache ist kontextsensitiv im erweiterten Sinn (mit $\epsilon$-Sonderfall).}
 % \smallskip
 
 Damit gelten alle Inklusionen der Hierarchie. Grafisch dargestellt:\bigskip
