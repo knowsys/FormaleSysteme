@@ -318,11 +318,11 @@ Formale Sprachen und die zugehörigen Automaten und Grammatiken haben sehr viele
 \begin{frame}\frametitle{Lexikalische Analyse}
 
 \alert{Eingabe:} Zeichenkette eines Programms\\[1ex]
-\examplebox{Bsp.:~~~ $\underbrace{\texttt{\Sterm{lengthCm = lengthInch * 2.54;}}}_{\text{Kette von 29 Zeichen}}$}
+\examplebox{\emph{Beispiel:}~~~ $\underbrace{\texttt{\Sterm{lengthCm = lengthInch * 2.54;}}}_{\text{Kette von 29 Zeichen}}$}
 % 	\bigskip
 
 \alert{Ausgabe:} Kette von Grundsymbolen (Tokens)\\[1ex]
-\examplebox{Bsp.:~~~ $\underbrace{\textsf{\Snterm{NAME EQUALS NAME STAR NUMBER SEMICOLON}}}_{\text{Kette von 6 Tokens}}$}
+\examplebox{\emph{Beispiel:}~~~ $\underbrace{\textsf{\Snterm{NAME EQUALS NAME STAR NUMBER SEMICOLON}}}_{\text{Kette von 6 Tokens}}$}
 
 \begin{itemize}
 \item Zur Weiterverarbeitung wird den Tokens oft weitere Information mitgegeben,\\
@@ -344,7 +344,7 @@ Verschiedene Arten von Grundsymbolen:
 \medskip
 
 Für einige Grundsymbole gibt es unendlich viele Möglichkeiten
-\examplebox{Bsp.: "`Ein Bezeichner ist ein String, der mit einem Buchstaben beginnt und danach nur Buchstaben oder Ziffern enthält."'}
+\examplebox{\emph{Beispiel:} "`Ein Bezeichner ist ein String, der mit einem Buchstaben beginnt und danach nur Buchstaben oder Ziffern enthält."'}
 % \\[2ex]
 
 Wie soll ein Lexer das korrekt erkennen?
@@ -403,7 +403,8 @@ Code eines unerfahrenen Programmierers:\medskip
 ~~~~~~~~\Scode{else if} ( state == \Scodelit{"{}\nameForInnerLexerState"{}} \&\& \\
 ~~~~~~~~~~~~~~~~~~~~~!isLetter(symbol) \&\& !isNumber(symbol) ):\\
 ~~~~~~~~~~~~~\Scode{return} \Scodelit{false}\\
-~~~\Scode{if} (state == \Scodelit{"{}\nameForInnerLexerState"{}}): \Scode{return} \Scodelit{true}
+~~~\Scode{if} (state == \Scodelit{"{}\nameForInnerLexerState"{}}): \Scode{return} \Scodelit{true} ~\Scode{else} \Scode{return} \Scodelit{false}
+% We avoid "return (state == \Scodelit{"{}\nameForInnerLexerState"{}})" here, since it sometimes confuses some people ...
 }}
 
 \end{frame}
@@ -508,13 +509,13 @@ Meistens verwendet man die Buchstaben $\Sigma$ (Sigma) oder $\Gamma$ (Gamma) fü
 
 \defbox{
 Ein endliches \redalert{Wort} über einem Alphabet $\Sigma$ ist eine endliche Folge von Symbolen aus $\Sigma$.
-Wenn $w$ ein endliches Wort ist, dann ist $|w|$ seine \redalert{Länge} (die Anzahl seiner Symbole).
+Wenn $w$ ein endliches Wort ist, dann bezeichnet $|w|$ seine \redalert{Länge} (die Anzahl seiner Symbole).
 }
 
 Alle Wörter in dieser Vorlesung sind endlich. Wir sagen das ab jetzt nicht immer dazu.
 
 \pause
-\examplebox{Beispiel:
+\examplebox{\emph{Beispiel:}
 $\Sigma = \{\Sterm{a},\Sterm{b}\}$ ist ein Alphabet.\\
 Wörter über diesem Alphabet sind z.B. $\Sterm{abba}$ oder $\Sterm{bbb}$.\\
 Die Längen dieser Wörter sind $|\Sterm{abba}|=4$ und $|\Sterm{bbb}|=3$.
@@ -540,12 +541,12 @@ Es gibt genau ein leeres Wort und man kann es über jedem Alphabet bilden.
 
 \pause
 \examplebox{
-Beispiel: Für die Wörter $w=\Sterm{tuben}$ und $v=\Sterm{wachs}$ gilt
+\emph{Beispiel:} Für die Wörter $w=\Sterm{tuben}$ und $v=\Sterm{wachs}$ gilt
 $wv=\Sterm{tubenwachs}$ und $vw=\Sterm{wachstuben}$.
 }
 
 \examplebox{
-Beispiel: Für jedes Wort $w$ gilt: $w\epsilon = \epsilon w = w$
+\emph{Beispiel:} Für jedes Wort $w$ gilt: $w\epsilon = \epsilon w = w$
 }
 
 \end{frame}
@@ -556,8 +557,8 @@ Manchmal ist es praktisch, Teile von Wörtern zu bezeichnen:
 \defbox{
 Sei $w=\Sterm{a_1}\ldots \Sterm{a_n}$ ein Wort der Länge $n$.
 \begin{itemize}
-\item Ein \redalert{Präfix} von $w$ ist ein Wort $\Sterm{a_1}\ldots \Sterm{a_i}$ mit $0\leq i \leq n$
-\item Ein \redalert{Suffix} von $w$ ist ein Wort $\Sterm{a_j}\ldots \Sterm{a_n}$ mit $1\leq j \leq n + 1$
+\item Ein \redalert{Präfix} von $w$ ist ein Wort $\Sterm{a_1}\ldots \Sterm{a_i}$ mit $1\leq i \leq n$~ \emph{oder} ~$\epsilon$
+\item Ein \redalert{Suffix} von $w$ ist ein Wort $\Sterm{a_j}\ldots \Sterm{a_n}$ mit $1\leq j \leq n$~ \emph{oder} ~$\epsilon$
 \item Ein \redalert{Infix} von $w$ ist ein Wort $\Sterm{a_i}\ldots \Sterm{a_j}$ mit $1\leq i\leq j \leq n$~ \emph{oder} ~$\epsilon$
 \end{itemize}
 }
@@ -565,12 +566,12 @@ Sei $w=\Sterm{a_1}\ldots \Sterm{a_n}$ ein Wort der Länge $n$.
 
 \pause
 \examplebox{
-Beispiel: Das Wort $\Sterm{Staubecken}$ hat ein Präfix $\Sterm{Staub}$, ein Suffix $\Sterm{ecken}$ und ein Infix $\Sterm{taube}$ (und viele andere mehr).
+\emph{Beispiel:} Das Wort $\Sterm{Staubecken}$ hat ein Präfix $\Sterm{Staub}$, ein Suffix $\Sterm{ecken}$ und ein Infix $\Sterm{taube}$ (und viele andere mehr).
 }
 
 \pause
 \examplebox{
-Beispiel: Das leere Wort $\epsilon$ ist Präfix, Suffix und Infix von jedem Wort (sogar von $\epsilon$ selbst).
+\emph{Beispiel:} Das leere Wort $\epsilon$ ist Präfix, Suffix und Infix von jedem Wort (sogar von $\epsilon$ selbst).
 }
 
 \end{frame}
@@ -586,20 +587,20 @@ Die Zusätze "`formal"' und "`über $\Sigma$"' werden meist weggelassen, wenn da
 Sprachen werden meist mit dem Buchstaben $\Slang{L}$ bezeichnet.\pause
 
 \examplebox{
-Beispiel: Die Sprache $\Slang{Ziffer}=\{\Sterm{0},\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$ ist eine endliche Sprache
+\emph{Beispiel:} Die Sprache $\Slang{Ziffer}=\{\Sterm{0},\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}\}$ ist eine endliche Sprache
 (über jedem Alphabet, das zumindest die Symbole $\Sterm{0},\Sterm{1},\Sterm{2},\Sterm{3},\Sterm{4},\Sterm{5},\Sterm{6},\Sterm{7},\Sterm{8},\Sterm{9}$ enthält).
 }\pause
 
 \examplebox{
-Beispiel: Die zuvor genannte Sprache $\Slang{Bezeichner}$ ist unendlich.
+\emph{Beispiel:} Die zuvor genannte Sprache $\Slang{Bezeichner}$ ist unendlich.
 }\pause
 
 \examplebox{
-Beispiel: Die Menge aller Tweets ist eine endliche Sprache.
+\emph{Beispiel:} Die Menge aller Tweets ist eine endliche Sprache.
 }\pause
 
 \examplebox{
-Beispiel: Die Menge aller validen HTML-5-Dokumente ist eine unendliche Sprache über dem Alphabet aller \textcolor{devilscss}{Unicode Code Points}.
+\emph{Beispiel:} Die Menge aller validen HTML-5-Dokumente ist eine unendliche Sprache über dem Alphabet aller \textcolor{devilscss}{Unicode Code Points}.
 }
 
 \end{frame}
@@ -611,7 +612,7 @@ Beispiel: Die Menge aller validen HTML-5-Dokumente ist eine unendliche Sprache �
 % \smallskip
 
 \examplebox{
-Beispiel: Die Sprache $\{\epsilon\}$, welche nur das leere Wort enthält, ist nicht leer!
+\emph{Beispiel:} Die Sprache $\{\epsilon\}$, welche nur das leere Wort enthält, ist nicht leer!
 }
 
 Die leere Sprache ist also Teilmenge jeder anderen Sprache.
@@ -622,7 +623,7 @@ Die leere Sprache ist also Teilmenge jeder anderen Sprache.
 % \smallskip
 
 \examplebox{
-Beispiel: $\{\Sterm{a},\Sterm{b}\}^* = \{\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba}, \Sterm{bb}, \Sterm{aaa}, \Sterm{aab}, \ldots\}$.
+\emph{Beispiel:} $\{\Sterm{a},\Sterm{b}\}^* = \{\epsilon, \Sterm{a}, \Sterm{b}, \Sterm{aa}, \Sterm{ab}, \Sterm{ba}, \Sterm{bb}, \Sterm{aaa}, \Sterm{aab}, \ldots\}$.
 }
 
 Jede Sprache über $\Sigma$ ist also eine Teilmenge von $\Sigma^*$.
@@ -648,11 +649,11 @@ Man kann mit Sprachen "`rechnen"' um neue Sprachen zu bilden:
 }\pause
 
 \examplebox{
-Beispiel: Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchstabe}$ und $\Slang{Ziffer}$ konstruiert werden:\\[0.5ex]
+\emph{Beispiel:} Die Sprache $\Slang{Bezeichner}$ kann aus den Sprachen $\Slang{Buchstabe}$ und $\Slang{Ziffer}$ konstruiert werden:\\[0.5ex]
 \narrowcentering{$ \Slang{Bezeichner} =  \Slang{Buchstabe} \circ ( \Slang{Buchstabe}\cup\Slang{Ziffer} )^* $}
 }\pause
 
-\examplebox{Beispiel: Tweets sind Ketten aus bis zu 140 Zeichen:${}^{1}$\\[0.5ex]
+\examplebox{\emph{Beispiel:} Tweets sind Ketten aus bis zu 140 Zeichen:${}^{1}$\\[0.5ex]
 \narrowcentering{$\Slang{Tweet} =  \bigcup_{1\leq i \leq 140}\Slang{Buchstabe}^i$}
 }
 \ghost{\mbox{}\hspace{13.7cm}\rotatebox{90}{\mbox{}\hspace{0.5cm}\tiny 
@@ -681,7 +682,7 @@ ${}^{1)}$ korrekt bis etwa Mai 2016; mehr Twitter-Geschichte: Halpin \& Henshaw-
 \bigskip
 \pause
 
-\examplebox{Beispiel:
+\examplebox{\emph{Beispiel:}
 Die Menge aller gültigen Schreibweisen für Dezimalzahlen kann wie folgt definiert werden:\\[1.5ex]
 
 \narrowcentering{$ \Slang{Dezimalzahl} =  \Big(\{\epsilon\}\cup \{\Sterm{+},\Sterm{-}\}\Big) \circ \Big(\{\Sterm{0}\}\cup (\Slang{Z}\setminus\{\Sterm{0}\})\circ\Slang{Z}^*\Big) \circ \Big( \{\epsilon\}\cup \{\Sterm{.}\}\Slang{Z}^+ \Big) $}\\[1.5ex]
