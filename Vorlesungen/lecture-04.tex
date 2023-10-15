@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{4}{Nichtdeterministische Endliche Automaten}{5. November 2020}
+\defineTitle{4}{Nichtdeterministische Endliche Automaten}{19. Oktober 2023}
 
 \begin{document}
 
@@ -62,7 +62,7 @@ Kann man die Übersetzung nicht einfach umdrehen?
 
 \alert{Weil die Übergangsfunktion dann mehr als einen Wert hätte!}\medskip
 
-\examplebox{Beispiel: Eine Grammatik kann die Regeln $S\to \Sterm{a}A$, $S\to \Sterm{a}S$ und $A\to\epsilon$ haben, 
+\examplebox{\emph{Beispiel:} Eine Grammatik kann die Regeln $S\to \Sterm{a}A$, $S\to \Sterm{a}S$ und $A\to\epsilon$ haben, 
 aber wir können nicht $\delta(S,\Sterm{a})=A$ und $\delta(S,\Sterm{a})=S$ gleichzeitig fordern.
 }
 
@@ -151,7 +151,7 @@ folgenden Bestandteilen:
 
 \begin{frame}\frametitle{Beispiel: NFA}
 \doodlebox{darkgreen}{%
-Beispiel:
+\emph{Beispiel:}
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (s1) [circle,draw=black,thick,onslide={<2,3,7,8,9>{fill=strongyellow}}] at (0,0) {q1};
@@ -231,9 +231,9 @@ Dennoch ist Nichtdeterminismus ein wichtiges Prinzip in der Informatik:
 \item Beschreibt treffend die Schwierigkeit vieler praktischer Probleme -- wichtig für
 \alert{Untersuchung von Komplexität und Berechenbarkeit}
 \item Ist relevant in der \alert{Modellierung parallel arbeitender Systeme}
-\item Bildet Ausgangspunkt für die \alert{Entwicklung deterministischer Algorithmen}
+\item Bildet möglichen Ausgangspunkt für die \alert{Entwicklung deterministischer Algorithmen}
 \end{itemize}
-\pause
+% \pause
 
 \end{frame}
 
@@ -269,7 +269,7 @@ Wörter $w$ für die $\Smach{M}$ einen akzeptierenden Lauf hat.
 }\pause
 
 \doodlebox{darkgreen}{%
-Beispiel:
+\emph{Beispiel:}
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (s1) [circle,draw=black,thick,onslide={<3,4,5,6>{fill=strongyellow}}] at (0,0) {q1};
@@ -439,7 +439,7 @@ die man erreichen kann, wenn man in einem Zustand aus $R$ beginnt und das Wort $
 \begin{frame}\frametitle{Beispiel}
 
 \doodlebox{darkgreen}{%
-Beispiel:
+\emph{Beispiel:}
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (s1) [circle,draw=black,thick] at (0,0) {q1};
@@ -842,7 +842,7 @@ Der DFA eines NFA hat $2^{|Q|}$ -- also exponentiell viele -- Zustände.\\
 Auch "`on the fly"' lässt sich das im Allgemeinen nicht vermeiden.
 \medskip
 
-Beispiel: "`Wörter mit \Sterm{1} an drittletzter Stelle"'
+\emph{Beispiel:} "`Wörter mit \Sterm{1} an drittletzter Stelle"'
 
 \narrowcentering{%
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
