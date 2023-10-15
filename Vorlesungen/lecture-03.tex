@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{3}{Endliche Automaten}{2. November 2020}
+\defineTitle{3}{Endliche Automaten}{16. Oktober 2023}
 
 % Anmerkungen:
 % Die Vorlesung enthält eigentlich noch einige Folien zum Thema NFA, um das 90min-Raster zu nutzen
@@ -75,7 +75,7 @@ Das \redalert{Wortproblem} für eine Sprache $\Slang{L}$ über Alphabet $\Sigma$
 \emph{Ausgabe:} "`ja"' wenn $w\in\Slang{L}$ und "`nein"' wenn $w\notin\Slang{L}$
 }\pause
 
-\examplebox{Für die Sprache $\{\Sterm{a}\}\circ \{\Sterm{b}\}^*$ wird das Wortproblem durch einen einfachen Algorithmus in linearer Zeit gelöst
+\examplebox{\emph{Beispiel:} Für die Sprache $\{\Sterm{a}\}\circ \{\Sterm{b}\}^*$ wird das Wortproblem durch einen einfachen Algorithmus in linearer Zeit gelöst
 (teste, ob der erste Buchstabe $\Sterm{a}$ ist und ob alle folgenden Buchstaben $\Sterm{b}$ sind).
 }
 
@@ -110,15 +110,15 @@ Das Wortproblem ist nicht die einzige praktisch relevante Frage.
 
 \alert{Darstellungen von Sprachen}
 \begin{itemize}
-\item Welche verschiedenen Darstellungen gibt es (Grammatiken, Automaten, \ldots)? Wie kann man eine Darstellung in eine andere übersetzen?
-\item Beschreiben zwei Darstellungen die gleiche Sprache? Beschreibt eine Darstellung die leere Sprache?
+\item Welche verschiedenen Darstellungen gibt es (Grammatiken, Automaten, \ldots)?\\ Wie kann man eine Darstellung in eine andere übersetzen?
+\item Beschreiben zwei Darstellungen die gleiche Sprache?\\ Beschreibt eine Darstellung die leere Sprache?
 \item Wie kann eine Darstellung vereinfacht werden?
 \end{itemize}
 
 \alert{Eigenschaften von Sprachen}
 \begin{itemize}
 \item Was passiert, wenn man Operationen anwendet, um neue Sprachen zu erzeugen?\\[1ex]
-\examplebox{Beispiel:\\ Wenn $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ regulär sind, wie ist es dann mit $\Slangsub{L}{1}\cap\Slangsub{L}{2}$?}\\[0.5ex]
+\examplebox{\emph{Beispiel:}\\ Wenn $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ regulär sind, wie ist es dann mit $\Slangsub{L}{1}\cap\Slangsub{L}{2}$?}\\[0.5ex]
 $\leadsto$ sogenannte \redalert{Abschlusseigenschaften}
 \end{itemize}
 
@@ -325,7 +325,7 @@ Endlicher Automat $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ mit
 \begin{itemize}
 \item $Q=\{ \textsf{start},\allowbreak\textsf{\nameForInnerLexerState}\}$
 \item $\Sigma=\{\Sterm{a},\Sterm{b},\ldots,\Sterm{0},\Sterm{1},\ldots,\Sterm{9},\ldots\}$ (in Zeichnung unterspezifiziert)
-\item $\delta$ definiert wie folgt:\\
+\item $\delta$ ist wie folgt definiert:\\
 	$\delta(\textsf{start},x)=\textsf{\nameForInnerLexerState}$ für alle Buchstaben $x$\\
 	$\delta(\textsf{\nameForInnerLexerState},y)=\textsf{\nameForInnerLexerState}$ für alle Buchstaben und Ziffern $y$\\
 	$\delta(q,x)$ undefiniert für alle anderen Fälle
@@ -397,7 +397,7 @@ Wir können DFAs mit partieller Übergangsfunktion in DFAs mit totaler Übergang
 \item füge einen neuen \redalert{Fangzustand} $q_f$ ein: $Q'\defeq Q\cup\{q_f\}$
 \item für alle Zustände $q\in Q'$ und Symbole $\Sterm{a}\in\Sigma$:%\\
 % 
-\[ \delta'(q,\Sterm{a})\defeq \left\{\begin{array}{ll}\delta(q,\Sterm{a}) & \text{falls $\delta(q,\Sterm{a})$ definiert}\\q_f& \text{falls $\delta(q,\Sterm{a})$ nicht definiert}\end{array}\right. \]
+\[ \delta'(q,\Sterm{a})\defeq \left\{\begin{array}{ll}\delta(q,\Sterm{a}) & \text{falls $\delta(q,\Sterm{a})$ definiert ist}\\q_f& \text{falls $\delta(q,\Sterm{a})$ nicht definiert ist}\end{array}\right. \]
 % 
 \end{itemize}
 }
@@ -414,9 +414,9 @@ $\leadsto$ wird beim Lesen eines Wortes $q_f$ erreicht, dann kann es nicht mehr 
 \emph{Satz:}
 $\Smach{M}_{\text{total}}=\tuple{Q',\Sigma,\delta',q_0,F}$ hat eine totale Übergangsfunktion
 und akzeptiert die selbe Sprache wie $\Smach{M}$, d.h. $\Slang{L}(\Smach{M}_{\text{total}})=\Slang{L}(\Smach{M})$.
-}
+}\medskip\pause
 
-Beispiel: wir betrachten das Alphabet $\Sigma=\{\Sterm{a},\Sterm{b},\Sterm{c}\}$\bigskip
+\emph{Beispiel:} Wir betrachten das Alphabet $\Sigma=\{\Sterm{a},\Sterm{b},\Sterm{c}\}$\bigskip
 
 \begin{minipage}{3.5cm}\begin{flushleft}
 DFA $\Smach{M}$ mit partieller Übergangsfunktion:
