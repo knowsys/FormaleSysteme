@@ -89,7 +89,8 @@ Andererseits kann das Wortproblem sehr schwer sein, selbst für Sprachen, die mi
 Wir werden sehen, dass jede Sprachklasse zu einem bestimmten Berechnungsmodell passt:
 \bigskip
 
-\begin{tabular}{@{}lll@{}}
+\narrowcentering{%
+\begin{tabular}{@{}l@{\hspace{1cm}}l@{\hspace{1cm}}l@{}}
 \alert{Sprachklasse} & \alert{Berechnungsmodell} & \alert{Wortproblem}\\
 Typ 0 & Turingmaschine (TM) & semi-entscheidbar\footnote{Akzeptanz von Wörtern kann beliebig lange dauern, so dass man nie weiß, ob sie noch passiert; Wörter können nur rekursiv aufgezählt werden}\\
 Kontextsensitiv & nichtdeterministische TM & PSpace-vollständig\footnote{höchstwahrscheinlich schwerer als NP; jeder praktisch bekannte Algorithmus benötigt im Worst Case exponentiell viel Zeit}\\[-1ex]
@@ -97,7 +98,7 @@ Kontextsensitiv & nichtdeterministische TM & PSpace-vollständig\footnote{höchs
 Kontextfrei & nichtdeterministischer & polynomiell\\[-1ex]
 	&  Kellerautomat & \\
 Regulär & endlicher Automat & polynomiell\footnote{tatsächlich sogar noch viel einfacher als Typ 2}
-\end{tabular}
+\end{tabular}}
 % 
 % ndet. = nichtdeterministisch (dazu später mehr)
 
