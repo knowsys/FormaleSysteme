@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{6}{Reguläre Ausdrücke}{12. November 2020}
+\defineTitle{6}{Reguläre Ausdrücke}{30. Oktober 2023}
 
 \begin{document}
 
@@ -328,7 +328,7 @@ $\scalebox{\myscale}{%
 
 Eine einfache Beobachtung:
 
-\theobox{Satz: Jede endliche Sprache ist regulär.}\pause
+\theobox{\emph{Satz:} Jede endliche Sprache ist regulär.}\pause
 
 \emph{Beweis:} Man kann eine beliebige endliche Sprache $\{w_1,\ldots, w_n\}$ durch einen
 NFA mit Wortübergängen erkennen:\medskip
@@ -378,14 +378,14 @@ Eine natürliche Frage ist also:\\[1ex]
 
 Überraschender Weise sind $\cap$ und $\overline{\phantom{L}}$ nicht einmal nötig!
 
-\theobox{Satz: Alle regulären Sprachen können durch Anwendung von $\cup$, $\circ$ und ${}^*$ aus endlichen Sprachen konstruiert werden.}
+\theobox{\emph{Satz:} Alle regulären Sprachen können durch Anwendung von $\cup$, $\circ$ und ${}^*$ aus endlichen Sprachen konstruiert werden.}
 
 Mit $\circ$ und $\cup$ kann man jede endliche Sprache leicht aus den Sprachen $\emptyset$, $\{\epsilon\}$ und $\{\Sterm{a}\}$ ($\Sterm{a}\in\Sigma$) konstruieren.\pause
 \medskip
 
 Mit den bekannten Abschlusseigenschaften erhält man also:
 
-\theobox{Satz: Die Klasse der regulären Sprachen ist die kleinste Klasse von Sprachen mit den folgenden Eigenschaften:
+\theobox{\emph{Satz:} Die Klasse der regulären Sprachen ist die kleinste Klasse von Sprachen mit den folgenden Eigenschaften:
 \begin{itemize}
 \item Sie enthält die Sprachen $\emptyset$, $\{\epsilon\}$ und $\{\Sterm{a}\}$ für alle $\Sterm{a}\in\Sigma$
 \item Sie ist abgeschlossen unter den Operatoren $\cup$, $\circ$ und ${}^*$
@@ -438,7 +438,7 @@ Solche Notationen werden in der Praxis oft weiter vereinfacht:
 \[\Snterm{S} \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Sigma \mid \Sterm{(}\Snterm{S}\Snterm{S}\Sterm{)} \mid \Sterm{(}\Snterm{S}\Sterm{\mid}\Snterm{S}\Sterm{)}\mid \Sterm{(}\Snterm{S}\Sterm{)}\Sterm{{}^*}\]
 %
 \item Mehrere Nichtterminale als Hinweis auf unterschiedliche Ausdrücke:
-\[\alpha \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Sigma \mid \Sterm{(}\alpha\beta\Sterm{)} \mid \Sterm{(}\alpha\,\Sterm{\mid}\,\beta\Sterm{)}\mid \Sterm{(}\alpha\Sterm{)}\Sterm{{}^*}\]
+\[\alpha, \beta \to \Sterm{\emptyset} \mid \Sterm{\epsilon} \mid \Sigma \mid \Sterm{(}\alpha\beta\Sterm{)} \mid \Sterm{(}\alpha\,\Sterm{\mid}\,\beta\Sterm{)}\mid \Sterm{(}\alpha\Sterm{)}\Sterm{{}^*}\]
 \end{itemize}
 
 \end{frame}
@@ -459,7 +459,7 @@ bezeichnet und rekursiv definiert:
 \end{itemize}
 }\medskip\pause
 
-\examplebox{Beispiel: $\Slang{L}(((\Sterm{ab}))^*)=(\Slang{L}((\Sterm{ab})))^*=
+\examplebox{\emph{Beispiel:} $\Slang{L}(((\Sterm{ab}))^*)=(\Slang{L}((\Sterm{ab})))^*=
 (\Slang{L}(\Sterm{a})\circ\Slang{L}(\Sterm{b}))^*= (\{\Sterm{a}\}\circ\{\Sterm{b}\})^* = \{\Sterm{ab}\}^*$}
 
 \end{frame}
@@ -467,7 +467,7 @@ bezeichnet und rekursiv definiert:
 \begin{frame}\frametitle{Äquivalenz regulärer Ausdrücke}
 
 \defbox{Zwei reguläre Ausdrücke $\alpha$ und $\beta$ sind \redalert{äquivalent},
-in Symbolen $\alpha\equiv\beta$, wenn $\Slang{L}(\alpha)=\Slang{L}(\beta)$.}
+in Symbolen $\alpha\equiv\beta$, wenn \\$\Slang{L}(\alpha)=\Slang{L}(\beta)$.}
 \medskip
 
 \examplebox{%
@@ -492,7 +492,7 @@ Reguläre Ausdrücke können durch Klammerungsregeln vereinfacht werden:
 \medskip
 
 \examplebox{
-Beispiel: $\Sterm{a}\Sterm{b}^*\mid \Sterm{b}\Sterm{c}$ ist kurz für $((\Sterm{a}(\Sterm{b})^*)\mid (\Sterm{b}\Sterm{c}))$
+\emph{Beispiel:} $\Sterm{a}\Sterm{b}^*\mid \Sterm{b}\Sterm{c}$ ist kurz für $((\Sterm{a}(\Sterm{b})^*)\mid (\Sterm{b}\Sterm{c}))$
 }
 \pause
 
@@ -501,9 +501,9 @@ Konkatenation und Alternative sind assoziativ:
 \Slang{L}((\alpha(\beta\gamma))) = \Slang{L}(((\alpha\beta)\gamma)) \qquad
 \Slang{L}((\alpha\mid(\beta\mid\gamma))) = \Slang{L}(((\alpha\mid\beta)\mid\gamma))
 \]
-Daher ist es unproblematisch, dass die Klammerregeln die Reihenfolge nicht spezifizieren.
+Daher ist es unproblematisch, dass die Klammerregeln die Reihenfolge nicht spezifizieren.\bigskip
 
-\examplebox{Beispiel: $\Sterm{101010}$ könnte für genau 42 verschiedene reguläre Ausdrücke stehen, unter anderem
+\examplebox{\emph{Beispiel:} $\Sterm{101010}$ könnte für genau 42 verschiedene reguläre Ausdrücke stehen, unter anderem
 für $(((((\Sterm{1}\Sterm{0})\Sterm{1})\Sterm{0})\Sterm{1})\Sterm{0})$, $((\Sterm{1}\Sterm{0})((\Sterm{1}\Sterm{0})(\Sterm{1}\Sterm{0})))$ und $(\Sterm{1}((\Sterm{0}((\Sterm{1}\Sterm{0})\Sterm{1}))\Sterm{0}))$.
 % {\tiny 42 ist die größte Zahl $n$, deren Binärdarstellung genau $n$ reguläre Ausdrücke kodiert.}
 }
@@ -529,7 +529,7 @@ Implementierungen regulärer Ausdrücke bieten auch Kurzformen für Alternativen
 \item Weitere Kurzformen für praktisch wichtige Fälle, z.B. \texttt{\textbackslash s} oder \texttt{[:blank:]} für Leerzeichen, \texttt{\textbackslash d} oder \texttt{[:digit:]} für Ziffern
 \end{itemize}}
 
-\redalert{TheoretikerInnen meiden Kurzformen {\tiny(mehr Formen = mehr Fälle in Beweisen und Definitionen)}}
+\redalert{Theoretiker:innen meiden Kurzformen {\tiny(mehr Formen = mehr Fälle in Beweisen und Definitionen)}}
 
 \end{frame}
 
@@ -759,7 +759,7 @@ Regulärer Ausdruck: $\Sterm{a}\mid \Sterm{b}\Sterm{a}^*$
 
 \begin{frame}\frametitle{Korrektheit der Kompositionsmethode}
 
-\theobox{Satz: Für jeden regulären Ausdruck $\alpha$ gilt $\Slang{L}(\alpha)=\Slang{L}(\Smach{M}(\alpha))$.}
+\theobox{\emph{Satz:} Für jeden regulären Ausdruck $\alpha$ gilt $\Slang{L}(\alpha)=\Slang{L}(\Smach{M}(\alpha))$.}
 \pause
 
 \emph{Beweis:} Die Gleichheit folgt aus der Definition von $\Slang{L}(\alpha)$ und der Korrektheit der Operationen auf Automaten und der $\epsilon$-Eliminierung.\pause
