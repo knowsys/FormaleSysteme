@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{7}{Reguläre Ausdrücke}{16. November 2020}
+\defineTitle{7}{Reguläre Ausdrücke}{2. November 2023}
 
 \begin{document}
 
@@ -37,7 +37,7 @@
 
 \begin{frame}\frametitle{Kleene's Theorem}
 
-\theobox{Satz ("`Kleene's Theorem"'): Eine Sprache wird genau dann von einem regulären Ausdruck beschrieben, wenn sie von einem endlichen Automaten erkannt wird.}
+\theobox{\emph{Satz ("`Kleene's Theorem"'):} Eine Sprache wird genau dann von einem regulären Ausdruck beschrieben, wenn sie von einem endlichen Automaten erkannt wird.}
 \medskip
 
 Letzte Vorlesung: "`regulärer Ausdruck $\leadsto$ endlicher Automat"'
@@ -54,7 +54,7 @@ Heute: "`endlicher Automat $\leadsto$ regulärer Ausdruck"'
 \end{itemize}
 
 
-\hspace{8.1cm}\ghost{\raisebox{0.1cm}{\includegraphics[height=3cm]{images/Kleene}~\rotatebox{90}{{\tiny Stephen Cole Kleene 1978 *}}}}
+\hspace{11.1cm}\ghost{\raisebox{0.1cm}{\includegraphics[height=3cm]{images/Kleene}~\rotatebox{90}{{\tiny Stephen Cole Kleene 1978 *}}}}
 
 {\tiny *) Konrad Jacobs, Erlangen, \copyright{} Mathematisches Forschungsinstitut Oberwolfach, CC-BY-SA de 2.0}
 
@@ -157,7 +157,7 @@ Offensichtlich verändert diese Vereinfachung die Sprache nicht
 \pause
 
 \widedoodlebox{darkgreen}{%
-Beispiel: \hspace{6mm}
+\emph{Beispiel:} \hspace{6mm}
 % \narrowcentering{%
 \begin{tikzpicture}[baseline={(q1.base)}]
 % \draw[help lines] (0,0) grid (7,2);
@@ -360,7 +360,7 @@ Wie können wir solche Gleichungssysteme lösen?\pause
 \item \emph{Methode 1:} Gleichungen ineinander Einsetzen und das Ergebnis vereinfachen\\[1ex]
 
 \examplebox{
-Beispiel: Setzen wir die Definition von $\alpha_C$ in die Gleichung für $\alpha_A$ ein, so erhalten wir
+\emph{Beispiel:} Setzen wir die Definition von $\alpha_C$ in die Gleichung für $\alpha_A$ ein, so erhalten wir
 \[  \alpha_A \equiv \Sterm{a}\alpha_B \mid \Sterm{b}(\Sterm{b}\alpha_B \mid\epsilon) \equiv
 \Sterm{a}\alpha_B \mid \Sterm{b}\Sterm{b}\alpha_B \mid \Sterm{b} \equiv (\Sterm{a} \mid \Sterm{b}\Sterm{b})\alpha_B \mid \Sterm{b}.\]}
 Problem: rekursive Gleichungen lassen sich so nicht vereinfachen \ldots\pause
