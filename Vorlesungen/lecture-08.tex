@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{8}{Minimale Automaten}{19. November 2020}
+\defineTitle{8}{Minimale Automaten}{6. November 2023}
 
 % Notes (2016): did not finish M&N theorem on time, since some extra time was used to
 % sketch basic properties of equivalence relations on the board;
@@ -109,7 +109,7 @@ Wir haben bereits Methoden kennengelernt, um Automaten zu vereinfachen:
 
 \redalert{Nein} -- ein einfaches Gegenbeispiel:\bigskip
 
-\examplebox{Beispiel: Sei $\Smach{M}$ ein endlicher Automat, bei dem alle Zustände erreichbar sind und
+\examplebox{\emph{Beispiel:} Sei $\Smach{M}$ ein endlicher Automat, bei dem alle Zustände erreichbar sind und
 einen Endzustand erreichen können. Der Vereinigungsautomat\footnote{Hierbei müssen die Zustände einer Kopie von $\Smach{M}$ umbenannt werden.} $\Smach{M}\oplus\Smach{M}$ akzeptiert die selbe Sprache, hat nur erreichbare Zustände, aber die doppelte Zustandszahl.
 }
 
@@ -182,7 +182,7 @@ Wenn der Automat $\Smach{M}$ klar ist, schreiben wir einfach $\sim$ statt $\sim_
 \medskip\pause
 
 \doodlebox{darkgreen}{%
-Beispiel:\rule{0pt}{3ex}
+\emph{Beispiel:}\rule{0pt}{3ex}
 \begin{tikzpicture}[baseline={(s3.center)}]
 % \draw[help lines] (0,0) grid (7,2);
 \node (s1) [circle,draw=black,thick] at (0,0) {$A$};
@@ -219,17 +219,19 @@ Damit sehen wir leicht:
 (jeweils für alle $q,q_1,q_2,q_3\in Q$)
 \medskip
 
-\theobox{Eigenschaft: $\sim$ ist eine \redalert{Äquivalenzrelation}.}%
+\theobox{\emph{Eigenschaft:} $\sim$ ist eine \redalert{Äquivalenzrelation}.}%
 \smallskip\pause
 
 Außerdem gilt für alle $\Sterm{a}\in\Sigma$
 \begin{itemize}
 \item wenn $q_1\sim q_2$ dann $\delta(q_1,\Sterm{a})\sim\delta(q_2,\Sterm{a})$,
-falls diese Übergänge definiert sind {\tiny (daher nehmen wir im Folgenden oft eine totale Übergangsfunktion an)}
+falls diese Übergänge definiert sind\\ {\tiny (daher nehmen wir im Folgenden oft eine totale Übergangsfunktion an)
+
+}
 \end{itemize}
 \smallskip
 
-\theobox{Eigenschaft: $\sim$ ist verträglich mit der Übergangsfunktion.}
+\theobox{\emph{Eigenschaft:} $\sim$ ist verträglich mit der Übergangsfunktion.}
 \smallskip
 
 \end{frame}
@@ -452,10 +454,10 @@ Beispiel: Für einen DFA mit Zuständen $Q=\{A,B,C,D,E\}$ genügt eine Tabelle m
 \path[->,line width=0.5mm](s4) edge [loop right] node[right] {\Sterm{0},\Sterm{1}} (s4);
 \end{tikzpicture}}
 \end{minipage}%
-\begin{minipage}{2.9cm}
+\begin{minipage}{4.9cm}
 \begin{enumerate}[(1)]
-\item $q\in F$ und $p\notin F$ impliziert $q\not\sim p$
-\item $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ impliziert $q\not\sim p$
+\item $q\in F$ und $p\notin F$ \\impliziert $q\not\sim p$
+\item $\delta(q,\Sterm{a})\not\sim\delta(p,\Sterm{a})$ \\impliziert $q\not\sim p$
 \end{enumerate}
 \end{minipage}
 \medskip
