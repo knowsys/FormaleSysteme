@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{26. November 2020}
+\defineTitle{10}{Grenzen regulärer Sprachen / Probleme~für~Automaten}{13. November 2023}
 
 \begin{document}
 
@@ -70,7 +70,7 @@ unendlich viele Äquivalenzklassen erzeugt. Diese Sprache ist demnach nicht regu
 Die Sprache $\Sterm{a}^n\Sterm{b}^n$ gilt als Musterbeispiel nichtregulärer Sprachen
 \bigskip
 
-\anybox{purple}{Intuition: "`Reguläre Sprachen können nicht zählen."'}%
+\anybox{purple}{\emph{Intuition:} "`Reguläre Sprachen können nicht zählen."'}%
 \bigskip
 
 Ein Automat, der diese Sprache erkennen wollte, müsste die genaue Zahl der schon gelesenen $\Sterm{a}$s speichern
@@ -214,7 +214,7 @@ Angenommen es gäbe einen Wert $n$ für den diese Sprache aufgepumpt werden kann
 Es gibt eine Primzahl $\ell>n+2$.
 Laut Pump-Eigenschaft finden wir eine Zerlegung von $\Sterm{a}^\ell=uvw$
 für die insbesondere gilt $uv^{|uw|}w\in\Slang{L}$.
-Aber $uv^{|uw|}w=\Sterm{a}^{(k+1)|uw|}\notin\Slang{L}$. Widerspruch.\medskip
+Aber $uv^{|uw|}w=\Sterm{a}^{(|v|+1)|uw|}\notin\Slang{L}$. Widerspruch.\medskip
 
 $\Slang{L}$ ist daher nicht regulär.}
 }
