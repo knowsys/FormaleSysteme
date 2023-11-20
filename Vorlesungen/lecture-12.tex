@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{12}{Das Wortproblem für kontextfreie Sprachen}{3. Dezember 2020}
+\defineTitle{12}{Das Wortproblem für kontextfreie Sprachen}{20. November 2023}
 
 \begin{document}
 
@@ -100,7 +100,7 @@ Im Vergleich zu regulären Grammatiken erlauben CFGs wesentlich mehr Freiheiten 
 \alert{Für die Angabe von Algorithmen ist es hilfreich, die Grammatik erst in eine beschränktere Form zu überführen.}
 \bigskip
 
-\examplebox{Beispiel: Wir haben in Vorlesung~2 gezeigt, wie man $\epsilon$-Regeln in CFGs weitestgehend eliminieren kann, ohne dass sich dabei die Sprache ändert.
+\examplebox{\emph{Beispiel:} Wir haben in Vorlesung~2 gezeigt, wie man $\epsilon$-Regeln in CFGs weitestgehend eliminieren kann, ohne dass sich dabei die Sprache ändert.
 }
 
 Es gibt mehrere sogenannte \redalert{Normalformen}, in die eine Grammatik durch derartige Vereinfachungen überführt werden kann.
@@ -228,7 +228,7 @@ Für die algorithmische Verarbeitung kontextfreier Grammatiken ist die folgende 
 \[ \Snterm{A}\to \Snterm{BC} \quad\text{ (mit $\Snterm{B},\Snterm{C}\in V$)} \qquad\text{oder}\qquad \Snterm{A}\to \Sterm{c}\quad\text{ (mit $\Sterm{c}\in \Sigma$)}\]
 }\pause
 
-\theobox{Beobachtung: Ist CFG in Chomsky-Normalform, so gilt $\epsilon\notin\Slang{L}(G)$.}
+\theobox{\emph{Beobachtung:} Ist CFG in Chomsky-Normalform, so gilt $\epsilon\notin\Slang{L}(G)$.}
 
 \begin{enumerate}[$\leadsto$]
 \item Grammatiken, deren Sprache das leere Wort enthalten,\\ können sicher nicht in CNF sein
