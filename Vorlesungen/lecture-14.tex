@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{14}{Abschlusseigenschaften kontextfreier Sprachen}{10. Dezember 2020}
+\defineTitle{14}{Abschlusseigenschaften kontextfreier Sprachen}{27. November 2023}
 
 \begin{document}
 
@@ -14,7 +14,7 @@
 
 \begin{frame}\frametitle{Pumpen für kontextfreie Sprachen}
 
-\theobox{Satz (Pumping Lemma):
+\theobox{\emph{Satz (Pumping Lemma):}
 Für jede kontextfreie Sprache $\Slang{L}$\\
 gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~für jedes Wort $z\in\Slang{L}$ mit $|z|\geq n$\\
@@ -22,7 +22,7 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 ~~~~für jede Zahl $k\geq 0$ gilt: $u v^k w x^k y\in\Slang{L}$
 }\medskip
 
-\examplebox{Beispiel: Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
+\examplebox{\emph{Beispiel:} Für die Sprache $\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ gilt der Satz. Wir wählen $n=2$.
 Sei $z=\Sterm{a}^i\Sterm{b}^i$ mit $i\geq 1$ ein beliebiges Wort mit $|z|\geq 2$. Wir wählen die Zerlegung $u=\Sterm{a}^{i-1}$,
 $v=\Sterm{a}$, $w=\epsilon$, $x=\Sterm{b}$ und $y=\Sterm{b}^{i-1}$.\\
 Dann ist $u v^k w x^k y  = \Sterm{a}^{i-1}\Sterm{a}^{k}\Sterm{b}^{k}\Sterm{b}^{i-1}=\Sterm{a}^{i+k-1}\Sterm{b}^{i+k-1}\in\Slang{L}$ für alle $k\geq 0$.
@@ -350,7 +350,7 @@ Beispiel: Ableitung für $\Sterm{abba}$\\[1ex]
 \begin{frame}\frametitle{Rückblick: Reguläre Sprachen}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ reguläre Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke reguläre Sprachen:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -371,7 +371,7 @@ folgenden Ausdrücke reguläre Sprachen:
 Bei kontextfreien Sprachen ergibt sich ein anderes Bild:
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
 \begin{enumerate}[(1)]%
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -382,7 +382,7 @@ folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
 
 Aber: 
 \theobox{
-Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+\emph{Satz:} Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
 Ausdrücke keine kontextfreien Sprachen sind:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
@@ -406,7 +406,7 @@ Ausdrücke keine kontextfreien Sprachen sind:
 \begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
 \begin{enumerate}[(1)]%
 \item \myhitabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -437,7 +437,7 @@ In Worten: Die neuen Ableitungsregeln $\Snterm{S}\to \Sntermsub{S}{1}\mid \Snter
 
 Es ist daher leicht zu sehen:\medskip
 
-\theobox{Satz: $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}
+\theobox{\emph{Satz:} $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}
 
 \end{frame}
 
@@ -451,18 +451,18 @@ Es ist daher leicht zu sehen:\medskip
 
 Bisher haben wir nur erkannt:\medskip
 
-\theobox{Satz: $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}\pause
+\theobox{\emph{Satz:} $\Slang{L}(G_1\uplus G_2)=\Slang{L}(G_1)\cup \Slang{L}(G_2)$.}\pause
 
 Für die Abschlusseigenschaft sollte noch mehr gelten:
 
-\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist auch $G_1\uplus G_2$ kontextfrei.}
+\theobox{\emph{Satz:} Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist auch $G_1\uplus G_2$ kontextfrei.}
 
 Das ist leicht zu sehen, da die zusätzliche Regel kontextfrei ist.\pause
 \medskip
 
 Daher gilt sogar noch ein stärkerer Satz:
 
-\theobox{Satz: Wenn $G_1$ und $G_2$ von Typ $i\in\{2,1,0\}$ sind, dann ist auch $G_1\uplus G_2$ von Typ $i$.}
+\theobox{\emph{Satz:} Wenn $G_1$ und $G_2$ von Typ $i\in\{2,1,0\}$ sind, dann ist auch $G_1\uplus G_2$ von Typ $i$.}
 
 \begin{enumerate}[$\leadsto$]
 \item Typ-0-Sprachen, kontextsensitive Sprachen und kontextfreie Sprachen sind unter Vereinigung abgeschlossen\\
@@ -474,7 +474,7 @@ Daher gilt sogar noch ein stärkerer Satz:
 \begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
 \begin{enumerate}[(1)]%
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -537,7 +537,7 @@ Damit ergibt sich $\Slang{L}(G_1\circ G_2)=\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^k\m
 
 \redalert{Leider stimmt das nicht:}\medskip
 
-\examplebox{Gegenbeispiel:
+\examplebox{\emph{Gegenbeispiel:}
 $G_1$ sei die Grammatik mit der einen Regel $\Sntermsub{S}{1}\to \Sterm{a}$
 und $G_2$ die Grammatik mit den Regeln $\Sntermsub{S}{2}\to \Sterm{b}$ und 
 $\Sterm{a}\Sntermsub{S}{2}\to \Sterm{c}$.\medskip
@@ -549,7 +549,7 @@ $\Snterm{S}\Rightarrow \Sntermsub{S}{1}\Sntermsub{S}{2}\Rightarrow \Sterm{a}\Snt
 
 Korrekt ist dagegen:
 
-\theobox{Satz: Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$.\\ Zudem ist $G_1\circ G_2$ in diesem Fall kontextfrei.}
+\theobox{\emph{Satz:} Wenn $G_1$ und $G_2$ kontextfrei sind, dann ist $\Slang{L}(G_1\circ G_2)=\Slang{L}(G_1)\circ \Slang{L}(G_2)$.\\ Zudem ist $G_1\circ G_2$ in diesem Fall kontextfrei.}
 
 \emph{Beweis:} einfach (man betrachte den Ableitungsbaum).\medskip
 
@@ -560,7 +560,7 @@ Damit erhalten wir den gewünschten Abschluss.
 \begin{frame}\frametitle{Abschlusseigenschaften von Typ-2-Sprachen}
 
 \theobox{
-Satz: Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
+\emph{Satz:} Wenn $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$ kontextfreie Sprachen sind, dann beschreiben auch die
 folgenden Ausdrücke kontextfreie \ghost{Sprachen:}%
 \begin{enumerate}[(1)]%
 \item \mytabnote{$\Slangsub{L}{1}\cup\Slangsub{L}{2}$}{Abschluss unter Vereinigung}
@@ -611,14 +611,14 @@ G^*:\qquad \Snterm{S}' &\to \epsilon\mid\Snterm{S}\Snterm{S}' & \Snterm{S} &\to 
 Wie schon beim Konkatenation funktioniert diese Operation auf kontextfreien Grammatiken wie
 erwünscht:
 
-\theobox{Satz: Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$.\\ Zudem ist $G^*$ in diesem Fall kontextfrei.}
+\theobox{\emph{Satz:} Wenn $G$ kontextfrei ist, dann ist $\Slang{L}(G^*)=\Slang{L}(G)^*$.\\ Zudem ist $G^*$ in diesem Fall kontextfrei.}
 
 \emph{Beweis:} einfach (man betrachte den Ableitungsbaum).
 \medskip\pause
 
 Für nicht kontextfreie Grammatiken gilt dieser Satz im Allgemeinen nicht:
 
-\examplebox{Beispiel: Die (kontextsensitive) Grammatik $G$ mit der einen Regel $\Snterm{S}\Snterm{S}\to \Sterm{0}$
+\examplebox{\emph{Beispiel:} Die (kontextsensitive) Grammatik $G$ mit der einen Regel $\Snterm{S}\Snterm{S}\to \Sterm{0}$
 kann nichts hervorbringen.\\
 Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
 \[ \Snterm{S}'\Rightarrow \Snterm{S}\Snterm{S}\Rightarrow \Sterm{0}\]
@@ -629,7 +629,7 @@ Trotzdem erlaubt die Grammatik $G^*$ die Ableitung eines Wortes:
 \begin{frame}\frametitle{Nichtabschlusseigenschaften}
 
 \theobox{
-Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+\emph{Satz:} Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
 Ausdrücke keine kontextfreien Sprachen sind:
 \begin{enumerate}[(1)]
 \item \myhitabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
@@ -660,7 +660,7 @@ $\Slangsub{L}{1}\cap\Slangsub{L}{2}$ nicht kontextfrei ist.\medskip
 \begin{frame}\frametitle{Nichtabschluss unter $\cap$ (2)}
 
 \theobox{
-Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass $\Slangsub{L}{1}\cap\Slangsub{L}{2}$ keine kontextfreie Sprache ist.}
+\emph{Satz:} Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass $\Slangsub{L}{1}\cap\Slangsub{L}{2}$ keine kontextfreie Sprache ist.}
 
 \emph{Beweis:} Die folgenden Sprachen sind kontextfrei:
 \begin{align*}
@@ -684,7 +684,7 @@ also nicht kontextfrei (zuvor gezeigt).\qed
 \begin{frame}\frametitle{Nichtabschlusseigenschaften}
 
 \theobox{
-Satz: Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
+\emph{Satz:} Es gibt kontextfreie Sprachen $\Slang{L}$, $\Slangsub{L}{1}$ und $\Slangsub{L}{2}$, so dass die folgenden
 Ausdrücke keine kontextfreien Sprachen sind:
 \begin{enumerate}[(1)]
 \item \mytabnote{$\Slangsub{L}{1}\cap\Slangsub{L}{2}$}{Nichtabschluss unter Schnitt}
@@ -697,7 +697,7 @@ Ausdrücke keine kontextfreien Sprachen sind:
 \begin{frame}\frametitle{Nichtabschluss unter Komplement}
 
 \theobox{
-Satz: Es gibt eine kontextfreie Sprache $\Slang{L}$, so dass $\overline{\Slang{L}}$ keine kontextfreie Sprache ist.
+\emph{Satz:} Es gibt eine kontextfreie Sprache $\Slang{L}$, so dass $\overline{\Slang{L}}$ keine kontextfreie Sprache ist.
 }\pause
 
 \emph{Beweis:}
@@ -718,10 +718,10 @@ Die Behauptung folgt unmittelbar aus dem bereits gezeigten\pause:
 \redalert{Nichtabschluss unter Schnitt und Komplement bedeutet nicht, dass Schnitte bzw.\ Komplemente kontextfreier Sprachen grundsätzlich nicht kontextfrei sein können.}
 \end{center}\pause
 
-\examplebox{Beispiel: Alle regulären Sprachen sind kontextfrei, aber ihre Schnitte und Komplemente sind
+\examplebox{\emph{Beispiel:} Alle regulären Sprachen sind kontextfrei, aber ihre Schnitte und Komplemente sind
 weiterhin regulär, also auch kontextfrei.}\pause
 
-\examplebox{Beispiel: Das Komplement der nichtregulären Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ ist
+\examplebox{\emph{Beispiel:} Das Komplement der nichtregulären Sprache $\Slang{L}=\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$ über dem Alphabet $\{\Sterm{a},\Sterm{b}\}$ ist
 die Vereinigung der folgenden Sprachen:\\[1ex]
 \narrowcentering{$\Slangsub{L}{1}=\{\Sterm{a},\Sterm{b}\}^*\{\Sterm{ba}\}\{\Sterm{a},\Sterm{b}\}^*$\hfill$\Slangsub{L}{2}=\{\Sterm{a}\}^+ \Slang{L}$\hfill$\Slangsub{L}{3}=\Slang{L}\{\Sterm{b}\}^+$}\\[1ex]
 % 
