@@ -156,7 +156,7 @@ Im Allgemeinen sind Zahlen aber nicht das sinnvollste Format für die Speicherun
 Informationen, die beim Erkennen kontextfreier Sprachen anfallen
 \medskip
 
-\examplebox{Beispiel:
+\examplebox{\emph{Beispiel:}
 Die folgende kontextfreie Grammatik erkennt Palindrome über $\Sigma=\{\Sterm{a},\Sterm{b}\}$, deren Mitte mit $\Sterm{c}$ markiert ist:
 \[ \Snterm{S} \to \Sterm{a} \Snterm{S} \Sterm{a} \mid \Sterm{b} \Snterm{S} \Sterm{b}\mid \Sterm{c}\]
 Die Grammatik generiert zum Beispiel die Wörter \Sterm{abcba} und \Sterm{abaabcbaaba}.\medskip
@@ -646,7 +646,7 @@ Dies kann mithilfe neuer Zustände kodiert werden:\bigskip
 Man kann nun formal untersuchen, welche Sprachen durch PDAs akzeptiert werden können.
 Wir erhalten das erhoffte Resultat:\medskip
 
-\theobox{Satz: Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.}\pause\bigskip
+\theobox{\emph{Satz:} Eine Sprache ist genau dann kontextfrei wenn sie von einem PDA akzeptiert wird.}\pause\bigskip
 % \theobox{Satz: Eine Sprache $\Slang{L}$ ist kontextfrei genau dann wenn es einen PDA $\Smach{M}$ mit 
 % $\Slang{L}(\Smach{M})=\Slang{L}$ gibt.}\pause\bigskip
 
@@ -662,7 +662,7 @@ Der Beweis erfolgt in zwei Schritten:
 
 Wir wollen zunächst eine Richtung zeigen:
 
-\theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\pause\bigskip
+\theobox{\emph{Satz:} Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass \ghost{$\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}}\pause\bigskip
 
 \emph{Beweisidee:}
 \begin{itemize}
@@ -682,7 +682,7 @@ Wir wollen zunächst eine Richtung zeigen:
 
 Wir wollen zunächst eine Richtung zeigen:
 
-\theobox{Satz: Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass $\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}\bigskip
+\theobox{\emph{Satz:} Für jede kontextfreie Grammatik $G$ gibt es einen PDA $\Smach{P}_G$, so dass \ghost{$\Slang{L}(G)=\Slang{L}(\Smach{P}_G)$.}}\bigskip
 
 \emph{Beweis:} Sei $G=\tuple{V,\Sigma,P,\Snterm{S}}$.
 Wir definieren einen erweiterten PDA\pause:\bigskip
