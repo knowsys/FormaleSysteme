@@ -7,7 +7,7 @@
 % \usetikzlibrary{shapes}
 \usetikzlibrary{shapes.geometric}
 
-\defineTitle{19}{Nichtdeterminismus und Unentscheidbarkeit}{11. Januar 2021}
+\defineTitle{19}{Nichtdeterminismus und Unentscheidbarkeit}{18. Dezember 2023}
 
 \begin{document}
 
@@ -130,9 +130,9 @@ Die Eingabe wird akzeptiert, wenn mindestens ein Lauf endlich ist und in einer a
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke\phantom{g}}
 
-\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
+\theobox{\emph{Satz:} Jede NTM ist äquivalent zu einer DTM.}\pause
 
 \emph{Beweis:} Allgemeine Idee:
 \begin{itemize}
@@ -152,9 +152,9 @@ $\leadsto$ Simulation eines Laufs wird bei Maximaltiefe abgebrochen
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke\phantom{g}}
 
-\theobox{Jede NTM ist äquivalent zu einer DTM.}\pause
+\theobox{\emph{Satz:} Jede NTM ist äquivalent zu einer DTM.}\pause
 
 \emph{Beweis:} Die Simulation verwendet eine 3-Band-TM (äquivalent zu einer normalen DTM wie bereits gezeigt):
 \begin{enumerate}[\color{darkblue}{Band} 1:]
@@ -168,13 +168,17 @@ Dann kann eine Folge von Entscheidungen als Sequenz von Zahlen in $\{0,\ldots, \
 $\leadsto$ Band 3 enthält solch ein Wort über $\{0,\ldots, \ell-1\}$\medskip\pause%
 
 Der Inhalt von Band 3 kann als \redalert{Zahl zur Basis $\ell$} gelesen werden: Um systematisch alle Optionen
-zu durchsuchen, kann diese Zahl in Schritten von $1$ erhöht werden
+zu durchsuchen, kann diese Zahl in Schritten von $1$ erhöht werden.$^1$\medskip
+
+{\footnotesize $^1$ Hierbei muss eine leicht modifizierte Form von "`Inkrementierung"' verwendet werden, welche die folgende Sequenz erzeugt: $0,1,\ldots,\ell,00,01,\ldots,0\ell,10,11,\ldots,\ell\ell,000,001,\ldots$
+
+}
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke}
+\begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke\phantom{g}}
 
-\theobox{Jede NTM ist äquivalent zu einer DTM.}
+\theobox{\emph{Satz:} Jede NTM ist äquivalent zu einer DTM.}
 
 \emph{Beweis:} Arbeitsweise der Simulation:\pause
 \begin{enumerate}[(1)]
@@ -187,14 +191,14 @@ und der Übergang ausgeführt, der dieser Zahl entspricht.
 \item Falls alle Zahlen auf Band 3 gelesen sind, gehe zu (4)
 \end{itemize}\pause
 \item Prüfe ob die simulierte NTM in einem Endzustand angehalten hat und akzeptiere in diesem Fall, andernfalls:
-\item Inkrementiere die Zahl auf Band 3 um $1$, lösche Band 2 und gehe zu Schritt (2)\qed
+\item Inkrementiere die Zahl auf Band 3, lösche Band 2 und gehe zu Schritt (2)\qed
 \end{enumerate}
 
 \end{frame}
 
 \begin{frame}[t]\frametitle{Komplexität und Terminierung}
 
-\theobox{Jede NTM ist äquivalent zu einer DTM.}
+\theobox{\emph{Satz:} Jede NTM ist äquivalent zu einer DTM.}
 
 \emph{Komplexität:}
 Wenn die NTM einen akzeptierenden Lauf der Länge $n$ hat, dann findet ihn die DTM nach
@@ -212,7 +216,7 @@ simulierende DTM \ghost{\ldots}\\\pause \redalert{nicht unbedingt ein Entscheide
 
 Der Beweis kann allerdings so abgewandelt werden, dass diese Eigenschaft gilt, also:
 
-\theobox{Jede Sprache die von einer NTM entschieden wird, kann auch von einer DTM entschieden werden.}
+\theobox{\emph{Satz:} Jede Sprache die von einer NTM entschieden wird, kann auch von einer DTM entschieden werden.}
 
 \end{frame}
 
@@ -250,7 +254,7 @@ es eine TM $\Smach{M}$ gibt mit $\Slang{L}=\Slang{L}(\Smach{M})$, auch wenn $\Sm
 % $\leadsto$ "`semi-entscheidbar"' = "`Turing-erkennbar"' = "`rekursiv aufzählbar"'\\
 % $\leadsto$ "`entscheidbar"' = "`berechenbar"' = "`rekursiv"'\medskip
 
-\examplebox{Beispiel: Wir haben bereits erwähnt, dass die Äquivalenz zweier kontextfreier Grammatiken (CFGs) unentscheidbar ist.
+\examplebox{\emph{Beispiel:} Wir haben bereits erwähnt, dass die Äquivalenz zweier kontextfreier Grammatiken (CFGs) unentscheidbar ist.
 Sei $\textsf{enc}(G)$ eine (beliebige) binäre Kodierung der Regeln einer Grammatik $G$. Das erwähnte Resultat bedeutet formal, dass die Sprache\\[1ex]
 % 
 \narrowcentering{$\{\textsf{enc}(G_1)\Sterm{\#}\textsf{enc}(G_2)\mid \Slang{L}(G_1)=\Slang{L}(G_2)\text{ oder }G_1\text{ bzw. }G_2\text{ keine CFG}\}$}\\[1ex]
@@ -265,7 +269,7 @@ Sei $\textsf{enc}(G)$ eine (beliebige) binäre Kodierung der Regeln einer Gramma
 \begin{frame}\frametitle{Ein konkretes unentscheidbares Problem}
 
 Wir wissen bereits:
-\theobox{Satz: Es gibt abzählbar viele Turingmaschinen (Computerprogramme, Algorithmen) aber überabzählbar viele
+\theobox{\emph{Satz:} Es gibt abzählbar viele Turingmaschinen (Computerprogramme, Algorithmen) aber überabzählbar viele
 Sprachen. Also sind die meisten Sprachen unentscheidbar.}
 
 Das liefert allerdings kein konkretes Beispiel für so eine Sprache.
@@ -329,7 +333,7 @@ $\leadsto$ typisch für Entscheidungsprobleme:\\
 
 \begin{frame}[t]\frametitle{Unentscheidbarkeit des Halteproblems}
 
-\theobox{Das Halteproblem ist unentscheidbar.}
+\theobox{\emph{Satz:} Das Halteproblem ist unentscheidbar.}
 
 \emph{Beweis:} Mittels Widerspruch: Angenommen, es gäbe eine DTM \ghost{$\Smach{H}$,}\\
 die das
@@ -351,7 +355,7 @@ $\Smach{M}$ auf der Eingabe $\textsf{enc}(\Smach{M})$ \redalert{nicht} hält.
 
 \begin{frame}[t]\frametitle{Unentscheidbarkeit des Halteproblems (2)}
 
-\theobox{Das Halteproblem ist unentscheidbar.}
+\theobox{\emph{Satz:} Das Halteproblem ist unentscheidbar.}
 
 \emph{Beweis:} $\Smach{D}$ hält (und akzeptiert) eine TM-Kodierung $\textsf{enc}(\Smach{M})$ genau dann, wenn
 $\Smach{M}$ auf der Eingabe $\textsf{enc}(\Smach{M})$ \redalert{nicht} hält.\pause
@@ -374,7 +378,7 @@ Widerspruch.\qed
 
 % Allerdings ist das Halteproblem semi-entscheidbar:\medskip
 
-\theobox{Satz: Es gibt eine Turingmaschine $\Smach{U}$, die für Eingaben der Form $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ das Verhalten von $\Smach{M}$ auf $w$ simuliert:
+\theobox{\emph{Satz:} Es gibt eine Turingmaschine $\Smach{U}$, die für Eingaben der Form $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ das Verhalten von $\Smach{M}$ auf $w$ simuliert:
 \begin{itemize}
 \item Falls $\Smach{M}$ auf $w$ hält, dann hält $\Smach{U}$ auf $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ mit dem gleichen Ergebnis
 \item Falls $\Smach{M}$ auf $w$ nicht hält, dann hält $\Smach{U}$ auf $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ ebenfalls nicht
@@ -391,7 +395,7 @@ Es ist etwas aufwändig aber nicht sehr kompliziert eine UTM zu beschreiben
 
 \begin{frame}\frametitle{Semi-Entscheidbarkeit des Halteproblems}
 
-\theobox{Satz: Das Halteproblem ist semi-entscheidbar.}
+\theobox{\emph{Satz:} Das Halteproblem ist semi-entscheidbar.}
 
 \emph{Beweisskizze:} Die gesuchte TM startet eine universelle TM auf der Eingabe 
 und akzeptiert, wenn diese UTM hält (egal mit welchem Ergebnis).\qed
@@ -408,7 +412,7 @@ Das Komplement des Halteproblems ("`Wird die gegebene TM nicht anhalten?"') lief
 ein Beispiel für ein Problem, welches unentscheidbar und nicht semi-entscheidbar ist:
 \medskip
 
-\theobox{Satz: Das Komplement des Halteproblems ist nicht Turing-erkennbar.}
+\theobox{\emph{Satz:} Das Komplement des Halteproblems ist nicht Turing-erkennbar.}
 
 \emph{Beweisskizze:} Angenommen das Problem wäre Turing-erkennbar.
 Dann könnten wir
@@ -512,7 +516,8 @@ Turing-mächtig heraus.
 Populäres Tauschkartenspiel. Es ist möglich, einen
 Spielverlauf zu konstruieren, bei dem Spieler fast keine Entscheidungen treffen müssen und die komplexen 
 Spielregeln automatisch zur Entwicklung einer TM-Simulation führen. Dabei wird ein Stapelspeicher als Reihe
-von Zombies mit linear ansteigenden Lebenspunkten repräsentiert.
+von Zombies mit linear ansteigenden Lebenspunkten repräsentiert.\\
+\href{https://arxiv.org/abs/1904.09828}{[Paper]} \href{https://www.youtube.com/watch?v=pdmODVYPDLA}{[Video]} 
 }
 
 \end{frame}
