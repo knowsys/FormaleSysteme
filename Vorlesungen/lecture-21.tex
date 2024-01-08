@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{21}{Aussagenlogik}{18. Januar 2021}
+\defineTitle{21}{Aussagenlogik}{8. Januar 2024}
 
 \begin{document}
 
@@ -170,7 +170,7 @@ Logisches Schließen = Problemlösen
 
 \bigskip
 \large
-"`Bedeutende Klassen von (schweren) Problemen lassen sich durch logische Schlussfolgerung lösen.\\
+"`Bedeutende Klassen von (schweren) Problemen lassen sich\\ durch logische Schlussfolgerung lösen.\\
 Algorithmen aus der Logik sind in vielen anderen Bereichen anwendbar."'
 \end{center}
 
@@ -264,9 +264,9 @@ Die Aussagenlogik untersucht \alert{logische Verknüpfungen von atomaren Aussage
 \item "`Die Temperatur der Ozeane ist seit 1998 in unverminderter Geschwindigkeit angestiegen."'
 \end{enumerate}\vspace{-1ex}
 \begin{enumerate}[{C}1]
-\item "`Typ-2-Sprachen sind unter Schnitt abgeschlossen."'
-\item "`Typ-2-Sprachen sind unter Komplement abgeschlossen."'
 \item "`Typ-2-Sprachen sind unter Vereinigung abgeschlossen."'
+\item "`Typ-2-Sprachen sind unter Komplement abgeschlossen."'
+\item "`Typ-2-Sprachen sind unter Schnitt abgeschlossen."'
 \end{enumerate}
 }
 
@@ -281,7 +281,7 @@ Atomare Aussagen können mithilfe logischer \alert{Junktoren} verknüpft werden:
 \item $\text{A1}\to \text{A2}$: "`Wenn es morgen schneit, dann werden wir einen Schneemann bauen."'
 \item $\text{A1}\vee \neg\text{A1}$: "`Entweder schneit es morgen oder nicht."'
 \item $\text{B1}\to \neg\text{B2}$: "`Falls die Chinesen die globale Erwärmung erfunden haben, dann steigt die Temperatur der Ozeane nicht unvermindert an."'
-\item $(\text{C1}\wedge\text{C2})\to \text{C3}$: "`Sind Typ-2-Sprachen unter Schnitt und Komplement abgeschlossen, dann sind sie auch unter Vereinigung abgeschlossen."'
+\item $(\text{C1}\wedge\text{C2})\to \text{C3}$: "`Sind Typ-2-Sprachen unter Vereinigung und Komplement abgeschlossen, dann sind sie auch unter Schnitt abgeschlossen."'
 \end{itemize}}
 
 \end{frame}
@@ -301,7 +301,7 @@ Wenn einige Formeln als wahr angenommen werden, dann kann die Wahrheit anderer F
 \bigskip
 
 \examplebox{%
-Beispiele:
+\emph{Beispiele:}
 \begin{itemize}
 \item Aus $\text{B2}$ und $\text{B1}\to \neg\text{B2}$ folgt $\neg\text{B1}$
 \item Aus $\text{C1}$, $\neg\text{C3}$ und $(\text{C1}\wedge\text{C2})\to \text{C3}$ folgt $\neg\text{C2}$
@@ -309,7 +309,7 @@ Beispiele:
 \end{itemize}}\pause\bigskip
 
 \anybox{purple}{
-Die Gültigkeit bestimmter Schlussfolgerungen hat nichts mit Schneemännern, Erderwärmung oder Typ-2-Sprachen zu tun!\\
+Die Gültigkeit bestimmter Schlussfolgerungen hat nichts mit Schneemännern,\\ Erderhitzung oder Typ-2-Sprachen zu tun!\\
 Sie ist eine rein logische Konsequenz.
 }
 
@@ -547,7 +547,7 @@ $\leadsto$ Wir geben oft nur diese an.
 $\leadsto$ Darstellung in Wahrheitswertetabelle
 \end{itemize}
 
-\examplebox{Beispiel: Für die Formel $F=((p\to q)\leftrightarrow(\neg q\to\neg p))$ und Wertzuweisung 
+\examplebox{\emph{Beispiel:} Für die Formel $F=((p\to q)\leftrightarrow(\neg q\to\neg p))$ und Wertzuweisung 
 $w$ mit $w(p)=\myfalse$ und $w(q)=\mytrue$ ergibt sich die folgende Tabelle:
 \medskip
 
@@ -707,7 +707,7 @@ $\leadsto$ Genau ein Modell (bezüglich der relevanten Atome)
 Diese Begriffe kann man für Mengen von Formeln genauso definieren.
 }
 
-\examplebox{Beispiel: 
+\examplebox{\emph{Beispiel:} 
 \begin{itemize}
 \item $p\wedge\neg p$ ist unerfüllbar (und widerlegbar)
 \item $p\vee\neg p$ ist allgemeingültig (und erfüllbar)
@@ -720,7 +720,7 @@ Diese Begriffe kann man für Mengen von Formeln genauso definieren.
 
 % Speziell Allgemeingültigkeit und Unerfüllbarkeit sind für logische Schlussfolgerung von Bedeutung:
 
-\theobox{Satz:
+\theobox{\emph{Satz:}
 \begin{enumerate}[(1)]
 \item Eine allgemeingültige Formel ist logische Konsequenz jeder anderen Formel(menge).
 \item Eine unerfüllbare Formel(menge) hat jede andere Formel als logische Konsequenz.
