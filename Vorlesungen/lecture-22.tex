@@ -14,7 +14,7 @@
 
 \usepackage{setspace}
 
-\defineTitle{22}{Äquivalenzen und Normalformen}{21. Januar 2021}
+\defineTitle{22}{Äquivalenzen und Normalformen}{11. Januar 2024}
 
 \begin{document}
 
@@ -176,14 +176,14 @@ $p$ & $q$ & $p\to q$ & $\neg p$ & $\neg p\vee q$ & ${}^*$\\
 
 \begin{frame}\frametitle{Nützliche Eigenschaften von $\equiv$}
 
-\theobox{Satz: $\equiv$ ist eine Äquivalenzrelation, d.h. reflexiv, symmetrisch und transitiv.}
+\theobox{\emph{Satz:} $\equiv$ ist eine Äquivalenzrelation, d.h. reflexiv, symmetrisch und transitiv.}
 
 \emph{Beweis:} $\equiv$ ist definiert als die Gleichheit der Modellmengen. Die gesuchten Eigenschaften ergeben sich, da auch die Relation $=$ auf Mengen eine Äquivalenzrelation ist.\qed
 \bigskip
 
 Weitere Eigenschaften folgen direkt aus den Definitionen:\medskip
 
-\theobox{Satz:
+\theobox{\emph{Satz:}
 \begin{itemize}
 \item Alle Tautologien sind semantisch äquivalent
 \item Alle unerfüllbaren Formeln sind semantisch äquivalent
@@ -192,7 +192,7 @@ Weitere Eigenschaften folgen direkt aus den Definitionen:\medskip
 
 % \emph{Beweis:} Offensichtlich sind die Modellmengen jeweils gleich.\qed
 
-\theobox{Satz: Semantische Äquivalenz entspricht wechselseitiger logischer Konsequenz:\\[1ex]
+\theobox{\emph{Satz:} Semantische Äquivalenz entspricht wechselseitiger logischer Konsequenz:\\[1ex]
 % 
 \narrowcentering{ $F\equiv G$ \hspace{5mm}genau dann wenn\hspace{5mm} $F\models G$ und $G\models F$}
 }
@@ -206,7 +206,7 @@ Weitere Eigenschaften folgen direkt aus den Definitionen:\medskip
 % \bigskip
 
 
-\theobox{Satz (Ersetzungstheorem): Sei $F$ eine Formel mit einer Teilformel $G$. 
+\theobox{\emph{Satz (Ersetzungstheorem):} Sei $F$ eine Formel mit einer Teilformel $G$. 
 Wenn $G\equiv G'$ und wenn $F'$ aus $F$ gebildet werden kann, indem man ein beliebiges Vorkommen von $G$ in $F$ durch $G'$ ersetzt, dann gilt auch $F\equiv F'$.}\pause
 
 \emph{Beweisskizze${}^*$:} Aus $G\equiv G'$ bedeutet, dass $w\models G$ gdw. $w\models G'$ für beliebige Wertzuweisungen $w$.
@@ -255,7 +255,7 @@ Wir werden insbesondere $\top$ und $\bot$ manchmal verwenden.
 
 % Mit dem Ersetzungstheorem folgt nun leicht:\medskip
 
-\theobox{Satz: Sei $F$ eine beliebige aussagenlogische Formel.
+\theobox{\emph{Satz:} Sei $F$ eine beliebige aussagenlogische Formel.
 \begin{itemize}
 \item Es gibt eine zu $F$ äquivalente Formel, die nur die Junktoren $\wedge$ und $\neg$ enthält.
 \item Es gibt eine zu $F$ äquivalente Formel, die nur die Junktoren $\vee$ und $\neg$ enthält.
@@ -366,16 +366,16 @@ Allerdings dürfen Formelmengen auch unendlich sein (Konjunktionen dagegen nicht
 
 \begin{frame}\frametitle{$\models$ entspricht $\to$ und $\equiv$ entspricht $\leftrightarrow$}
 
-\theobox{Satz (Deduktionstheorem): Für jede Formelmenge $\mathcal{F}$ und Formeln $G$ und $H$ gilt $\mathcal{F}\models G\to H$ genau dann wenn $\mathcal{F}\cup\{G\}\models H$.}\pause
+\theobox{\emph{Satz (Deduktionstheorem):} Für jede Formelmenge $\mathcal{F}$ und Formeln $G$ und $H$ gilt $\mathcal{F}\models G\to H$ genau dann wenn $\mathcal{F}\cup\{G\}\models H$.}\pause
 
 \emph{Beweis:} Einfache Anwendung der Definitionen.
 ($\Rightarrow$) Wenn jedes Modell von $\mathcal{F}$ die Formel $G\to H$ erfüllt, 
 dann muss jedes dieser Modelle, welches zudem $G$ erfüllt, $H$ erfüllen.  ($\Leftarrow$) Wenn jedes Modell von $\mathcal{F}$, welches zudem $G$ erfüllt, auch $H$ erfüllt, dann muss jedes Modell von $\mathcal{F}$ auch $G\to H$ erfüllen.\qed\medskip\pause
 
-\anybox{purple}{Notation:
+\anybox{purple}{\emph{Notation:}
 Wir schreiben $\models F$ statt $\emptyset\models F$ um auszudrücken, dass $F$ allgemeingültig ist.}
 
-\theobox{Satz: $F\equiv G$ genau dann wenn $\models F\leftrightarrow G$.}\pause
+\theobox{\emph{Satz:} $F\equiv G$ genau dann wenn $\models F\leftrightarrow G$.}\pause
 
 \emph{Beweis:} $F\equiv G$ \alert{gdw.} $F\models G$ und $G\models F$ \alert{gdw.} $\models F\to G$ und $\models G\to F$ (wegen Deduktionstheorem) \alert{gdw.} $\models F\leftrightarrow G$. \qed
 
@@ -450,7 +450,7 @@ Formeln, die negierte oder nichtnegierte Atome sind, nennt man \redalert{Literal
 In NNF darf Negation also nur in Literalen auftauchen.
 \medskip\pause
 
-\examplebox{Beispiele:
+\examplebox{\emph{Beispiele:}
 \begin{itemize}
 \item $(\neg p\wedge q)\vee (p\wedge\neg q)$ ist in NNF
 \item $(b\wedge b)\vee\neg(b\wedge b)$ ist nicht in NNF
@@ -547,7 +547,7 @@ Ist diese Umformung korrekt?
 	}
 \end{itemize}\pause
 
-\theobox{Satz: Jede Formel kann (in linearer Zeit) in eine äquivalente Formel in NNF umgewandelt werden.}
+\theobox{\emph{Satz:} Jede Formel kann (in linearer Zeit) in eine äquivalente Formel in NNF umgewandelt werden.}
 
 \end{frame}
 
@@ -638,7 +638,7 @@ $\leadsto$ oft direkter\bigskip
 Distributivgesetz: $\colA{F}{2-}\vee(\colB{G}{2-}\wedge \colC{H}{2-}) \equiv (\colA{F}{2-}\vee \colB{G}{2-})\wedge (\colA{F}{2-}\vee \colC{H}{2-})$\pause
 \medskip
 
-\examplebox{Beispiel:\\
+\examplebox{\emph{Beispiel:}\\
 $\begin{array}{r@{{}\equiv{}}l}
 	\colA{(p\wedge\neg q)}{3}\vee(\colB{\neg p}{3}\wedge\colC{q}{3}) \pause& (\colA{(\colB{p}{4}\wedge\colC{\neg q}{4})}{3}\vee\colA{\colB{\neg p}{3}}{4})\wedge (\colA{(p\wedge\neg q)}{3}\vee \colC{q}{3})) \pause\\
 		& (\colB{p}{4}\vee\colA{\neg p}{4})\wedge(\colC{\neg q}{4}\vee\colA{\neg p}{4})\wedge ((\colB{p}{5}\wedge\colC{\neg q}{5})\vee \colA{q}{5}))\pause\\
@@ -670,7 +670,7 @@ Anzahl der Zeilen (=Klauseln) \alert{exponentiell} in Variablenzahl
 \end{itemize}\pause
 
 \examplebox{%
-Beispiel: Wir betrachten die Atome $a_i$ und $b_i$ für $i\in\{1,\ldots,n\}$. Für\\[1ex]
+\emph{Beispiel:} Wir betrachten die Atome $a_i$ und $b_i$ für $i\in\{1,\ldots,n\}$. Für\\[1ex]
 %
 \narrowcentering{$(a_1\wedge b_1)\vee(a_2\wedge b_2)\vee\ldots\vee(a_n\wedge b_n)$}\\[1ex]
 %
@@ -696,7 +696,7 @@ Unsere Umformungen sind schlimmstenfalls exponentiell
 \end{itemize}
 
 \examplebox{
-Beispiel: $(a_1\wedge b_1)\vee(a_2\wedge b_2)\vee\ldots\vee(a_n\wedge b_n)$ ist ausdrückbar als:
+\emph{Beispiel:} $(a_1\wedge b_1)\vee(a_2\wedge b_2)\vee\ldots\vee(a_n\wedge b_n)$ ist ausdrückbar als:
 %
 \begin{align*}
 & ((a_1\wedge b_1)\vee c_1) \\
