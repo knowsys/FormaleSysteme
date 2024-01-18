@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{28. Januar 2021}
+\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{18. Januar 2024}
 
 \begin{document}
 
@@ -121,7 +121,7 @@ p \qquad \equiv &&\top&\to p\\
 Viele einfache rekursive Algorithmen können in Horn-Aussagenlogik beschrieben werden.
 \bigskip
 
-\examplebox{Beispiel: Berechnung der Variablen $V_\epsilon$ einer CFG, welche in $\epsilon$ umgeschrieben
+\examplebox{\emph{Beispiel:} Berechnung der Variablen $V_\epsilon$ einer CFG, welche in $\epsilon$ umgeschrieben
 werden können (vgl. Vorlesung 2, Folie 32). Wir betrachten die folgende Menge $\mathcal{F}$ von Horn-Regeln:
 \begin{align*}
 \top & \to p_{\Snterm{A}} & \text{für jede Grammatikregel $\Snterm{A}\to\epsilon$}\\
@@ -428,7 +428,7 @@ Beschränkte TMs können verwendet werden, um viele weitere Sprachklassen zu def
 
 Es gibt viele unterschiedliche Versionen von deterministischen Turingmaschinen (z.B. Mehrband-Maschinen).\\
 
-\anybox{purple}{Sind $\Scomplclass{DTIME}(f)$ und $\Scomplclass{DSPACE}(f)$ für jedes TM-Modell gleich?}\pause
+\anybox{purple}{Sind $\Scomplclass{DTIME}(f)$ und $\Scomplclass{DSPACE}(f)$ unabhängig vom gewählten TM-Modell?}\pause
 
 \emph{Antwort:} "`Bei vielen kleineren Variationen sind sie es, aber nicht in allen Fällen (oder zumindest ist dies nicht immer bekannt)."'
 
@@ -513,7 +513,7 @@ Komplexitätsklassen aussagen kann.}
 \medskip\pause
 
 Offensichtlich führen (asymptotisch) höhere Ressourcenschranken zu größeren Sprachklassen.
-Oft ist aber nicht klar, ob man mit mehr Ressourcen auch wirklich mehr (oder einfach nur gleich viele) Probleme lösen kann. Bei
+Oft ist aber nicht klar, ob man mit mehr Ressourcen auch wirklich mehr (oder einfach nur die gleichen) Probleme lösen kann. Bei
 unseren Klassen ist das aber bekannt:\medskip
 
 \theobox{\emph{Fakt:} Es gilt $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$ und
