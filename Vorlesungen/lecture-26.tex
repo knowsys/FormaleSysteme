@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{26}{Zusammenfassung und Ausblick}{29. Januar 2018}
+\defineTitle{26}{Zusammenfassung und Ausblick}{25. Januar 2024}
 
 \begin{document}
 
@@ -294,7 +294,7 @@ Bei den Komplexitätsklassen sind bisher weitaus weniger Unterschiede bewiesen.
 Exponentielle Ressourcenzugaben erzeugen echt größere Klassen (z.B. $\Scomplclass{P}\subset\Scomplclass{Exp}$).
 \medskip
 
-\textcolor{devilscss}{Daraus folgt auch, dass $\Scomplclass{ExpSpace}$-harte Sprachen nicht kontextsensitiv sind, auch wenn sie entscheidbar sind}
+\textcolor{devilscss}{Aus einem analogen Ergebnis für Speicher folgt auch, dass $\Scomplclass{ExpSpace}$-harte Sprachen nicht kontextsensitiv sind, auch wenn sie entscheidbar sind}
 
 \end{frame}
 
@@ -306,13 +306,45 @@ Exponentielle Ressourcenzugaben erzeugen echt größere Klassen (z.B. $\Scomplcl
 
 \begin{center}
 \begin{tabular}{r|ccccc|l}
-	& \multicolumn{5}{c|}{Abschluss unter \ldots} &\\
+	& \multicolumn{5}{p{3cm}|}{Abschluss unter \ldots} &\\
 Sprache & $\cap$ & $\cup$ & $\overline{\phantom{L}}$ & $\circ$ & $^*$ & Automat\\\hline
 Typ 0 & \myyes & \myyes & \myno & \myyes & \myyes & TM (DTM/NTM)\\
 Typ 1 & \myyes & \myyes & \myyes & \myyes & \myyes & LBA ($\stackrel{?}{=}$ det. LBA)\\
 Typ 2 & \myno & \myyes & \myno & \myyes & \myyes & PDA\\
 Det. Typ 2 & \myno & \myno & \myyes & \myno & \myno & DPDA\\
 Typ 3 & \myyes & \myyes & \myyes & \myyes & \myyes & DFA/NFA
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\definecolor{CTypeNo}{HTML}{b6786c}
+\definecolor{CTypeO}{HTML}{b69d6c}
+\definecolor{CTypeI}{HTML}{aab66c}
+\definecolor{CTypeII}{HTML}{85b66c}
+\definecolor{CTypeDII}{HTML}{6cb678}
+\definecolor{CTypeIII}{HTML}{6cb69d}
+%
+\newcommand{\typetxt}[1]{\ghost{\textcolor{white}{#1}}\phantom{\myyes}}
+%
+\newcommand{\typeNo}{\cellcolor{CTypeNo}\typetxt{--}}
+\newcommand{\typeO}{\cellcolor{CTypeO}\typetxt{0}}
+\newcommand{\typeI}{\cellcolor{CTypeI}\typetxt{1}}
+\newcommand{\typeII}{\cellcolor{CTypeII}\typetxt{2}}
+\newcommand{\typeDII}{\cellcolor{CTypeDII}\typetxt{$\!\!$D2}}
+\newcommand{\typeIII}{\cellcolor{CTypeIII}\typetxt{3}}
+
+\begin{frame}\frametitle{Übersicht Abschlusseigenschaften}
+
+\begin{center}
+\begin{tabular}{r|ccccc|l}
+	& \multicolumn{5}{p{3cm}|}{\ghost{Ergebnis von Typ \ldots}\phantom{Abschluss unter \ldots }} &\\
+Sprache & $\cap$ & $\cup$ & $\overline{\phantom{L}}$ & $\circ$ & $^*$ & Automat\\\hline
+Typ 0 & \typeO & \typeO & \typeNo & \typeO & \typeO & TM (DTM/NTM)\\
+Typ 1 & \typeI & \typeI & \typeI & \typeI & \typeI & LBA ($\stackrel{?}{=}$ det. LBA)\\
+Typ 2 & \typeI & \typeII & \typeI & \typeII & \typeII & PDA\\
+Det. Typ 2 & \typeI & \typeII & \typeDII & \typeII & \typeII & DPDA\\
+Typ 3 & \typeIII & \typeIII & \typeIII & \typeIII & \typeIII & DFA/NFA
 \end{tabular}
 \end{center}
 
