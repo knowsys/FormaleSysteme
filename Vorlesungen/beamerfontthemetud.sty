@@ -3,9 +3,9 @@ theme for Beamer class]
 
 \newif\if@useHeavyFont\@useHeavyFontfalse
 \DeclareOptionBeamer{heavyfont}{\@useHeavyFonttrue}
-
-\newif\if@noDIN\@noDINfalse
-\DeclareOptionBeamer{nodin}{\@noDINtrue}
+% 
+% \newif\if@noDIN\@noDINfalse
+% \DeclareOptionBeamer{nodin}{\@noDINtrue}
 
 %\newif\if@useBeamerFont\@useBeamerFontfalse
 %\DeclareOption{beamerfont}{\@useBeamerFonttrue}
@@ -13,29 +13,31 @@ theme for Beamer class]
 \newif\if@sansmath\@sansmathtrue
 \DeclareOptionBeamer{serifmath}{\@sansmathfalse}
 \ProcessOptionsBeamer
+\usepackage{opensans}
 
-% Schriftspezifische Definitionen
-%\if@useBeamerFont\else%
-    \renewcommand*\encodingdefault{OT1}
-    \renewcommand*\familydefault{aun}
-    \renewcommand*\bfseries{\fontseries{b}\selectfont}
-    \if@useHeavyFont\renewcommand*\seriesdefault{m}\else\renewcommand*\seriesdefault{l}\fi
-    \renewcommand*\shapedefault{n}
-    \renewcommand*\sfdefault{aun}
-    %\renewcommand*{\sffamily}{\not@math@alphabet\sffamily\mathsf\fontfamily{aun}\selectfont}
-    %\renewcommand*{\ttfamily}{\fontfamily{\ttdefault}\fontseries{\mddefault}\selectfont}
-    \renewcommand*\ttfamily{\not@math@alphabet\ttfamily\mathtt\fontfamily\ttdefault\fontseries\mddefault\selectfont}
-    %\DeclareRobustCommand\dindefault{din}
-    \newcommand*{\dinfamily}{\fontencoding{OT1}\fontfamily{din}\fontseries{b}\selectfont}
-    %\DeclareRobustCommand\dinfamily{\not@math@alphabet\sffamily\mathsf\fontfamily\dindefault\selectfont}
-%\fi
+% % Schriftspezifische Definitionen
+% %\if@useBeamerFont\else%
+%     \renewcommand*\encodingdefault{OT1}
+% %     \renewcommand*\familydefault{aun}
+%      \renewcommand*\familydefault{\sfdefault}
+%     \renewcommand*\bfseries{\fontseries{b}\selectfont}
+%     \if@useHeavyFont\renewcommand*\seriesdefault{m}\else\renewcommand*\seriesdefault{l}\fi
+%     \renewcommand*\shapedefault{n}
+% %     \renewcommand*\sfdefault{aun}
+%     %\renewcommand*{\sffamily}{\not@math@alphabet\sffamily\mathsf\fontfamily{aun}\selectfont}
+%     %\renewcommand*{\ttfamily}{\fontfamily{\ttdefault}\fontseries{\mddefault}\selectfont}
+%     \renewcommand*\ttfamily{\not@math@alphabet\ttfamily\mathtt\fontfamily\ttdefault\fontseries\mddefault\selectfont}
+%     %\DeclareRobustCommand\dindefault{din}
+%     %\newcommand*{\dinfamily}{\fontencoding{OT1}\fontfamily{din}\fontseries{b}\selectfont}
+%     %\DeclareRobustCommand\dinfamily{\not@math@alphabet\sffamily\mathsf\fontfamily\dindefault\selectfont}
+% %\fi
 
 \if@sansmath
     \DeclareSymbolFont{aunLetters}{T1}{aun}{l}{sl}
     \SetSymbolFont{aunLetters}{bold}{T1}{aun}{b}{sl}
     \DeclareSymbolFont{aunOperators}{T1}{aun}{l}{n}
     \SetSymbolFont{aunOperators}{bold}{T1}{aun}{b}{n}
-    
+
     \DeclareMathSymbol{a}{\mathalpha}{aunLetters}{`a}
     \DeclareMathSymbol{b}{\mathalpha}{aunLetters}{`b}
     \DeclareMathSymbol{c}{\mathalpha}{aunLetters}{`c}
@@ -110,12 +112,12 @@ theme for Beamer class]
     \SetMathAlphabet\mathbf{bold}{T1}{aun}{b}{n}
     \DeclareMathAlphabet\mathit{T1}{aun}{l}{sl}
     \SetMathAlphabet\mathit{bold}{T1}{aun}{l}{sl}
-    
+
     \let\operator@font\sf
 \fi
 \usefonttheme[onlymath]{serif}
 
 \setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
 \setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
-\setbeamerfont{title}{size=\LARGE,series=\bfseries,family=\dinfamily}
+\setbeamerfont{title}{size=\LARGE,series=\bfseries,family=\sffamily}
 \setbeamerfont{subtitle}{series=\bfseries,family=\sffamily}

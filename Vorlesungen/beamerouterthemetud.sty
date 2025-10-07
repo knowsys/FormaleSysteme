@@ -155,7 +155,8 @@
      \expandafter\setlength\expandafter\baselineskip{\f@size pt*\ratio{10pt}{10pt}}%
 %      \vskip2ex plus1ex minus1ex%
 %      \setlength\baselineskip{2cm}%{}
-      \MakeUppercase{\inserttitle}\par%
+%       \MakeUppercase{\inserttitle}\par% %%% <<< Forces upper case, let's not do that
+    {\inserttitle}
     }\vfill%
     {%
       \ifx\insertsubtitle\empty
