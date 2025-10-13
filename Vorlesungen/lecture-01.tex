@@ -136,17 +136,17 @@ $\leadsto$ Spezifikation von Sprachen\\
 \item Fokus auf einfache Berechnungsmodelle\\
 $\leadsto$ \redalert{Automaten} (in vielen Versionen \ldots)
 %
-\item Man kann Berechnungsaufgaben auch logisch spezifizieren\\
-$\leadsto$ \redalert{Aussagenlogik} als einfacher Einstieg
+\item Etwas weniger einfache Modelle können bereits jede Berechnung fassen\\
+$\leadsto$ \redalert{Turingmaschinen} als universelles Berechnungsmodell
 %
-\item Lösung logischer Probleme\\
-$\leadsto$ Berechnungsverfahren zum \redalert{logischen Schließen}
+\item Nicht alles kann überhaupt berechnet werden\\
+$\leadsto$ \redalert{Unentscheidbarkeit} als wichtiges Phänomen der Informatik
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}\frametitle{Gliederung "`Formale Systeme"'}
+\begin{frame}\frametitle{Gliederung "`Formale Systeme"' (alt, bis WiSe 2024/25)}
 
 \alert{Teil 1: Sprachen und Automaten}
 \begin{itemize}
@@ -162,6 +162,26 @@ $\leadsto$ Berechnungsverfahren zum \redalert{logischen Schließen}
 \item Syntax und Semantik
 \item logisches Schließen, Backtracking und andere Verfahren
 \item Horn-Logik als Vereinfachung
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Gliederung "`Automatentheorie und Formale Sprachen"'}
+
+\alert{Teil 1: Sprachen und Automaten}
+\begin{itemize}
+\item Formale Sprachen und Grammatiken
+\item Reguläre Sprachen und endliche Automaten
+\item Kontextfreie Sprachen und Kellerautomaten
+\item Kontextsensitive Sprachen, Typ-0-Sprachen und \ghost{Turingmaschinen}
+\end{itemize}
+\bigskip
+
+\alert{Teil 2: Berechenbarkeit}
+\begin{itemize}
+\item Unentscheidbarkeit und Unberechenbarkeit
+\item Einfache Programminersprachen: LOOP und WHILE 
+\item Probleme auf Formalen Sprachen
 \end{itemize}
 
 \end{frame}
@@ -480,11 +500,11 @@ $\leadsto$ Spezifikationen verwenden meist \redalert{Grammatiken}
 
 Wir haben gesehen:
 \begin{itemize}
-\item In der Praxis interessieren wir uns für (oftmals unendliche) Mengen von Strings, z.B. \Snterm{Bezeichner} oder \Snterm{Java Programme}\\
+\item In der Praxis interessieren wir uns für (oftmals unendliche) Mengen von Strings, z.B. \Snterm{Bezeichner} oder \Snterm{Rust-Programme}\\
 $\leadsto$ solche Mengen nennt man \redalert{formale Sprachen}
 \item Man kann formale Sprachen auf viele Arten beschreiben, z.B. mit Automaten, Grammatiken oder Syntaxdiagrammen\\
 $\leadsto$ unterschiedliche Stärken und Schwächen
-\item Kein Ansatz kann alle Sprachen beschreiben, z.B. gibt es keinen Automaten, der Java-Programme parsen kann\\
+\item Kein Ansatz kann alle Sprachen beschreiben, z.B. gibt es keinen Automaten, der Rust-Programme parsen kann\\
 $\leadsto$ man unterscheidet \redalert{Typen von Sprachen}
 \end{itemize}
 
