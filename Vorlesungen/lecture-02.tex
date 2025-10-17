@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{2}{Grammatiken und die Chomsky-Hierarchie}{12. Oktober 2023}
+\defineTitle{2}{Grammatiken und die Chomsky-Hierarchie}{16. Oktober 2025}
 
 \begin{document}
 
@@ -265,14 +265,15 @@ wobei $w_1,w_2,x,y\in (V\cup\Sigma)^*$ beliebige Wörter sind.}
 
 \defbox{%
 Die \redalert{Ableitungsrelation $\Rightarrow^*$} ist der reflexive, transitive Abschluss von
-$\Rightarrow$, das heißt $u \Rightarrow^* v$ genau dann wenn:\\[1ex]
+$\Rightarrow$,\\ das heißt $u \Rightarrow^* v$ genau dann wenn:\\[1ex]
 %
 \narrowcentering{$u=w_1\Rightarrow w_2\Rightarrow \ldots\Rightarrow w_{n-1}\Rightarrow w_n=v$}\\[1ex]
 % \narrowcentering{$u=w_1$ und $w_1\Rightarrow w_2$ und $\cdots{}$ und $w_{n-1}\Rightarrow w_n$ und $w_n=v$}\\[1ex]
 %
-wobei $n\geq 1$ und $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ beliebige Wörter sind.
+für ein $n\geq 1$ und beliebige Wörter $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ gilt.
 % \narrowcentering{es gibt Wörter $w_1,\ldots,w_n\in (V\cup\Sigma)^*$ für $n\geq 1$, so dass}\\\narrowcentering{$u=w_1$, $v=w_n$ und $w_1\Rightarrow w_2\Rightarrow \ldots\Rightarrow w_n$}\\[1ex]
 %
+\\
 Insbesondere gilt $u\Rightarrow^* u$ für alle $u\in (V\cup\Sigma)^*$ (Fall $n=1$).
 }
 
@@ -402,13 +403,13 @@ $}
 }%
 \bigskip
 
-\emph{Beweis (Fortsetzung):} Der "`rekursiv konstruierte Beweis"' ist natürlich eine \redalert{vollständige Induktion}:
+\emph{Beweis (Forts.):} Der "`rekursiv konstruierte Beweis"' ist natürlich eine \ghost{\redalert{vollständige Induktion}:}
 \medskip
 
 \alert{Induktionsbehauptung:} $A\Rightarrow^* s_1\ldots s_n$ für alle $n\geq 0$ und \ghost{$s_1,\ldots,s_n\in \{\Sterm{b},\Sterm{z}\}$}\\
 \alert{Induktionsanfang:} für $n=0$ gilt $A\Rightarrow^* \epsilon$\\
 \alert{Induktionshypothese:} $A\Rightarrow^* s_1\ldots s_n$ gilt für $n$ und alle \ghost{$s_1,\ldots,s_n\in \{\Sterm{b},\Sterm{z}\}$}\\
-\alert{Induktionschritt:} $A\Rightarrow^* s_1\ldots s_{n+1}$ gilt für alle $s_1,\ldots,s_n\in \{\Sterm{b},\Sterm{z}\}$, weil:\\
+\alert{Induktionsschritt:} $A\Rightarrow^* s_1\ldots s_{n+1}$ gilt für alle $s_1,\ldots,s_{n+1}\in \{\Sterm{b},\Sterm{z}\}$, weil:\\
 \begin{itemize}
 \item wenn $s_1=\Sterm{b}$ dann $\Snterm{A}\Rightarrow \Snterm{B}\Snterm{A}\Rightarrow\Sterm{b}\Snterm{A}$
 \item wenn $s_1=\Sterm{z}$ dann $\Snterm{A}\Rightarrow \Snterm{Z}\Snterm{A}\Rightarrow\Sterm{z}\Snterm{A}$
@@ -574,7 +575,7 @@ Sprachen.
 Die Beispiele haben gezeigt: man kann die gleiche Sprache oft mit Grammatiken verschiedenen Typs beschreiben.
 \medskip
 
-Aber wir werden sehen: für viele Sprachen gibt es einen maximalen Typ von Grammatik, z.B. gibt es kontextfreie Sprachen, die nicht regulär sind.
+Aber wir werden sehen: Für jeden Typ von Grammatik gibt es Sprachen, die nicht in größere Typen fallen (= für die dieser Typ maximal ist). Zum Beispiel gibt es kontextfreie Sprachen, die nicht regulär sind.
 
 \end{frame}
 
