@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{4}{Nichtdeterministische Endliche Automaten}{19. Oktober 2023}
+\defineTitle{4}{Nichtdeterministische Endliche Automaten}{23. Oktober 2025}
 
 \begin{document}
 
@@ -805,8 +805,8 @@ dass für jedes Wort $w\in\Sigma^*$ und jede Zustandsmenge $R$ gilt: $\delta_{\t
 \item $\delta_{\textsf{DFA}}(R,\Sterm{a}) = \bigcup_{q\in R}\delta(q,\Sterm{a}) = \delta(R,\Sterm{a})$\pause
 \end{enumerate}\medskip
 
-\alert{Induktionshypothese:} $\delta_{\textsf{DFA}}(R,v) = \delta(R,v)$ für Wörter $v$ der Länge $\ell$\\[1ex]
-\alert{Induktionsschritt:} wir zeigen $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta(R,\Sterm{a}v)$ ein beliebiges Wort $\Sterm{a}v$ der \ghost{Länge $\ell+1$}
+\alert{Induktionshypothese:} $\delta_{\textsf{DFA}}(R,v) = \delta(R,v)$ für alle Wörter $v$ der Länge $\ell$\\[1ex]
+\alert{Induktionsschritt:} wir zeigen $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta(R,\Sterm{a}v)$ für ein beliebiges Wort $\Sterm{a}v$ der \ghost{Länge $\ell+1$}
 \begin{enumerate}[(3)]
 \item $\delta_{\textsf{DFA}}(R,\Sterm{a}v) = \delta_{\textsf{DFA}}(\delta_{\textsf{DFA}}(R,\Sterm{a}),v)$\\\pause
 \hspace{1.58cm}${}= \delta_{\textsf{DFA}}(\delta(R,\Sterm{a}),v)$ \hspace{1cm}(wegen (2))\\\pause
