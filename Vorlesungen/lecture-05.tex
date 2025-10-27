@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{5}{Abschlusseigenschaften}{23. Oktober 2023}
+\defineTitle{5}{Abschlusseigenschaften}{27. Oktober 2025}
 
 \begin{document}
 
@@ -370,7 +370,7 @@ Ein NFA zur Vereinigung von zwei NFAs ist leicht zu finden\pause:
 \medskip
 
 Der \redalert{Vereinigungsautomat $\Smach{M}_1\oplus\Smach{M}_2$} ist
-gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta_{12},Q_{0,1}\cup Q_{0,2},F_1\cup F_2}$ wobei\\[1ex]
+$\tuple{Q_1\cup Q_2,\Sigma,\delta_{12},Q_{0,1}\cup Q_{0,2},F_1\cup F_2}$, wobei\\[1ex]
 \narrowcentering{$\delta_{12}(q,\Sterm{a}) = \left\{\begin{array}{lr}
 	\delta_1(q,\Sterm{a}) & \text{ falls $q\in Q_1$}\\
 	\delta_2(q,\Sterm{a}) & \text{ falls $q\in Q_2$}
@@ -489,7 +489,7 @@ $\leadsto$ \alert{Produktautomat}
 \medskip
 
 Der \redalert{Produktautomat $\Smach{M}_1\otimes\Smach{M}_2$} ist
-gegeben durch $\tuple{Q_1\times Q_2,\Sigma,\delta,Q_{0,1}\times Q_{0,2},F_1\times F_2}$ wobei\\[1ex]
+gegeben durch $\tuple{Q_1\times Q_2,\Sigma,\delta,Q_{0,1}\times Q_{0,2},F_1\times F_2}$, wobei\\[1ex]
 \narrowcentering{$\delta(\tuple{q_1,q_2},\Sterm{a}) =\delta_1(q_1,\Sterm{a})\times\delta_2(q_2,\Sterm{a})$}
 }\pause
 
@@ -613,7 +613,7 @@ folgenden Ausdrücke reguläre Sprachen:
 \emph{Idee:} Wir können DFA komplementieren, indem wir akzeptierende und verwerfende Zustände vertauschen.
 \bigskip
 
-\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ sei $\overline{\Smach{M}}$ der\\
+\defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ sei $\overline{\Smach{M}}$ der
 DFA $\tuple{Q,\Sigma,\delta,q_0,Q\setminus F}$.}
 \bigskip\pause
 
@@ -737,7 +737,7 @@ Daraus folgt der Abschluss regulärer Sprachen unter Komplement, da wir jeden DF
 \emph{Auch NFAs dürfen nicht direkt komplementiert werden:}
 \begin{itemize}
 \item DFAs sind NFAs: unser Gegenbeispiel trifft weiterhin zu
-\item Selbst NFAs, in denen jeder Zustand für jedes Symbol mindestens einen Folgezustand hat, können nicht so einfach komplementiert werden (Übung: Finden Sie ein Gegenbeispiel)
+\item Selbst NFAs, in denen jeder Zustand für jedes Symbol mindestens einen Folgezustand hat, können nicht so einfach komplementiert werden\\ (Übung: Finden Sie ein Gegenbeispiel)
 \end{itemize}
 }
 
@@ -782,7 +782,7 @@ $\leadsto$ besonders elegant geht das mit $\epsilon$-Transitionen
 \medskip
 
 Der \redalert{Konkatenationsautomat $\Smach{M}_1\odot\Smach{M}_2$} ist ein $\epsilon$-NFA 
-gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta,Q_{0,1},F_2}$ wobei\\[1ex]
+gegeben durch $\tuple{Q_1\cup Q_2,\Sigma,\delta,Q_{0,1},F_2}$, wobei\\[1ex]
 \narrowcentering{$\delta(q,\Sterm{a}) = \left\{\begin{array}{l@{~}r}
 	\delta_1(q,\Sterm{a}) & \text{ falls $q\in Q_1$}\\
 	\delta_2(q,\Sterm{a}) & \text{ falls $q\in Q_2$}
