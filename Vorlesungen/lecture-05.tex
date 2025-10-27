@@ -117,7 +117,7 @@ Akzeptierte Sprache\only<2>{?}\visible<3->{:}\\
 
 \begin{frame}\frametitle{Wortübergänge machen NFAs nicht stärker}
 
-\theobox{\emph{Satz:} Jede von einem NFA mit Wortübergängen akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}
+\theobox{\emph{Satz:} Jede von einem NFA mit Wortübergängen akzeptierte Sprache wird auch von einem normalen NFA akzeptiert.}
 \pause
 
 \emph{Beweis:} Wir eliminieren zunächst Wortübergänge für Wörter $w\neq\epsilon$.\medskip
@@ -145,7 +145,7 @@ $q_1\stackrel{\Sterm{a}}{\to}q_2$ oder $q_1\stackrel{\epsilon}{\to}q_2$ haben, w
 
 Um den vorigen Beweis abzuschließen müssen wir noch zeigen:
 
-\theobox{\emph{Satz:} Jede von einem $\epsilon$-NFA akzeptierte Sprache, wird auch von einem normalen NFA akzeptiert.}\pause
+\theobox{\emph{Satz:} Jede von einem $\epsilon$-NFA akzeptierte Sprache wird auch von einem normalen NFA akzeptiert.}\pause
 
 \emph{Beweis:} Sei $\epstrastar$ der reflexive, transitive Abschluss von $\stackrel{\epsilon}{\to}$, d.h. die Menge aller Zustandspaare $\tuple{q,q'}\in Q^2$ für die es Übergänge $q=p_0\stackrel{\epsilon}{\to} p_1\stackrel{\epsilon}{\to}\ldots\stackrel{\epsilon}{\to}p_n=q'$ gibt, mit $n\geq 0$.
 \medskip\pause
