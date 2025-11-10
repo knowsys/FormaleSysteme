@@ -269,7 +269,7 @@ Wir vereinfachen Automaten, indem wir äquivalente Zustände verschmelzen:
 
 \defbox{Für einen DFA $\Smach{M}=\tuple{Q,\Sigma,\delta,q_0,F}$ mit totaler Übergangsfunktion ist der 
 \redalert{Quotientenautomat $\simquot{\Smach{M}}$} gegeben durch
-$\simquot{\Smach{M}}=\tuple{\simquot{Q},\Sigma,\delta_{\sim},[q_0]_{\sim_{\Smach{M}}},\simquot{F\!}}$ wobei gilt:%
+$\simquot{\Smach{M}}=\tuple{\simquot{Q},\Sigma,\delta_{\sim},[q_0]_{\sim},\simquot{F\!}}$ wobei gilt:%
 \begin{itemize}
 \item $\simquot{Q} = \{[q]_{\sim}\mid q\in Q\}$
 \item $\delta_{\sim}([q]_{\sim},\Sterm{a}) = [\delta(q,\Sterm{a})]_{\sim}$
@@ -279,7 +279,7 @@ $\simquot{\Smach{M}}=\tuple{\simquot{Q},\Sigma,\delta_{\sim},[q_0]_{\sim_{\Smach
 
 Diese Definition ergibt Sinn, da gilt:
 \begin{itemize}
-\item wenn $[q]_{\sim}=[p]_{\sim}$ dann $[\delta(q,\Sterm{a})]_{\sim_{\Smach{M}}}=[\delta(p,\Sterm{a})]_{\sim_{\Smach{M}}}$ (Verträglichkeit von $\sim$ und $\delta$; benötigt totale Übergangsfunktion)
+\item wenn $[q]_{\sim}=[p]_{\sim}$ dann $[\delta(q,\Sterm{a})]_{\sim}=[\delta(p,\Sterm{a})]_{\sim}$ (Verträglichkeit von $\sim$ und $\delta$; benötigt totale Übergangsfunktion)
 \item wenn $[q]_{\sim}=[p]_{\sim}$ dann ~~$q\in F$ gdw. $p\in F$ ~~(Übung)
 \end{itemize}
 $\leadsto$ Definition unabhängig vom gewählten Repräsentanten von $[q]_{\sim}$
