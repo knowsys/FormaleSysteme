@@ -4,7 +4,7 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{23. November 2023}
+\defineTitle{13}{Das Pumping Lemma kontextfreier Sprachen}{27. November 2025}
 
 \begin{document}
 
@@ -1271,14 +1271,14 @@ Daher muss entweder $v$ oder $x$ mindestens ein Symbol enthalten, d.h. $|vx|\geq
 Jeder Ableitungsbaum in $G$ ist ein Binärbaum (bis auf die letzte Ebene, wo Variablen durch Terminale ersetzt werden).\pause
 \begin{itemize}
 \item Ein Ableitungsbaum für $z$ hat $|z|$ Blätter\pause
-\item Ein Binärbaum mit $|z|$ Blättern muss Pfade der Länge $\geq\log_2|z|$ enthalten\\
+\item Ein Binärbaum mit $|z|$ Blättern muss Pfade der Länge $\geq\log_2|z|$ enthalten\footnote{Wir messen die Pfadlänge hier als Zahl der Elter-zu-Kind-Schritte. Ein Pfad der Länge $\ell$ hat also $\ell+1$ Knoten.}\\
 {\footnotesize\textcolor{devilscss}{(Der größte Binärbaum mit Pfaden der Länge $\ell$ ist der, in dem alle Pfade diese Länge haben und der $2^\ell$ Blätter hat)}}\pause
-\item Jeder Pfad der Länge $\geq |V|$ muss mindestens eine Variable doppelt enthalten
+\item Jeder Pfad der Länge $\geq |V|-1$ muss mindestens eine Variable doppelt enthalten
 {\footnotesize\textcolor{devilscss}{(Schubfachprinzip)}}\pause
 \end{itemize}
 
 \begin{enumerate}[$\leadsto$]
-\item  Wenn $|z|\geq 2^{|V|}$ ist, dann gibt es einen Pfad, in dem eine Variable doppelt vorkommt
+\item  Wenn $|z|> 2^{|V|-1}$ ist, dann gibt es einen Pfad, in dem eine Variable doppelt vorkommt, also funktioniert dafür jedes $n\geq 2^{|V|-1}+1$
 \end{enumerate}
 
 
@@ -1299,18 +1299,19 @@ gibt es eine Zahl $n\geq 0$, so dass gilt:\\
 % (Diese existiert immer. Das Wort $\epsilon$ ist im Beweis nicht relevant, da sicherlich $n>0$.)
 %\medskip
 % 
-Gerade gezeigt: Die Konstante aus dem Lemma ist \ghost{$n=2^{|V|}$.}
+Gerade gezeigt: Ab Wortlänge $n\geq 2^{|V|-1}+1$ gibt es Pfade mit \ghost{Variablendopplungen.}
 \medskip
 
 \alert{Weshalb gilt $|vwx|\leq n$?}\pause\medskip
 
 Auch hier hilft es, dass Ableitungsbäume binär sind:
 \begin{itemize}
-\item Ein Binärbaum der Tiefe $\ell$ hat maximal $2^\ell$ Blätter\pause
+\item Ein Binärbaum der maximalen Pfadlänge $\ell$ hat maximal $2^\ell$ Blätter\pause
 \item Wir können annehmen, dass das obere doppelte Vorkommen der gewählten Variable maximal
 $|V|$ Schritte von der vorletzten Ebene (d.h. der letzten im inneren Binärbaum) entfernt ist\pause
-\item Also kann der Baum unterhalb dieses Vorkommens maximal $2^{|V|}=n$ Blätter haben (dies sind die Symbole in $vwx$)
+\item Also kann der Baum unterhalb dieses Vorkommens maximal $2^{|V|}$ Blätter haben (dies sind die Symbole in $vwx$)
 \end{itemize}
+$\leadsto$ wir können $n=2^{|V|}$ als konkreten Wert wählen (insbesondere ist $2^{|V|}\geq 2^{|V|-1}+1$)
 
 \end{frame}
 
