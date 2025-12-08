@@ -877,7 +877,7 @@ $r$ mit leerem Keller gelangen kann.
 \item $\Smach{P}$ in jedem Schritt \texttt{pop} oder \texttt{push} ausführt, aber nie beides
 \end{itemize}\medskip
 
-Die \alert{Grammatik $G(\Smach{P})$} besteht aus den folgenden Regeln:
+Die \alert{Grammatik $G_{\Smach{P}}$} besteht aus den folgenden Regeln:
 
 \begin{enumerate}[(1)]
 \item Für alle $q,r,s_1,s_2\in Q$, $a,b\in\Sigma_\epsilon$
@@ -890,7 +890,7 @@ die Regel $\Sntermsub{V}{q,r} \to a\Sntermsub{V}{{\Sntermsub{s}{1}},{\Sntermsub{
 \item Für alle Zustände $s\in Q$, die Regel $\Sntermsub{V}{s,s} \to \epsilon$
 \end{enumerate}
 
-Dann ist $\Slang{L}(\Smach{P})=\Slangsub{L}{$q_0,q_f$}$. Die Grammatik $G(\Smach{P})$ erzeugt diese Sprache,
+Dann ist $\Slang{L}(\Smach{P})=\Slangsub{L}{$q_0,q_f$}$. Die Grammatik $G_{\Smach{P}}$ erzeugt diese Sprache,
 wenn wir $\Sntermsub{V}{\Sntermsub{q}{0},{\Sntermsub{q}{f}}}$ als Startsymbol wählen.\qed
 
 \end{frame}
@@ -951,12 +951,15 @@ Als Grammatik ergibt sich:
 % 
 % \end{frame}
 
-% \begin{frame}\frametitle{Lehrevaluation}
+% \begin{frame}\frametitle{Lehrevaluation WiSe 2025/2026}
 % 
 % % \huge
+% \narrowcentering{\includegraphics[height=5cm]{local_lehreval_2025_qrcode}}
 % 
-% \begin{center}
-% 15min zum Ausfüllen der Fragebögen
+% \begin{center}\Large
+% \url{https://befragung.zqa.tu-dresden.de/uz/}\\(Token: \alert{\texttt{Hetbozefaf}})\bigskip
+% % 
+% % 10min zum Ausfüllen der Fragebögen
 % \end{center}
 % 
 % \end{frame}
