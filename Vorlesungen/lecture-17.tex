@@ -537,7 +537,7 @@ Die Sprache ist genau dann nicht leer wenn bei diesem Verfahren das Startsymbol 
 unendlich (da man das Pumpinglemma auf $z$ anwenden \ghost{kann).} \pause
 \item Wenn $\Slang{L}(G)$ unendlich ist, dann gibt es ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|<2n$ \pause
 (Beweis: Es muss Wörter mit mehr als $n$ Zeichen geben. \pause Sei $z$ ein kürzestes Wort dieser Art. \pause
-Laut Pumpinglemma ist $z=uvwxy$ mit $|vx|<n$ und $uv^0wx^0y=uwy\in\Slang{L}(G)$. \pause Da $uwy$ kürzer ist als $z$
+Laut Pumpinglemma ist $z=uvwxy$ mit $|vx|\leq n$ und $uv^0wx^0y=uwy\in\Slang{L}(G)$. \pause Da $uwy$ kürzer ist als $z$
 muss gelten $|uwy|<n$. \pause Daraus folgt $|z|=|uwy|+|vx|<2n$.)\pause
 \end{itemize}
 Das heißt, wir müssen nur testen, ob es so ein Wort $z\in\Slang{L}(G)$ mit $n\leq|z|<2n$ gibt.
