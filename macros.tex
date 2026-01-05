@@ -42,6 +42,23 @@
 \newcommand{\epstrastar}{\mathrel{\mathord{\stackrel{\epsilon}{\to}}{}^*}} % transitive reflexive closure of epsilon transitions in an epslion-NFA
 \newcommand{\bbfunc}{\boldsymbol{\Sigma}}
 
+% LOOP and WHILE programs
+\newcommand{\Svar}[1]{\texttt{#1}} % variable names
+\newcommand{\Svsub}[2]{\ensuremath{\Svar{#1}_{\Svar{#2}}}} % variable names
+\newcommand{\Sxsub}[1]{\Svsub{x}{#1}} % variable names
+\newcommand{\Sseq}{\texttt{;}}
+\newcommand{\SStartLoop}[1]{\Scode{LOOP}~#1~\Scode{DO}~}
+\newcommand{\SEndLoop}{\Scode{END}}
+\newcommand{\SStartIf}[1]{\Scode{IF}~#1~\Scode{THEN}~}
+\newcommand{\SElse}{\Scode{ELSE}}
+\newcommand{\SEndIf}{\Scode{END}}
+\newcommand{\Svassign}{\texttt{ := }} % variable assignments
+\newcommand{\Svneq}{\texttt{!=}\ensuremath{\,}} % inequality operator
+\newcommand{\Splus}{\texttt{ + }} % addition operator
+\newcommand{\Sminus}{\texttt{ - }} % subtraction operator
+\newcommand{\SStartWhile}[1]{\Scode{WHILE}~#1\Svneq\texttt{\Scodelit{0}}~\Scode{DO}~}
+\newcommand{\SEndWhile}{\Scode{END}}
+
 %%% Old macros below; move when needed
 
 \newcommand{\blank}{\text{\textvisiblespace}} % empty tape cell for TM

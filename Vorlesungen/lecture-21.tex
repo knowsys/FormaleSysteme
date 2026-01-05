@@ -4,760 +4,638 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{21}{Aussagenlogik}{8. Januar 2024}
+\defineTitle{21}{WHILE und LOOP}{12. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
-% \begin{frame}\frametitle{}
-% 
-% ~\hfill
-% \includegraphics[height=6.5cm]{a4}
-% \hfill~
-% 
-% \end{frame}
+\begin{frame}\frametitle{Was bisher geschah \ldots}
 
-% \sectionSlide{Besprechung Lehrevaluation}
-% 
-% \newcommand{\praise}[1]{\textcolor{darkgreen}{"`#1"'}}
-% \newcommand{\critique}[1]{~\hfill\textcolor{darkred}{"`#1"'}}
-% 
-% \begin{frame}\frametitle{Kommentare: Allgemeines}
-% 
-% \narrowcentering{{\large \alert{Danke für die vielen freundlichen Kommentare!}}}
-% \bigskip
-% 
-% \emph{Konkrete Verbesserungswünsche:}
-% \begin{itemize}
-% \item "`Interaktive Lernmöglichkeiten bereitstellen"'\pause
-% \item "`Da viel Stoff in der Vorlesung durchgenommen wird und Algorithmen aus dem Skript allein schwieriger zu verstehen sind, wäre eine Vorlesungsaufzeichnung gut (wie bei Rechnernetze)"'\pause
-% \item "`Besser auf Vorwissen der Studenten abstimmen (z.B. Algorithmen und Datenstrukturen)"'\pause
-% \item "`Die Übungsserien sollten zu einer gewissen Prozentzahl verpflichtend für eine Prüfungszulassung sein (=> Motivation)."'\pause
-% \item "`Den Namen [würde ich verbessern]"'\pause
-% \item "`Mehr Katzenbilder in den Folien"' (mal sehen \ldots)
-% \end{itemize}
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Kommentare: Verständlichkeit und Motivation}
-% 
-% \textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
-% \bigskip
-% 
-% \praise{Gute Erklärweise}\\[1ex]
-% \praise{Herr Krötzsch erklärt gut und verständlich}\\[1ex]
-% \critique{nicht alles was Studenten nicht verstehen ist `trivial'}\\[3ex]
-% \praise{Prof.\ Krötzsch kann sehr gut erklären}\\[1ex]
-% \critique{Etwas mehr Bezug zur Praxis}\\[1ex]
-% \critique{mehr Beispiele, selbst wenn nicht praktisch}\\[1ex]
-% \critique{Aufgaben durchrechnen -> Beispiele}
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Kommentare: Beweise und Tempo}
-% 
-% \textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
-% \bigskip
-% 
-% \praise{viele Beweise}\\[1ex]
-% \critique{Viele Beweise hindern das Verstehen}\\[1ex]
-% \critique{Weniger Algorithmen, mehr Beweise}\\[1ex]
-% \praise{gestaltet die VL im idealen Tempo und hat eine sehr gute Präsentationsart}\\[1ex]
-% \critique{Die Geschwindigkeit ist so hoch, das man nicht mitschreiben kann.}\\[1ex]
-% \critique{langsamer sprechen}
-% 
-% \end{frame}
-% 
-% % \begin{frame}\frametitle{Kommentare: Zusammenfassungen und Wiederholungen}
-% % 
-% % \textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
-% % \bigskip
-% % 
-% % \praise{Regelmäßiges Zusammenfassen des Stoffes}\\[1ex]
-% % \praise{Wiederholungen}\\[1ex]
-% % \praise{Wiederholungen zur Festigung des Stoffes}\\[1ex]
-% % \critique{Die Zusammenfassungen und Wiederholungen des bereits abgeschlossenen Stoffes sind viel zu Ausführlich}\\[1ex]
-% % \critique{nicht alles 3 mal erklären, man versteht es beim ersten mal}\\[1ex]
-% % \critique{Mehr Wiederholungen. Explain it like I'm 5}
-% % 
-% % \end{frame}
-% 
-% \begin{frame}\frametitle{Kommentare: Folien vs. Tafel}
-% 
-% \textbf{\textcolor{darkgreen}{\ldots besonders gut gefallen?}}\hfill\textbf{\textcolor{darkred}{Verbesserungswünsche?}}
-% \bigskip
-% 
-% \praise{sehr gute Folien}\\[0.5ex]
-% \praise{anschauliche Folien}\\[0.5ex]
-% \praise{sehr schöne Folien}\\[0.5ex]
-% \praise{sehr gut erklärende Folien}\\[0.5ex]
-% \praise{Übersichtliche Folien}\\[0.5ex]
-% \praise{Visualisierungen sind on point.}\\[0.5ex]
-% \critique{Mehr mit Tafel arbeiten}\\[1ex]
-% \critique{Schreiben Sie mehr an die Tafel, damit wir etwas zum Schreiben haben}\\[1ex]
-% \critique{Eine traditionelle Vorlesung an der Tafel oder mit Stift auf Polylux würde automatisch die optimale Stoffmenge geben und das Lernen vereinfachen.}
-% 
-% \end{frame}
-% 
-% % \sectionSlideNoHandout{Rückblick}
-% % 
-% % \begin{frame}\frametitle{Typ 0 und Typ 1}
-% % 
-% % \ldots
-% % 
-% % \end{frame}
-
-% \sectionSlide{Logik}
-
-
-\begin{frame}\frametitle{Logik für InformatikerInnen}
-
-\pause
-\begin{center}
-\Huge Warum?
-\end{center}
-
-\end{frame}
-
-\begin{frame}\frametitle{Logik für InformatikerInnen: Darum (1)}
-
-\begin{center}
-\LARGE 
-\[ \frac{\text{Logik}}{\text{Informatik}} = \frac{\text{Analysis}}{\text{Ingenieurwesen}}\]
-
+\emph{Grundbegriffe, die wir verstehen und erklären können:}\\
+DTM, NTM, Entscheider, Aufzähler, berechenbar/entscheidbar, semi-entscheidbar, unentscheidbar, Church-Turing-These
 \bigskip
-\large
-"`Wer rechnende Systeme verstehen und konstruieren will, der benötigt passende mathematische Modelle.\\Dieser Weg führt oftmals zur Logik."'
-\end{center}
 
-
+\emph{Das Unentscheidbare:}
 \begin{itemize}
-\item Modellierung von Programm\alert{logik} und \alert{logischen} Schaltungen
-\item Berechnung praktisch relevanter Eigenschaften durch logisches Schließen
-\item Hauptanwendung: \redalert{Verifikation von Systemen}
+\item "`An algorithm is a finite answer to an infinite number of questions."'\\ (Stephen Kleene)
+\item Aber: Es gibt mehr Möglichkeiten, unendlich viele Fragen zu beantworten, als es Algorithmen geben kann (Cantor)
 \end{itemize}
 
-\end{frame}
-
-\begin{frame}\frametitle{Logik für InformatikerInnen: Darum (2)}
-
-\begin{center}
-\LARGE 
-Logik = Wissenschaft vom folgerichtigen Denken
-
 \bigskip
-\large
-"`Wer intelligente Software entwickeln will, der muss logische Schlussfolgerungen algorithmisch umsetzen.\\
-Die Logik liefert die nötigen Methoden."'
-\end{center}
-
-
+\emph{Weitere wichtige Ergebnisse:}
 \begin{itemize}
-\item Kodierung von gültigen Zusammenhängen und Regeln
-\item Logisches Schließen als Simulation von intelligentem Denken
-\item Hauptanwendung: \redalert{Künstliche Intelligenz}
+\item DTM und NTM haben die gleiche Ausdrucksstärke
+\item Zusammenhang Aufzähler $\leftrightarrow$ Semi-Entscheidbarkeit
+\item Busy Beaver ist unentscheidbar:\\ "`Was eine TM schaffen kann, das kann keine TM vorherberechnen."'
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}\frametitle{Logik für InformatikerInnen: Darum (3)}
+\sectionSlide{LOOP}
 
-\begin{center}
-\LARGE 
-Logisches Schließen = Problemlösen
+\begin{frame}\frametitle{Von TMs zu Programmiersprachen}
 
-\bigskip
-\large
-"`Bedeutende Klassen von (schweren) Problemen lassen sich\\ durch logische Schlussfolgerung lösen.\\
-Algorithmen aus der Logik sind in vielen anderen Bereichen anwendbar."'
-\end{center}
-
-
+\emph{Turingmaschinen als Berechnungsmodell}
 \begin{itemize}
-\item Logik als Spezifikationssprache für komplexe Probleme
-\item Logisches Schließen als Suche nach zulässigen Lösungen
-\item Anwendungen: \redalert{Constraint-Satisfaction-Probleme} und verwandte Optimierungsaufgaben
+\item \alert{Pro:} Einfache, kurze Beschreibung (eine Folie)\\
+	$\leadsto$ Beweise oft ebenfalls einfach und kurz
+\item \redalert{Kontra:} Umständliche Programmierung\\
+	$\leadsto$ einfache Algorithmen erfordern tausende Einzelschritte
+\end{itemize}
+\bigskip\pause
+
+\emph{Programmiersprachen als Berechnungsmodell}
+\begin{itemize}
+\item \alert{Pro:} Einfache, bequeme Programmierung\\
+	$\leadsto$ Großer Befehlssatz + Bibliotheken für Standardaufgaben
+\item \redalert{Kontra:} Umständliche Beschreibung\\
+	(z.B. Beschreibung von C++ [ISO/IEC 14882] hat 776 Seiten)\\
+	$\leadsto$ Eigenschaften oft unklar; Beweise sehr umständlich
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}\frametitle{Logik für InformatikerInnen: Darum (4)}
+\begin{frame}\frametitle{LOOP-Programme}
 
-\begin{center}
-\LARGE 
-Logiken = Beschreibungssprachen
-
+\emph{Idee:} Definiere eine imperative Programmiersprache, die dennoch sehr einfach ist.
 \bigskip
-\large
-"`Überall wo Informationen maschinell kodiert werden und wo exakt spezifiziert ist, was eine Anwendung\\ aus dieser Kodierung ableiten darf,\\hat man es mit einer Art Logik zu tun."'
-\end{center}
 
-
+\emph{Features:}
 \begin{itemize}
-\item Logik als Oberbegriff exakt spezifizierter Datenformate
-\item Schlussfolgerung zur \ghost{Interpretation/Analyse/Optimierung}
-\item Anwendungen: \redalert{Wissensrepräsentation} und \redalert{Datenbanken}
+\item Variablen \Sxsub{0}, \Sxsub{1}, \Sxsub{2}, \ldots{} oder auch \Svar{x}, \Svar{y}, \Svar{variablenName}, \ldots\\
+alle vom Typ ``natürliche Zahl''
+\item Wertezuweisungen der Form\\[1ex]
+\mbox{}\hfill%
+$\Svar{x} \Svassign \Svar{y} \Splus \Scodelit{42}\qquad$ und $\qquad\Svar{x} \Svassign \Svar{y} \Sminus \Scodelit{23}$\hfill\mbox{}\\[1ex]
+%
+für beliebige natürliche Zahlen und Variablennamen
+\item ``For-Schleifen'': \SStartLoop{\Svar{x}} \ldots{} \SEndLoop
 \end{itemize}
+
 \end{frame}
 
-\begin{frame}\frametitle{Was ist Logik?}
+\begin{frame}\frametitle{LOOP-Programme: Syntax}
+
+\defbox{\emph{Definition:} Die Programmiersprache \redalert{LOOP} basiert auf einer unendlichen Menge $\Slang{V}$ von Variablen
+und der Menge $\mathbb{N}$ der natürlichen Zahlen.
+\redalert{LOOP-Programme} sind induktiv definiert:
+\begin{itemize}
+\item Die Ausdrücke\vspace{-1ex}
+\[\Svar{x} \Svassign \Svar{y} \Splus n \quad\text{und}\quad \Svar{x} \Svassign \Svar{y} \Sminus n \quad\text{\redalert{(Wertzuweisung)}}\]\vspace{-3.5ex}
+
+sind LOOP-Programme für alle $\Svar{x},\Svar{y}\in\Slang{V}$ und $n\in\mathbb{N}$.
+\item Wenn $P_1$ und $P_2$ LOOP-Programme sind, dann ist\vspace{-1ex}
+\[P_1\Sseq{}~P_2 \quad\text{\redalert{(Hintereinanderausführung)}}\]\vspace{-3.5ex}
+
+ein LOOP-Programm.
+\item Wenn $P$ ein LOOP-Programm ist, dann ist\vspace{-1ex}
+\[\SStartLoop{\Svar{x}}P~\SEndLoop{}\quad\text{\redalert{(Schleife)}}\]\vspace{-3.5ex}
+
+ein LOOP-Programm, für jede Variable $\Svar{x}\in\Slang{V}$.
+\end{itemize}
+
+}
+
+\emph{Vereinfachung:} Wir erlauben \Sseq{} in Programmen durch Zeilenumbrüche zu ersetzen
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+Das folgende LOOP-Programm addiert zum Wert von \Svar{y} genau \Svar{x}-mal die Zahl $2$:
+\bigskip
+
+\codebox{{\tt
+\SStartLoop{\Svar{x}}\\
+~~~\Svar{y}\Svassign \Svar{y}\Splus\Scodelit{2}\\
+\SEndLoop{}
+}}\bigskip
 \pause
 
-"`Logik"' ist ein allgemeiner Oberbegriff für viele mathematische und technische Formalismen,
-gekennzeichnet durch:
+Dies entspricht also der Zuweisung $\Svar{y}\Svassign \Svar{y}\Splus (\Scodelit{2}~\texttt{*}~\Svar{x})$, die wir in LOOP nicht direkt schreiben können.
+
+
+\end{frame}
+
+\begin{frame}\frametitle{LOOP-Programme: Semantik (1)}
+
+\emph{Funktionsweise eines LOOP-Programms $P$:}
 \begin{itemize}
-\item \redalert{Syntax:} Sprache einer Logik (normalerweise Formeln mit logischen Operatoren)
-\item \redalert{Semantik:} Definition der Bedeutung (Worauf beziehen sich die Formeln? Wann ist eine Formel wahr oder falsch?)
-% \item \redalert{Inferenz:} Spezifikation der korrekten logische Schlussfolgerungen (Welche neuen Formeln kann man aus den bekannten ableiten?)
+\item \alert{Eingabe:} Eine Liste von $k$ natürlichen Zahlen\\
+(Anmerkung: $k$ wird nicht durch das Programm festgelegt)
+\item \alert{Ausgabe:} Eine natürliche Zahl
+\end{itemize}
+$P$ berechnet also eine totale Funktion $\mathbb{N}^k\to \mathbb{N}$, für beliebige $k$
+\bigskip\pause
+
+\emph{Initialisierung für Eingabe $n_1,\ldots,n_k$:}
+\begin{itemize}
+\item LOOP speichert für jede Variable eine natürliche Zahl als Wert
+\item Den Variablen $\Sxsub{1},\ldots,\Sxsub{k}$ werden anfangs die Werte $n_1,\ldots,n_k$ zugewiesen
+\item Allen anderen Variablen wird der Anfangswert $0$ zugewiesen
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{LOOP-Programme: Semantik (2)}
+
+Nach der Initialisierung wird das LOOP-Programm abgearbeitet:
+\begin{itemize}
+\item $\Svar{x} \Svassign \Svar{y} \Splus n$:\\
+der Variable $\Svar{x}$ wird als neuer Wert die Summe des (alten) Wertes für $\Svar{y}$ und der Zahl $n$ zugewiesen
+\item $\Svar{x} \Svassign \Svar{y} \Sminus n$:\\
+der Variable $\Svar{x}$ wird als neuer Wert die Differenz des (alten) Wertes für $\Svar{y}$ und der Zahl $n$ zugewiesen, falls diese größer $0$ ist; ansonsten wird $\Svar{x}$ der Wert $0$ zugewiesen
+\item $P_1\Sseq{}~P_2$:\\
+erst wird $P_1$ abgearbeitet, dann $P_2$
+\item $\SStartLoop{\Svar{x}}P~\SEndLoop{}$:\\
+$P$ wird genau $n$-mal ausgeführt, für den Zahlenwert $n$, der $\Svar{x}$ anfangs zugewiesen ist\\
+\textcolor{devilscss}{($n$ ändert sich also nicht, wenn $P$ den Wert von $\Svar{x}$ ändert)}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{LOOP-Programme: Semantik (3)}
+
+\emph{Ausgabe eines LOOP-Programms:}\\
+\begin{itemize}
+\item Das Ergebnis der Abarbeitung ist der Wert der Variable $\Sxsub{0}$ nach dem Beenden der Berechnung
+\end{itemize}
+\bigskip\pause
+
+\theobox{\emph{Satz:} LOOP-Programme terminieren immer nach endlich vielen Schritten.}
+
+\pause
+\emph{Beweis:} Die Behauptung gilt sicherlich für Wertzuweisungen.
+\bigskip
+
+Weitere Fälle:
+\begin{itemize}
+\item $P_1\Sseq{}~P_2$:\\
+	wenn $P_1$ und $P_2$ nach endlich vielen Schritten terminieren, dann auch $P_1\Sseq{}~P_2$
+\item $\SStartLoop{\Svar{x}}P~\SEndLoop{}$:\\
+	für jede mögliche Zuweisung von $\Svar{x}$ wird $P$ endlich oft wiederholt;
+	wenn $P$ in endlich vielen Schritten terminiert, dann also auch die Schleife\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Anmerkung: Strukturelle Induktion}
+
+Der vorangegangene einfache Beweis verwendet \redalert{Induktion}, um eine
+Aussage für unendlich viele Programme zu zeigen:
+\begin{itemize}
+\item \alert{Induktionsanfang:} Die Behauptung gilt für Wertzuweisungen (die einfachsten LOOP-Programme)
+\item \alert{Induktionsannahme:} Die Behauptung gilt bereits für Programme $P$, $P_1$, $P_2$
+\item \alert{Induktionsschritte:}
+\begin{enumerate}[(1)]
+\item Die Behauptung gilt dann auch für $P_1\Sseq{}~P_2$.
+\item Die Behauptung gilt dann auch für $\SStartLoop{\Svar{x}}P~\SEndLoop{}$.
+\end{enumerate}
+\end{itemize}
+\bigskip
+
+\anybox{strongyellow}{Merke: Induktion kann man nicht nur auf natürliche Zahlen anwenden, sondern auf alle
+(unendlichen) Mengen, die man induktiv mit endlich vielen Operationen aus Grundfällen erzeugen kann.
+}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Programmieren in LOOP (1)}
+
+LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\\[1ex]
+
+\emph{Wertzuweisung mit Variable:} ``$\Svar{x}\Svassign \Svar{y}$'':\pause
+
+\codebox{{\tt
+\Svar{x}\Svassign \Svar{y}\Splus \Scodelit{0}
+}}\bigskip\pause
+
+\emph{Wertzuweisung mit $0$:} ``$\Svar{x}\Svassign \Scodelit{0}$'':\pause
+
+\codebox{{\tt
+\SStartLoop{\Svar{x}}\\
+~~~\Svar{x}\Svassign \Svar{x}\Sminus\Scodelit{1}\\
+\SEndLoop{}
+}}\bigskip\pause
+
+\emph{Wertzuweisung einer beliebigen konstanter Zahl:} ``$\Svar{x}\Svassign n$'':\pause
+
+\codebox{{\tt
+\Svar{x}\Svassign \Scodelit{0}\\
+\Svar{x}\Svassign \Svar{x}\Splus n
+}}%\bigskip
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Programmieren in LOOP (2)}
+
+LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\\[1ex]
+
+\emph{Wertzuweisung:} ``$\Svar{x}\Svassign \Svar{y}~\texttt{+}~\Svar{z}$'':\pause
+
+\codebox{{\tt
+\Svar{x}\Svassign\Svar{y}\\
+\SStartLoop{\Svar{z}}\\
+~~~\Svar{x}\Svassign \Svar{x}\Splus\Scodelit{1}\\
+\SEndLoop{}
+}}\bigskip\pause
+
+
+\emph{Fallunterscheidung:} ``$\SStartIf{\Svar{x}\Svneq\Scodelit{0}}~P~\SEndIf$'':\pause
+
+\codebox{{\tt
+\SStartLoop{\Svar{x}}~\Svar{y}\Svassign \Scodelit{1}~~\SEndLoop{}\\
+\SStartLoop{\Svar{y}}~P~~\SEndLoop{}
+}}\medskip
+
+Dabei ist $\Svar{y}$ eine frische Variable, die bisher nirgends sonst verwendet wird.
+
+% \bigskip
+
+\end{frame}
+
+\begin{frame}\frametitle{LOOP-Berechenbare Funktionen}
+
+\defbox{\emph{Definition:} Eine Funktion $\mathbb{N}^k\to\mathbb{N}$ heißt \redalert{LOOP-berechenbar}, wenn es ein LOOP-Programm gibt, das die Funktion berechnet.}\bigskip
+\pause
+
+\examplebox{Beispiel: Die folgenden Funktionen sind LOOP-berechenbar:
+\begin{itemize}
+\item Addition: $\tuple{x,y}\mapsto x+y$ (gerade gezeigt)
+\item Multiplikation: $\tuple{x,y}\mapsto x\cdot y$ (siehe Übung)
+\item Potenz: $\tuple{x,y}\mapsto x^y$ (entsteht aus $\cdot$ wie $\cdot$ aus $+$)
+\item und viele andere \ldots (max, min, div, mod, usw.)
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{LOOP jenseits von $\mathbb{N}$}
+
+\pause
+LOOP kann auch das $\Svar{x}$-te Bit der Binärkodierung von $\Svar{y}$ berechnen. Dadurch kann
+man in LOOP (auf umständliche Weise) auch Daten verarbeiten, die keine Zahlen sind:
+\begin{enumerate}[(1)]
+\item Kodiere beliebigen Input binär
+\item Evaluiere die Binärkodierung als natürliche Zahl und verwende diese als Eingabe
+\item Dekodiere den Input im LOOP-Programm
+\end{enumerate}
+In diesem Sinne sind viele weitere Funktionen LOOP-berechenbar.
+\bigskip\pause
+
+\examplebox{Beispiele für LOOP-berechenbare Funktionen:
+\begin{itemize}
+\item das Wortproblem regulärer, kontextfreier und kontextsensitiver Sprachen
+\item alle Probleme in \complclass{NP}, z.B. Erfüllbarkeit propositionaler Logik
+\item praktisch alle gängigen Algorithmen (Sortieren, Suchen, Optimieren, \ldots)
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die Grenzen von LOOP}
+
+\theobox{\emph{Satz:} Es gibt berechenbare Funktionen, die nicht LOOP-berechenbar sind.}\pause
+
+Das ist weniger überraschend, als es vielleicht klingt:\smallskip
+
+\emph{Beweis:} Ein LOOP-Programm terminiert immer. Daher ist jede LOOP-berechenbare Funktion total. Es gibt aber auch nicht-totale Funktionen, die berechenbar sind (z.B. die ``partiellste'' Funktion, die nirgends definiert ist).\qed
+% \bigskip\pause
+% 
+% \theobox{Satz: Es gibt berechenbare totale Funktionen, die nicht LOOP-berechenbar sind.}\pause
+% 
+% Das ist überraschend. Hilbert glaubte 1926 noch, dass alle Funktionen so berechnet werden können -- quasi ein erster Versuch der Definition von Berechenbarkeit.
+% 
+% {\tiny Hilbert definierte LOOP-Berechenbarkeit etwas anders, mithilfe sogenannter \redalert{primitiv rekursiver Funktionen}.
+% }
+
+\end{frame}
+
+
+\begin{frame}\frametitle{LOOP-berechenbar $\neq$ berechenbar}
+
+\theobox{\emph{Satz:} Es gibt berechenbare totale Funktionen, die nicht LOOP-berechenbar sind.}\pause
+
+Das ist überraschend. Hilbert glaubte 1926 noch, dass alle Funktionen so berechnet werden können -- quasi ein erster Versuch der Definition von Berechenbarkeit.
+
+{\tiny Hilbert definierte LOOP-Berechenbarkeit etwas anders, mithilfe sogenannter \redalert{primitiv rekursiver Funktionen}.
+}\pause\bigskip
+
+Bewiesen wurde der Satz zuerst von zwei Studenten Hilberts:
+\begin{itemize}
+\item Gabriel Sudan (1927)
+\item Wilhelm Ackermann (1928)
+\end{itemize}\pause
+Jeder der beiden gab eine Funktion an (Sudan-Funktion und Ackermann-Funktion), die nicht LOOP-berechenbar ist.
+\bigskip
+
+Unser Beweis verwendet eine etwas andere Idee \ldots
+
+\end{frame}
+
+\begin{frame}\frametitle{Fleißige Biber für LOOP}
+
+Die \redalert{Länge} eines LOOP-Programms ist die Anzahl an
+Zeichen, aus denen es besteht. Dazu nehmen wir an:
+\begin{itemize}
+\item Zahlen werden in ihrer Dezimalkodierung geschrieben
+\item Variablen sind mit lateinischen Buchstaben und Ziffern benannt (wir sehen $\Sxsub{123}$ als Schreibweise für $\Svar{x123}$ an)
+\item Wir betrachten $\Sseq$ als ein Zeichen (Zeilenumbrüche werden dagegen nicht gezählt)
 \end{itemize}\bigskip\pause
 
-Typische Zielstellung: \redalert{Logische Schlussfolgerung}
+\defbox{\emph{Definition:} Die Funktion $\bbfunc_{\textsf{LOOP}}:\mathbb{N}\to\mathbb{N}$ liefert für jede Zahl $\ell$ die größte Zahl $\bbfunc_{\textsf{LOOP}}(\ell)$, die ein LOOP-Programm der Länge $\leq\ell$ für eine leere Eingabe (alle Variablen sind $0$) ausgibt. Dabei sei
+$\bbfunc_{\textsf{LOOP}}(\ell)=0$ falls es kein Programm der Länge $\leq\ell$ gibt.
+}\pause
+
+\emph{Beobachtung:} $\bbfunc_{\textsf{LOOP}}$ ist wohldefiniert:
 \begin{itemize}
-\item Welche Schlüsse kann man aus einer gegebenen (Menge von) Formel(n) ziehen?
-\item Spezifikation der korrekten Schlussfolgerungen sollte sich aus Semantik ergeben
-\item Praktische Berechnung von Schlussfolgerungen ist oft kompliziert
+\item Die Zahl der LOOP-Programme mit maximaler Länge $\ell$ ist endlich
+\item Unter diesen Programmen gibt es eine maximale Ausgabe
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Viele Logiken}
-
-Es gibt sehr viele Logiken, z.B.
-\begin{itemize}
-\item Aussagenlogik
-\item Prädikatenlogik (erster Stufe)
-\item Prädikatenlogik zweiter Stufe
-\item Beschreibungslogiken (Wissensrepräsentation und KI)
-\item Temporallogiken (z.B. Verifikation zeitlicher Abläufe)
-\item Logikprogramme (Answer Set Programming, Prolog, \ldots)
-\item Nichtklassische Logiken (z.B. intuitionistische Logik)
-\item Mehrwertige Logiken (z.B. probabilistische Logik)
-\item \ldots und viele andere mehr
-\end{itemize}
-
-$\leadsto$ In dieser Vorlesung lernen wir zunächst \alert{Aussagenlogik} kennen
-\bigskip
-
-(Mehr gibt es in der Vorlesung "`Theoretische Informatik und Logik"')
-
-\end{frame}
-
-\sectionSlide{Aussagenlogik}
-
-\begin{frame}\frametitle{Aussagenlogik}
-
-Die Aussagenlogik untersucht \alert{logische Verknüpfungen von atomaren Aussagen}.
-\bigskip
-
-\redalert{Atomare Aussagen} sind Behauptungen, die wahr oder falsch sein können, z.B.:
-
-\examplebox{\vspace{-2ex}
-\begin{enumerate}[{A}1]
-\item "`Morgen schneit es."'
-\item "`Wir werden einen Schneemann bauen."'
-% \item "`"'
-\end{enumerate}\vspace{-1ex}
-\begin{enumerate}[{B}1]
-\item "`Die Vorstellung von der globalen Erderwärmung wurde von den Chinesen erfunden."'
-\item "`Die Temperatur der Ozeane ist seit 1998 in unverminderter Geschwindigkeit angestiegen."'
-\end{enumerate}\vspace{-1ex}
-\begin{enumerate}[{C}1]
-\item "`Typ-2-Sprachen sind unter Vereinigung abgeschlossen."'
-\item "`Typ-2-Sprachen sind unter Komplement abgeschlossen."'
-\item "`Typ-2-Sprachen sind unter Schnitt abgeschlossen."'
-\end{enumerate}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Aussagen verknüpfen}
-
-Atomare Aussagen können mithilfe logischer \alert{Junktoren} verknüpft werden:
-
-\examplebox{\vspace{-2ex}
-\begin{itemize}
-\item $\text{A1}\to \text{A2}$: "`Wenn es morgen schneit, dann werden wir einen Schneemann bauen."'
-\item $\text{A1}\vee \neg\text{A1}$: "`Entweder schneit es morgen oder nicht."'
-\item $\text{B1}\to \neg\text{B2}$: "`Falls die Chinesen die globale Erwärmung erfunden haben, dann steigt die Temperatur der Ozeane nicht unvermindert an."'
-\item $(\text{C1}\wedge\text{C2})\to \text{C3}$: "`Sind Typ-2-Sprachen unter Vereinigung und Komplement abgeschlossen, dann sind sie auch unter Schnitt abgeschlossen."'
-\end{itemize}}
-
-\end{frame}
-
-% \begin{frame}
-% 
-% ~\hfill
-% \includegraphics[height=6.5cm]{a6}
-% \hfill~
-% % \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/208/}, CC-BY-NC 2.5}
-% 
-% \end{frame}
-
-\begin{frame}\frametitle{Logisches Schließen}
-
-Wenn einige Formeln als wahr angenommen werden, dann kann die Wahrheit anderer Formeln daraus abgeleitet werden.
-\bigskip
-
-\examplebox{%
-\emph{Beispiele:}
-\begin{itemize}
-\item Aus $\text{B2}$ und $\text{B1}\to \neg\text{B2}$ folgt $\neg\text{B1}$
-\item Aus $\text{C1}$, $\neg\text{C3}$ und $(\text{C1}\wedge\text{C2})\to \text{C3}$ folgt $\neg\text{C2}$
-\item Aus $\text{A1}\to \text{A2}$ und $\neg\text{A1}$ folgt \redalert{nicht} $\neg\text{A2}$
-\end{itemize}}\pause\bigskip
-
-\anybox{purple}{
-Die Gültigkeit bestimmter Schlussfolgerungen hat nichts mit Schneemännern,\\ Erderhitzung oder Typ-2-Sprachen zu tun!\\
-Sie ist eine rein logische Konsequenz.
-}
-
-\end{frame}
-
-\newcommand{\Aname}{Anna}
-\newcommand{\Bname}{Barbara}
-\newcommand{\Cname}{Chris}
-
-\begin{frame}\frametitle{Beispiel: Logelei}
-
-\Aname{} behauptet: "`\Bname{} lügt!"'
-\bigskip
-
-\Bname{} behauptet: "`\Cname{} lügt!"'
-\bigskip
-
-\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'
-\bigskip\bigskip
-
-{\Large
-\narrowcentering{\alert{Wer lügt?}}
-}
-
-\medskip
-{\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
-% \bigskip
-
-% 
-% $A\leftrightarrow\neg B$
-% $B\leftrightarrow\neg C$
-% $C\leftrightarrow\neg A \wedge \neg B$
-
-\end{frame}
-
-\begin{frame}\frametitle{Aussagenlogik: Syntax}
-
-Wir betrachten eine abzählbar unendliche Menge $\Slang{P}$ von
-\redalert{atomaren Aussagen} (auch bekannt als: \redalert{aussagenlogische Variablen}, \redalert{Propositionen} oder schlicht \redalert{Atome})
-\medskip
-
-\defbox{Die Menge der \redalert{aussagenlogischen Formeln} ist induktiv\footnote{Das bedeutet: Die Definition ist selbstbezüglich und soll die kleinste\\ Menge an Formeln beschreiben, die alle Bedingungen erfüllen.} definiert:
-\begin{itemize}
-\item Jedes Atom $p\in\Slang{P}$ ist eine aussagenlogische Formel
-\item Wenn $F$ und $G$ aussagenlogische Formeln sind, so auch:
-	\begin{itemize}
-	\item $\neg F$: \redalert{Negation}, "`nicht $F$"'
-	\item $(F\wedge G)$: \redalert{Konjunktion}, "`$F$ und $G$"'
-	\item $(F\vee G)$: \redalert{Disjunktion}, "`$F$ oder $G$"'
-	\item $(F\to G)$: \redalert{Implikation}, "`$F$ impliziert $G$"'
-	\item $(F\leftrightarrow G)$: \redalert{Äquivalenz}, "`$F$ ist äquivalent zu $G$"'
-	\end{itemize}
-\end{itemize}
-}
-
-Wir verzichten hier oft auf "`aussagenlogisch"' und sprechen z.B. einfach von "`Formeln"'.
 
 \end{frame}
 
 \begin{frame}\frametitle{Beispiele}
 
-Die folgenden Ausdrücke sind aussagenlogische Formeln:
-\begin{itemize}
-\item $p$
-\item $((p\to q)\to p)\to p$
-\item $\neg \neg \neg p$
-\end{itemize}
+\examplebox{\emph{Beispiel:} Die LOOP-Anweisung
+$\Sxsub{0}\texttt{:=}\Svar{y}\texttt{+}9$
+liefert das fleißigste Programm für $\ell=7$, d.h. $\bbfunc_{\textsf{LOOP}}(7)=9$.
+}\medskip\pause
+
+Für $\ell=8$ gilt dementsprechend bereits $\bbfunc_{\textsf{LOOP}}(8)=99$.
 \medskip
 
-Die folgenden Ausdrücke sind \redalert{keine} aussagenlogischen Formeln:
-\begin{itemize}
-\item $p\wedge q \vee r$ (fehlende Klammern)\\
-\anybox{strongyellow}{%
-\alert{Vereinfachung:} Äußere Klammern dürfen wegfallen, d.h. wir erlauben z.B. $p\to q$ anstatt auf $(p\to q)$ zu bestehen.
-}
-\item $(p\leftarrow q)$ (Operator $\leftarrow$ undefiniert)
-% \item $(p\leftrightarrow q)$ (Operator $\leftrightarrow$ undefiniert)
-% \anybox{strongyellow}{%
-% \alert{Notation:} Wir erlauben $(p\leftarrow q)$ als alternative Schreibweise für $(q\to p)$ und $(p\leftrightarrow q)$
-% als Abkürzung für $((p\to q)\wedge (q\to p))$.}
-\item $\overline{p\wedge q}$ (wir verwenden $\overline{\phantom{x}}$ nicht als Negation)
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Teilformeln}
-
-Wir können Formeln als Wörter über (endlichen Teilmengen aus) dem unendlichen Alphabet
-$\Slang{P}\cup\{\Sterm{\neg},\Sterm{\wedge},\Sterm{\vee},\Sterm{\to},\Sterm{\leftrightarrow},\Sterm{(},\Sterm{)}\}$ sehen:
-
-\[ \Snterm{F}\to \Slang{P}\mid \Sterm{\neg}\Snterm{F}\mid\Sterm{(}\Snterm{F}\Sterm{\wedge}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\vee}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\to}\Snterm{F}\Sterm{)} \mid\Sterm{(}\Snterm{F}\Sterm{\leftrightarrow}\Snterm{F}\Sterm{)}
-\]\pause
-%
-Eine \redalert{Teilformel} ist ein Teilwort (Infix) einer Formel, welches selbst eine Formel ist.
-Teilformeln werden auch \redalert{Unterformeln} genannt.\pause
-\medskip
-
-Alternativ kann man Teilformeln auch rekursiv definieren:
-
-\defbox{Die \redalert{Menge $\textsf{Sub}(F)$ der Teilformeln} einer Formel $F$ ist definiert als:
-\vspace{-2ex}
-\[ \textsf{Sub}(F) =\left\{\begin{array}{l@{~~}l@{}}
-	\{F\} & \text{falls }F\in\Slang{P} \\
-	\{\neg G\}\cup\textsf{Sub}(G) & \text{falls }F=\neg G \\
-	\{(G_1\wedge G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\wedge G_2) \\
-	\{(G_1\vee G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\vee G_2) \\
-	\{(G_1\to G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\to G_2) \\
-	\{(G_1\leftrightarrow G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\leftrightarrow G_2)
-\end{array}\right.\]\vspace{-2ex}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Semantik}
-
-\alert{Was bedeutet eine aussagenlogische Formel?}\pause
-\begin{itemize}
-\item Atome an sich bedeuten zunächst nichts\\
-$\leadsto$ sie können einfach wahr oder falsch sein\pause
-\item Je nachdem, welche Atome wahr sind und welche falsch, ergeben sich verschiedene "`Interpretationen"'\\
-$\leadsto$ dargestellt durch \redalert{Wertzuweisungen}\\
-\mbox{}\phantom{$\leadsto$} (Funktionen von $\Slang{P}$ nach $\{\mytrue,\myfalse\}$; $\mytrue$="`wahr"' und $\myfalse$="`falsch"')\pause
-\item Die Wahrheit (oder Falschheit) einer Formel ergibt sich aus dem Wahrheitswert der in ihr vorkommenden Atome\\
-$\leadsto$ Wertzuweisungen machen Formeln wahr oder falsch
-\end{itemize}
-
-\anybox{purple}{
-Die Bedeutung einer Formel besteht darin, dass sie uns Informationen darüber liefert,
-welche Wertzuweisungen möglich sind, falls die Formel wahr sein soll.
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Wertzuweisungen können Formeln erfüllen}
-
-Eine \redalert{Wertzuweisung} ist eine Funktion $w:\Slang{P}\to\{\mytrue,\myfalse\}$
-\bigskip
-
-% Die Wahrheit einer Formel kann rekursiv definiert werden:
-
-\defbox{Eine Wertzuweisung $w$ \redalert{erfüllt} eine Formel $F$, in Symbolen \redalert{$w\models F$}, wenn
-eine der folgenden rekursiven Bedingungen gilt:\smallskip
-
-\narrowcentering{\begin{tabular}{rll}
-\rowcolor{darkred!70!gray}
-\textcolor{white}{Form von $F$} & \textcolor{white}{$w\models F$ wenn:} & \textcolor{white}{$w\not\models F$ wenn:}\\
-$F\in \Slang{P}$: & $w(F)=\mytrue$ & $w(F)=\myfalse$\\
-\rowcolor{lightred!20}
-$F=\neg G$ & $w\not\models G$ & $w\models G$\\
-$F=(G_1\wedge G_2)$ & $w\models G_1$ und $w\models G_2$ & $w\not\models G_1$ oder $w\not\models G_2$\\
-\rowcolor{lightred!20}
-$F=(G_1\vee G_2)$ & $w\models G_1$ oder $w\models G_2$ & $w\not\models G_1$ und $w\not\models G_2$\\
-$F=(G_1\to G_2)$ & $w\not\models G_1$ oder $w\models G_2$ & $w\models G_1$ und $w\not\models G_2$\\
-\rowcolor{lightred!20}
-$F=(G_1\leftrightarrow G_2)$ & $w\models G_1$ und $w\models G_2$ & $w\models G_1$ und $w\not\models G_2$\\%[-1ex]
-\rowcolor{lightred!20}
-	& \multicolumn{1}{c}{\raisebox{1ex}{oder}} & \multicolumn{1}{c}{\raisebox{1ex}{oder}} \\[-2ex]
-\rowcolor{lightred!20}
-	& $w\not\models G_1$ und $w\not\models G_2$ & $w\not\models G_1$ und $w\models G_2$\\[-1ex]
-\\[-1.5ex]
-\end{tabular}}
-
-% Dabei schließt "`oder"' immer den Fall ein, dass beide Möglichkeiten gelten.
-Dabei bedeutet "`A oder B"' immer "`A oder B oder beides"'.
-
-% 
-% \begin{tabular}{rl}
-% $F\in \Slang{P}$: & $w\models F$ gdw. $w(F)=\mytrue$\\
-% $F=\neg G$: & $w\models F$ gdw. $w\not\models G$\\
-% $F=(G_1\wedge G_2)$: & $w\models F$ gdw. $w\models G_1$ und $w\models G_2$
-% \end{tabular}
-% 
-% \begin{itemize}
-% \item $F\in \Slang{P}$ mit $w(F)=\mytrue$
-% \item $F=\neg G$ mit $w\not\models G$
-% \item $F=(G_1\wedge G_2)$ mit $w\models G_1$ und $w\models G_2$
-% \item $F=(G_1\vee G_2)$ mit $w\models G_1$ oder $w\models G_2$ (oder beides!)
-% \item $F=(G_1\to G_2)$ mit $w\not\models G_1$ oder $w\models G_2$
-% \item $F=(G_1\leftrightarrow G_2)$ mit $w\models G_1$ genau dann wenn $w\models G_2$
-% \end{itemize}
-% 
-% Der \redalert{Wahrheitswert $\hat{w}(F)$} einer Formel $F$ unter einer Wertezuweisung $w$ ist
-% wie folgt definiert:
-% \vspace{-2ex}
-% \[ \hat{w}(F) =\left\{\begin{array}{l@{~~}l@{}}
-% 	w(F) & \text{falls }F\in\Slang{P} \\
-% 	\{\neg G\}\cup\textsf{Sub}(G) & \text{falls }F=\neg G \\
-% 	\{(G_1\wedge G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\wedge G_2) \\
-% 	\{(G_1\vee G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\vee G_2) \\
-% 	\{(G_1\to G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\to G_2) \\
-% 	\{(G_1\leftrightarrow G_2)\}\cup\textsf{Sub}(G_1)\cup\textsf{Sub}(G_2) & \text{falls }F=(G_1\leftrightarrow G_2)
-% \end{array}\right.\]\vspace{-2ex}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Formeln Wahrheitswerte zuweisen}
-
-Wir können Wertzuweisungen von Atomen auf Formeln erweitern:
-\[ w(F)=\left\{\begin{array}{rl}\mytrue & \text{falls } w\models F\\
-\myfalse & \text{falls } w\not\models F
-\end{array}\right.\]\pause
-
-\redalert{Wahrheitswertetabellen} illustrieren die Semantik der Junktoren:\medskip
-
-\narrowcentering{%
-\begin{tabular}{cc}
-\rowcolor{lightblue!20}
-$w(F)$ & $w(\neg F)$\\
-\myfalse & \mytrue \\
-\rowcolor{gray!10}
-\mytrue & \myfalse \\
-\end{tabular}}\medskip
-
-\narrowcentering{\begin{tabular}{cccccc}
-\rowcolor{lightblue!20}
-$w(F)$ & $w(G)$ & $w(F\wedge G)$ & $w(F\vee G)$ & $w(F\to G)$ & $w(F\leftrightarrow G)$\\
-\myfalse & \myfalse & \myfalse & \myfalse& \mytrue & \mytrue\\
-\rowcolor{gray!10}
-\mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \myfalse\\
-\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \myfalse\\
-\rowcolor{gray!10}
-\mytrue & \mytrue & \mytrue & \mytrue& \mytrue & \mytrue\\
-\end{tabular}}
-
-\end{frame}
-
-\begin{frame}\frametitle{Wahrheitswerte von Formeln bestimmen}
-
-\begin{itemize}
-\item Der Wahrheitswert einer Formel hängt nur vom Wahrheitswert der (endlich vielen) Atome ab, die in
-ihr vorkommen.\\
-$\leadsto$ Wir geben oft nur diese an.
-\item Der Wahrheitswert einer Formel ergibt sich rekursiv aus dem Wahrheitswert ihrer Teilformeln.\\
-$\leadsto$ Darstellung in Wahrheitswertetabelle
-\end{itemize}
-
-\examplebox{\emph{Beispiel:} Für die Formel $F=((p\to q)\leftrightarrow(\neg q\to\neg p))$ und Wertzuweisung 
-$w$ mit $w(p)=\myfalse$ und $w(q)=\mytrue$ ergibt sich die folgende Tabelle:
-\medskip
-
-\narrowcentering{\begin{tabular}{ccccccc}
-\rowcolor{darkgreen!30}
-$w(p)$ & $w(q)$ & $w(p\to q)$ & $w(\neg p)$ & $w(\neg q)$ & $w(\neg q\to \neg p)$ & $w(F)$\\
-\myfalse & \mytrue & \mytrue & \mytrue & \myfalse & \mytrue & \mytrue\\
-\end{tabular}}
-
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiel: Logelei}
-
-\Aname{} behauptet: "`\Bname{} lügt!"'\hfill \visible<2->{$A\leftrightarrow \neg B$}
-\bigskip
-
-\Bname{} behauptet: "`\Cname{} lügt!"'\hfill \visible<3->{$B\leftrightarrow \neg C$}
-\bigskip
-
-\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill \visible<4->{$C\leftrightarrow (\neg A\wedge \neg B)$}
-\bigskip\bigskip
-
-{\Large
-\narrowcentering{\alert{Wer lügt?}}
-}
-
-\medskip
-{\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
-% \bigskip
-
-% 
-% $A\leftrightarrow\neg B$
-% $B\leftrightarrow\neg C$
-% $C\leftrightarrow\neg A \wedge \neg B$
-
-\end{frame}
-
-\begin{frame}\frametitle{Logische Konsequenzen}
-
-\defbox{Eine Wertzuweisung $w$ ist \redalert{Modell einer Formel $F$} wenn $w\models F$ (also wenn $w(F)=\mytrue$).
-% Wir erweitern diese Notation auf (möglicherweise unendliche) Formelmengen: $w$ ist ein \redalert{Modell der Menge $\mathcal{F}$}
-%  wenn $w\models F$ für alle $F\in\mathcal{F}$ gilt. In diesem Fall schreiben wir \redalert{$w\models\mathcal{F}$}.
-% 
-Ist $\mathcal{F}$ eine (möglicherweise unendliche) Menge von Formeln, dann ist $w$ ein \redalert{Modell der Menge $\mathcal{F}$}
- wenn $w\models F$ für alle $F\in\mathcal{F}$ gilt. In diesem Fall schreiben wir \redalert{$w\models\mathcal{F}$}.
-}\pause
-
-Die logischen Schlussfolgerungen aus einer Formel(menge) ergeben sich aus ihren Modellen:
-
-\defbox{Sei $\mathcal{F}$ eine Menge von Formeln.
-Eine Formel $G$ ist eine \redalert{logische Konsequenz} aus $\mathcal{F}$ wenn jedes Modell
-von $\mathcal{F}$ auch ein Modell von $G$ ist.\\ In diesem Fall schreiben wir $\mathcal{F}\models G$.
-}
-
-\begin{enumerate}[$\leadsto$]
-\item Die Formeln in $\mathcal{F}$ schränken die möglichen Interpretationen \ghost{ein:}\\
-Je mehr Formeln wahr sein sollen,\\ desto weniger Freiheiten gibt es bei der Wahl der Modelle
-\item $G$ ist eine logische Konsequenz wenn gilt:\\ Falls $\mathcal{F}$ wahr ist, dann ist auch $G$ garantiert wahr
-% 
-% Eine logische Konsequenz $G$ von $\mathcal{F}$ ist in jedem Fall (jedem Modell wahr in dem $\mathcal{F}$ wahr ist
-\end{enumerate}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Beispiel: Logelei}
-
-\Aname{} behauptet: "`\Bname{} lügt!"'\hfill {$A\leftrightarrow \neg B$}\\[1ex]
-\Bname{} behauptet: "`\Cname{} lügt!"'\hfill {$B\leftrightarrow \neg C$}\\[1ex]
-\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill {$C\leftrightarrow (\neg A\wedge \neg B)$}\\[2ex]
-
-\begin{tabular}{c@{~ }c@{~ }cc@{\hspace{3mm}}c@{\hspace{3mm}}c}
-\rowcolor{lightblue!20}
-$w(A)$ & $w(B)$ & $w(C)$ & $w(A\leftrightarrow \neg B)$ & $w(B\leftrightarrow \neg C)$ & $w(C\leftrightarrow (\neg A\wedge \neg B))$\\
-\myfalse & \myfalse & \myfalse & \myfalse& \myfalse & \myfalse\\
-\rowcolor{gray!10}
-\mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \mytrue\\
-\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \mytrue\\
-\rowcolor{gray!10}
-\mytrue & \mytrue & \myfalse & \myfalse& \mytrue & \mytrue\\
-\myfalse & \myfalse & \mytrue & \myfalse& \mytrue & \mytrue\\
-\rowcolor{gray!10}
-\mytrue & \myfalse & \mytrue & \mytrue& \mytrue & \myfalse\\
-\myfalse & \mytrue & \mytrue & \mytrue& \myfalse & \myfalse\\
-\rowcolor{gray!10}
-\mytrue & \mytrue & \mytrue & \myfalse& \myfalse & \myfalse\\
-\end{tabular}
-
-% {\Large
-% \narrowcentering{\alert{Wer lügt?}}
-% }
-% 
-% \medskip
-% {\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
-% \bigskip
-
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Beispiel: Logelei (2)}
-
-\Aname{} behauptet: "`\Bname{} lügt!"'\hfill {$A\leftrightarrow \neg B$}\\[1ex]
-\Bname{} behauptet: "`\Cname{} lügt!"'\hfill {$B\leftrightarrow \neg C$}\\[1ex]
-\Cname{} behauptet: "`\Aname{} und \Bname{} lügen!"'\hfill {$C\leftrightarrow (\neg A\wedge \neg B)$}\\[2ex]
-
-\begin{tabular}{c@{~ }c@{~ }cc@{\hspace{3mm}}c@{\hspace{3mm}}c}
-\rowcolor{lightblue!20}
-$w(A)$ & $w(B)$ & $w(C)$ & $w(A\leftrightarrow \neg B)$ & $w(B\leftrightarrow \neg C)$ & $w(C\leftrightarrow (\neg A\wedge \neg B))$\\
-% \myfalse & \myfalse & \myfalse & \myfalse& \myfalse & \myfalse\\
-% \rowcolor{gray!10}
-% \mytrue & \myfalse & \myfalse & \mytrue& \myfalse & \mytrue\\
-\myfalse & \mytrue & \myfalse & \mytrue& \mytrue & \mytrue\\
-% \rowcolor{gray!10}
-% \mytrue & \mytrue & \myfalse & \myfalse& \mytrue & \mytrue\\
-% \myfalse & \myfalse & \mytrue & \myfalse& \mytrue & \mytrue\\
-% \rowcolor{gray!10}
-% \mytrue & \myfalse & \mytrue & \mytrue& \mytrue & \myfalse\\
-% \myfalse & \mytrue & \mytrue & \mytrue& \myfalse & \myfalse\\
-% \rowcolor{gray!10}
-% \mytrue & \mytrue & \mytrue & \myfalse& \myfalse & \myfalse\\
-\end{tabular}
-
-$\leadsto$ Genau ein Modell (bezüglich der relevanten Atome)
-\pause\bigskip
-
-\emph{Logische Konsequenzen:} Alle Formeln, die unter einer Wertzuweisung mit $w(A)=\myfalse$, $w(B)=\mytrue$ und $w(C)=\myfalse$ wahr sind, \ghost{z.B.:}
-\begin{itemize}
-\item $\neg A$ ("`\Aname{} lügt"')
-\item $\neg C$ ("`\Cname{} lügt"')
-\item $\neg A\wedge \neg C$ ("`\Aname{} und \Cname{} lügen"')
-\item $B$ ("`\Bname{} sagt die Wahrheit"')
-\item Aber auch: $D\vee \neg D$
-\end{itemize}
-
-% {\Large
-% \narrowcentering{\alert{Wer lügt?}}
-% }
-% 
-% \medskip
-% {\footnotesize\narrowcentering{(Und wie kann man das beweisen?)}}
-% \bigskip
-
-
-\end{frame}
-
-
-\begin{frame}\frametitle{Allgemeingültigkeit und Co.}
-
-\defbox{Eine Formel $F$ ist:
-\begin{itemize}
-\item \redalert{unerfüllbar} (oder \alert{inkonsistent}), wenn sie keine Modelle hat
-\item \redalert{erfüllbar} (oder \alert{konsistent}), wenn sie Modelle hat
-\item \redalert{allgemeingültig} (oder eine \alert{Tautologie}), wenn alle Wertzuweisungen Modelle für die Formel sind
-\item \redalert{widerlegbar}, wenn sie nicht allgemeingültig ist
-\end{itemize}
-Diese Begriffe kann man für Mengen von Formeln genauso definieren.
-}
-
-\examplebox{\emph{Beispiel:} 
-\begin{itemize}
-\item $p\wedge\neg p$ ist unerfüllbar (und widerlegbar)
-\item $p\vee\neg p$ ist allgemeingültig (und erfüllbar)
-\item $p\wedge q$ ist erfüllbar und widerlegbar
-\end{itemize}}
-
-\end{frame}
-
-\begin{frame}\frametitle{Allgemeingültigkeit und Unerfüllbarkeit}
-
-% Speziell Allgemeingültigkeit und Unerfüllbarkeit sind für logische Schlussfolgerung von Bedeutung:
-
-\theobox{\emph{Satz:}
-\begin{enumerate}[(1)]
-\item Eine allgemeingültige Formel ist logische Konsequenz jeder anderen Formel(menge).
-\item Eine unerfüllbare Formel(menge) hat jede andere Formel als logische Konsequenz.
-\end{enumerate}}
-
-\emph{Beweis:} Folgt direkt aus Definition von logischer Konsequenz. Für (2) ist es wichtig, dass eine Eigenschaft "`für alle Modelle"' gilt, wenn es keine Modelle gibt (sie gilt dann für "`alle null Modelle"'). \qed
+Für $\ell<7$ gibt es keine Zuweisung, die $\Sxsub{0}$ ändert, d.h., $\bbfunc_{\textsf{LOOP}}(\ell)=0$.
 \bigskip\pause
 
-\anybox{purple}{
-Der unerwartete(?) Effekt (2) ist im Deutschen sprichwörtlich:\medskip
+\alert{Bonusaufgabe:} Gibt es eine Zahl $\ell$, bei der $\bbfunc_{\textsf{LOOP}}(\ell)$ durch ein
+Programm berechnet wird, welches die Zahl $\bbfunc_{\textsf{LOOP}}(\ell)$ nicht
+als Konstante im Quelltext enthält? Wie könnte das entsprechende Programm aussehen?
 
-\narrowcentering{"`Wenn das stimmt, dann bin ich der Kaiser von China!"'}\medskip
 
-drückt aus, dass aus einer mutmaßlich falschen Annahme alles folgt, selbst wenn 
-es offensichtlich unwahr ist.
+\end{frame}
+
+\begin{frame}[t]\frametitle{Beweis (1)}
+
+\theobox{\emph{Satz:} Es gibt berechenbare totale Funktionen, die nicht LOOP-berechenbar sind.}\pause
+
+\emph{Beweis:} Wir zeigen zwei Teilaussagen:
+
+\begin{enumerate}[(1)]
+\item $\bbfunc_{\textsf{LOOP}}$ ist berechenbar
+\item $\bbfunc_{\textsf{LOOP}}$ ist nicht LOOP-berechenbar
+\end{enumerate}\pause\medskip
+
+Behauptung (1) ist leicht zu zeigen:
+\begin{itemize}
+\item Es gibt endlich viele LOOP-Programme der Länge $\leq \ell$
+\item Man kann alle davon durchlaufen und auf einem Computer simulieren
+\item Die Simulation liefert immer nach endlich vielen Schritten ein Ergebnis
+\item Das Maximum aller Ergebnisse ist der Wert von $\bbfunc_{\textsf{LOOP}}(\ell)$
+\end{itemize}
+{\footnotesize (Anmerkung: Wir verwenden hier einen intuitiven Berechnungsbegriff und Church-Turing.)
 }
 
 \end{frame}
 
+\begin{frame}[t]\frametitle{Beweis (2)}
+
+\theobox{\emph{Satz:} Es gibt berechenbare totale Funktionen, die nicht LOOP-berechenbar sind.}
+
+\emph{Beweis:} Wir zeigen zwei Teilaussagen:
+
+\begin{enumerate}[(1)]
+\item $\bbfunc_{\textsf{LOOP}}$ ist berechenbar
+\item $\bbfunc_{\textsf{LOOP}}$ ist nicht LOOP-berechenbar
+\end{enumerate}\pause
+
+Behauptung (2) zeigen wir per Widerspruch:\pause
+\begin{itemize}
+\item Angenommen $\bbfunc_{\textsf{LOOP}}$ ist LOOP-berechenbar durch Programm $P_{\bbfunc}$. Sei $k$ die Länge von $P_{\bbfunc}$.\pause
+\item Wir wählen eine Zahl $m$ mit $m\geq k+17+\log_{10} m$ (immer \ghost{möglich)}\pause
+\item Sei $P_m$ das Programm $\Sxsub{1}\texttt{:=}\Sxsub{1}\texttt{+}m$ (Länge: $7+\lceil\log_{10}m\rceil$)\pause
+\item Sei $P_{++}$ das Programm $\Sxsub{0}\texttt{:=}\Sxsub{0}\texttt{+}\Scodelit{1}$ (Länge: $8$)\pause
+\item Wir definieren $P = P_m\Sseq\, P_{\bbfunc}\Sseq\, P_{++}$.\\\pause
+Die Länge von $P$ ist $k+17+\lceil\log_{10}m\rceil$ und damit $\leq m$.\\\pause
+Aber $P$ gibt die Zahl $\bbfunc_{\textsf{LOOP}}(m)+1$ aus. 
+Widerspruch.\qed
+\end{itemize}
+
+\end{frame}
+
+\sectionSlide{WHILE}
+
+\begin{frame}\frametitle{Was fehlt?}
+
+\alert{Frage:} Wieso ist LOOP zu schwach?\medskip\pause
+
+\alert{Intuitive Antwort:} LOOP-Programme terminieren immer (zu vorhersehbar)
+\bigskip
+
+$\leadsto$ Wir brauchen ein weniger vorhersehbares Programmkonstrukt
+
+\end{frame}
+
+\begin{frame}\frametitle{WHILE-Programme: Syntax und Semantik}
+
+\defbox{\emph{Definition:} Die Programmiersprache \redalert{WHILE} basiert wie LOOP auf
+Variablen $\Slang{V}$ und natürlichen Zahlen $\mathbb{N}$.\\
+\redalert{WHILE-Programme} sind induktiv definiert:
+\begin{itemize}
+\item Jedes LOOP-Programm ist ein WHILE-Programm
+\item Wenn $P$ ein WHILE-Programm ist, dann ist\vspace{-1ex}
+\[\SStartWhile{\Svar{x}}P~\SEndWhile{}\]\vspace{-3.5ex}
+
+ein WHILE-Programm, für jede Variable $\Svar{x}\in\Slang{V}$.
+\end{itemize}
+}\bigskip\pause
+
+Semantik von $\SStartWhile{\Svar{x}}P~\SEndWhile{}$:\\
+$P$ wird ausgeführt solange der aktuelle Wert von $\Svar{x}$ ungleich $0$ ist.\\
+\textcolor{devilscss}{(dies hängt davon ab, wie $P$ den Wert von $\Svar{x}$ ändert)}
+\medskip
+
+Ansonsten werden WHILE-Programme wie LOOP-Programme ausgewertet.
+
+\end{frame}
+
+\begin{frame}\frametitle{WHILE: Beobachtungen}
+
+Es ist möglich, dass ein WHILE-Programm nicht terminiert, z.B.\medskip
+
+\codebox{{\tt
+\Svar{x}\Svassign \Scodelit{1}\\
+\SStartWhile{\Svar{x}}\\
+~~~\Svar{y}\Svassign \Svar{y}\Splus\Scodelit{2}\\
+\SEndLoop{}
+}}\bigskip
+\pause
+
+Wir können $\SStartLoop{\Svar{x}}P~\SEndLoop{}$
+ersetzen durch:\medskip
+
+\codebox{{\tt
+\Svar{z}\Svassign \Svar{x}\\
+\SStartWhile{\Svar{z}}\\
+~~~P\\
+~~~\Svar{z}\Svassign \Svar{z}\Sminus\Scodelit{1}\\
+\SEndWhile{}
+}}
+
+(für ein frisches $\Svar{z}$)\bigskip
+
+Also sind LOOP-Schleifen eigentlich nicht mehr nötig.
+
+\end{frame}
+
+\begin{frame}\frametitle{WHILE-Berechenbare Funktionen}
+
+\defbox{\emph{Definition:} Eine partielle Funktion $f:\mathbb{N}^k\to\mathbb{N}$ heißt \redalert{WHILE-berechenbar}, wenn es ein WHILE-Programm $P$ gibt, so dass gilt:
+\begin{itemize}
+\item Falls $f(n_1,\ldots,n_k)$ definiert ist, dann terminiert $P$ bei Eingabe $n_1,\ldots,n_k$ mit der Ausgabe $f(n_1,\ldots,n_k)$
+\item Falls $f(n_1,\ldots,n_k)$ nicht definiert ist, dann terminiert $P$ bei Eingabe $n_1,\ldots,n_k$ nicht
+\end{itemize}}\bigskip\pause
+
+Das wichtigste Ergebnis zu WHILE ist nun das folgende:
+
+\theobox{\emph{Satz:} Eine partielle Funktion ist genau dann WHILE-berechenbar, wenn sie Turing-berechenbar ist.}
+
+\end{frame}
+
+\begin{frame}\frametitle{WHILE $\to$ TM}
+
+\emph{Behauptung 1:} DTMs können WHILE-Programme simulieren:\pause
+\medskip
+
+% Wir skizzieren die Arbeitsweise der Turingmaschine:
+\begin{itemize}
+\item Wir verwenden eine Mehrband-TM, in der es für jede Variable im simulierten Programm ein eigenes Band gibt.\pause
+\item Natürliche Zahlen werden auf den Bändern binär kodiert.\pause
+\item DTMs können leicht (a) ein Band auf ein anderes kopieren, (b) die Zahl auf einem Band um eins erhöhen \\$\leadsto$ daraus kann man schon DTMs für $\Svar{x}\Svassign\Svar{y}\Splus n$ erzeugen\pause
+\item Simulation von $\Svar{x}\Svassign\Svar{y}\Sminus n$ ist analog möglich (mit zusätzlichem Test auf Gleichheit mit $0$ beim Dekrementieren)\pause
+\item Sequentielle Programmausführung $P_1\Sseq P_2$ wird direkt im Zustandsgraphen der DTM umgesetzt ("`Hintereinanderhängung"' von TMs)\pause
+\item While-Schleifen sind durch Zyklen im Zustandsgraph darstellbar, wobei am Anfang jeweils ein Test auf Gleichheit mit $0$ steht, um die Schleife verlassen zu können
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{TM $\to$ WHILE (1)}
+
+\emph{Behauptung 2:} WHILE-Programme können DTMs simulieren:\pause
+\medskip
+
+\begin{itemize}
+\item Wir nehmen zur Vereinfachung an, dass das \ghost{TM-Arbeitsalphabet}\\
+$\Gamma=\{0,1\}$ ist, und dass die Zustände natürliche Zahlen \ghost{sind}
+\item Eine TM-Konfiguration $a_1 a_2 \cdots a_p \,q\, a_{p+1}a_{p+2}\cdots a_{\ell}$ wird dargestellt durch drei Variablen:
+\begin{itemize}
+\item \Svar{left} hat den Wert, der durch $a_1 a_2 \cdots a_p$ binär kodiert wird (least significant bit ist dabei $a_p$)
+\item \Svar{state} hat den Wert $q$
+\item \Svar{thgir} hat den Wert, der durch $a_{\ell} \cdots a_{p+2} a_{p+1}$ binär kodiert wird (least significant bit ist also $a_{p+1}$)
+\end{itemize}
+\item Diese Kodierung kann leicht auf größere Arbeitsalphabete erweitert werden ($n$-äre statt binäre Kodierung)
+% \item Das WHILE-Programm simuliert die TM-Übergänge auf diesen drei Variablen
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{TM $\to$ WHILE (2)}
+
+\emph{Behauptung 2:} WHILE-Programme können DTMs simulieren:
+\medskip
+
+\begin{itemize}
+\item Wie gesagt:\\
+\Svar{left} hat den Wert, der durch $a_1 a_2 \cdots a_p$ binär kodiert wird \pause
+\item Wir wollen auf (die Binärkodierung von) \Svar{left} wie auf einen \alert{Stapel} (Keller, Stack) zugreifen:\pause
+\begin{itemize}
+\item \alert{Pop:} der folgende Pseudocode ist in WHILE (und LOOP) implementierbar 
+\codebox{{\tt
+\Svar{top}\Svassign \Svar{left}\texttt{ mod }\Scodelit{2}\\
+\Svar{left}\Svassign \Svar{left}\texttt{ div }\Scodelit{2}\\
+}}\pause
+\item \alert{Push:} der folgende Pseudocode ist in WHILE (und LOOP) implementierbar 
+\codebox{{\tt
+\Svar{left}\Svassign \Svar{left}\texttt{ * }\Scodelit{2}\Splus\Svar{top}
+}}
+\end{itemize}
+\item Auf \Svar{thgir} kann man genauso zugreifen
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{TM $\to$ WHILE (3)}
+
+\emph{Behauptung 2:} WHILE-Programme können DTMs simulieren:
+\medskip
+
+\begin{itemize}
+\item Wir haben das Band in zwei Stacks kodiert, mit den Zeichen links und rechts neben dem TM-Kopf an oberster Stelle\pause
+\item Die TM-Simulation erfolgt jetzt in einer WHILE-Schleife
+	$\SStartWhile{\Svar{halt}} \quad P_{\text{Einzelschritt}}~\quad \SEndWhile$
+\item Das Programm $P_{\text{Einzelschritt}}$ führt einen Schritt aus:
+\begin{itemize}
+\item \Svar{thgir.pop()} liefert Zeichen an Leseposition
+\item Durch eine Folge von If-Bedingungen kann man für jede Kombination aus
+Zustand $q$ (in \Svar{state}) und gelesenem Zeichen eine Behandlung festlegen
+\item Schreiben von Symbol $a$ durch \Svar{thgir.push(\textit{a})}
+\item Bewegung nach rechts: \Svar{left.push(thgir.pop())}
+\item Bewegung nach links: \Svar{thgir.push(left.pop())}
+\item Zustandsänderung durch einfache Zuweisung
+\item Anhalten durch Zuweisung $\Svar{halt}\Svassign\Scodelit{0}$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{TM $\to$ WHILE (3)}
+
+\emph{Behauptung 2:} WHILE-Programme können DTMs simulieren:
+\medskip
+
+\alert{Zusammenfassung:}
+\begin{itemize}
+\item Natürliche Zahlen simulieren Stacks der Bandsymbole links und rechts
+\item Berechnungsschritte werden durch einfache Arithmetik implementiert (in LOOP möglich)
+\item WHILE-Schleife arbeitet Schritte ab, bis die TM hält
+\end{itemize}
+\medskip
+
+\alert{Was fehlt noch zum detaillierten Beweis?}
+\begin{itemize}
+\item Unsere Stack-Implementierung kann noch nicht mit dem leeren Stack umgehen $\leadsto$ zusätzliche Tests und Sonderfälle (bei einseitig unendlichem TM-Band asymmetrisch)
+\item Für größere Arbeitsalphabete würde man statt Binärkodierung eine $n$-äre Kodierung verwenden\qed
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Mithilfe der \redalert{Aussagenlogik} kann man logische Beziehungen atomarer Aussagen spezifizieren
+WHILE-Programme können alle berechenbaren Probleme lösen\\
+(ein weiteres Indiz für die Church-Turing-These)
 \bigskip
 
-\redalert{Wertzuweisungen} können eine aussagenlogische Formel erfüllen -- dann nennt man sie \redalert{Modell} -- oder widerlegen
+LOOP-Programme können fast alle praktisch relevanten Probleme lösen,
+aber nicht alle berechenbaren Probleme
 \bigskip
 
-Die Modelle einer Formel(menge) definieren ihre \redalert{logischen Konsequenzen}
-(="`alles, was in diesen Fällen noch gilt"')\bigskip
+Beweistechniken: strukturelle Induktion, Widerspruch durch Selbstbezüglichkeit (Busy Beaver), TM mit zwei Stacks simulieren\bigskip
+
+% Programme in LOOP und WHILE online testen:\\
+% \url{http://www.eugenkiss.com/projects/lgw/}\bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-\item Geht logisches Schließen auch ohne Wahrheitswertetabellen?
-\item Wie (in)effizient ist logisches Schließen?
-\item Was hat das mit Sprachen, Berechnung und TMs zu tun?
+\item Relevantere Probleme
+\item Reduktionen
+\item Rice
 \end{itemize}
 }
 
