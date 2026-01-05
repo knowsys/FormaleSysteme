@@ -7,30 +7,163 @@
 % \usetikzlibrary{shapes}
 \usetikzlibrary{shapes.geometric}
 
-\defineTitle{19}{Nichtdeterminismus und Unentscheidbarkeit}{18. Dezember 2023}
+\defineTitle{19}{Nichtdeterminismus und Turingmächtigkeit}{5. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
-% \begin{frame}\frametitle{}
-% 
-% ~\hfill
-% \includegraphics[height=6.5cm]{a4}
-% \hfill~
-% 
-% \end{frame}
 
-% \sectionSlideNoHandout{Rückblick}
-\frame{\begin{center}
+\sectionSlide{Rückblick}
+
+\begin{frame}\frametitle{Paris im August 1900}\label{frame_paris}
+
+~\hfill
+\includegraphics[height=6.5cm]{images/Paris-1900-Weltausstellung}
+\hfill~
+
+\end{frame}
+
+\begin{frame}\frametitle{Der 2. Internationale Mathematikerkongress}\label{frame_hilbert}
+
+\begin{minipage}{7cm}
+\anybox{purple}{
+"`Wer von uns würde nicht gern den Schleier lüften, unter dem die Zukunft verborgen liegt, um einen Blick zu werfen auf die bevorstehenden Fortschritte unsrer Wissenschaft und in die Geheimnisse ihrer Entwickelung während der künftigen Jahrhunderte!"'\\
+\mbox{}\hfill-- David Hilbert, Paris, August 1900
+}
+\end{minipage}
+\begin{minipage}{2.5cm}
+~\hspace{8mm}
+\includegraphics[width=2cm]{images/Hilbert}
+\end{minipage}
+\medskip\pause
+
+Hilbert präsentiert eine Liste offener Fragen für die Mathematik des 20. Jahrhunderts:
+\begin{itemize}
+	\item 1. Problem: Kontinuumshypothese (und Auswahlaxiom)
+	\item 2. Problem: Widerspruchsfreiheit der Arithmetik
+	\item \ldots
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Hilberts Programm}
+
+Aber Hilberts wahres Ziel ist ein neues Verständnis der \ghost{Mathematik:}
+\medskip
+
+\anybox{purple}{
+"`So unzugänglich diese Probleme uns erscheinen und so ratlos wir zur Zeit ihnen gegenüber stehen -- wir haben dennoch die sichere Ueberzeugung, daß ihre \alert{Lösung durch eine endliche Anzahl rein logischer Schlüsse} gelingen muß.
+
+[\ldots]
+
+Diese Ueberzeugung von der \alert{Lösbarkeit eines jeden mathematischen Problems} ist uns ein kräftiger Ansporn während der Arbeit; wir hören in uns den steten Zuruf: \alert{Da ist das Problem, suche die Lösung.} Du kannst sie durch reines Denken finden; denn in der Mathematik giebt es kein Ignorabimus$^*$!"'
+\\
+\mbox{}\hfill-- David Hilbert, Paris, August 1900
+}
+
+$^*)$ lat. "`wir werden es niemals wissen"'
+% \bigskip
+%
+
+\end{frame}
+
+\begin{frame}\frametitle{Der Rest ist Geschichte \ldots}
+
+\begin{itemize}
+\item 1910--1913: Whitehead und Russel formalisieren in ihrer \alert{Principia Mathematica} logische Grundlagen der Mathematik\pause
+\item 1918--1922: Hilbert spezifiziert sein Programm zur widerspruchsfreien Formalisierung der Mathematik\pause
+\item 1928: Hilbert beschreibt das \alert{Entscheidungsproblem} der Prädikatenlogik\pause
+\item 1929: Gödel beweist seinen \alert{Vollständigkeitssatz}: "`es gibt ein Kalkül, das alle Wahrheiten der Prädikatenlogik endlich beweisen kann"'\pause
+\item 1936: Turing definiert ein universelles Rechenmodell: die \alert{Turingmaschine}\pause
+\item 1951: Tarski publiziert ein Verfahren, mit dem alle wahren logischen Aussagen über reelle Zahlen, $+$ und $*$ automatisch durch Computer entschieden werden können
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Der Rest ist Geschichte \ldots}
+
+\begin{itemize}
+\item 1976: Computerbeweis des Vier-Farben-Problems (Appel \& \ghost{Haken)}\pause
+\item 1992: IBM's Supercomputer WHILE-S beweist die Fermatsche Vermutung\pause
+\item ab 1995: erste Programmierumgebungen mit automatischer Verifikation\pause
+\item 2001: IBM beweist die Goldbachsche Vermutung\pause
+\item 2005: Google beweist die Riemannsche Vermutung\pause
+\item 2007: "`American Mathematical Society"' benennt sich um in "`Association of Mathematical Programmers"'\pause
+\item 2010: Zusammenbruch des Banksystems infolge der Veröffentlichung des Computerbeweises zur Entschlüsselung von Public-Key-Kryptographie\pause
+\item 2013: Einstellung des Studiengangs Mathematik an der TU Dresden (Übertragung der Mathematiklehrer-Ausbildung an die Fakultät Informatik)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{}
+
+\pause
+\begin{center}
+{\huge\redalert{So ist es nicht gewesen.$^*$}}
+\vspace{1cm}
+
+\visible<3->{{\huge\alert{Warum nicht?}}}
+\visible<4->{\vspace{5mm}
+
+\begin{minipage}{7.5cm}
+\begin{enumerate}[(A)]
+\visible<4-7>{\item Historischer Zufall -- es kam einfach anders}
+\visible<5-7>{\item Die Hardware ist noch nicht so weit}
+\visible<6-7>{\item Die Software ist noch nicht so weit}
+\visible<7-8>{\item Die beschriebene Entwicklung ist in unserem Universum unmöglich}
+\end{enumerate}
+\end{minipage}}
+\end{center}
+\vspace{1cm}
+
+$^*)$ alle Ereignisse ab 1992 sind nie passiert
+
+\end{frame}
+
+\begin{frame}\frametitle{Informatik als Naturwissenschaft}
+
+\anybox{strongyellow}{\vspace{-5mm}\begin{center}
+Informatik erforscht, was Computer sind\\ und welche Probleme man mit ihnen lösen kann.\end{center}}\bigskip\pause
+
+Computer = ein System das rechnet (CMOS-Schaltkreise, die Turingmaschine, DNA-Moleküle, ein quantenmechanisches System, das Universum, Minecraft, \ldots)
+\bigskip
+
+Ziel: universelle Erkenntnisse -- nicht nur über die Computertechnologie, die wir gerade nutzen, sondern über die Welt, in der wir leben  {\tiny wie Physik}
+\bigskip
+
+Methode: Spezifikation von einfachen Regeln, aus denen komplexe Systeme entstehen {\tiny anders als Physik, die mit dem System anfängt und dessen "`Regeln"' sucht}
+
+\end{frame}
+
+\begin{frame}\frametitle{Kernfragen der theoretischen Informatik}
+
+\begin{itemize}
+\item Was heißt "`berechnen"'?
+\item Welche Probleme kann man auf reellen Computern lösen?
+\item Was wäre wenn wir mächtigere Computer hätten?
+\item Was macht Rechenprobleme "`schwer"' oder "`einfach"'?
+\item Sind alternative Rechenmodelle denkbar?
+\item Welche (mathematischen/physikalischen/biologischen) Systeme können sonst noch rechnen?
+\end{itemize}
+
+Diese finden sich wieder in zahlreichen Teilgebieten (Berechenbarkeit, Automaten, Komplexität, Quantencomputing, logisches Schließen, künstliche Intelligenz, \ldots)
+
+\end{frame}
+
+
+\frame{\begin{center}\label{frame_turing_child}
 \LARGE
-Rückblick\bigskip
+Rückblick: Turingmaschinen\bigskip
 
 \includegraphics[height=5cm]{images/Turing-5.jpg}\\
 {\tiny Alan Turing (5 Jahre alt)}
 \end{center}}
 
-\begin{frame}\frametitle{Die Turingmaschine}
+\begin{frame}\frametitle{Turingmaschinen -- informell}
+
+\emph{Schematische Darstellung:}\medskip
 
 \narrowcentering{%
 \begin{tikzpicture}[
@@ -67,7 +200,7 @@ Rückblick\bigskip
 \node (qlabel) [rectangle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
 
 % \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
-% 
+%
 % \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (14,0);
 % \draw[fill=none,decorate,line width=0.3mm] (9,-1) -- (14,-1);
 % \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-1);
@@ -78,37 +211,92 @@ Rückblick\bigskip
 % \draw[fill=none,decorate,line width=0.4mm,darkblue,->]
 % 	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
 % \node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-1.5) {\alert{Warteschlange}};
-\end{tikzpicture}}\bigskip
+\end{tikzpicture}}
+\bigskip\pause
 
-\defbox{Eine \redalert{(deterministische) Turingmaschine} (DTM) ist ein Tupel
-$\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ bestehend aus
-\redalert{Zustandsmenge} $Q$, \redalert{Eingabealphabet} $\Sigma$,
-\redalert{Arbeitsalphabet} $\Gamma\supseteq\Sigma\cup\{\blank\}$,
-\redalert{Startzustand} $q_0\subseteq Q$, \redalert{Endzuständen} $F\subseteq Q$,
-und einer partiellen \redalert{Übergangsfunktion} \\[1ex]
-\narrowcentering{$\delta: Q\times\Gamma \to Q\times\Gamma\times\{L,R,N\}$}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Church-Turing-These}
-
-\anybox{purple}{\emph{Church-Turing-These:} Eine Funktion ist genau dann im intuitiven Sinne berechenbar, wenn es
-eine Turingmaschine gibt, die für jede mögliche Eingabe den Wert der Funktion auf das Band schreibt und anschließend hält.
-}
-
-In der Tat sind eine große Menge von Ansätzen genau gleich stark:
+\emph{Übergangsfunktion:}
 \begin{itemize}
-\item Turingmaschinen in vielen Varianten (deterministisch/nichtdeterministisch, Einband/Mehrband,
-einseitig/zweiseitig unendlich, mit/ohne wahlfreiem Zugriff, \ghost{\ldots)}
-\item $\lambda$-Kalkül nach Church
-\item Gödel und Herbrands allgemeine rekursive Funktionen
-\item alle bekannten Programmiersprachen\footnote{Sofern wir eventuelle technische Beschränkungen der maximalen verwendbaren Speichergröße ignorieren.}
-\item Typ-0-Sprachen
-\item Prädikatenlogik (erster Stufe)
+\item \alert{Eingabe:} aktueller Zustand, gelesenes Zeichen
+\item \alert{Ausgabe:} neuer Zustand, geschriebenes Zeichen, Änderung Lese-/Schreibadresse (${}\hat{=}{}$ Bewegung Lese-/Schreibkopf)
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}\frametitle{Definition DTM}
+
+\defbox{Eine \redalert{deterministische Turingmaschine} (DTM) ist ein Tupel
+$\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ mit
+den folgenden Bestandteilen:
+\begin{itemize}
+\item $Q$: endliche Menge von \redalert{Zuständen}
+\item $\Sigma$: \redalert{Eingabealphabet}
+\item $\Gamma$: \redalert{Arbeitsalphabet} mit $\Gamma\supseteq\Sigma\cup\{\blank\}$
+\item $\delta$: \redalert{Übergangsfunktion}, eine partielle Funktion\\[1ex]
+\narrowcentering{$Q\times\Gamma \to Q\times\Gamma\times\{L,R,N\}$}
+\item $q_0$: \redalert{Startzustand} $q_0\in Q$
+\item $F$: Menge von akzeptierenden \redalert{Endzuständen} $F\subseteq Q$
+\end{itemize}
+}
+
+\alert{Dabei bedeutet $\delta(q,a)=\tuple{p,b,D}$:}\\
+\hspace{5mm}"`Liest die TM in Zustand $q$ unter dem Lese-/Schreibkopf ein $a$,\\
+\hspace{5.8mm}dann wechselt sie zu Zustand $p$, überschreibt das $a$ mit $b$\\
+\hspace{5.8mm}und verschiebt den Lese-/Schreibkopf gemäß $D\in\{L,R,N\}$\\
+\hspace{5.8mm}(nach links, nach rechts, gar nicht)."'
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+\emph{Wir können TMs in Diagrammen darstellen:}\medskip
+
+Ein Pfeil $s_1\mapsto s_2,D$ von $q_1$ nach $q_2$ bedeutet\\
+$\delta(q_1,s_1)=\tuple{q_2,s_2,D}$ (DTM) bzw. $\tuple{q_2,s_2,D}\in\delta(q_1,s_1)$ (NTM)
+\bigskip
+
+\emph{Beispiel:}\medskip
+
+\begin{center}
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (q2) [circle,double,draw=black,thick] at (3,0) {$q_1$};
+%
+\path[->,line width=0.5mm](-1,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[below,align=left] {$\Sterm{0}\mapsto\Sterm{1},R$\\$\blank\mapsto\Sterm{1},R$} (q2);
+\path[->,line width=0.5mm](q1) edge[loop above] node[above] {$\Sterm{1}\mapsto\Sterm{0},R$} (q1);
+\end{tikzpicture}
+\end{center}
+
+Was tut diese Turingmaschine?
+
+\end{frame}
+
+\begin{frame}\frametitle{TM: Beispiel Abarbeitung}
+
+TMs gehen schrittweise von einer Konfiguration in die nächste über:
+
+\begin{center}
+\begin{tikzpicture}[baseline={(q1.base)}]
+% \draw[help lines] (0,0) grid (7,2);
+\node (q1) [circle,draw=black,thick] at (0,0) {$q_0$};
+\node (q2) [circle,double,draw=black,thick] at (3,0) {$q_1$};
+%
+\path[->,line width=0.5mm](-1,0) edge (q1);
+\path[->,line width=0.5mm](q1) edge node[below,align=left] {$\Sterm{0}\mapsto\Sterm{1},R$\\$\blank\mapsto\Sterm{1},R$} (q2);
+\path[->,line width=0.5mm](q1) edge[loop above] node[above] {$\Sterm{1}\mapsto\Sterm{0},R$} (q1);
+\end{tikzpicture}
+\end{center}
+
+Eingabe: $\Sterm{1101}$\bigskip\pause
+
+$q_0\Sterm{1101}\pause\vdash \Sterm{0}q_0\Sterm{101}\pause\vdash \Sterm{00}q_0\Sterm{01}\pause\vdash \Sterm{001}q_1\Sterm{1}$
+\bigskip\pause
+
+Ausgabe: $\Sterm{0011}$
+
+\end{frame}
+
 
 \sectionSlide{Nichtdeterministische Turingmaschinen}
 
@@ -129,6 +317,63 @@ wobei $2^{Q\times\Gamma\times\{L,R,N\}}$ die Potenzmenge von $Q\times\Gamma\time
 Die Eingabe wird akzeptiert, wenn mindestens ein Lauf endlich ist und in einer akzeptierenden Konfiguration endet
 
 \end{frame}
+
+
+\begin{frame}\frametitle{Definition NTM}
+
+\defbox{Eine \redalert{nichtdeterministische Turingmaschine} (NTM) ist ein Tupel
+$\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ mit
+den folgenden Bestandteilen:
+\begin{itemize}
+\item $Q$: endliche Menge von \redalert{Zuständen}
+\item $\Sigma$: \redalert{Eingabealphabet}
+\item $\Gamma$: \redalert{Arbeitsalphabet} mit $\Gamma\supseteq\Sigma\cup\{\blank\}$
+\item $\delta$: \redalert{Übergangsfunktion}, eine totale Funktion\\[1ex]
+\narrowcentering{$Q\times\Gamma \to 2^{Q\times\Gamma\times\{L,R,N\}}$}\\
+wobei $2^{Q\times\Gamma\times\{L,R,N\}}$ die Potenzmenge von $Q\times\Gamma\times\{L,R,N\}$ ist
+\item $q_0$: \redalert{Startzustand} $q_0\in Q$
+\item $F$: Menge von akzeptierenden \redalert{Endzuständen} $F\subseteq Q$
+\end{itemize}
+}
+
+\alert{Dabei bedeutet $\tuple{p,b,D}\in\delta(q,a)$:}\\
+\hspace{5mm}"`Liest die TM in Zustand $q$ unter dem Lese-/Schreibkopf ein $a$,\\
+\hspace{5.8mm}dann \alert{kann} sie zu Zustand $p$ wechseln, $a$ mit $b$ überschreiben\\
+\hspace{5.8mm}und den Lese-/Schreibkopf gemäß $D\in\{L,R,N\}$ verschieben."'
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Wiederholung Grundbegriffe}
+
+\redalert{Konfiguration:} der "`Gesamtzustand"' einer TM, bestehend aus Zustand, Bandinhalt und Position des Lese-/Schreibkopfs;\\[1ex]
+geschrieben als Wort (Bandinhalt), in dem der Zustand vor der Position des Kopfes eingefügt ist
+\bigskip
+
+\redalert{Übergangsrelation:} Beziehung zwischen zwei Konfigurationen wenn die TM von der ersten in die zweite übergehen kann (deterministisch oder nichtdeterministisch); geschrieben als $\vdash$
+\bigskip
+
+\redalert{Lauf:} mögliche Abfolge von Konfigurationen einer TM, beginnend mit der Startkonfiguration; kann endlich oder unendlich sein
+\bigskip
+
+\redalert{Halten:} Ende der Abarbeitung, wenn die TM in einer Konfiguration keinen Übergang mehr zur Verfügung hat
+
+\end{frame}
+
+\begin{frame}\frametitle{Was ist das Ergebnis einer TM-Berechnung?}
+
+Es gibt zwei wesentliche Arten DTMs zu benutzen:
+
+\begin{enumerate}[(1)]
+\item \alert{Transducer:} Ausgabe der TM ist der Inhalt des Bandes, wenn sie hält, oder undefiniert, wenn sie nicht hält (partielle Funktion); Endzustände spielen keine Rolle und können weggelassen werden
+\item \alert{Entscheider:} Ausgabe der TM hat nur zwei Werte: die TM "`akzeptiert"', wenn sie in einem Endzustand hält und sie "`verwirft"' wenn sie in einem Nicht-Endzustand oder gar nicht hält;
+Bandinhalt beim Halten spielt keine Rolle und kann ignoriert werden
+\end{enumerate}
+
+Wir werden NTMs nur als Entscheider verwenden: in diesem Fall reicht es, wenn mindestens ein möglicher Lauf akzeptiert.
+
+\end{frame}
+
 
 \begin{frame}[t]\frametitle{Nichtdeterminismus $\neq$ mehr Ausdrucksstärke\phantom{g}}
 
@@ -212,7 +457,7 @@ $\leadsto$ \redalert{Exponentielle Komplexität}
 
 \emph{Terminierung:}
 Wenn die NTM ein Entscheider ist (auch bei Nichtakzeptanz garantiert hält), dann ist die
-simulierende DTM \ghost{\ldots}\\\pause \redalert{nicht unbedingt ein Entscheider.}
+simulierende DTM \ghost{\ldots}\\\pause \redalert{nicht unbedingt ein Entscheider {\tiny(da die Simulation auch bei endlicher Nichtakzeptanz weiter fortgesetzt wird)}.} 
 \medskip
 
 Der Beweis kann allerdings so abgewandelt werden, dass diese Eigenschaft gilt, also:
@@ -235,205 +480,35 @@ liest und niemals beschreibt.
 
 \end{frame}
 
-\sectionSlide{Unentscheidbare Probleme}
+\begin{frame}\frametitle{Church-Turing-These}
 
-% \frame{\begin{center}
-% \LARGE
-% Unentscheidbare Probleme\bigskip
-% 
-% \includegraphics[height=6cm]{a5.jpg}\\
-% {\tiny (c) Nichtlustig, CARLSEN Verlag GmbH}
-% \end{center}}
-
-\begin{frame}\frametitle{(Un)Entscheidbarkeit}
-
-\defbox{Eine Sprache $\Slang{L}$ ist \redalert{entscheidbar} (=\redalert{berechenbar}=\redalert{rekursiv}), wenn es eine TM $\Smach{M}$ gibt, die ihr Wortproblem entscheidet, d.h. $\Smach{M}$ ist Entscheider und $\Slang{L}=\Slang{L}(\Smach{M})$.
-Andernfalls heißt $\Slang{L}$ \redalert{unentscheidbar}.\\[1ex]
-$\Slang{L}$ ist \redalert{semi-entscheidbar} (=\redalert{Turing-erkennbar}=\redalert{rekursiv aufzählbar}), wenn
-es eine TM $\Smach{M}$ gibt mit $\Slang{L}=\Slang{L}(\Smach{M})$, auch wenn $\Smach{M}$ kein Entscheider ist.}\medskip\pause
-
-% $\leadsto$ "`semi-entscheidbar"' = "`Turing-erkennbar"' = "`rekursiv aufzählbar"'\\
-% $\leadsto$ "`entscheidbar"' = "`berechenbar"' = "`rekursiv"'\medskip
-
-\examplebox{\emph{Beispiel:} Wir haben bereits erwähnt, dass die Äquivalenz zweier kontextfreier Grammatiken (CFGs) unentscheidbar ist.
-Sei $\textsf{enc}(G)$ eine (beliebige) binäre Kodierung der Regeln einer Grammatik $G$. Das erwähnte Resultat bedeutet formal, dass die Sprache\\[1ex]
-% 
-\narrowcentering{$\{\textsf{enc}(G_1)\Sterm{\#}\textsf{enc}(G_2)\mid \Slang{L}(G_1)=\Slang{L}(G_2)\text{ oder }G_1\text{ bzw. }G_2\text{ keine CFG}\}$}\\[1ex]
-% 
-über dem Alphabet $\{\Sterm{0},\Sterm{1},\Sterm{\#}\}$ unentscheidbar ist.
+\anybox{purple}{\emph{Church-Turing-These:} Eine Funktion ist genau dann im intuitiven Sinne berechenbar, wenn es
+eine Turingmaschine gibt, die für jede mögliche Eingabe den Wert der Funktion auf das Band schreibt und anschließend hält.
 }
 
-% Aber wie kann man das zeigen?
-
-\end{frame}
-
-\begin{frame}\frametitle{Ein konkretes unentscheidbares Problem}
-
-Wir wissen bereits:
-\theobox{\emph{Satz:} Es gibt abzählbar viele Turingmaschinen (Computerprogramme, Algorithmen) aber überabzählbar viele
-Sprachen. Also sind die meisten Sprachen unentscheidbar.}
-
-Das liefert allerdings kein konkretes Beispiel für so eine Sprache.
-\bigskip\pause
-
-Wir benötigen ein "`erstes"' unentscheidbares Problem. Das folgende ist klassisch:
-
-\defbox{Das \redalert{Halteproblem} besteht in der folgenden Frage:\\
-Gegeben eine TM $\Smach{M}$ und ein Wort $w$, wird $\Smach{M}$ für die Eingabe $w$ jemals anhalten?}
-
-Wir wollen zeigen, dass dieses Problem unentscheidbar ist.
-
-\end{frame}
-
-\begin{frame}\frametitle{Turingmaschinen kodieren}
-
-Will man das Halteproblem als Wortproblem ausdrücken, dann muss man eine Kodierung für
-TMs als Wörter festlegen.
-\medskip
-
-Jede vernünftige Kodierung einer TM $\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ ist nutzbar, zum Beispiel die folgende:
-
-\anybox{gray}{%
-\footnotesize\vspace{-2ex}%
+In der Tat sind eine große Menge von Ansätzen genau gleich stark:
 \begin{itemize}
-\item Wir verwenden das Alphabet $\{\Sterm{0},\Sterm{1},\Sterm{\#}\}$
-\item Zustände werden in beliebiger Reihenfolge nummeriert (mit Startzustand $q_0$) und binär kodiert:\\
-	$Q=\{q_0,\ldots,q_n\}$ $\leadsto$ $\textsf{enc}(Q)=\textsf{bin}(0)\Sterm{\#}\cdots\Sterm{\#}\textsf{bin}(n)$
-\item Wir kodieren auch $\Gamma$ und die Bewegungsrichtungen $\{R,L,N\}$ binär
-\item Ein Übergang $\delta(q_i,\sigma_n)=\tuple{q_j,\sigma_m,D}$ wird als 5-Tupel kodiert:\\
-	 $\textsf{enc}(q_i,\sigma_n)=\textsf{bin}(i)\Sterm{\#}\textsf{bin}(n)\Sterm{\#}\textsf{bin}(j)\Sterm{\#}\textsf{bin}(m)\Sterm{\#}\textsf{bin}(D)$
-\item Die Übergangsfunktion wird kodiert als Liste aller dieser Tupel, getrennt mit $\Sterm{\#}$:
-	$\textsf{enc}(\delta)=\big(\textsf{enc}(q_i,\sigma_n)\Sterm{\#}\big)_{q_i\in Q, \sigma_i\in\Gamma}$
-\item Insgesamt setzten wir $\textsf{enc}(\Smach{M})=\textsf{enc}(Q)\Sterm{\#}\Sterm{\#}\textsf{enc}(\Sigma)\Sterm{\#}\Sterm{\#}\textsf{enc}(\Gamma)\Sterm{\#}\Sterm{\#}\textsf{enc}(\delta)\Sterm{\#}\Sterm{\#}\textsf{enc}(F)$
-\end{itemize}}
-
-\end{frame}
-
-\begin{frame}\frametitle{Das Halteproblem, formal}
-
-Analog kann man auch Wörter über beliebigen $\Sigma$ binär kodieren.
-\medskip
-
-Damit kann man formal auch sagen:
-
-\defbox{Das \redalert{Halteproblem} ist das Wortproblem für die Sprache\\[1ex]
-\narrowcentering{
-$\{\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)\mid \text{$\Smach{M}$ hält bei Eingabe $w$}\}$.
-}}\pause
-
-\emph{Anmerkung:} Wörter aus $\{\Sterm{0},\Sterm{1},\Sterm{\#}\}^*$, die nicht die Form
-$\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ haben (z.B. weil die Kodierungen fehlerhaft sind), werden
-laut dieser Definition abgelehnt.\medskip
-
-$\leadsto$ typisch für Entscheidungsprobleme:\\
-\hspace{1cm}\alert{Akzeptanz:} Antwort auf Frage ist "`ja"'\\
-\hspace{1cm}\alert{Ablehnung:} Antwort auf Frage ist "`nein"' \redalert{oder}\\
-\hspace{2.74cm}die Eingabe kodiert gar keine Frage
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Unentscheidbarkeit des Halteproblems}
-
-\theobox{\emph{Satz:} Das Halteproblem ist unentscheidbar.}
-
-\emph{Beweis:} Mittels Widerspruch: Angenommen, es gäbe eine DTM \ghost{$\Smach{H}$,}\\
-die das
-Halteproblem entscheidet, d.h. $\Smach{H}$ hält immer und akzeptiert Eingaben $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ genau dann wenn $\Smach{M}$ auf $w$ hält.
-\medskip\pause
-
-Wir verwenden $\Smach{H}$ als Subroutine einer neuen DTM $\Smach{D}$, die sich wie folgt verhält:\pause
-\begin{enumerate}[(1)]
-\item $\Smach{D}$ schreibt eine Eingabe $w\in\{\Sterm{0},\Sterm{1},\Sterm{\#}\}$ zunächst in die Form
-	$w\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ um.\pause
-\item Dann führt $\Smach{D}$ die TM $\Smach{H}$ auf dieser Eingabe aus.\pause
-\item Wenn $\Smach{H}$ die Eingabe \redalert{nicht} akzeptiert, dann hält $\Smach{D}$ und akzeptiert.\pause
-\item Andernfalls, wenn $\Smach{H}$ die Eingabe akzeptiert, dann geht $\Smach{D}$ in eine Endlosschleife und hält nicht.\pause
-\end{enumerate}
-\emph{Idee:} $\Smach{D}$ hält (und akzeptiert) eine TM-Kodierung $\textsf{enc}(\Smach{M})$ genau dann, wenn
-$\Smach{M}$ auf der Eingabe $\textsf{enc}(\Smach{M})$ \redalert{nicht} hält.
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Unentscheidbarkeit des Halteproblems (2)}
-
-\theobox{\emph{Satz:} Das Halteproblem ist unentscheidbar.}
-
-\emph{Beweis:} $\Smach{D}$ hält (und akzeptiert) eine TM-Kodierung $\textsf{enc}(\Smach{M})$ genau dann, wenn
-$\Smach{M}$ auf der Eingabe $\textsf{enc}(\Smach{M})$ \redalert{nicht} hält.\pause
-\medskip
-
-\redalert{Was tut $\Smach{D}$ für die Eingabe $\textsf{enc}(\Smach{D})?$}\pause
-\begin{itemize}
-\item Falls $\Smach{D}$ auf Eingabe $\textsf{enc}(\Smach{D})$ hält, dann akzeptiert $\Smach{H}$
-die Eingabe $\textsf{enc}(\Smach{D})\Sterm{\#}\Sterm{\#}\textsf{enc}(\textsf{enc}(\Smach{D}))$,
-doch dann (laut Definition) hält $\Smach{D}$ nicht!\pause
-\item Falls $\Smach{D}$ auf Eingabe $\textsf{enc}(\Smach{D})$ nicht hält, dann akzeptiert $\Smach{H}$
-die Eingabe $\textsf{enc}(\Smach{D})\Sterm{\#}\Sterm{\#}\textsf{enc}(\textsf{enc}(\Smach{D}))$ nicht,
-doch dann (laut Definition) hält $\Smach{D}$!
+\item Turingmaschinen in vielen Varianten (deterministisch/nichtdeterministisch, Einband/Mehrband,
+einseitig/zweiseitig unendlich, mit/ohne wahlfreiem Zugriff, \ghost{\ldots)}
+\item $\lambda$-Kalkül nach Church
+\item Gödel und Herbrands allgemeine rekursive Funktionen
+\item alle bekannten Programmiersprachen\footnote{Sofern wir eventuelle technische Beschränkungen der maximalen verwendbaren Speichergröße ignorieren.}
+\item Typ-0-Sprachen
+\item Prädikatenlogik (erster Stufe)
 \end{itemize}
-Widerspruch.\qed
-
-\end{frame}
-
-\begin{frame}\frametitle{Die Universelle Turingmaschine}
-
-% Allerdings ist das Halteproblem semi-entscheidbar:\medskip
-
-\theobox{\emph{Satz:} Es gibt eine Turingmaschine $\Smach{U}$, die für Eingaben der Form $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ das Verhalten von $\Smach{M}$ auf $w$ simuliert:
-\begin{itemize}
-\item Falls $\Smach{M}$ auf $w$ hält, dann hält $\Smach{U}$ auf $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ mit dem gleichen Ergebnis
-\item Falls $\Smach{M}$ auf $w$ nicht hält, dann hält $\Smach{U}$ auf $\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)$ ebenfalls nicht
-\end{itemize}}
-
-\defbox{Eine TM $\Smach{U}$ wie im Satz heißt \redalert{Universelle Turingmaschine (UTM)}.}
-
-Es ist etwas aufwändig aber nicht sehr kompliziert eine UTM zu beschreiben
-\medskip
-
-\emph{Intuitiv gleichwertig:} Programmieren eines TM-Simulators in einer beliebigen Programmiersprache
-
-\end{frame}
-
-\begin{frame}\frametitle{Semi-Entscheidbarkeit des Halteproblems}
-
-\theobox{\emph{Satz:} Das Halteproblem ist semi-entscheidbar.}
-
-\emph{Beweisskizze:} Die gesuchte TM startet eine universelle TM auf der Eingabe 
-und akzeptiert, wenn diese UTM hält (egal mit welchem Ergebnis).\qed
-
-\bigskip
-\emph{Anmerkung:} Falls die Antwort auf das Halteproblem "`nein"' ist, dann wird auch diese
-TM nicht halten.
-
-\end{frame}
-
-\begin{frame}\frametitle{Nicht Turing-erkennbare Probleme}
-
-Das Komplement des Halteproblems ("`Wird die gegebene TM nicht anhalten?"') liefert 
-ein Beispiel für ein Problem, welches unentscheidbar und nicht semi-entscheidbar ist:
-\medskip
-
-\theobox{\emph{Satz:} Das Komplement des Halteproblems ist nicht Turing-erkennbar.}
-
-\emph{Beweisskizze:} Angenommen das Problem wäre Turing-erkennbar.
-Dann könnten wir
-das Halteproblem entscheiden, indem wir die Semi-Entscheidungsalgorithmen für Halteproblem
-und sein Komplement parallel abarbeiten. Einer der beiden Algorithmen muss halten und liefert
-dann das gesuchte Ergebnis. Widerspruch.\qed
 
 \end{frame}
 
 \begin{frame}\frametitle{Turing-Mächtigkeit}
 
 \defbox{%
-Ein Formalismus ist \redalert{Turing-mächtig}, wenn er das Ein-/Ausgabe-Verhalten jeder Turing-Maschine simulieren kann\\
-(äquivalent: wenn er eine UTM kodieren kann).}\bigskip
+Ein Formalismus ist \redalert{Turing-mächtig}, wenn er das Ein-/Ausgabe-Verhalten jeder Turing-Maschine simulieren kann.}\bigskip
 
 \emph{Vorteil:} Turing-Mächtigkeit garantiert ein Maximum an Ausdrucksstärke\\
 $\leadsto$ gewünscht besonders bei Programmiersprachen
 \bigskip
 
-\emph{Nachteil:} Turing-Mächtigkeit bedeutet, dass alle interessanten Fragen in Bezug auf die berechnete Funktion unentscheidbar sind (z.B. Äquivalenz zweier Darstellungen) \\
+\emph{Nachteil:} Turing-Mächtigkeit bedeutet, dass viele Fragen in Bezug auf die berechnete Funktion unentscheidbar sind (z.B. Äquivalenz zweier Darstellungen) \\
 $\leadsto$ zumeist unerwünscht, wenn nicht programmiert wird
 
 \end{frame}
@@ -462,6 +537,41 @@ Turing-mächtig heraus.
 \vspace{3mm}
 
 \anybox{purple}{
+{\large \alert{TypeScript Typsystem:}}
+\bigskip
+
+Rekursive definierte Typen in TypeScript ermöglichen es, beliebige Berechnungen allein im Typsystem zu implementieren.
+Erstmals veröffentlicht von Henning Dieterichs, 2017 \href{https://github.com/Microsoft/TypeScript/issues/14833}{[Link]}.
+In 2025 wurde eine erste vollständige Implementierung von DOOM in TypeScript Typen vorgestellt \href{https://www.youtube.com/watch?v=0mCsluv5FXA}{[Link]}, wobei Typdefinitionen im Umfang von insgesamt 177TB nötig waren.
+}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (3)}
+
+Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
+Turing-mächtig heraus.
+\vspace{3mm}
+
+\anybox{purple}{
+{\large \alert{Java Generics:}}
+\bigskip
+
+Mechanismus zur generischen Programmierung in Java. Sollte die Turing-Vollständigkeit
+von C++-Templates vermeiden. Offenbar ist das nicht gelungen. Erstmals publiziert Mai 2016.
+}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (4)}
+
+Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
+Turing-mächtig heraus.
+\vspace{3mm}
+
+\anybox{purple}{
 {\large \alert{Sendmail:}}
 \bigskip
 
@@ -471,7 +581,7 @@ Die Zeichenketten können in diesem Zusammenhang fast direkt als Speicherband ve
 
 \end{frame}
 
-\begin{frame}\frametitle{Versehentlich Turing-mächtig (3)}
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (5)}
 
 Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
 Turing-mächtig heraus.
@@ -488,7 +598,7 @@ in Gang zu setzten, ohne die CPU zu verwenden. Demonstriert wurde eine Implement
 
 \end{frame}
 
-\begin{frame}\frametitle{Versehentlich Turing-mächtig (4)}
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (6)}
 
 Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
 Turing-mächtig heraus.
@@ -504,7 +614,7 @@ Verbreitete Anfragesprache für relationale Datenbanken. Mit Hilfe von rekursive
 
 \end{frame}
 
-\begin{frame}\frametitle{Versehentlich Turing-mächtig (5)}
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (7)}
 
 Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
 Turing-mächtig heraus.
@@ -523,24 +633,7 @@ von Zombies mit linear ansteigenden Lebenspunkten repräsentiert.\\
 
 \end{frame}
 
-\begin{frame}\frametitle{Versehentlich Turing-mächtig (6)}
-
-Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
-Turing-mächtig heraus.
-\vspace{3mm}
-
-\anybox{purple}{
-{\large \alert{Java Generics:}}
-\bigskip
-
-Mechanismus zur generischen Programmierung in Java. Sollte die Turing-Vollständigkeit
-von C++-Templates vermeiden. Offenbar ist das nicht gelungen. Erstmals publiziert Mai 2016.
-}
-
-
-\end{frame}
-
-\begin{frame}\frametitle{Versehentlich Turing-mächtig (7)}
+\begin{frame}\frametitle{Versehentlich Turing-mächtig (8)}
 
 Immer wieder stellen sich bestimmte Technologien und formale Systeme unerwartet als
 Turing-mächtig heraus.
@@ -561,100 +654,36 @@ und AutoShapes (ohne VB Makros etc.) realisiert werden. Praktisch wurde lediglic
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-\redalert{Nichtdeterministische Turingmaschinen} (NTMs) haben die gleiche Ausdrucksstärke wie deterministische
+Die Theorie der Informatik untersucht Systeme im Hinblick auf ihre Fähigkeit zur Informationsverarbeitung (Berechnung)
 \bigskip
 
-Das \redalert{Halteproblem} ist unentscheidbar und sein Komplement ist nicht einmal semi-entscheidbar.
+Grundbegriffe: Turingmaschine (det./nichtdet.), Konfiguration, Lauf, Akzeptanz
 \bigskip
 
-Es gibt sehr viele \redalert{Turing-mächtige} Systeme. Das ist nicht immer erwünscht.
+Nichtdeterministische Turingmaschinen (NTMs) haben die gleiche Ausdrucksstärke wie deterministische
+\bigskip
+
+Church-Turing-These: "`Alle Computer sind gleich"'
 \bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-\item Wie ergibt sich die Korrespondenz von TMs und Typ-0-Sprachen?
-\item Wenn alle Modelle Typ 0 liefern, was ist dann mit Typ 1?
-\item Unterscheiden sich Typ 0 und Typ 1 überhaupt?
+\item Probleme
+\item Paradoxien
+\item Phenomenal große Zahlen
 \end{itemize}
 }
 
 \end{frame}
 
-% \begin{frame}\frametitle{Frohe Weihnachten!}
-% 
-% 
-% \narrowcentering{%
-% \scalebox{0.75}{
-% \begin{tikzpicture}[
-% 	scale=1.80,
-% 	decoration=penciline, decorate,
-% 	node distance = 7mm and 9mm
-% ]
-% \path[use as bounding box] (-3.5,-1.1) rectangle (3.5,-5); % add "draw" to see it
-% \pgfmathsetseed{6571}
-% 
-% 
-% % \draw[help lines] (0,0) grid (5,5);
-% \node (s) [star,star points=5, star point ratio=2.25,draw=red,fill=strongyellow,inner sep=1pt] at (0,-0.8) {\Snterm{S}};
-% % 
-% \only<2->{
-% \node (label) [rectangle,draw=none,color=purple,inner sep=3pt] at (2,-1.5) {\large "`dorr kleene Stern"'};
-% \path[fill=none,draw=purple,line width=0.5mm,bend right=45] (label.130) edge[->] (0.4,-0.65);
-% }
-% % 
-% %
-% \node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
-% % 
-% \draw[fill=none,decorate,line width=0.3mm]
-% (s.270) -- (-1.3,-3.5) -- (1.3,-3.5) -- cycle;
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (s.270) -- (a12.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
-% %
-% \node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a12.270) -- (a11.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a11.270) -- (-1.0,-4.50) -- (1.0,-4.52) -- cycle;
-% %
-% \node (a1) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a11.270) -- (a1.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a1.270) -- (-1.0,-5.50) -- (1.0,-5.52) -- cycle;
-% %
-% \node (a2) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a1.270) -- (a2.90);
-% %
-% \draw[fill=darkred!30,decorate,line width=0.3mm]
-% (a2.270) -- (-0.5,-5.51) -- (0.5,-5.54) -- cycle;
-% %
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.3,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.3,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
-% 
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
-% 
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-5.5) -- (-0.5,-5.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-5.5) -- (1,-5.5) node[black,midway,yshift=-0.25cm] {$x$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-5.5) -- (0.5,-5.5) node[black,midway,yshift=-0.3cm] {$w$};
-% %
-% % \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
-% \end{tikzpicture}}}
-% 
-% \end{frame}
+\begin{frame}[t]\frametitle{Bildrechte}
+
+Folie \ref{frame_paris}: Fotografie von 1900, gemeinfrei\\
+Folie \ref{frame_hilbert}: Fotografie von 1912, gemeinfrei\\
+Folie \ref{frame_turing_child}: Fotografie von 1917, gemeinfrei\\
+
+\end{frame}
 
 
 \end{document}
