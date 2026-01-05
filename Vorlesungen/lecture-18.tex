@@ -644,80 +644,80 @@ Offene Fragen:
 
 \end{frame}
 
-% \begin{frame}\frametitle{Frohe Weihnachten!}
+\begin{frame}\frametitle{Frohe Weihnachten!}
+
+
+\narrowcentering{%
+\scalebox{0.75}{
+\begin{tikzpicture}[
+	scale=1.80,
+	decoration=penciline, decorate,
+	node distance = 7mm and 9mm
+]
+\path[use as bounding box] (-3.5,-1.1) rectangle (3.5,-5); % add "draw" to see it
+\pgfmathsetseed{6571}
+
+
+% \draw[help lines] (0,0) grid (5,5);
+\node (s) [star,star points=5, star point ratio=2.25,draw=red,fill=strongyellow,inner sep=1pt] at (0,-0.8) {\Snterm{S}};
 % 
+\only<2->{
+\node (label) [rectangle,draw=none,color=purple,inner sep=3pt] at (2,-1.5) {\large "`dorr kleene Stern"'};
+\path[fill=none,draw=purple,line width=0.5mm,bend right=45] (label.130) edge[->] (0.4,-0.65);
+}
 % 
-% \narrowcentering{%
-% \scalebox{0.75}{
-% \begin{tikzpicture}[
-% 	scale=1.80,
-% 	decoration=penciline, decorate,
-% 	node distance = 7mm and 9mm
-% ]
-% \path[use as bounding box] (-3.5,-1.1) rectangle (3.5,-5); % add "draw" to see it
-% \pgfmathsetseed{6571}
+%
+\node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
 % 
-% 
-% % \draw[help lines] (0,0) grid (5,5);
-% \node (s) [star,star points=5, star point ratio=2.25,draw=red,fill=strongyellow,inner sep=1pt] at (0,-0.8) {\Snterm{S}};
-% % 
-% \only<2->{
-% \node (label) [rectangle,draw=none,color=purple,inner sep=3pt] at (2,-1.5) {\large "`dorr kleene Stern"'};
-% \path[fill=none,draw=purple,line width=0.5mm,bend right=45] (label.130) edge[->] (0.4,-0.65);
-% }
-% % 
-% %
-% \node (a12) [circle,draw=none,inner sep=0pt] at (0,-1.5) {\Snterm{A}};
-% % 
-% \draw[fill=none,decorate,line width=0.3mm]
-% (s.270) -- (-1.3,-3.5) -- (1.3,-3.5) -- cycle;
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (s.270) -- (a12.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
-% %
-% \node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a12.270) -- (a11.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a11.270) -- (-1.0,-4.50) -- (1.0,-4.52) -- cycle;
-% %
-% \node (a1) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a11.270) -- (a1.90);
-% %
-% \draw[fill=darkgreen!30,decorate,line width=0.3mm]
-% (a1.270) -- (-1.0,-5.50) -- (1.0,-5.52) -- cycle;
-% %
-% \node (a2) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
-% %
-% \draw[decorate,dashed,line width=0.2mm]
-% (a1.270) -- (a2.90);
-% %
-% \draw[fill=darkred!30,decorate,line width=0.3mm]
-% (a2.270) -- (-0.5,-5.51) -- (0.5,-5.54) -- cycle;
-% %
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.3,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.3,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
-% 
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
-% 
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-5.5) -- (-0.5,-5.5) node[black,midway,yshift=-0.28cm] {$v$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-5.5) -- (1,-5.5) node[black,midway,yshift=-0.25cm] {$x$};
-% \draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-5.5) -- (0.5,-5.5) node[black,midway,yshift=-0.3cm] {$w$};
-% %
-% % \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
-% \end{tikzpicture}}}
-% 
-% \end{frame}
+\draw[fill=none,decorate,line width=0.3mm]
+(s.270) -- (-1.3,-3.5) -- (1.3,-3.5) -- cycle;
+%
+\draw[decorate,dashed,line width=0.2mm]
+(s.270) -- (a12.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a12.270) -- (-1.0,-3.50) -- (1.0,-3.52) -- cycle;
+%
+\node (a11) [circle,draw=none,inner sep=0pt] at (0,-2.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a12.270) -- (a11.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a11.270) -- (-1.0,-4.50) -- (1.0,-4.52) -- cycle;
+%
+\node (a1) [circle,draw=none,inner sep=0pt] at (0,-3.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a11.270) -- (a1.90);
+%
+\draw[fill=darkgreen!30,decorate,line width=0.3mm]
+(a1.270) -- (-1.0,-5.50) -- (1.0,-5.52) -- cycle;
+%
+\node (a2) [circle,draw=none,inner sep=0pt] at (0,-4.5) {\Snterm{A}};
+%
+\draw[decorate,dashed,line width=0.2mm]
+(a1.270) -- (a2.90);
+%
+\draw[fill=darkred!30,decorate,line width=0.3mm]
+(a2.270) -- (-0.5,-5.51) -- (0.5,-5.54) -- cycle;
+%
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](-1.3,-3.5) -- (-1.0,-3.5) node[black,midway,yshift=-0.25cm] {$u$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-3.5) -- (-0.5,-3.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-3.5) -- (1,-3.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-0.7mm](1.0,-3.5) -- (1.3,-3.5) node[black,midway,yshift=-0.26cm] {$y$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-4.5) -- (-0.5,-4.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-4.5) -- (1,-4.5) node[black,midway,yshift=-0.25cm] {$x$};
+
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.3mm](-1.0,-5.5) -- (-0.5,-5.5) node[black,midway,yshift=-0.28cm] {$v$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1mm](0.5,-5.5) -- (1,-5.5) node[black,midway,yshift=-0.25cm] {$x$};
+\draw [thick, devilscss,decorate,decoration={brace,amplitude=3pt,mirror},xshift=0.4pt,yshift=-1.5mm](-0.5,-5.5) -- (0.5,-5.5) node[black,midway,yshift=-0.3cm] {$w$};
+%
+% \draw [thick, alert,decorate,decoration={brace,amplitude=10pt,mirror},xshift=0.4pt,yshift=-0.4cm](-1.5,-3.5) -- (1.5,-3.5) node[black,midway,yshift=-0.55cm] {\alert{abgeleitetes Wort}};
+\end{tikzpicture}}}
+
+\end{frame}
 
 
 \end{document}
