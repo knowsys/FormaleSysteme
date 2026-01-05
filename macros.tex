@@ -7,8 +7,10 @@
 
 \DeclareMathAlphabet{\mathsc}{OT1}{cmr}{m}{sc} % Let's have \mathsc since the slide style has no working \textsc
 
-% Dual of "phantom": make a text that is visible but intangible
+% Dual of "phantom": make a text that is visible but intangibleÖ
 \newcommand{\ghost}[1]{\raisebox{0pt}[0pt][0pt]{\makebox[0pt][l]{#1}}}
+% Centering content without any additional vertical space before or after:
+\newcommand{\narrowcentering}[1]{\mbox{}\hfill#1\hfill\mbox{}}
 
 \newcommand{\tuple}[1]{\langle{#1}\rangle}
 \newcommand{\defeq}{\mathrel{:=}}
@@ -19,6 +21,26 @@
 \newcommand{\todo}[1]{{\tiny\color{red}\textbf{TODO: #1}}}
 
 
+%%% Style commands
+\newcommand{\quoted}[1]{\texttt{"}{#1}\texttt{"}}
+\newcommand{\squote}{\texttt{"}} % straight quote
+\newcommand{\Sterm}[1]{\ensuremath{\mathtt{\textcolor{purple}{#1}}}}    % letters in alphabets
+\newcommand{\Snterm}[1]{\textsf{\textcolor{darkblue}{#1}}} % nonterminal symbols
+\newcommand{\Sntermsub}[2]{\ensuremath{\Snterm{#1}_{\Snterm{#2}}}} % nonterminal symbols
+\newcommand{\Slang}[1]{\textbf{\textcolor{black}{#1}}}    % languages
+\newcommand{\Slangsub}[2]{\ensuremath{\Slang{#1}_{\Slang{#2}}}}    % languages
+\newcommand{\Scomplclass}[1]{{\textsc{#1}}} % font for complexity classes, used on slides where the "too many alphabets" LaTeX error appears when using the correct sc font :-(
+% Code
+\newcommand{\Scode}[1]{\textbf{#1}}    % reserved words in program listings, e.g., "if"
+\newcommand{\Scodelit}[1]{\textcolor{purple}{#1}}    % literals in program listings, e.g., strings
+\newcommand{\Scomment}[1]{\textcolor{gray}{#1}}    % comment in program listings
+\newcommand{\mytrue}{\Scodelit{1}}
+\newcommand{\myfalse}{\Scodelit{0}}
+
+% TMs and Busy Beaver
+\newcommand{\Smach}[1]{\ensuremath{\mathcal{#1}}}    % machines
+\newcommand{\epstrastar}{\mathrel{\mathord{\stackrel{\epsilon}{\to}}{}^*}} % transitive reflexive closure of epsilon transitions in an epslion-NFA
+\newcommand{\bbfunc}{\boldsymbol{\Sigma}}
 
 %%% Old macros below; move when needed
 
