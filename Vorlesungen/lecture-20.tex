@@ -50,8 +50,6 @@ Church und Turing (im Chor mit Kleene und Rosser):\\~\hfill"`Alle Computer sind 
 
 \theobox{\emph{Satz:} Deterministische und nichtdeterministische Turingmaschinen mit einer beliebigen Anzahl von Bändern können die gleichen Berechnungen ausführen.}
 
-Details siehe Vorlesung Formale Systeme (Winter 2023/2024, Vorlesungen 18 und 19)
-
 \end{frame}
 
 \sectionSlide{Grundbegriffe: Berechnen und Entscheiden}
@@ -184,7 +182,7 @@ einen Aufzähler für $\Slang{L}$ gibt.
 
 \emph{Beweis:} "`$\Rightarrow$"' (Von der TM zum Aufzähler) Wenn $\Slang{L}$ durch eine TM $\Smach{M}$ erkannt wird, dann können wir $\Slang{L}$ wie folgt aufzählen:
 \begin{itemize}
-\item Betrachte eine systematisch berechenbare Aufzählung aller Wörter $w_0, w_1, w_2, \ldots$ aus $\Sigma^*$
+\item Betrachte eine systematisch berechenbare Aufzählung aller Wörter $w_1, w_2, w_3, \ldots$ aus $\Sigma^*$
 \item Für jede natürliche Zahl $n\geq 1$:
 	\begin{itemize}
 	\item Für jedes $i\in\{1,\ldots, n\}$:
@@ -330,7 +328,7 @@ Dies folgt in zwei Schritten:
 \item \ldots
 \end{itemize}
 \footnotesize
-(Siehe dazu auch Formale Systeme, Winter 2023/2024, Vorlesung 2)
+(Siehe Vorlesung 2)
 
 \end{itemize}
 
@@ -554,7 +552,7 @@ Nun ja \ldots{} seit den 1960ern ist man noch nicht so weit gekommen:\medskip
 
 \begin{tabular}{@{}rllllllll@{}}
 $n$:          & $1$ & $2$ & \visible<3->{$3$} & \visible<4->{$4$}  & \visible<5->{$5$} & \visible<6->{$6$} & \visible<7->{$7$} & \visible<8->{$8$} \\\hline
-$\bbfunc(n)$: & $1$ & $4$ & \visible<3->{$6$} & \visible<4->{$13$} & \visible<5->{$\geq 4098$} & \visible<6->{$\geq 3,5\times 10^{18267}$} & \visible<7->{riesig} & \visible<8->{irrsinnig}
+$\bbfunc(n)$: & $1$ & $4$ & \visible<3->{$6$} & \visible<4->{$13$} & \visible<5->{$4098$\footnote{\visible<5->{Erstmals bewiesen 2024, publiziert in \href{https://arxiv.org/abs/2509.12337}{Blanchard et al.: "`Determination of the fifth Busy Beaver value"', Sept 2025 [link]}}}} & \visible<6->{$\geq 3,5\times 10^{18267}$} & \visible<7->{riesig} & \visible<8->{irrsinnig}
 \end{tabular}
 \bigskip
 
