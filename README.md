@@ -42,7 +42,7 @@ Soweit nicht anders angegeben stehen alle Texte unter der Lizenz
 [Creative Commons CC By 3.0 Deutschland](https://creativecommons.org/licenses/by/3.0/de/) genutzt, weitergegeben
 und modifiziert werden. Als Namensnennung muss dabei folgende Angabe eingefügt werden:
 
-(C) Markus Krötzsch, https://iccl.inf.tu-dresden.de/web/FS2023, CC BY 3.0 DE
+(C) Markus Krötzsch, https://iccl.inf.tu-dresden.de/web/FS2025, CC BY 3.0 DE
 
 Bildrechte können davon abweichen und sind gesondert in den LaTeX-Dateien angegeben.
 Die Foliensätze enthalten keinerlei Texte aus Werken, für welche die VG Wort Verwertungsrechte vertritt.
