@@ -26,6 +26,7 @@ Das Script [build.sh](https://github.com/knowsys/FormaleSysteme/blob/master/Vorl
 erzeugt außerdem eine Druckversion mit vier Folien pro Seite (benötigt ```pdfjam```).s
 
 Die fertigen PDFs werden semesterbegleitend auf der Vorlesungswebseite bereitgestellt:
+- Winter 2025/26: https://iccl.inf.tu-dresden.de/web/FS2025
 - Winter 2023/24: https://iccl.inf.tu-dresden.de/web/FS2023
 - Winter 2020/21: https://iccl.inf.tu-dresden.de/web/FS2020
 - Winter 2017/18: https://iccl.inf.tu-dresden.de/web/FS2017
@@ -46,6 +47,8 @@ und modifiziert werden. Als Namensnennung muss dabei folgende Angabe eingefügt 
 
 Bildrechte können davon abweichen und sind gesondert in den LaTeX-Dateien angegeben.
 Die Foliensätze enthalten keinerlei Texte aus Werken, für welche die VG Wort Verwertungsrechte vertritt.
+Einige der verwendeten LaTeX-Stile (sty-Dateien im Verzeichnis `Vorlesungen`) sind abgeleitet von https://github.com/tud-cd/tud-cd
+und im Original verfügbar unter LaTeX Project Public License (LPPL).
 
 Die Nutzung der Materialien in eigenen Lehrveranstaltungen ist willkommen, sofern der obige Lizenztext
 in allen abgeleiteten Foliensätzen angegeben wird. Rückmeldungen sind willkommen (z.B. als Issue zu diesem
