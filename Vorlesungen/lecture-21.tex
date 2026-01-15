@@ -205,7 +205,7 @@ Aussage für unendlich viele Programme zu zeigen:
 
 \begin{frame}[t]\frametitle{Programmieren in LOOP (1)}
 
-LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\\[1ex]
+LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\footnote{Nutzen Sie zum Testen auch unseren \href{https://tools.iccl.inf.tu-dresden.de/while/}{\alert{LOOP-Simulator [Link]}} online.}\\[1ex]
 
 \emph{Wertzuweisung mit Variable:} ``$\Svar{x}\Svassign \Svar{y}$'':\pause
 
@@ -232,7 +232,8 @@ LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makro
 
 \begin{frame}[t]\frametitle{Programmieren in LOOP (2)}
 
-LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\\[1ex]
+\addtocounter{footnote}{-1} % repeat footnote with previous counter here
+LOOP hat nur wenige Ausdrucksmittel, aber man kann sich leicht weitere als Makros definieren.\footnote{Nutzen Sie zum Testen auch unseren \href{https://tools.iccl.inf.tu-dresden.de/while/}{\alert{LOOP-Simulator [Link]}} online.}\\[1ex]
 
 \emph{Wertzuweisung:} ``$\Svar{x}\Svassign \Svar{y}~\texttt{+}~\Svar{z}$'':\pause
 
@@ -462,7 +463,7 @@ Ansonsten werden WHILE-Programme wie LOOP-Programme ausgewertet.
 
 \end{frame}
 
-\begin{frame}\frametitle{WHILE: Beobachtungen}
+\begin{frame}\frametitle{WHILE: Beobachtungen\footnote{Unser Online-Tool funktioniert auch als \href{https://tools.iccl.inf.tu-dresden.de/while/}{\alert{WHILE-Simulator [Link]}}.}}
 
 Es ist möglich, dass ein WHILE-Programm nicht terminiert, z.B.\medskip
 
@@ -471,7 +472,7 @@ Es ist möglich, dass ein WHILE-Programm nicht terminiert, z.B.\medskip
 \SStartWhile{\Svar{x}}\\
 ~~~\Svar{y}\Svassign \Svar{y}\Splus\Scodelit{2}\\
 \SEndLoop{}
-}}\bigskip
+}}\medskip
 \pause
 
 Wir können $\SStartLoop{\Svar{x}}P~\SEndLoop{}$
@@ -485,7 +486,7 @@ ersetzen durch:\medskip
 \SEndWhile{}
 }}
 
-(für ein frisches $\Svar{z}$)\bigskip
+(für ein frisches $\Svar{z}$)\medskip
 
 Also sind LOOP-Schleifen eigentlich nicht mehr nötig.
 
@@ -623,6 +624,9 @@ WHILE-Programme können alle berechenbaren Probleme lösen\\
 
 LOOP-Programme können fast alle praktisch relevanten Probleme lösen,
 aber nicht alle berechenbaren Probleme
+\bigskip
+
+Online-Simulator für WHILE und LOOP (mit kleinen syntaktischen Verbesserungen wie Kommentaren): \url{https://tools.iccl.inf.tu-dresden.de/while/}
 \bigskip
 
 Beweistechniken: strukturelle Induktion, Widerspruch durch Selbstbezüglichkeit (Busy Beaver), TM mit zwei Stacks simulieren\bigskip
