@@ -45,13 +45,15 @@
 \item Verallgemeinern LOOP
 \item Terminieren nicht immer
 \item Können alle berechenbaren totalen und partiellen Funktionen berechnen
-\end{itemize}
+\end{itemize}\bigskip
+
+Online-Simulator für LOOP und WHILE$^{(++)}$ (+Abkürzungen, +Kommentare):\\ \alert{\url{https://tools.iccl.inf.tu-dresden.de/while/}}
 
 \end{frame}
 
 \begin{frame}\frametitle{Die Kraft des LOOP}
 
-Auf der vorigen Folie steht: "`LOOP-Programme können fast alle praktisch relevanten Funktionen berechnen."'
+Auf der vorigen Folie steht:\\ "`LOOP-Programme können fast alle praktisch relevanten Funktionen berechnen."'
 \medskip
 
 \redalert{Stimmt das wirklich?}
@@ -81,7 +83,7 @@ wie die maximale Anzahl von Wiederholungen der simulierten WHILE-Schleife.
 
 \theobox{\emph{Satz:} Für ein beliebiges WHILE-Programm $P$ sei $\textsf{max}_P(n_1,\ldots,n_k)$
 die maximale Anzahl an Schleifendurchläufen, die $P$ bei der Eingabe $n_1,\ldots,n_k$
-abarbeitet, oder undefiniert, wenn $P$ bei dieser Eingabe nicht terminiert.
+abarbeitet, oder undefiniert, wenn $P$ bei dieser Eingabe nicht terminiert.\\
 Diese partielle Funktion $\textsf{max}_P:\mathbb{N}^k\to\mathbb{N}$ ist berechenbar.
 }
 \emph{Beweisskizze:} Man kann $P$ leicht so modifizieren, dass es die Maximalzahl der Schleifendurchläufe bestimmt und ausgibt.\qed\medskip\pause
@@ -230,14 +232,14 @@ könnte man damit direkt lösen.\bigskip\pause
 
 \examplebox{\emph{Beispiel:} Die Goldbachsche Vermutung (Christian Goldbach, 1742) besagt, dass jede gerade Zahl $n\geq 4$ die Summe zweier Primzahlen ist. Zum Beispiel ist $4=2+2$ und $100=47+53$.}\pause
 
-Man kann leicht einen Algorithmus \Smach{A} angeben, der die Goldbachsche Vermuting systematisch verifiziert, d.h., für alle geraden Zahlen ab $4$ testet:
+Man kann leicht einen Algorithmus \Smach{A} angeben, der die Goldbachsche Vermutung systematisch verifiziert, d.h., für alle geraden Zahlen ab $4$ testet:
 \begin{itemize}
 \item Erfolg: teste die nächste gerade Zahl
 \item Misserfolg: terminiere mit Meldung "`Goldbach hat sich geirrt!"'
 \end{itemize}
 
 Die Frage "`Wird \Smach{A} halten?"' ist gleichbedeutend mit der Frage\\"`Gilt die Goldbachsche Vermutung nicht?"'
-\ghost{\hspace{7.4cm}\rotatebox{90}{\textcolor{devilscss}{{\tiny Vgl. 3. Übung, Aufg. 4: Mit $\Slang{P}_{\textsf{Halt}}$ kann man alle semi-entscheidbaren Probleme lösen}}}}
+\ghost{\hspace{7.4cm}\rotatebox{90}{\textcolor{devilscss}{{\tiny Vgl. 13. Übung, Aufg. 4: Mit $\Slang{P}_{\textsf{Halt}}$ kann man alle semi-entscheidbaren Probleme lösen}}}}
 
 \end{frame}
 
