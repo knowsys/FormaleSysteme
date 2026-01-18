@@ -4,704 +4,584 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{24}{Horn-Logik und Komplexitätstheorie}{18. Januar 2024}
+\defineTitle{20}{Typ 0 und Typ 1}{22. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
+% \begin{frame}\frametitle{}
+% 
+% ~\hfill
+% \includegraphics[height=6.5cm]{a4}
+% \hfill~
+% 
+% \end{frame}
+
 \sectionSlideNoHandout{Rückblick}
 
-\begin{frame}\frametitle{Logisches Schließen}
+\begin{frame}\frametitle{Die Turingmaschine}
 
-\emph{Allgemeine Fragestellungen des logischen Schließens}
-\begin{itemize}
-\item Logische Folgerung: Gilt $\mathcal{F}\models G$?
-\item Allgemeingültigkeit: Gilt $\models F$?
-\item Unerfüllbarkeit: Gilt $\models \neg F$, d.h. $F\models\bot$?
-\end{itemize}\bigskip
-
-\emph{Einige einfache Methoden des logischen Schließens}
-\begin{itemize}
-\item Wahrheitswertetabelle
-\item Erfüllbarkeitstest mit DNF
-\item Widerlegbarkeitstest mit KNF
-\item Erfüllbarkeitstest mit Resolution
-\end{itemize}
-$\leadsto$ Alle schlimmstenfalls exponentiell und oft zu ineffizient
-
-\end{frame}
-
-\sectionSlide{Horn-Logik}
-
-\begin{frame}\frametitle{Horn-Logik}
-
-Bisher waren alle unsere Ansätze für aussagenlogisches Schließen exponentiell -- geht es auch einfacher?
-\bigskip\pause
-
-\emph{Idee:} Beschränke die Form von Formeln
-\bigskip
-
-\defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nichtnegiertes Literal enthält.
-Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
-{\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
-
-\pause
-\examplebox{\emph{Beispiele:}
-\begin{itemize}
-\item $\neg p\vee \neg q \vee r$ ist eine Horn-Klausel
-\item $q\vee p$ ist keine Horn-Klausel
-\item $p$ ist eine Horn-Klausel
-\item $\neg p\vee \neg q$ ist eine Horn-Klausel
-\item $p\vee p$ ist keine Horn-Klausel (aber äquivalent zu einer)
-\end{itemize}
+\narrowcentering{%
+\begin{tikzpicture}[
+	scale=0.50,
+	decoration=penciline, decorate
+]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
+% \draw[help lines] (0,0) grid (5,5);
+\pgfmathsetseed{5712}
+%
+\node (inlabel) [rectangle,draw=none,inner sep=1pt] at (3,0.5) {\alert{Eingabe-/Speicherband}};
+\draw[decorate,line width=0.3mm] (-1,0) -- (10.5,0);
+\draw[decorate,line width=0.3mm] (-1,-1) -- (10.5,-1);
+\foreach \x in {0,...,10} {
+	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
+	\node (s\x) [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<5}{\ifthenelse{\x<3}{\Sterm{a}}{\Sterm{b}}}{\ifthenelse{\x=5 \OR \x=7 \OR \x=8}{\Snterm{C}}{\ifthenelse{\x=9}{\Sterm{b}}{\Snterm{D}}}}};
 }
+\draw[decorate,line width=0.3mm] (10,0) -- (10,-0.9);
+\node (dots) [circle,draw=none,inner sep=1pt] at (11.1,-0.5) {$\cdots$};
 
-\end{frame}
+% \draw[decorate,line width=0.3mm] (5.5,0) -- (6,0) -- (6,-0.9) -- (5.5,-0.9) ;
+% \draw[decorate,line width=0.3mm] (6,0) -- (6,-0.9);
 
-\begin{frame}\frametitle{Horn-Klauseln als Implikationen}
+\draw[fill=none,decorate,line width=0.3mm]
+	(2,-3) -- (6,-3) -- (6,-7) -- (2,-7) -- cycle;
+\node (falabel) [circle,draw=none,inner sep=1pt,align=left] at (4,-5) {Endliche\\Steuerung};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(4,-3) -- (4,-2) -- (6.5,-2) -> (6.5,-1);
+\node (headlabel) [rectangle,draw=none,inner sep=1pt,align=left] at (9.5,-2.0) {\footnotesize\alert{Lese-/Schreibkopf}\\[-0.6ex]\footnotesize\alert{(beweglich)}};
 
-Jede Horn-Klausel kann als eine Implikation ohne Negation und Disjunktion ausgedrückt werden
-\bigskip
+\node[rectangle,align=center,draw,line width=0.3mm,decorate, minimum width=8mm, minimum height=8mm] (state) at (8, -6) {$q$};
+\draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+	(6,-6) -> (state.180);
+\node (qlabel) [rectangle,draw=none,inner sep=1pt] at (11.5,-6) {\footnotesize\alert{Zustandsvariable}};
 
-\examplebox{\emph{Beispiele:}
-\begin{align*}
-\neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
-p \qquad \equiv &&\top&\to p\\
-\neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
-\end{align*}
-}
-
-\begin{itemize}
-\item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
-\item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
-\item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
-\end{itemize}
-
-\end{frame}
-
-% \begin{frame}\frametitle{Ausblick}
+% \node[cloud, cloud puffs=15.7, cloud ignores aspect, minimum width=4cm, minimum height=1cm, align=center, draw,line width=0.3mm] (memory) at (11, -1) {\alert{zusätzlicher}\\\alert{Speicher}};
 % 
-% \emph{Nächste Vorlesung:} Wir werden logisches Schließen für Horn-Regeln noch etwas genauer betrachten
+% \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (14,0);
+% \draw[fill=none,decorate,line width=0.3mm] (9,-1) -- (14,-1);
+% \draw[fill=none,decorate,line width=0.3mm] (9,0) -- (9,-1);
+% \foreach \y in {10,...,14} {
+% 	\draw[fill=none,decorate,line width=0.3mm] (\y,0) -- (\y,-0.9);
+% 	\node (k\y) [circle,draw=none,inner sep=1pt] at (\y-0.5,-0.5) {\ifthenelse{\y<12}{\Snterm{A}}{\Snterm{B}}};
+% }
+% \draw[fill=none,decorate,line width=0.4mm,darkblue,->]
+% 	(6,-3.5) -- (7.5,-3.5) -- (7.5,-0.5) -> (9,-0.5);
+% \node (stacklabel) [circle,draw=none,inner sep=1pt] at (11.5,-1.5) {\alert{Warteschlange}};
+\end{tikzpicture}}\bigskip
+
+\defbox{Eine \redalert{(deterministische) Turingmaschine} (DTM) ist ein Tupel
+$\Smach{M}=\tuple{Q,\Sigma,\Gamma,\delta,q_0,F}$ bestehend aus
+\redalert{Zustandsmenge} $Q$, \redalert{Eingabealphabet} $\Sigma$,
+\redalert{Arbeitsalphabet} $\Gamma\supseteq\Sigma\cup\{\blank\}$,
+\redalert{Startzustand} $q_0\subseteq Q$, \redalert{Endzuständen} $F\subseteq Q$,
+und einer partiellen \redalert{Übergangsfunktion} \\[1ex]
+\narrowcentering{$\delta: Q\times\Gamma \to Q\times\Gamma\times\{L,R,N\}$}
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turing-Mächtigkeit}
+
+\begin{itemize}
+\item Die Turingmaschine ist das\\ \redalert{mächtigste bekannte Berechnungsmodell}\\
+$\leadsto$ was nicht Turing-berechenbar ist, gilt als unberechenbar
+\item Zahlreiche andere Modelle sind ebenso Turing-mächtig\\
+\anybox{strongyellow}{\vspace{-2ex}\small%
+\begin{itemize}
+\item \alert{Turingmaschinen} in vielen Varianten (deterministisch/nichtdeterministisch, Einband/Mehrband,
+einseitig/zweiseitig unendlich, \ghost{\ldots)}\vspace{-1.1ex}
+\item alle "`echten"' \alert{Programmiersprachen} (C, PHP, Java, C++, Python, JavaScript, Perl, BASIC, Pascal, Fortran,
+{\footnotesize C$^\sharp$, COBOL, Lisp, Ruby, Visual Basic, Assembler, Ada, Prolog, Lua, Haskell, ASP.NET, Scheme, ALGOL, R, Scratch, ASP, Logo, TeX, awk, Embarcadero Delphi, Smalltalk, 
+ Objective-C, APL, Tcl, Go, Visual Basic .NET, 
+ Scala, VHDL, ActionScript, XSLT, Brainfuck, \ldots$^*$)}\vspace{-1.1ex}
+\item theoretische \alert{Kalküle} (Prädikatenlogik erster Stufe, $\lambda$-Kalkül, allgemeine rekursive Funktionen, \ldots)\vspace{-1.1ex}
+\item manch \alert{Unerwartetes} (C++-Templates, SQL, Java Generics, Magic: The Gathering, Microsoft Powerpoint, \ldots)
+\end{itemize}}
+\end{itemize}
+\ghost{\hspace{13.8cm}\rotatebox{90}{\tiny \hspace{5mm}$^*$ \href{https://query.wikidata.org/\#SELECT\%20\%3Flanguage\%20\%3FlanguageLabel\%20\%28COUNT\%28DISTINCT\%20\%3Farticle\%29\%20AS\%20\%3FwikipediaArticleCount\%29\%20WHERE\%20\%7B\%0A\%20\%20\%3Flanguage\%20wdt\%3AP31\%2Fwdt\%3AP279\%2a\%20wd\%3AQ9143\%20.\%0A\%20\%20\%3Farticle\%20schema\%3Aabout\%20\%3Flanguage\%20.\%0A\%20\%20FILTER\%20\%28SUBSTR\%28str\%28\%3Farticle\%29\%2C\%2011\%2C\%2015\%29\%20\%3D\%20\%22.wikipedia.org\%2F\%22\%29\%20.\%0A\%20\%20SERVICE\%20wikibase\%3Alabel\%20\%7B\%20bd\%3AserviceParam\%20wikibase\%3Alanguage\%20\%22de\%2Cen\%22.\%20\%7D\%0A\%7D\%20GROUP\%20BY\%20\%3Flanguage\%20\%3FlanguageLabel\%0AORDER\%20BY\%20DESC\%20\%28\%3FwikipediaArticleCount\%29}{populäre Programmiersprachen (geordnet nach Zahl internationaler Wikipedia-Artikel)}}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Entscheidbarkeit}
+
+% \defbox{Das \redalert{Halteproblem} besteht in der folgenden Frage:\\
+% Gegeben eine TM $\Smach{M}$ und ein Wort $w$, wird $\Smach{M}$ für die Eingabe $w$ jemals anhalten?}
+\defbox{Das \redalert{Halteproblem} ist das Wortproblem für die Sprache\\[1ex]
+\narrowcentering{
+$\{\textsf{enc}(\Smach{M})\Sterm{\#}\Sterm{\#}\textsf{enc}(w)\mid \text{$\Smach{M}$ hält bei Eingabe $w$}\}$.
+}}
+
+\begin{itemize}
+\item \alert{Entscheidbar:} Sprache wird von Turing-Entscheider erkannt
+% \examplebox{Beispiel: Die Sprache $\{ww\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$ ist entscheidbar}
+\item \alert{Unentscheidbar:} Sprache wird von keinem Turing-Entscheider erkannt
+\item \alert{Semi-entscheidbar:} Sprache wird von einer TM erkannt, die aber eventuell kein Entscheider ist
+\end{itemize}
+
+\examplebox{Beispiel: \begin{itemize}
+\item Die Sprache $\{ww\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$ ist entscheidbar (und damit auch semi-entscheidbar)
+\item Das Halteproblem ist nicht entscheidbar aber semi-entscheidbar
+\item Das Komplement des Halteproblems ist nicht semi-entscheidbar (und damit auch nicht entscheidbar)
+\end{itemize}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Der Satz von Rice}
+
+Ein interessantes Resultat von Henry Gordon Rice zeigt die Probleme Turing-mächtiger Formalismen:\medskip
+
+\theobox{\emph{Satz von Rice (informelle Version):} Jede nichttriviale Frage über die von einer TM ausgeführte Berechnung ist unentscheidbar.}\bigskip\pause
+
+\theobox{\emph{Satz von Rice (formell):} Sei $E$ eine Eigenschaft von Sprachen, die für manche Turing-erkennbare Sprachen gilt und für manche Turing-erkennbare Sprachen nicht gilt (="`nichttriviale Eigenschaft"'). Dann ist das folgende Problem unentscheidbar:
+\begin{itemize}
+\item Eingabe: Turingmaschine $\Smach{M}$
+\item Ausgabe: Hat $\Slang{L}(\Smach{M})$ die Eigenschaft $E$?
+\end{itemize}}
+
+% \emph{Beweis:} Durch eine nicht sonderlich komplizierte Reduktion auf das Halteproblem. Kein Vorlesungsstoff.
+
+\end{frame}
+
+% \begin{frame}\frametitle{Alles unentscheidbar}
+% 
+% \examplebox{Beispiele für Fragen, die laut Rice unentscheidbar sind:
 % \begin{itemize}
-% \item Resolution kann in diesem Fall spezialisiert werden
-% \item Dadurch erhält man polynomielle Algorithmen
+% \item "`Ist $\Sterm{aba}\in\Slang{L}(\Smach{M})$?"' 
+% \item "`Ist $\Slang{L}(\Smach{M})$ leer?"'
+% \item "`Ist $\Slang{L}(\Smach{M})$ endlich?"'
+% \item "`Ist $\Slang{L}(\Smach{M})$ regulär?"'
+% \item \ldots
 % \end{itemize}
-% 
-% \end{frame}
-
-
-% \begin{frame}\frametitle{Rückblick: Horn-Logik}
-% 
-% \defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nichtnegiertes Literal enthält.
-% Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
-% {\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
-% 
-% Man kann Horn-Formeln als Implikationen auffassen \\
-% (sogenannte \redalert{Horn-Regeln}):
-% 
-% \examplebox{Beispiele:\vspace{-4ex}
-% \begin{align*}
-% \neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
-% p \qquad \equiv &&\top&\to p\\
-% \neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
-% \end{align*}
+% Rice ist dagegen nicht anwendbar auf:
+% \begin{itemize}
+% \item "`Hat $\Smach{M}$ mindestens zwei Zustände?"'\\ (keine Eigenschaft von $\Slang{L}(\Smach{M})$) 
+% \item "`Ist $\Slang{L}(\Smach{M})$ semi-entscheibar?"' (trivial)
+% \item \ldots
+% \end{itemize}
 % }
 % 
-% \begin{itemize}
-% \item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
-% % \item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
-% \item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
-% \end{itemize}
+% Der Satz von Rice lässt sich sinngemäß auf alle Turing-mächtigen Formalismen übertragen.
 % 
 % \end{frame}
+
+\sectionSlide{Typ-0-Sprachen}
+
+\begin{frame}\frametitle{Typ-0-Grammatiken und Turingmaschinen}
+
+Turingmaschinen charakterisieren die Typ-0-Sprachen:\medskip
+
+\theobox{\emph{Satz:} Die Typ-0-Grammatiken erzeugen genau diejenigen Sprachen, die von einer Turingmaschine erkannt werden können.}\medskip\pause
+
+\alert{Direkte Konsequenzen:}
+\begin{itemize}
+\item Typ-0-Grammatiken sind ein universelles (Turing-mächtiges) Berechnungsmodell
+\item Typ-0-Sprachen sind die größte Klasse von Sprachen, die wir mit einem "`implementierbaren"' Formalismus beschreiben können
+\item Die Typ-0-Sprachen sind genau die semi-entscheidbaren Sprachen
+\item Das Wortproblem für Typ-0-Sprachen ist unentscheidbar
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Leftrightarrow$ TM}
+
+\theobox{\emph{Satz:} Die Typ-0-Grammatiken erzeugen genau diejenigen Sprachen, die von einer Turingmaschine erkannt werden können.}\medskip
+
+\emph{Beweis:} Die beiden Richtungen werden einzeln gezeigt:
+\begin{enumerate}[(1)]
+\item Wenn eine Sprache von einer Typ-0-Grammatik erzeugt wird, dann kann sie von einer TM erkannt werden.
+\item Wenn eine Sprache von einer TM erkannt wird, dann kann sie durch eine Typ-0-Grammatik erzeugt werden.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Rightarrow$ TM}
+
+\emph{Gegeben:} Eine Grammatik $G$
+\medskip
+
+\emph{Gesucht:} Eine TM $\Smach{M}$ mit $\Slang{L}(\Smach{M})=\Slang{L}(G)$
+\medskip\pause
+
+\emph{Idee:}
+\begin{itemize}
+\item Turingmaschinen können Ableitungsregeln anwenden
+\item Bandinhalt: Zwischenstand der Ableitung (aus Terminalen und Nichtterminalen)
+\item Ableitungsregel wird nichtdeterministisch gewählt
+\item TMs beginnen mit dem von der Grammatik erzeugten Wort\\$\leadsto$ Ableitungsregeln werden rückwärts angewendet
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Rightarrow$ TM (Details)}
+
+Die TM für Grammatik $G=\tuple{V,\Sigma,P,S}$ arbeitet wie folgt:
+\begin{itemize}
+\item Eingabealphabet $\Sigma$
+\item Bandalphabet $\Gamma=\Sigma\cup V\cup\{\blank\}$
+\item Arbeitsweise:
+	\begin{enumerate}[(1)]
+	\item Wähle (nichtdeterministisch) eine Regel $u\to v\in P$ aus
+	\item Finde (nichtdeterministisch) auf dem Band ein Vorkommen von $v$
+	\item Ersetze das gewählte $v$ durch $u$ (dabei muss der restliche Bandinhalt verschoben werden, wenn $|u|\neq|v|$)
+	\item Wiederhole ab (1) bis entweder (a) das Band nur noch $S$ enthält (Akzeptanz) oder (b) kein Vorkommen von $v$ gefunden wird (Ablehnung)
+	\end{enumerate}
+\end{itemize}
+
+Offenbar gilt: Die TM bei Eingabe $w$ hat genau dann einen erfolgreichen Lauf wenn die Grammatik eine Ableitung von $w$ zulässt.\qed
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Leftarrow$ TM}
+
+\emph{Gegeben:} Eine TM $\Smach{M}$
+\medskip
+
+\emph{Gesucht:} Eine Grammatik $G$ mit $\Slang{L}(G)=\Slang{L}(\Smach{M})$
+\medskip\pause
+
+\emph{Idee:}
+\begin{itemize}
+\item Ein Wort kann die Konfiguration einer TM kodieren
+\item Berechnungsschritte können durch Ersetzungen von Teilwörtern simuliert werden\pause
+\item Grammatiken müssen die Wörter erzeugen, welche die TM akzeptiert\\ $\leadsto$ Vorgehen einer Grammatik:
+\begin{enumerate}[(1)]
+\item wähle ein beliebiges Eingabewort (nichtdeterministisch)
+\item simuliere die TM auf dieser Eingabe
+\item Falls TM akzeptiert: ersetze die simulierte Endkonfiguration durch das ursprüngliche Eingabewort
+% \item (Falls TM nicht akzeptiert: tue nichts, so dass kein Wort aus Terminalen erzeugt wird)
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+% \newcommand{\vtriple}[3]{\left(\begin{array}{c}#1\\#2\\#3\end{array}\right)}
+\newcommand{\vtriple}[3]{\small\begin{pmatrix}#1\\[-1.3ex]#2\\[-1.3ex]#3\end{pmatrix}}
+
+\begin{frame}\frametitle{Typ 0 $\Leftarrow$ TM (Details 1)}
+
+\emph{Kodierungstrick:}
+\begin{itemize}
+\item Variablen von $G$ kodieren dreierlei Informationen:
+\begin{enumerate}[(1)]
+\item Ursprüngliches Eingabeband: ein Zeichen aus $\Sigma\cup\{\blank\}$ 
+\item Simuliertes Arbeitsband: ein Zeichen aus $\Gamma$ 
+\item Simulierte Position und Zustand: ein Zeichen aus $Q\cup\{-\}$
+\end{enumerate}\pause
+\examplebox{Beispiel: Die Zeichenfolge $\vtriple{\Sterm{a}}{X}{-}\vtriple{\Sterm{a}}{\Sterm{a}}{-}\vtriple{\Sterm{b}}{X}{q}\vtriple{\Sterm{b}}{\Sterm{b}}{-}\vtriple{\blank}{X}{-}\vtriple{\blank}{\blank}{-}$ kodiert:\\[1ex]
+(a) die Eingabe war $\Sterm{aabb}$,\\
+(b) die aktuell simulierte Konfiguration ist $X\Sterm{a}\,q\,X\Sterm{b}X\blank$}\pause
+% 
+\item Außerdem verwenden wir Variablen $\Snterm{S}$ (Start), $\Snterm{A}$, $\Snterm{B}$ (Erzeugung der Startkonfiguration),
+$\blank$ (entsteht beim Aufräumen nach akzeptierender Endkonfiguration)
+\end{itemize}
+
+\[\leadsto V=\{\Snterm{S},\Snterm{A},\Snterm{B},\blank\} \cup\Big( (\Sigma\cup\blank)\times\Gamma\times(Q\cup\{-\})\Big)\]
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Leftarrow$ TM (Details 2)}
+
+\emph{Phase 1:} Initialisiere TM für eine beliebige Eingabe:
+\begin{align*}
+\Snterm{S} &\to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\; \vtriple{\blank}{\blank}{q_0}\Snterm{B}\\
+\Snterm{A} &\to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\Snterm{B}\\
+\Snterm{B} &\to \vtriple{\blank}{\blank}{-}\Snterm{B}\;\mid\;\epsilon
+\end{align*}
+\begin{enumerate}[$\leadsto$]
+\item erzeugt Eingabewort und einen beliebig langen (leeren) Arbeitsspeicher
+\item Spur 1 speichert geratene Eingabe
+\item Spuren 2 und 3 speichern TM-Startkonfiguration bei dieser Eingabe
+\end{enumerate}
+
+\end{frame}
+
+\newcommand{\unemph}[1]{\textcolor{devilscss}{#1}}
+
+\begin{frame}\frametitle{Typ 0 $\Leftarrow$ TM (Details 3)}
+
+\emph{Phase 2:} Simuliere TM-Berechnung auf Spuren 2 und 3:
+
+\begin{itemize}
+\item Für jeden TM-Übergang $\tuple{q',y,R}\in\delta(q,x)$, beliebige $\unemph{a},\unemph{b}\in\Sigma\cup\{\blank\}$ und beliebige $\unemph{z}\in\Sigma\cup\Gamma$:
+\[ \vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{\unemph{z}}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'} \]\pause
+%
+\item Für jeden TM-Übergang $\tuple{q',y,L}\in\delta(q,x)$, beliebige $\unemph{a},\unemph{b}\in\Sigma\cup\{\blank\}$ und beliebige $\unemph{z}\in\Sigma\cup\Gamma$
+\[ \vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-} \]\pause
+%
+\item Für jeden TM-Übergang $\tuple{q',y,N}\in\delta(q,x)$ und $\unemph{a}\in\Sigma\cup\{\blank\}$:
+\[ \vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'} \]
+\end{itemize}
+\ghost{\hspace{13.8cm}\rotatebox{90}{\tiny \hspace{5mm}Anmerkung: In Phase 1 vorbereiteter Bandbereich kann nicht verlassen werden!}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 0 $\Leftarrow$ TM (Details 4)}
+
+\emph{Phase 3:} Akzeptanz und Aufräumen:
+
+\begin{itemize}
+\item Für alle $q\in F$ und $x\in\Sigma\cup\Gamma$ mit $\delta(q,x)=\emptyset$ und beliebige $\unemph{a}\in\Sigma\cup\{\blank\}$:\vspace{-0.5ex}
+\[ \vtriple{\unemph{a}}{x}{q} \to \unemph{a} \]\vspace{-1.5ex}\pause
+%
+\item Für alle $a,b\in\Sigma\cup\{\blank\}$ und beliebige $\unemph{x}\in\Sigma\cup\Gamma$:
+\begin{align*}
+a\vtriple{b}{\unemph{x}}{-} &\to ab &
+\vtriple{b}{\unemph{x}}{-}a &\to ba
+\end{align*}\vspace{-1.5ex}\pause%
+%
+\item Dabei erzeugte Blanks werden entfernt:\vspace{-0.5ex}
+\[\blank \to \epsilon\]\vspace{-3.5ex}
+\end{itemize}\pause
+
+Diese Grammatik erzeugt ein Wort $w$ genau dann wenn die TM einen akzeptierenden Lauf für $w$ hat (unter Verwendung von 
+beliebig viel Speicher).\qed\bigskip
+
+\end{frame}
+
+\begin{frame}\frametitle{Zusammenfassung Typ 0}
+
+Wir haben also gezeigt:\medskip
+
+\theobox{\emph{Satz:} Die Typ-0-Grammatiken erzeugen genau diejenigen Sprachen, die von einer Turingmaschine erkannt werden können.}\medskip
+
+Der Satz von Rice ist daher auf Typ-0-Grammatiken übertragbar:
+
+\theobox{\emph{Satz (informell):} Für eine gegebene Typ-0-Grammatik $G$ und eine nichttriviale Eigenschaft $E$ von Typ-0-Sprachen ist es unentscheidbar, ob $\Slang{L}(G)$ die Eigenschaft $E$ hat.}
+
+Probleme wie Leerheit, Universalität, Äquivalenz zu einer anderen Typ-0-Grammatik, usw.\ sind daher für Typ-0-Grammatiken (wie auch für TMs) unentscheidbar
+
+\end{frame}
+
+\sectionSlide{Typ-1-Sprachen}
+
+\begin{frame}\frametitle{Automaten für Typ 1?}
+
+Welches Berechnungsmodell entspricht den Typ-1-Sprachen?
+\begin{itemize}
+\item Kellerautomat: zu schwach (Typ 2)
+\item Turingmaschine: zu stark (Typ 0)
+\end{itemize}\pause
+
+\emph{Lösung:} Beschränkung des Arbeitsspeichers einer TM:\medskip
+
+\defbox{Eine \redalert{linear beschränkte Turingmaschine} (\alert{linear-bounded automaton}, \alert{LBA}) ist eine nichtdeterministische Turingmaschine, die den Lese-/Schreibkopf nicht über das letzte Eingabezeichen hinaus
+bewegen kann. Versucht sie das, so bleibt der Kopf stattdessen an der letzten Bandstelle stehen.}\medskip
+
+Ein LBA kann also nur die (lineare) Menge an Speicher nutzen, die durch die Eingabe belegt wird
+
+\end{frame}
 
 \begin{frame}\frametitle{Beispiel}
 
-Viele einfache rekursive Algorithmen können in Horn-Aussagenlogik beschrieben werden.
+Die TM zur Erkennung von $\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$ (Vorlesung 18) ist ein \ghost{LBA.}
 \bigskip
 
-\examplebox{\emph{Beispiel:} Berechnung der Variablen $V_\epsilon$ einer CFG, welche in $\epsilon$ umgeschrieben
-werden können (vgl. Vorlesung 2, Folie 32). Wir betrachten die folgende Menge $\mathcal{F}$ von Horn-Regeln:
-\begin{align*}
-\top & \to p_{\Snterm{A}} & \text{für jede Grammatikregel $\Snterm{A}\to\epsilon$}\\
-p_{\Sntermsub{A}{1}}\wedge\ldots\wedge p_{\Sntermsub{A}{n}} & \to p_{\Snterm{B}} & \text{für jede Grammatikregel $\Snterm{B}\to\Sntermsub{A}{1}\cdots\Sntermsub{A}{n}$}
-\end{align*}
-Dann gilt $\mathcal{F}\models p_{\Snterm{A}}$ genau dann wenn $\Snterm{A}\in V_\epsilon$.
-}
+\footnotesize
+Arbeitsweise:
+\begin{enumerate}[(1)]
+% \item Falls $\blank$ gelesen wird, akzeptiere
+\item Ersetze, angefangen von links, Vorkommen von $\Sterm{a}$ durch $\Snterm{$\hat{a}$}$
+\item Immer wenn ein $\Sterm{a}$ ersetzt wurde, suche ein $\Sterm{b}$ und ersetze es durch $\Snterm{$\hat{b}$}$,
+suche anschließend rechts davon ein $\Sterm{c}$ und ersetze es durch $\Snterm{$\hat{c}$}$
+\item Gehe danach zurück zum ersten noch nicht ersetzten $\Sterm{a}$ und führe die Ersetzung (1) fort, bis alle $\Sterm{a}$ ersetzt worden sind
+\item Akzeptiere, falls der Inhalt des Bandes die Form $\Snterm{$\hat{a}$}^*\Snterm{$\hat{b}$}^*\Snterm{$\hat{c}$}^*$ hat
+\item Andernfalls oder falls eine der Ersetzungen in Schritt (2) fehlschlägt, weil es zu wenige $\Sterm{b}$ oder $\Sterm{c}$ gibt, lehne die Eingabe ab
+\end{enumerate}
+
+
 
 \end{frame}
 
+\begin{frame}\frametitle{Typ 1 $\Leftrightarrow$ LBA}
 
-\begin{frame}\frametitle{Resolution bei Horn-Klauseln}
+% Linear beschränkte Turingmaschinen charakterisieren die Typ-1-Sprachen:\medskip
 
-Die Resolution von Horn-Klauseln = Verknüpfung von Regeln:
-%
-\[\frac{p_1\wedge\ldots\wedge p_n\to \redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{p_1\wedge\ldots\wedge p_n\wedge q_1\wedge\ldots\wedge q_m\to r}\]\pause
+\redalert{Anmerkung:} Wir beschränken uns auf Typ-1-Spachen ohne das Wort $\epsilon$. Diesen Sonderfall 
+müssten LBAs anders behandeln, da eine TM nicht mit $0$ Speicherzellen arbeiten kann. Das ist nicht schwer,\footnote{Z.B. durch Verwendung eines Endzeichens nach der Eingabe.} aber auch nicht sehr interessant.\pause\medskip
 
-Man kann zeigen (ohne Beweis):
+\theobox{\emph{Satz:} Die Typ-1-Grammatiken erzeugen genau diejenigen Sprachen, die von einem LBA erkannt werden können.}\medskip\pause
 
-\theobox{\emph{Satz:} Das Resolutionskalkül für Horn-Formeln bleibt auch dann vollständig, wenn man sich auf Resolventen
-beschränkt, bei denen eine Klausel die Form $\{p\}$ (also $\top\to p$) hat.
-}
-
-Diese Einschränkung entspricht der Entfernung von bereits erfüllten Vorbedingungen aus der Prämisse einer Regel:
-\[\frac{\top\to\redalert{q}\qquad\redalert{q}\wedge q_1\wedge\ldots\wedge q_m\to r}{q_1\wedge\ldots\wedge q_m\to r}\]
-
-\end{frame}
-
-\begin{frame}\frametitle{Hyperresolution = Anwendung von Regeln}
-
-\emph{Es ist leicht zu sehen:} Im eingeschränkten Resolutionskalkül für Horn-Formeln kann eine Resolvente aus einer Regel $q_1\wedge\ldots\wedge q_m\to r$
-nur dann zur Ableitung von $\bot$ nützlich sein, wenn letztlich alle Vorbedingungen $q_1,\ldots, q_m$ erfüllt sind.
-
-$\leadsto$ Wir können die Resolution aufschieben, bis dies gegeben ist
-\bigskip\pause
-
-\defbox{%
-\redalert{Hyperresolution:} Mehrere Klauseln mit positiven Literalen werden parallel mit einer Klausel mit vielen negativen Literalen resolviert.
-%
-\[\frac{\top\to q_1\qquad\ldots\qquad\top\to q_m\qquad q_1\wedge\ldots\wedge q_m\to r}{\top\to r}\]}
-%
-Dies entspricht der intuitiven Idee einer \alert{Regelanwendung}: "`Wenn die Regel $q_1\wedge\ldots\wedge q_m\to r$ und die Atome $q_1$, \ldots, $q_m$ gelten, dann kann $r$ abgeleitet werden."'
+\emph{Beweis:} Wir können fast die gleichen Konstruktionen anwenden, wie bei Typ 0:
+\begin{enumerate}[(1)]
+\item \alert{Typ 1 $\Rightarrow$ LBA:} Eine TM kann wie zuvor Grammatikregeln rückwärts anwenden. Bei Typ-1-Regeln ist
+sichergestellt, dass dabei niemals mehr Speicher benutzt wird als am Anfang
+\item \alert{LBA $\Rightarrow$ Typ 1:} Die Konstruktion liefert schon fast eine Typ-1-Grammatik \ldots
+\end{enumerate}
 
 \end{frame}
 
-\begin{frame}\frametitle{Komplexität des Schließens mit Horn-Formeln}
+\begin{frame}\frametitle{Typ 1 $\Leftarrow$ LBA (1)}
 
-\emph{Vorteil der Hyperresolution bei Horn-Klauseln:}
-\begin{itemize}
-\item Jede Resolvente hat die Form $\top\to p$
-\item Es gibt nur linear viele solche Resolventen (für Atome $p$, die in der Formel vorkommen)
-\end{itemize}
-$\leadsto$ Resolution muss nach linear vielen Schritten terminieren
-\pause\bigskip
+Die zuvor verwendete TM-Grammatik auf einen Blick:
 
-Dies führt zu einer polynomiellen Laufzeit, nicht zu einer linearen (da jeder Resolutionsschritt einige Zeit benötigt).
+\begin{center}
+$
+\Snterm{S} \to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\; \vtriple{\blank}{\blank}{q_0}\Snterm{B}$\\[1ex]
+%
+$\Snterm{A} \to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\Snterm{B}$\hfill$\Snterm{B} \to \vtriple{\blank}{\blank}{-}\Snterm{B}\;\mid\;\epsilon$\\[2ex]
+%
+$\vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{\unemph{z}}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'}$\hfill$\vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-}$\hfill$\vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'}$\\[2.5ex]
+% 
+~\hfill$\vtriple{\unemph{a}}{x}{q} \to \unemph{a}$\hfill$a\vtriple{b}{\unemph{x}}{-} \to ab$\hfill$\vtriple{b}{\unemph{x}}{-}a \to ba$\hfill$\blank \to \epsilon$\hfill~
+\end{center}
+Problematisch für Typ 1 sind nur die beiden $\epsilon$-Regeln, die aber nur wegen der zusätzlichen Blanks nötig sind.
+
+\end{frame}
+
+\begin{frame}\frametitle{Typ 1 $\Leftarrow$ LBA (2)}
+
+Modifizierte Grammatik zur Simulation von LBAs:
+
+\begin{center}
+$
+\Snterm{S} \to \vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\vtriple{\Sterm{a}}{\Sterm{a}}{q_0}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)$\\[1ex]
+%
+$\Snterm{A} \to \vtriple{\Sterm{a}}{\Sterm{a}}{-}\Snterm{A}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)\;\mid\;\vtriple{\Sterm{a}}{\Sterm{a}}{-}\;\; (\text{für beliebige }\Sterm{a}\in\Sigma)$\\[2ex]
+%
+$\vtriple{\unemph{a}}{x}{q}\vtriple{\unemph{b}}{z}{-} \to \vtriple{\unemph{a}}{y}{-}\vtriple{\unemph{b}}{\unemph{z}}{q'}$\hfill$\vtriple{\unemph{a}}{\unemph{z}}{-}\vtriple{\unemph{b}}{x}{q} \to \vtriple{\unemph{a}}{\unemph{z}}{q'}\vtriple{\unemph{b}}{y}{-}$\hfill$\vtriple{\unemph{a}}{x}{q} \to \vtriple{\unemph{a}}{y}{q'}$\\[2.5ex]
+% 
+~\hfill$\vtriple{\unemph{a}}{x}{q} \to \unemph{a}$\hfill$a\vtriple{b}{\unemph{x}}{-} \to ab$\hfill$\vtriple{b}{\unemph{x}}{-}a \to ba$\hfill~
+\end{center}
+Diese Grammatik simuliert wie zuvor beliebige (N)TMs, aber nur auf dem Speicherbereich, der von der Eingabe belegt wird.
+\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Konfigurationsgraphen}
+
+Das Wortproblem bei Typ 0 ist unentscheidbar. Und bei Typ 1?\pause
 \medskip
 
-Es geht aber auch noch besser:
-
-\theobox{\emph{Satz (Dowling \& Gallier):} Die Erfüllbarkeit einer Horn-Formel kann in linearer Zeit entschieden werden.}
-
-(Ohne Beweis)
-% \bigskip
-
-%%% Folgendes ist im Kontext von NP relevant:
-% \emph{Intuition:} Horn-Logik ist die \redalert{deterministische} Form der Aussagenlogik (da Regeln immer genau ein
-% Atom implizieren). 
-
-\end{frame}
-% 
-% \begin{frame}\frametitle{Horn-Logik}
-% 
-% Vereinfachung des logischen Schließens durch Beschränkung auf Horn-Logik:
-% \begin{itemize}
-% \item (Hyper-)Resolution liefert polynomiellen Algorithmus
-% \item Linearer Algorithmus möglich 
-% \end{itemize}\bigskip
-% 
-% 
-% \end{frame}
-
-
-
-% \begin{frame}\frametitle{Kompaktheit}
-% 
-% Eine interessante Eigenschaft der Aussagenlogik folgt aus dem, was wir bereits wissen:
-% 
-% \theobox{\emph{Satz (Kompaktheit der Aussagenlogik):} Wenn $\mathcal{F}$ eine unendliche Formelmenge ist und $\mathcal{F}\models G$ gilt, dann gibt es eine endliche Teilmenge $\mathcal{F}'\subseteq\mathcal{F}$ mit $\mathcal{F}'\models G$.}
-% 
-% \emph{Beweis:} Die Vollständigkeit der Resolution 
-% 
-% \end{frame}
-
-\sectionSlide{Logisches Schließen als Wortproblem}
-
-\begin{frame}\frametitle{Schließen als Entscheidungsproblem}
-
-Wir wissen bereits, dass Schließen ein Entscheidungsproblem ist,\ghost{ z.B.:}
-
-\defbox{\redalert{Erfüllbarkeit}:
+\emph{Beobachtung:}
 \begin{itemize}
-\item \emph{Eingabe:} Formel $F$
-\item \emph{Ausgabe:} "`ja"' wenn $F$ erfüllbar ist; sonst "`nein."'
-\end{itemize}
-}
-
-Wie wir wissen, können solche Probleme als Definition einer Sprache angesehen werden:
-\[\Slang{SAT} = \{ \textsf{enc}(F)\mid F\text{ ist erfüllbar}\}\]
-wobei $\textsf{enc}(F)$ eine (vernünftige) Kodierung der Formel $F$ als Wort über einem endlichen Alphabet (z.B.\ $\{\Sterm{0},\Sterm{1}\}$) ist. Vor allem müssen wir beliebig viele Atome mit nur endlich vielen Zeichen kodieren.
-\bigskip\pause
-
-\anybox{purple}{%
-\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
-\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Schließen als Sprache (1)}
-
-\anybox{purple}{%
-\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
-\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}\medskip
-
-Wir wissen, dass $\Slang{SAT}$ entscheidbar ist und daher von Typ 0 ist.\pause\\
-Der folgende naive Algorithmus entscheidet $\Slang{SAT}$ auf einer TM:
-% Auch für Typ~1 gibt es ein positives Resultat:
-
-\codebox{%Der folgende Algorithmus entscheidet $\Slang{SAT}$ auf einem LBA:
-Naiver Erfüllbarkeitstest (Skizze):
-\begin{itemize}
-\item Wir prüfen systematisch jede Wertzuweisung auf den Atomen der gegebenen Formel
-\item Dazu iteriert die TM über alle Wertzuweisungen und berechnet für jede rekursiv den Wahrheitswert der Formel
-\item Falls eine erfüllende Zuweisung gefunden wird, dann hält die TM und akzeptiert
-\item Falls alle Wertzuweisungen ohne Erfolg durchlaufen worden sind, dann hält die TM und verwirft
-\end{itemize}
-}
-
-\end{frame}
-
-\newcommand{\vtriple}[3]{\small\begin{pmatrix}#1\\[-1.3ex]#2\\[-1.3ex]\Sterm{#3}\end{pmatrix}}
-\newcommand{\vtripletext}[3]{\footnotesize\begin{array}{r}\text{#1}\\[-1.0ex]\text{#2}\\[-1.0ex]\text{#3}\end{array}}
-
-\begin{frame}[t]\frametitle{Schließen als Sprache (2)}
-
-\anybox{purple}{%
-\narrowcentering{Was für eine Sprache ist $\Slang{SAT}$?}\\
-\narrowcentering{Durch welches Automatenmodell wird sie erkannt?}}\smallskip
-
-Der naive Erfüllbarkeitstest kann in linearem Speicher ablaufen, d.h. auf einem LBA \alert{$\leadsto$ $\Slang{SAT}$ ist von Typ 1}\pause
-% Auch für Typ~1 gibt es ein positives Resultat:
-
-\codebox{%
-Naive Erfüllbarkeit auf LBA (Skizze):\footnotesize
-\begin{itemize}%
-\item Wir verwenden ein Arbeitsalphabet mit mehreren "`Spuren"': (1)~Eingabe, (2)~aktuell ermittelte Wahrheitswerte aller Teilformeln, (3)~aktuell getestete Wertzuweisung\vspace{-0.5ex}
-\item Skizze der Kodierung (ohne Binärkodierung der Formel):\\[1ex]
-\narrowcentering{$
-\vtripletext{Spur 3}{Spur 2}{Spur 1}
-% 
-\vtriple{}{}{(}
-\vtriple{}{}{(}
-\vtriple{\mytrue}{\mytrue}{p}
-\vtriple{}{\myfalse}{\to}
-\vtriple{\myfalse}{\myfalse}{q}
-\vtriple{}{}{)}
-\vtriple{}{\mytrue}{\vee}
-\vtriple{}{}{(}
-\vtriple{}{\myfalse}{q}
-\vtriple{}{\mytrue}{\to}
-\vtriple{\myfalse}{\myfalse}{r}
-\vtriple{}{}{)}
-\vtriple{}{}{)}
-$}
-\item Man kann nun systematisch Spur 3 iterieren, Spur 2 rekursiv berechnen und den Wert der Gesamtformel prüfen
-(machbar, wir verzichten auf die Details)
-% \item Dabei ordnen wir jeder Teilformel eine eindeutige Position zu: bei Atomen ist dies das
-% erste Zeichen der Kodierung des Atoms, bei zusammengesetzten Formeln das erste Zeichen der Kodierung des Junktors
-% \item Der aktuelle Wahrheitswert der Teilformel wir in Spur~2 an ihrer Position gespeichert.
-% \item Die aktuelle Wertzuweisung ergibt sich aus den Wahrheitswerten der Atome
-% \item Wenn man das erste Vorkommen jedes Atoms in der Formel markiert, dann ist es nicht schwer, die jeweils nöchste Wertzuweisung zu berechnen (durch binäre Addition von $1$).
-\end{itemize}\vspace{-3.5ex}~}
-
-\end{frame}
-
-\begin{frame}\frametitle{Welches Berechnungsmodell passt zu $\Slang{SAT}$?}
-
-Erkenntnisse bisher:
-\begin{itemize}
-\item LBAs sind stark genug für $\Slang{SAT}$ (d.h. $\Slang{SAT}$ ist von Typ 1)
-\item $\Slang{SAT}$ ist keine reguläre Sprache, da FAs korrekte Klammerung nicht erkennen können (d.h. $\Slang{SAT}$ ist nicht von Typ 3)
-% \item ??? $\Slang{SAT}$ ist keine kontextfreie Sprache (d.h. $\Slang{SAT}$ ist nicht von Typ 2)
-\end{itemize}\bigskip\pause
-
-Man kann außerdem zeigen:
-\theobox{\narrowcentering{$\Slang{SAT}$ ist nicht kontextfrei.}}
-(zumindest wenn eine offensichtliche Kodierung verwendet wird; siehe
-\url{http://cstheory.stackexchange.com/questions/37322/is-sat-a-context-free-language})
-\bigskip\pause
-
-\anybox{purple}{%
-Können wir $\Slang{SAT}$ noch genauer charakterisieren als mit LBAs?}\\\pause
-$\leadsto$ Ja, mithilfe anderer Arten von eingeschränkten TMs.
-
-\end{frame}
-
-\sectionSlide{Komplexität}
-
-\begin{frame}\frametitle{Turingmaschinen beschränken}
-
-TMs verwenden zwei Ressourcen, die man beschränken kann:
-\begin{itemize}
-\item \alert{Speicher:} die Zahl der verwendeten Speicherzellen
-\item \alert{Zeit:} die Zahl der durchgeführten Berechnungsschritte
+\item Auf einem beschränkten Speicher gibt es nur beschränkt viele Konfigurationen, genauer gesagt:
+	\[ \text{Konfigurationszahl bei $n$ Zellen: }\underbrace{|\Gamma|^n}_{\text{Bandinhalt}} \cdot \underbrace{\phantom{|}n\phantom{|}}_{\text{Kopfpositionen}}\cdot \underbrace{|Q|}_{\text{Zustände}} \]\pause
+\item Man kann entscheiden, ob eine TM von einer Konfiguration in eine andere wechseln kann oder nicht
+% \item Man kann entscheiden, ob eine Konfiguration eine akzeptierende Endkonfiguration ist
 \end{itemize}\pause
-Feste Schranken ergeben wenig Sinn (endliche Automaten)\\
-\begin{enumerate}[$\leadsto$]
-\item Schranken werden als Funktion in der Länge der Eingabe angegeben
-\end{enumerate}
-\bigskip
-
-\examplebox{\emph{Beispiel:} LBAs beschränken den verfügbaren Speicher auf die Anzahl der Symbole in der Eingabe.
-Dies entspricht einer Funktion, welche die Länge $n$ der Eingabe auf den Maximalwert von $n$ Speicherzellen abbildet.}
+Für eine Eingabe $w$ können wir also den kompletten Graphen aller möglichen LBA-Konfigurationen und Übergänge
+berechnen.\\
+$\leadsto$ \redalert{Konfigurationsgraph}
 
 \end{frame}
 
-\begin{frame}\frametitle{Zur Erinnerung: $O$-Notation}
+\begin{frame}\frametitle{Das Wortproblem für Typ 1}
 
-Die $O$-Notation (mit großem $O$!) charakterisiert Funktionen nach ihrem asymptotischen Verhalten und
-versteckt lineare Faktoren.
-
-\defbox{Für Funktionen $f,g: \mathbb{N}\to\mathbb{R}$ schreiben wir \redalert{$f\in O(g)$}
-wenn gilt:\\[1ex]
-%
-\narrowcentering{Es gibt eine Zahl $c>0$ und eine Zahl $n_0\in\mathbb{N}$,}\\
-\narrowcentering{so dass für jedes $n>n_0$ gilt: $f(n)\leq c\cdot g(n)$}\\[1ex]
-%
-Das bedeutet, $f$ wächst nicht wesentlich schneller als $g$.
-}\pause
-
-\emph{Notation 1:} Manchmal schreibt man statt $f\in O(g)$ auch $f=O(g)$\\ (allerdings ist $=$ dann eine
-asymmetrische Relation).\medskip
-
-\emph{Notation 2:} Oft schreibt man statt $f\in O(g)$ auch $f(n)\in O(g(n))$\\ (bzw. für $f=O(g)$ auch $f(n)=O(g(n))$).
-
-\examplebox{\emph{Beispiele:}
-\begin{minipage}[t]{7cm}\vspace{-1.7ex}
-\begin{itemize}
-\item $(10 n^3+42 n^2 - n + 100)\in O(n^3)$
-\item $(2^n + n^{2000})\in O(2^n)$
-\item $2^{729}\in O(1)$
-\end{itemize}
-\end{minipage}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Schranken für Zeit und Raum}
-
-Die $O$-Notation wird verwendet, um allgemeine Ressourcenschranken für TMs anzugeben.
-
-\defbox{%
-Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion und $\Smach{M}$ eine Turingmaschine.
-\begin{itemize}
-\item $\Smach{M}$ heißt \redalert{$O(f)$-zeitbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
-dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ nach maximal $g(|w|)$ Schritten anhält.
-%
-\item $\Smach{M}$ heißt \redalert{$O(f)$-speicherbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
-dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ hält und zuvor maximal $g(|w|)$ Speicherzellen verwendet.
-\end{itemize}
-}\pause
-
-\examplebox{\emph{Beispiel:} Ein LBA entspricht einer $O(n)$-speicherbeschränkten \ghost{TM.${}^*$}}
-
-\examplebox{\emph{Beispiel:} Der naive Erfüllbarkeitstest für $\Slang{SAT}$ ist \mbox{$O(2^n)$-zeitbeschränkt}.}
-
-{\tiny ${}^\ast)$ Wobei man die bei LBAs erzwungene Speicherbeschränkung in das Programm der TM einbauen muss.
-Unsere LBA-Definition erlaubt keine linearen Faktoren für den Speicherbedarf. Diese haben
-keinen Einfluss auf die Rechenstärke von LBAs, da man lineare Speichergewinne durch ein größeres %[-1.5ex]
-Arbeitsalphabet simulieren \ghost{kann.}\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Zeit und Raum, deterministisch}
-
-Beschränkte TMs können verwendet werden, um viele weitere Sprachklassen zu definieren.
-\medskip
-
-\defbox{Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion.
-\begin{itemize}
-\item \redalert{\Scomplclass{DTIME}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-zeitbeschränkte Turingmaschine entschieden werden können.
-\item \redalert{\Scomplclass{DSPACE}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-speicherbeschränkte Turingmaschine entschieden werden können.
-\end{itemize}
-}\pause
-
-\examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
-
-\examplebox{\emph{Beispiel:} Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
-
-\end{frame}
-
-\begin{frame}\frametitle{Maschinenmodelle}
-
-Es gibt viele unterschiedliche Versionen von deterministischen Turingmaschinen (z.B. Mehrband-Maschinen).\\
-
-\anybox{purple}{Sind $\Scomplclass{DTIME}(f)$ und $\Scomplclass{DSPACE}(f)$ unabhängig vom gewählten TM-Modell?}\pause
-
-\emph{Antwort:} "`Bei vielen kleineren Variationen sind sie es, aber nicht in allen Fällen (oder zumindest ist dies nicht immer bekannt)."'
-
-\examplebox{\emph{Beispiel:} Jede $O(f(n))$-zeitbeschränkte $k$-Band-TM kann durch eine $O(k\cdot f^2(n))$-zeitbeschränkte
-1-Band TM simuliert werden (wie in Vorlesung 18 gezeigt). Einfacher gesagt: Der Verzicht auf mehrere Bänder verursacht maximal quadratische Zeitkosten ($k$ ist hier ein linearer Faktor).}\pause
-
-\begin{enumerate}[$\leadsto$]
-\item Es ist sinnvoll, \alert{noch allgemeinere Sprachklassen} zu betrachten, die auch gegenüber polynomiellen Änderungen der Ressourcen robust sind
-\end{enumerate}
-
-\end{frame}
-
-\begin{frame}\frametitle{Wichtige Komplextitätsklassen}
-
-Die wichtigen deterministischen Komplexitätsklassen fassen jeweils ganze Familien von
-zeit- oder speicherbeschränkten Klassen zusammen. Wir erwähnen hier nur die praktisch wichtigsten:
-
-{\footnotesize
-\begin{align*}
-\Scomplclass{P} = \Scomplclass{PTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(n^d)
-	& \text{\redalert{polynomielle Zeit}}
-%   & \Scomplclass{NP} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(n^k)
-  \\[1ex]
-\hspace{-1.5cm}\Scomplclass{Exp} = \Scomplclass{ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{n^d})
-    & \text{\redalert{exponentielle Zeit}${}^*$}
-% %   & \Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{n^k})
-%   \\[1ex]
-% \hspace{-1.5cm}\Scomplclass{2Exp} = \Scomplclass{2ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{2^{n^d}})
-% %   & \Scomplclass{N2Exp} = \Scomplclass{N2ExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{2^{n^k}})
-% 	& \text{doppelt-exponentielle Zeit}
-%   \\[1ex]
-% \Scomplclass{E} = \Scomplclass{ETime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})
-%    & \text{exp.\ Zeit mit linearem Exponent}
-   \\[4ex]
-\hspace{-1.5cm}\Scomplclass{L} = \Scomplclass{LogSpace} &= \Scomplclass{DSpace}(\log n)
-%   & \Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
-	& \text{\redalert{logarithmischer Speicher}}
-  \\[1ex]
-\Scomplclass{PSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(n^d)
-	& \text{\redalert{polynomieller Speicher}}
-%   \\[1ex]
-% \Scomplclass{ExpSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(2^{n^d})
-% 	& \text{exponentieller Speicher}
-\end{align*}
-}
-
-\bigskip
-{\tiny ${}^*$) Anmerkung: Dies ist die praktisch wichtigste Definition von "`exponentieller Zeit"'. Es gibt daneben auch
-$\Scomplclass{E} = \Scomplclass{ETime} = \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})$ (exponentielle Zeit mit
-linearem Exponenten).\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{\Scomplclass{LogSpace}? Wie soll das gehen?}
-
-Für $n>1$ gilt \alert{$\log(n)<n$}. Auch beliebige lineare Faktoren können das nur für kleine $n$ kompensieren.\\
-\medskip
-
-Eine $O(\log(n))$-speicherbeschränkte TM darf also weniger Speicher verwenden als ihre Eingabe benötigt.
-\alert{$\leadsto$ Wie soll das gehen?}
-\bigskip\pause
-
-\defbox{Man definiert \redalert{$O(\log(n))$-speicherbeschränkte Turingmaschinen} als besondere Mehrband-TMs:
-\begin{itemize}
-\item Das erste Band ist das \redalert{Eingabeband}. Es enthält die Eingabe und darf nur gelesen aber nicht beschrieben werden.
-\item Das zweite Band ist das \redalert{Arbeitsband}. Es darf beliebig gelesen und beschrieben werden, aber es ist
-auf $O(\log(n))$-Speicherzellen beschränkt.
-\end{itemize}}
-
-{\footnotesize
-Das genügt zur Erkennung von Sprachen. Wenn die TM eine Ausgabe berechnen soll, dann wird dafür ein 
-drittes \redalert{Ausgabeband} verwendet, auf dem man beliebig viele Zeichen einmalig schreiben aber nicht lesen kann.\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Beziehungen der Komplexitätsklassen}
-
-\alert{Eine wichtige Frage der Komplexitätstheorie ist, was man über die Beziehungen der
-Komplexitätsklassen aussagen kann.}
+\emph{Wortproblem (anders ausgedrückt):} Gibt es eine akzeptierende
+Endkonfiguration, die im Konfigurationsgraphen von der Startkonfiguration aus erreichbar ist?
 \medskip\pause
 
-Offensichtlich führen (asymptotisch) höhere Ressourcenschranken zu größeren Sprachklassen.
-Oft ist aber nicht klar, ob man mit mehr Ressourcen auch wirklich mehr (oder einfach nur die gleichen) Probleme lösen kann. Bei
-unseren Klassen ist das aber bekannt:\medskip
+Daraus folgt:\medskip
 
-\theobox{\emph{Fakt:} Es gilt $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$ und
-$\Scomplclass{LogSpace}\subsetneq\Scomplclass{PSpace}$.
-}\medskip\pause
+\theobox{\emph{Satz:} Das Wortproblem für Typ-1-Sprachen ist entscheidbar.}
 
-Weiterhin kann man Speicher mit Zeit in Beziehung bringen:
-\begin{itemize}
-\item In Zeit $n$ kann man nur $n$ Speicherzellen nutzen
-\item Alle möglichen Konfigurationen auf $n$ Speicherzellen kann man in exponentieller Zeit (bezüglich $n$) berechnen\\[-1ex]
-{\tiny (für LBAs haben wir das in Vorlesung 20 besprochen; siehe "`Konfigurationsgraph"')}
-\end{itemize}
-
-\theobox{\emph{Fakt:} Es gilt $\Scomplclass{LogSpace}\subseteq\Scomplclass{P}\subseteq\Scomplclass{PSpace}\subseteq\Scomplclass{Exp}$.
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiele}
-
-Unsere Klassen sind recht robust: Details der Implementierung haben oft keinen Einfluss
-auf die Einordnung eines Problems.\\
-\alert{Oft genügt eine Implementierungsskizze um zu zeigen, dass eine Sprache
-in einer dieser Klassen liegt.}\pause
-
-\examplebox{\emph{Beispiel:} Erfüllbarkeit von propositionaler Horn-Logik ist in $\Scomplclass{P}$. Unser Resolutionsalgorithmus
-liefert allerdings keinen Hinweis auf Machbarkeit in $\Scomplclass{LogSpace}$.}\pause
-
-\examplebox{\emph{Beispiel:} $\Slang{SAT}$ ist in $\Scomplclass{ExpTime}$ aber auch in $\Scomplclass{PSpace}$.}\pause
-
-\examplebox{\emph{Beispiel:} Das Wortproblem jeder regulären Sprache ist in $\Scomplclass{LogSpace}$. Tatsächlich benötigt ein DFA
-gar keinen Speicher.}\pause
-
-\examplebox{\emph{Beispiel:} Die Transformation einer Formel in Negationsnormalform ist in $\Scomplclass{LogSpace}$ möglich. Dies ist kein Spracherkennungsproblem sondern eine Berechnung mit Ein- und Ausgabe.}
-
-\end{frame}
-
-\begin{frame}\frametitle{Ressourcen nichtdeterministischer TMs}
-
-Bei NTMs gibt es viele mögliche Berechnungspfade.\\
-$\leadsto$ Welche Pfade meinen wir, wenn wir Ressourcen beschränken?\\\pause
-~\hfill{\alert{-- Alle!}}
+\emph{Beweis:} Man kann den folgenden Algorithmus anwenden: (1) Berechne den (exponentiell großen) Konfigurationsgraph einer entsprechenden Turingmaschine für das gegebene Wort; (2) prüfe, ob es in diesem Graphen einen Pfad von der Startkonfiguration zu einer Endkonfiguration gibt.\qed
 \medskip
 
-\defbox{%
-Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion und $\Smach{M}$ eine nichtdeterministische \ghost{TM.}
-\begin{itemize}
-\item $\Smach{M}$ heißt \redalert{$O(f)$-zeitbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
-dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ \alert{auf jedem Berechnungspfad} nach maximal $g(|w|)$ Schritten anhält.
-%
-\item $\Smach{M}$ heißt \redalert{$O(f)$-speicherbeschränkt} wenn es eine Funktion $g\in O(f)$ gibt, so
-dass $\Smach{M}$ für eine beliebige Eingabe $w\in\Sigma^*$ hält und zuvor \alert{auf jedem Berechnungspfad} maximal $g(|w|)$ Speicherzellen verwendet.
-\end{itemize}
-}
+Unser Algorithmus benötigt (immer) exponentiell viel Zeit.
+\medskip
 
-Eine zeit- oder speicherbeschränkte NTM muss also auch auf erfolglosen Pfaden ("`falsch geratene Übergänge"') garantiert
-innerhalb der Ressourcengrenzen halten.
+\alert{Aber:} Es ist bis heute nicht bekannt, ob es einen Algorithmus gibt, der im Worst-Case weniger als exponentiell viel Zeit benötigt!
+\bigskip\pause
+
+\examplebox{Beispiel: Das Halteproblem ist keine Typ-1-Sprache, da es nicht entscheidbar ist.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Zeit und Raum, nichtdeterministisch}
+\sectionSlide{Abschlusseigenschaften\\Typ~0 und Typ~1}
 
-Die entsprechenden Sprachklassen werden genau wie bei deterministischen TMs definiert:\medskip
+\begin{frame}\frametitle{Bekannte Abschlusseigenschaften}
 
-\defbox{Sei $f:\mathbb{N}\to\mathbb{R}$ eine Funktion.
-\begin{itemize}
-\item \redalert{\Scomplclass{NTIME}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-zeitbeschränkte NTM entschieden werden können.
-\item \redalert{\Scomplclass{NSPACE}(f(n))} ist die Klasse aller Sprachen $\Slang{L}$, welche durch eine $O(f)$-speicherbeschränkte NTM entschieden werden können.
-\end{itemize}
-}%\pause
-% 
-% \examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{DTIME}(2^n)$ und $\Slang{SAT}\in\Scomplclass{DSPACE}(n)$.}\pause
-% 
-% \examplebox{\emph{Beispiel:} Das Halteproblem ist in keiner der Klassen $\Scomplclass{DTIME}(f(n))$ oder $\Scomplclass{DSPACE}(f(n))$. Unentscheidbare Probleme benötigen uneingeschränkten Zugang zu beliebig vielen Ressourcen einer TM.}
+Wir wissen bereits:\medskip
 
-\end{frame}
+\theobox{\emph{Satz (siehe Vorlesung 14):} Sowohl die Klasse der Typ-1-Sprachen als auch die Klasse der Typ-0-Sprachen ist unter Vereinigung abgeschlossen.}\medskip\pause
 
+\theobox{\emph{Satz:} Die Klasse der Typ-0-Sprachen ist \redalert{nicht} unter Komplement abgeschlossen.}\medskip
 
-\begin{frame}\frametitle{Nichtdeterministische Komplextitätsklassen}
+\emph{Beweis:} Das Komplement des Halteproblems ist nicht semi-entscheidbar (siehe Vorlesung 24).\qed
+% \pause\bigskip
 
-Auch hier beschränken wir uns auf einige wichtige Fälle:
+% Für allgemeine TMs ist es zudem nicht schwer, eine TM für Schnitt, Konkatenation und Kleene-Stern zu konstruieren:
+% \medskip
 
-{\footnotesize
-\begin{align*}
-\Scomplclass{NP} = \Scomplclass{NPTime} &= \bigcup_{d\geq 1} \Scomplclass{NTime}(n^d)
-	& \text{\redalert{nichtdet. polynomielle Zeit}}
-%   & \Scomplclass{NP} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(n^k)
-  \\[1ex]
-\hspace{-1.5cm}\Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{d\geq 1} \Scomplclass{NTime}(2^{n^d})
-    & \text{\redalert{nichtdet. exponentielle Zeit}}
-% %   & \Scomplclass{NExp} = \Scomplclass{NExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{n^k})
-%   \\[1ex]
-% \hspace{-1.5cm}\Scomplclass{2Exp} = \Scomplclass{2ExpTime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{2^{n^d}})
-% %   & \Scomplclass{N2Exp} = \Scomplclass{N2ExpTime} &= \bigcup_{k\geq 1} \Scomplclass{NTime}(2^{2^{n^k}})
-% 	& \text{doppelt-exponentielle Zeit}
-%   \\[1ex]
-% \Scomplclass{E} = \Scomplclass{ETime} &= \bigcup_{d\geq 1} \Scomplclass{DTime}(2^{dn})
-%    & \text{exp.\ Zeit mit linearem Exponent}
-   \\[4ex]
-\hspace{-1.5cm}\Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
-%   & \Scomplclass{NL} = \Scomplclass{NLogSpace} &= \Scomplclass{NSpace}(\log n)
-	& \text{\redalert{nichtdet. logarithmischer Speicher}}
-  \\[1ex]
-\Scomplclass{NPSpace} &= \bigcup_{d\geq 1} \Scomplclass{NSpace}(n^d)
-	& \text{\redalert{nichtdet. polynomieller Speicher}}
-%   \\[1ex]
-% \Scomplclass{ExpSpace} &= \bigcup_{d\geq 1} \Scomplclass{DSpace}(2^{n^d})
-% 	& \text{exponentieller Speicher}
-\end{align*}
-}\pause
-
-\examplebox{\emph{Beispiel:} $\Slang{SAT}\in\Scomplclass{NP}$. Man kann unseren naiven Erfüllbarkeitstest auf einer NTM
-so implementieren, dass nur eine (erfüllende) Wertzuweisung geraten wird. Der Wahrheitswert der Formel für diese Zuweisung kann in polynomieller Zeit überprüft werden.
-}
+% \theobox{Satz: Die Klasse der Typ-0-Sprachen ist unter Schnitt, Konkatenation und Kleene-Stern abgeschlossen.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Deterministisch vs. nichtdeterministisch}
+\begin{frame}\frametitle{Schnitt, Konkatenation und Kleene-Stern}
 
-%
-Welche Beziehungen haben diese Klassen zu anderen?\pause
-{\footnotesize
-\begin{itemize}
-\item Die Beziehungen zwischen nichtdeterministischen Klassen sind analog zu denen im deterministischen Fall:\\[1ex]
-\narrowcentering{$\Scomplclass{NL}\subseteq \Scomplclass{NP}\subseteq \Scomplclass{NPSpace}\subseteq \Scomplclass{NExp}$}
-\pause
-\item Eine DTM kann als NTM aufgefasst werden, d.h. die nichtdeterministischen Klassen sind immer stärker:\\[1ex]
-\narrowcentering{$\Scomplclass{L}\subseteq \Scomplclass{NL}\qquad \Scomplclass{P}\subseteq \Scomplclass{NP}\qquad \Scomplclass{PSpace}\subseteq \Scomplclass{NPSpace}\qquad \Scomplclass{Exp}\subseteq \Scomplclass{NExp}$}
-\pause
-\item Man kann NTMs mit DTMs simulieren, aber das ist oft mit exponentiellen Mehrkosten verbunden (Vorlesung 19).
-\pause
-\item Der berühmte \alert{Satz von Savitch} besagt, dass speicherbeschränkte NTMs durch DTMs mit nur quadratischen Mehrkosten simuliert werden können. Insbesondere gilt damit $\Scomplclass{PSpace}= \Scomplclass{NPSpace}$.
-\end{itemize}}
-% Insgesamt ergeben sich folgende Beziehungen:
-Zusammenfassung der wichtigsten bekannten Beziehungen:
-\theobox{
-\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
-\vspace{-2.5ex}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Die Grenzen unseres Wissens}
-
-Wir wissen:
-
-\theobox{
-\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
-\vspace{-2.5ex}
-}
+Weitere Abschlusseigenschaften sind nicht schwer zu finden:
 
 \begin{itemize}
-\item Wir wissen nicht, ob irgendeines dieser $\subseteq$ sogar $\subsetneq$ ist.
-\item Insbesondere wissen wir nicht, ob $\Scomplclass{P}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{P}=\Scomplclass{NP}$.
-\item Wir wissen nicht einmal, ob $\Scomplclass{L}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{L}=\Scomplclass{NP}$.
+\item \alert{Schnitt:} Simuliere erst die erste TM, dann (bei Akzeptanz) die zweite; verwende ein "`mehrspuriges"' Alphabet, um die Eingabe für die zweite Simulation zu speichern
+\item \alert{Konkatenation:} Rate und markiere die Trennstelle der beiden Wörter; teste dann jedes der Wörter einzeln
+\item \alert{Kleene-Stern:} Rate und teste einen ersten nichtleeren Teilabschnitt; wiederhole dies bis das gesamte Wort erkannt wurde
 \end{itemize}\pause
-Es wird aber vermutet, dass alle  $\subseteq$ eigentlich $\subsetneq$ sind.
-% 
-Bekannt ist das aber nur bei exponentiell großen Ressourcenunterschieden:
 
-\theobox{Es gilt:
-\begin{itemize}
-\item $\Scomplclass{NL}\subsetneq\Scomplclass{PSpace}$
-\item $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$
-\item $\Scomplclass{NP}\subsetneq\Scomplclass{NExp}$
-\end{itemize}}
+Diese Konstruktionen funktionieren auch bei linear beschränktem Speicher, also:\medskip
+
+\theobox{\emph{Satz:} Sowohl die Klasse der Typ-1-Sprachen als auch die Klasse der Typ-0-Sprachen ist unter Schnitt, Konkatenation und Kleene-Stern abgeschlossen.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Die LBA-Probleme}
+
+Zwei Probleme sind schon seit Erfindung der LBAs bekannt (Kuroda, 1964):
+\begin{enumerate}[(1)]
+\item Erkennen LBA dieselben Sprachen wie deterministische LBA?
+\item Sind die von LBA erkennbaren Sprachen unter Komplement abgeschlossen?
+\end{enumerate}\pause
+
+Das zweite Problem lösten überraschend nach über 20 Jahren unabhängig voneinander Robert Szelepcsényi (1987) und Neil Immerman (1988):\medskip
+
+\theobox{\emph{Satz von Immerman und Szelepcsényi:} Die Typ-1-Sprachen sind unter Komplement abgeschlossen.}\medskip
+
+\emph{Beweis:} siehe Sipser (Abschnitt 8.6) oder Schöning (Abschnitt 1.4) oder Kurs \alert{Complexity Theory} der TU Dresden; kein Stoff dieses Kurses.
+\medskip\pause
+
+Das erste LBA-Problem ist bis heute ungelöst.
+
+\end{frame}
+
+\newcommand{\myyes}{$\textcolor{darkgreen}{\checkmark}$}
+\newcommand{\myno}{$\textcolor{darkred}{\times}$}
+
+\begin{frame}\frametitle{Übersicht Abschlusseigenschaften}
+
+\begin{center}
+\begin{tabular}{r|ccccc|l}
+	& \multicolumn{5}{c|}{Abschluss unter \ldots} &\\
+Sprache & $\cap$ & $\cup$ & $\overline{\phantom{L}}$ & $\circ$ & $^*$ & Automat\\\hline
+Typ 0 & \myyes & \myyes & \myno & \myyes & \myyes & TM (DTM/NTM)\\
+Typ 1 & \myyes & \myyes & \myyes & \myyes & \myyes & LBA ($\stackrel{?}{=}$ det. LBA)\\
+Typ 2 & \myno & \myyes & \myno & \myyes & \myyes & PDA\\
+Det. Typ 2 & \myno & \myno & \myyes & \myno & \myno & DPDA\\
+Typ 3 & \myyes & \myyes & \myyes & \myyes & \myyes & DFA/NFA
+\end{tabular}
+\end{center}
 
 \end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-\redalert{Komplexitätsklassen} sind Mengen von Sprachen, die man (grob) einteilt entsprechend der Ressourcen,
-die eine TM zur Entscheidung ihres Wortproblems benötigt.
+\redalert{Turingmaschinen} charakterisieren Typ-0-Sprachen.
 \bigskip
 
-
-\redalert{Horn-Logik} erlaubt logisches Schließen in $\Scomplclass{P}$.
+\redalert{Linear beschränkte Turingmaschinen} charakterisieren Typ-1-Sprachen.
 \bigskip
 
-Das propositionale Erfüllbarkeitsproblem \redalert{\Slang{SAT} ist in $\Scomplclass{NP}$}.
+Das \redalert{Wortproblem für Typ-1-Sprachen} ist entscheidbar aber kompliziert
 \bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-\item Gibt es auch sub-exponentielle Algorithmen für aussagenlogisches Schließen?
-\item Gilt $\Scomplclass{P}\neq \Scomplclass{NP}$?
+\item Unberechenbare Probleme formaler Sprachen
+\item Abschließende Bemerkungen und Zusammenfassung
+\item Prüfungsvorbereitung und Prüfung
 \end{itemize}
 }
 

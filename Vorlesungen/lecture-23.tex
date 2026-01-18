@@ -4,654 +4,592 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{23}{Logisches Schließen}{15. Januar 2024}
+\defineTitle{23}{Der Satz von Rice und das Postsche Korrespondenzproblem}{19. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
-\sectionSlideNoHandout{Rückblick}
+\begin{frame}\frametitle{Wesentliche Ergebnisse bisher}
 
-\begin{frame}\frametitle{Logik: Glossar}
-
-\begin{tabular}{@{}rll@{}}
-\rowcolor{darkblue!10}
-Atom & kleinste mögliche Formel & $p\in\Slang{P}$\\
-%
-Teilformel & Unterausdruck, der Formel ist & $\textsf{Sub}(F)$ \\
-%
-\rowcolor{darkblue!10}
-Wertzuweisung & Funktion & $w:\Slang{P}\to\{\mytrue,\myfalse\}$\\
-%
-Modell & erfüllende Wertzuweisung & $w\models F$ / $w(F)=\mytrue$\\
-%
-\rowcolor{darkblue!10}
-Literal & Atom oder negiertes Atom & $p$ oder $\neg p$\\
-%
-Klausel & Disjunktion von Literalen & $L_1\vee\ldots\vee L_n$ \\
-%
-\rowcolor{darkblue!10}
-Monom & Konjunktion von Literalen & $L_1\wedge\ldots\wedge L_n$ \\
-%
-logische & Teilmengenbeziehung der  & $F\models G$ oder \\[-0.8ex]
-Konsequenz & Modellmengen; entspricht $\to$ &  $\mathcal{F}\models G$\\
-%
-\rowcolor{darkblue!10}
-semantische & Gleichheit der  & $F\equiv G$ oder \\[-0.8ex]
-\rowcolor{darkblue!10}
-Äquivalenz & Modellmengen; entspricht $\leftrightarrow$ &  $\mathcal{F}\equiv\mathcal{G}$\\
-%
-Tautologie & allgemeingültige Formel & $\models F$
-
-\end{tabular}
-
-\end{frame}
-
-\begin{frame}\frametitle{Vereinfachungen und Normalformen}
-
-Jede Formel ist semantisch äquivalent zu einer, die nur folgende Junktoren verwendet:
+\emph{Viele Dinge sind nicht berechenbar:}
 \begin{itemize}
-\item $\wedge$ und $\neg$
-\item $\vee$ und $\neg$
-\item und verschiedene andere Kombinationen \ldots\ (z.B. $\to$ und $\neg$; oder auch $\uparrow$)
-\end{itemize}\medskip
-
-\emph{Normalformen}
-\begin{itemize}
-\item \alert{Negationsnormalform}\\
-	stets linear
-\item \alert{Konjunktive Normalform}\\
-	im schlimmsten Fall exponentiell; mit Hilfsatomen linear
-\item \alert{Disjunktive Normalform}\\
-	im schlimmsten Fall exponentiell
+\item Die Busy-Beaver-Funktion
+\item Das Halteproblem
+\item Das $\epsilon$-Halteproblem
 \end{itemize}
-
-\end{frame}
-
-\sectionSlide{Logisches Schließen}
-
-\begin{frame}\frametitle{Logisches Schließen}
-
-Allgemein umfasst \redalert{logisches Schließen} jede Berechnung,
-bei der semantische Eigenschaften von Formeln ermittelt werden.
 \bigskip
 
-Vielfach hat man es mit Entscheidungsproblemen zu tun, z.B.:
-
-\defbox{\redalert{Schlussfolgerung}:
+\emph{Dazu gibt es mehrere Beweismethoden:}
 \begin{itemize}
-\item \emph{Eingabe:} endliche Formelmenge $\mathcal{F}$, Formel $G$
-\item \emph{Ausgabe:} "`ja"' wenn $\mathcal{F}\models G$ gilt; sonst "`nein."'
+\item \alert{Kardinalitätsargumente:} Anzahl Algorithmen vs. Anzahl Probleme
+\item \alert{Diagonalisierungen:} Nimm Berechenbarkeit an und konstruiere damit (als Subroutine) einen paradoxen Algorithmus
+\item \alert{Reduktionen:} Zeige, dass bereits bekannte nicht berechenbare Probleme sich lösen ließen, wenn das Problem berechenbar wäre
 \end{itemize}
-}
-
-\defbox{\redalert{Allgemeingültigkeit}:
-\begin{itemize}
-\item \emph{Eingabe:} Formel $F$
-\item \emph{Ausgabe:} "`ja"' wenn $F$ allgemeingültig ist; sonst "`nein."'
-\end{itemize}
-}
-
-\defbox{\redalert{Unerfüllbarkeit}:
-\begin{itemize}
-\item \emph{Eingabe:} Formel $F$
-\item \emph{Ausgabe:} "`ja"' wenn $F$ unerfüllbar ist; sonst "`nein."'
-\end{itemize}
-}
 
 \end{frame}
 
-\begin{frame}\frametitle{Viele logische Probleme -- viele Algorithmen?}
 
-Oft kann man unterschiedliche Probleme leicht ineinander umwandeln:
-\medskip
+\begin{frame}\frametitle{Der Satz von Rice}
 
+Ein interessantes Resultat von Henry Gordon Rice bewahrt uns davor, noch hunderte andere Probleme im Detail zu betrachten:\medskip
+
+\theobox{\emph{Satz von Rice (informelle Version):} Jede nicht-triviale Frage über die von einer TM ausgeführte Berechnung ist unentscheidbar.}\bigskip\pause
+
+\theobox{\emph{Satz von Rice (formell):} Sei $E$ eine Eigenschaft von Sprachen, die für manche Turing-erkennbare Sprachen gilt und für manche Turing-erkennbare Sprachen nicht gilt (="`nicht-triviale Eigenschaft"'). Dann ist das folgende Problem unentscheidbar:
 \begin{itemize}
-\item $\mathcal{F}\models G$ (für endliche $\mathcal{F}$) \alert{gdw.}\\ $\bigwedge_{F\in\mathcal{F}}F\to G$ allgemeingültig \alert{gdw.} $\bigwedge_{F\in\mathcal{F}}F\wedge\neg G$ unerfüllbar
-\item $F$ allgemeingültig \alert{gdw.} $\emptyset\models F$ \alert{gdw.} $\neg F$ unerfüllbar
-\item $F$ unerfüllbar \alert{gdw.} $F\models \bot$ \alert{gdw.} $\neg F$ allgemeingültig
-\end{itemize}
-\begin{enumerate}[$\leadsto$]
-\item Jedes Verfahren, welches eines dieser Probleme lösen kann, lässt sich prinzipiell auch zur Lösung der anderen einsetzen.
-\end{enumerate}
+\item Eingabe: Turingmaschine $\Smach{M}$
+\item Ausgabe: Hat $\Slang{L}(\Smach{M})$ die Eigenschaft $E$?
+\end{itemize}}
 
-{\footnotesize\textcolor{devilscss}{%
-(Es gibt auch Probleme des logischen Schließens, für die das höchstwahrscheinlich nicht zutrifft, z.B. "`Gegeben eine Formel $F$, entscheide ob es eine kürzere Formel gibt, die zu $F$ äquivalent ist."')}
-}
 
 \end{frame}
 
-\begin{frame}\frametitle{Schließen mit Wahrheitswertetabellen}
+\begin{frame}\frametitle{Alles unentscheidbar}
 
-Die genannten Probleme sind mittels Wahrheitswertetabelle lösbar:%
+\examplebox{Beispiele für Fragen, die laut Rice unentscheidbar sind:
 \begin{itemize}
-\item \alert{Allgemeingültigkeit:} Ist der Wert von $F$ für jede Belegung $\mytrue$?
-\item \alert{Unerfüllbarkeit:} Ist der Wert von $F$ für jede Belegung $\myfalse$?
-\item \alert{Schlussfolgerung:} Ist der Wert von $G$ für jede Belegung $\mytrue$, unter der alle Formeln von $\mathcal{F}$ den Wert $\mytrue$ annehmen?
-\end{itemize}\pause
-
-\emph{Nachteil:} Die Tabelle hat $2^n$ Zeilen, wenn die betrachteten Formeln $n$ Atome haben
-\bigskip
-
-\examplebox{\emph{Beispiel:} Für die Modellierung von Sudoku nutzen wir $9\times 9\times 9$ Atome. Die entsprechende Tabelle hat also $2^{729}$ (ca. $2.8\times 10^{219}$) Zeilen. Zum Vergleich:
-\begin{itemize}\pause
-\item Anzahl der Neuronen im menschlichen Gehirn: ca. $1.5\times 10^{14}$\pause
-% \item Zahl der Sterne im beobachtbaren Universum: unter $10^{24}$\pause
-\item Jemals digital gespeicherte Daten in Bytes: $<<10^{24}$\pause
-\item Nanosekunden bis der Kern der Sonne ausbrennt: ca. $10^{29}$\pause
-\item Anzahl der Atome im beobachtbaren Universum: $10^{78}$ -- $10^{82}$
+\item "`Ist $\Sterm{aba}\in\Slang{L}(\Smach{M})$?"' 
+\item "`Ist $\Slang{L}(\Smach{M})$ leer?"'
+\item "`Ist $\Slang{L}(\Smach{M})$ endlich?"'
+\item "`Ist $\Slang{L}(\Smach{M})$ regulär?"'
+\item \ldots
+\end{itemize}
+Rice ist dagegen nicht anwendbar auf:
+\begin{itemize}
+\item "`Hat $\Smach{M}$ mindestens zwei Zustände?"'\\ (keine Eigenschaft von $\Slang{L}(\Smach{M})$) 
+\item "`Ist $\Slang{L}(\Smach{M})$ semi-entscheidbar?"' (trivial)
+\item \ldots
 \end{itemize}
 }
 
+Der Satz von Rice lässt sich sinngemäß auf alle Turing-mächtigen Formalismen übertragen.
+
 \end{frame}
 
-\begin{frame}[t]\frametitle{Schließen mit DNF}
+\begin{frame}[t]\frametitle{Der Satz von Rice: Beweis (1)}
 
-Man kann (Un)Erfüllbarkeit leicht aus DNF ablesen:\medskip
-
-\theobox{\emph{Satz:} Eine Formel in DNF ist genau dann erfüllbar, wenn eines ihrer Monome erfüllbar ist. Dies ist genau
-dann der Fall, wenn das Monom kein Atom gleichzeitig negiert und nichtnegiert enthält.
-}
-
-Mögliches Verfahren:
+\theobox{\emph{Satz von Rice:} Sei $E$ eine nicht-triviale Eigenschaft von Turing-erkennbaren Sprachen. Dann ist das folgende unentscheidbar:%
 \begin{itemize}
-\item Führe logisches Problem auf (Un)Erfüllbarkeit zurück
-\item Bilde die DNF und prüfe jedes Monom auf komplementäre Literale
-\end{itemize}
-\emph{Nachteil:} Die DNF kann ebenfalls exponentiell groß werden\\ (muss sie aber nicht in jedem Fall)
+\item Eingabe: Turingmaschine $\Smach{M}$
+\item Ausgabe: Hat die Sprache $\Slang{L}(\Smach{M})$ die Eigenschaft $E$?
+\end{itemize}}
 
-\end{frame}
+\emph{Beweis:} Sei $E$ eine Eigenschaft wie im Satz. Wir konstruieren eine
+Many-One-Reduktion vom $\epsilon$-Halteproblem auf "`$E$-Haftigkeit"'.\bigskip
 
-\begin{frame}[t]\frametitle{Schließen mit KNF}
-
-Man kann Widerlegbarkeit/Allgemeingültigkeit aus KNF ablesen:\medskip
-
-\theobox{\emph{Satz:} Eine Formel in KNF ist genau dann widerlegbar, wenn eine ihrer Klauseln widerlegbar ist. Dies ist genau
-dann der Fall, wenn die Klausel kein Atom gleichzeitig negiert und nichtnegiert enthält.
-}
-
-Mögliches Verfahren:
 \begin{itemize}
-\item Führe logisches Problem auf Allgemeingültigkeit zurück
-\item Bilde die KNF und prüfe jede Klausel auf komplementäre Literale
+\item Sei $\emptyset\notin E$ 
+	(o.B.d.A.: wir könnten sonst auch Unentscheidbarkeit von $\overline{E}$ beweisen)
+\item Sei $\Smach{M}_{\Slang{L}}$ eine TM, die eine Sprache $\Slang{L}\in E$ akzeptiert\\
+	(muss existieren, da $E$ nicht-trivial ist)
+% \item Sei $\Smach{M}_\emptyset$ eine TM mit $\Slang{L}(\Smach{M}_\emptyset)=\emptyset$
+%%% <- Könnte man als Wert für falsch kodierte Eingaben nutzen, aber das ist nicht nötig
 \end{itemize}
-\emph{Nachteil:} Die KNF kann ebenfalls exponentiell groß werden\\ (muss sie aber nicht in jedem Fall)
-\bigskip\pause
-
-\alert{Können wir durch Hilfsatome eine kleinere KNF erzeugen?}\\\pause
-\redalert{Ja, aber dabei wird nur Erfüllbarkeit erhalten, nicht \ghost{Allgemeingültigkeit!}}\\
-$\leadsto$ nicht geeignet, um das Problem effizienter zu lösen
 
 \end{frame}
 
-\sectionSlide{Resolution}
+\begin{frame}[t]\frametitle{Der Satz von Rice: Beweis (2)}
 
-\newcommand{\Aname}{Anna}
-\newcommand{\Bname}{Barbara}
-\newcommand{\Cname}{Chris}
-
-\begin{frame}\frametitle{Resolution}
-
-\emph{Ziel:} Verfahren, um \redalert{(Un)Erfüllbarkeit} einer \redalert{KNF} zu bestimmen
-\bigskip
-
-Leider ist (Un)Erfüllbarkeit nicht an einzelnen Klauseln erkennbar.
-\medskip
-
-\examplebox{\emph{Beispiel:} Die Logelei aus Vorlesung 21 haben wir mit den Formeln $\mathcal{F}=\{A\leftrightarrow \neg B, B\leftrightarrow \neg C,C\leftrightarrow (\neg A\wedge \neg B)\}$ dargestellt. Wir wollen beweisen, dass
-\Bname{} die Wahrheit sagt, also $\mathcal{F}\models B$. Dazu kann man zeigen, dass $\mathcal{F}\cup\{\neg B\}$ unerfüllbar
-ist. Bei Anwendung des Distributivgesetztes erhalten wir die folgende KNF:
-\begin{align*}
-(\neg A\vee \neg B)\wedge (A\vee B)&\wedge{}\\
-(\neg B\vee \neg C)\wedge (B\vee C)&\wedge{}\\
-(\neg C\vee \neg A)\wedge(A\vee B\vee C)&\wedge{}\\
-\neg B
-\end{align*}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Die Klauselform}
-
-Wenn man grundsätzlich mit KNF arbeitet, dann bieten sich einige syntaktische Vereinfachungen an:
+\theobox{\emph{Satz von Rice:} Sei $E$ eine nicht-triviale Eigenschaft von Turing-erkennbaren Sprachen. Dann ist das folgende unentscheidbar:%
 \begin{itemize}
-\item Eine Klausel $L_1\vee\ldots\vee L_n$ wir dargestellt als Menge $\{L_1,\ldots,L_n\}$
-\item Eine Konjunktion von Klauseln $K_1\wedge\ldots\wedge K_\ell$ wird dargestellt als Menge $\{K_1,\ldots,K_\ell\}$
-\end{itemize}
-Eine Menge von Mengen von Literalen unter dieser Interpretation heißt \redalert{Klauselform}.
+\item Eingabe: Turingmaschine $\Smach{M}$
+\item Ausgabe: Hat die Sprache $\Slang{L}(\Smach{M})$ die Eigenschaft $E$?
+\end{itemize}}
+
+\emph{Beweis (Fortsetzung):}\pause{} 
+Für eine beliebige TM $\Smach{M}$ sei $\Smach{M}^*$ eine TM, die für eine Eingabe
+$w$ das folgende tut:
+\begin{enumerate}[(1)]
+\item Simuliere $\Smach{M}$ auf dem leeren Wort $\epsilon$
+\item Falls $\Smach{M}$ hält, simuliere $\Smach{M}_{\Slang{L}}$ auf $w$
+\end{enumerate}\medskip\pause
+Damit gilt: falls $\Smach{M}$ auf $\epsilon$ hält, dann $\Slang{L}(\Smach{M}^*)=\Slang{L}\in E$ und\\
+\mbox{}\phantom{Damit gilt:} falls $\Smach{M}$ auf $\epsilon$ nicht hält, dann $\Slang{L}(\Smach{M}^*)=\emptyset\notin E$
 \medskip\pause
 
-\examplebox{\emph{Beispiel:} Die KNF\vspace{-3ex}
-\begin{align*}
-(\neg A\vee \neg B)\wedge (A\vee B)&\wedge{}\\
-(\neg B\vee \neg C)\wedge (B\vee C)&\wedge{}\\
-(\neg C\vee \neg A)\wedge(A\vee B\vee C)&\wedge{}\\
-\neg B
-\end{align*}\vspace{-5ex}
-
-kann in Klauselform dargestellt werden als:\vspace{-1ex}
-\[\{\{\neg A, \neg B\}, \{A, B\},\{\neg B, \neg C\},\{B, C\},
-\{\neg C, \neg A\},\{A, B, C\},\{\neg B\}\}\]
-}
+Eine geeignete Many-One-Reduktion $f$ ist demnach:
+\[f(v)=\left\{\begin{array}{ll}
+\textsf{enc}(\Smach{M}^*) & \text{falls $v=\textsf{enc}(\Smach{M})$ für eine TM $\Smach{M}$}\\
+\Sterm{\#} & \text{falls die Eingabe nicht korrekt kodiert ist $\quad$\qed}
+\end{array}\right.\]
 
 \end{frame}
 
-\begin{frame}\frametitle{Ableitungen mittels Resolution}
 
-Beim Resolutionsverfahren leiten wir schrittweise neue Klauseln aus den gegebenen ab.
-\bigskip
+\sectionSlide{Semi-Entscheidbarkeit}
 
-Ein einzelner Resolutionschritt funktioniert wie folgt:
+\begin{frame}\frametitle{Das Halteproblem, schon wieder}
 
-\defbox{
-Gegeben seien zwei Klauseln $K_1$ und $K_2$ für die es ein Atom $p\in\Slang{P}$ gibt mit $p\in K_1$ und $\neg p\in K_2$.
-Die \redalert{Resolvente von $K_1$ und $K_2$ bezüglich $p$} ist die Klausel \alert{$(K_1\setminus\{p\})\cup(K_2\setminus\{\neg p\})$}.\medskip
+Wir haben gesehen, dass das Halteproblem unentscheidbar ist,
+aber es ist dennoch Turing-erkennbar:\bigskip
 
-Eine Klausel $R$ ist eine \redalert{Resolvente einer Klauselmenge $\mathcal{K}$} wenn $R$ Resolvente zweier Klauseln  $K_1,K_2\in\mathcal{K}$ ist.
-}\pause
+\theobox{\emph{Satz:} Das Halteproblem ist semi-entscheidbar.}
 
-\examplebox{\emph{Beispiel:} Resolventen für die Menge $\{\{\neg A, \neg B\},\allowbreak \{A, B\},\allowbreak\{\neg B, \neg C\},\allowbreak\{B, C\},\allowbreak
-\{\neg C, \neg A\},\allowbreak\{A, B, C\},\allowbreak\{\neg B\}\}$ sind z.B.
+\pause\emph{Beweis:} Eine Turingmaschine, die das Halteproblem erkennt, ist
+leicht skizziert:
 \begin{itemize}
-\item $\{B,\neg A\}$ aus den Klauseln $\{B, C\}$ und $\{\neg C,\neg A\}$
-\item $\{A\}$ aus den Klauseln $\{A, B\}$ und $\{\neg B\}$
-\item $\{B,\neg B\}$ aus den Klauseln $\{B,C\}$ und $\{\neg B, \neg C\}$
+\item Wenn die Eingabe die Form $\textsf{enc}(\Smach{M})\#\#\textsf{enc}(w)$ hat
+\item dann simuliere $\Smach{M}$ auf Eingabe $w$.
+\item Wenn $\Smach{M}$ hält, dann halte und akzeptiere.\qed
+\end{itemize}\bigskip
+
+Im Wesentlichen ist die TM für das Halteproblem also die universelle Turingmaschine.
+
+\end{frame}
+
+\begin{frame}\frametitle{Komplementierung}
+
+\emph{Rückblick:} Für eine Sprache $\Slang{L}$ bezeichnet $\overline{\Slang{L}}$ die \alert{Komplementsprache}:
+\[ \overline{\Slang{L}} = \{w\in\Sigma^*\mid w\notin\Slang{L} \}\]\pause
+
+\theobox{\emph{Satz:} Für jede Sprache $\Slang{L}$ gibt es Turing-Reduktionen $\overline{\Slang{L}}\leq_T\Slang{L}$ und $\Slang{L}\leq_T\overline{\Slang{L}}$.}
+
+\pause
+\emph{Beweis:} Der Algorithmus für die Reduktion $\overline{\Slang{L}}\leq_T\Slang{L}$ ist sehr einfach:
+\begin{itemize}
+\item Für Eingabe $w$,
+\item entscheide zunächst ob $w\in\Slang{L}$
+\item und invertiere das Ergebnis anschließend.
 \end{itemize}
-
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Bedeutung von Resolutionsschritten}
-
-Wir betrachten Klauseln $\{L_1,\ldots,L_n,p\}$ und $\{\neg p,M_1,\ldots,M_\ell\}$:\pause
-\begin{itemize}
-\item $\{L_1,\ldots,L_n,p\}\equiv (L_1\vee\ldots\vee L_n\vee p) \equiv \alert{(\neg L_1\wedge\ldots\wedge\neg L_n)\to p}$\pause
-\item $\{\neg p,M_1,\ldots,M_\ell\}\equiv (\neg p\vee M_1\vee\ldots\vee M_\ell)\equiv \alert{p\to (M_1\vee\ldots\vee M_\ell)}$\pause
-\end{itemize}\medskip
-
-Daraus folgt unmittelbar \alert{$(\neg L_1\wedge\ldots\wedge\neg L_n)\to (M_1\vee\ldots\vee M_\ell)$}\\
-$\leadsto$ dies entspricht der Klausel $\{L_1,\ldots,L_n,M_1,\ldots,M_\ell\}$\pause
-\bigskip
-
-\theobox{\emph{Satz:} Wenn $R$ Resolvente der Klauseln $K_1$ und $K_2$ ist, dann gilt $\{K_1,K_2\}\models R$.
-}
-
-Resolutionsschritte produzieren also logische Schlüsse. Diese Eigenschaft einer Ableitungsregel wird \redalert{Korrektheit} genannt ("`jede Ableitung ist tatsächlich eine logische Konsequenz"').
-
-
-\end{frame}
-
-\begin{frame}\frametitle{Die leere Klausel}
-
-Die Resolvente kann eine leere Menge $\emptyset$ sein.\\[1ex]
-
-\examplebox{\emph{Beispiel:} Die Resolvente der Klauseln $\{p\}$ und $\{\neg p\}$ ist leer.
-}\medskip
-
-\emph{Was bedeutet so eine \redalert{leere Klausel}?}\pause
-\begin{itemize}
-\item Klauseln sind Disjunktionen
-\item Die leere Klausel entspricht einer Disjunktion von $0$ Literalen
-\item Dieser Ausdruck sollte das neutrale Element der Disjunktion sein, d.h. immer den Wert $\myfalse$ annehmen
-\end{itemize}
-$\leadsto$ Wir bezeichnen die leere Klausel mit $\bot$.
+Die Umkehrung $\Slang{L}\leq_T\overline{\Slang{L}}$ funktioniert ebenso.\qed
 \bigskip\pause
 
-\emph{Was bedeutet es, wenn $\bot$ in Klauselform auftaucht?}\pause
-\begin{itemize}
-\item Die Klauselform beschreibt eine Konjunktion von Klauseln
-\item Wenn eine der Klauseln $\bot$ ist, dann ist die gesamte Formel unerfüllbar
-\end{itemize}
-$\leadsto$ Die Ableitung von $\bot$ zeigt Unerfüllbarkeit.
+\theobox{\emph{Korollar:} $\Slang{L}$ ist genau dann entscheidbar, wenn $\overline{\Slang{L}}$ entscheidbar ist.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Das Resolutionskalkül}
+\begin{frame}[t]\frametitle{Zwei halbe Entscheidbarkeiten = eine ganze}
 
-Wir können damit das gesamte Verfahren angeben:
+Es gibt einen interessanten Zusammenhang von Komplementierung und Semi-Entscheidbarkeit:\\[1ex]
 
-\codebox{\emph{Resolution}\\
-Gegeben: Formel $\mathcal{F}$ in Klauselform\\
-Gesucht: Ist $\mathcal{F}$ erfüllbar oder unerfüllbar?\\[1ex]
-
-\begin{enumerate}[(1)]
-\item Finde ein Klauselpaar $K_1,K_2\in \mathcal{F}$ mit Resolvente $R\notin \mathcal{F}$
-\item Setze $\mathcal{F}\defeq \mathcal{F}\cup\{R\}$
-\item Wiederhole Schritt (1) und (2) bis keine neuen Resolventen gefunden werden können
-\item Falls $\bot\in \mathcal{F}$, dann gib "`unerfüllbar"' aus;\\andernfalls gib "`erfüllbar"' aus
-\end{enumerate}
+\theobox{\emph{Satz:} $\Slang{L}$ ist genau dann entscheidbar, wenn $\Slang{L}$ und $\overline{\Slang{L}}$ semi-entscheibar sind.
 }\pause
 
-\emph{Beobachtung:} Unerfüllbarkeit steht fest, sobald $\bot$ abgeleitet \ghost{wurde}\\
-$\leadsto$ dann kann man das Verfahren frühzeitig abbrechen
-\medskip
+\emph{Beweis:} "`$\Rightarrow$"' Angenommen $\Slang{L}$ ist entscheidbar.\pause
 
-Erfüllbarkeit kann dagegen erst erkannt werden, wenn alle Resolventen erschöpfend gebildet worden sind
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiel}
-
-\begin{tabular}{rlll}
-(1) & $\{\neg A, \neg B\}$ && \textcolor{devilscss}{\Aname{} oder \Bname{} lügen.}\\
-(2) & $\{A, B\}$  && \textcolor{devilscss}{\Aname{} oder \Bname{} sagen die Wahrheit.} \\
-(3) & $\{\neg B, \neg C\}$  && \textcolor{devilscss}{\Bname{} oder \Cname{} lügen.} \\
-(4) & $\{B, C\}$ && \textcolor{devilscss}{\Bname{} oder \Cname{} sagen die Wahrheit.} \\
-(5) & $\{\neg C, \neg A\}$ && \textcolor{devilscss}{\Cname{} oder \Aname{} lügen.} \\
-(6) & $\{A, B, C\}$ && \textcolor{devilscss}{Jemand sagt die Wahrheit.}  \\
-(7) & $\{\neg B\}$ && \textcolor{devilscss}{\Bname{} lügt.} \\\pause
-(8) & $\{C\}$   &  (4)+(7) & \textcolor{devilscss}{\Cname{} sagt die Wahrheit.} \\\pause
-(9) & $\{\neg A\}$ & (8)+(5) & \textcolor{devilscss}{\Aname{} lügt.}\\\pause
-(10) & $\{B\}$  & (2)+(9) & \textcolor{devilscss}{\Bname{} sagt die Wahrheit.} \\\pause
-(11) & $\bot$ & (10)+(7) & \textcolor{devilscss}{Widerspruch.} 
-\end{tabular}\bigskip
-
-$\leadsto$ Es gilt $\{\{\neg A, \neg B\},\{A, B\},\{\neg B, \neg C\},\{B, C\},\{\neg C, \neg A\},\{A, B, C\}\}\models B$
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Resolution: Eigenschaften}
-
-Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
-
-\theobox{\emph{Satz:} Das Resolutionskalkül hat die folgenden Eigenschaften:
 \begin{itemize}
-\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
-\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
-\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
+\item Dann ist $\Slang{L}$ per Definition auch semi-entscheidbar.
+\item Außerdem ist auch $\overline{\Slang{L}}$ entscheidbar (gerade gezeigt), also ebenfalls semi-entscheidbar.
 \end{itemize}
-}\pause
-
-\emph{Beweis:} \alert{Korrektheit} haben wir schon für einzelne Resolutionsschritte gezeigt.
-Die Behauptung gilt daher auch, wenn beliebig viele Schritte nacheinander ausgeführt werden (Induktion
-mit Hypothese: "`Die neu abgeleitete Klauselmenge folgt aus der ursprünglichen."').
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Resolution: Eigenschaften (2)}
+\begin{frame}[t]\frametitle{Zwei halbe Entscheidbarkeiten = eine ganze}
 
-Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+Es gibt einen interessanten Zusammenhang von Komplementierung und Semi-Entscheidbarkeit:\\[1ex]
 
-\theobox{\emph{Satz:} Das Resolutionskalkül hat die folgenden Eigenschaften:
-\begin{itemize}
-\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
-\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
-\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
-\end{itemize}
+\theobox{\emph{Satz:} $\Slang{L}$ ist genau dann entscheidbar, wenn $\Slang{L}$ und $\overline{\Slang{L}}$ semi-entscheibar sind.
 }
 
-\emph{Beweis:} \alert{Terminierung} ist leicht zu sehen.\pause{}
-Jede neu abgeleitete Klausel enthält nur Literale,
-die auch in der ursprünglichen Klauselmenge vorkamen. Die Zahl dieser Literale ist endlich; wir bezeichnen sie mit
-$\ell$. Es gibt nur $2^\ell$ Klauseln mit diesen Literalen. Man kann also weniger als $2^\ell$ Resolventen hinzufügen bevor das Verfahren terminiert.
+\emph{Beweis:} "`$\Leftarrow$"' Wenn $\Slang{L}$ und $\overline{\Slang{L}}$ semi-entscheibar sind, dann werden sie durch TMs $\Smach{M}_{\Slang{L}}$ und
+$\Smach{M}_{\overline{\Slang{L}}}$ erkannt.\pause\medskip
+
+Algorithmus: Für Eingabe $w$, iteriere über alle $n=1,2,3,\ldots$
+\begin{itemize}
+\item Simuliere $\Smach{M}_{\Slang{L}}$ für $n$ Schritte:\\
+	Wenn $\Smach{M}_{\Slang{L}}$ akzeptiert, dann halte und akzeptiere
+\item Simuliere $\Smach{M}_{\overline{\Slang{L}}}$ für $n$ Schritte:\\
+	Wenn $\Smach{M}_{\overline{\Slang{L}}}$ akzeptiert, dann halte und verwerfe
+\item Ansonsten fahre mit nächstem $n$ fort.
+\end{itemize}
+Dieser Algorithmus ist korrekt und terminiert für jede Eingabe, da immer
+entweder $\Smach{M}_{\Slang{L}}$ oder
+$\Smach{M}_{\overline{\Slang{L}}}$ terminieren muss.\qed
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Resolution: Eigenschaften (3)}
+\begin{frame}\frametitle{Co-Semi-Entscheidbarkeit}
 
-Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+Wir können unsere Einsichten zusammenfassen:\bigskip
 
-\theobox{\emph{Satz:} Das Resolutionskalkül hat die folgenden Eigenschaften:
-\begin{itemize}
-\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
-\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
-\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
-\end{itemize}
+\theobox{\emph{Korrolar:} Wenn $\Slang{L}$ unentscheidbar aber semi-entscheidbar ist, dann
+kann $\overline{\Slang{L}}$ nicht semi-entscheidbar (und auch nicht entscheidbar) sein.
+}\bigskip\pause
+
+\examplebox{\emph{Beispiel:} Sei $\overline{\Slang{P}}_{\textsf{Halt}}$ das Komplement des
+Halteproblems $\Slang{P}_{\textsf{Halt}}$. Dann ist $\overline{\Slang{P}}_{\textsf{Halt}}\leq_T \Slang{P}_{\textsf{Halt}}$ und $\Slang{P}_{\textsf{Halt}}\leq_T \overline{\Slang{P}}_{\textsf{Halt}}$, aber $\overline{\Slang{P}}_{\textsf{Halt}}$ ist nicht
+semi-entscheidbar.
 }
 
-\emph{Beweis:} \alert{Vollständigkeit} ist etwas aufwändiger.\medskip
+{\footnotesize
+\textcolor{devilscss}{Anmerkung: Wir hatten $\overline{\Slang{P}}_{\textsf{Halt}}\leq_T \Slang{P}_{\textsf{Halt}}$ in Vorlesung 22 leicht anders definiert, da wir falsch kodierte Eingaben abgelehnt hatten. Die Aussage gilt aber auch für die erste Definition.}
 
-Vorgehen: Wir zeigen, wie
-man eine erfüllende Zuweisung finden kann, wenn die leere Klausel nicht abgeleitet wurde.
+}
 
 \end{frame}
 
-\begin{frame}\frametitle{Widerspruchsfreie Resolution $\leadsto$ Modell}
+\begin{frame}\frametitle{Many-One-Reduktionen}
 
-% Wenn $\bot$ nicht abgeleitet wurde, dann kann man ein Modell der Formel wie folgt finden.
-% \medskip
+\emph{Beobachtung:} Mit Turing-Reduktionen können wir Entscheidbarkeit oder Unentscheidbarkeit zeigen, aber nicht Semi-Entscheidbarkeit.\medskip
 
-Für jedes Atom $p$, das in der Formel vorkommt, bestimmen wir einen Wahrheitswert $w(p)$:\medskip
+Bei Many-One-Reduktionen ist das anders:
 
-\codebox{
-Gegeben: widerspruchsfreie Klauselmenge $\mathcal{F}$ nach Resolution\\[1ex]
+\theobox{\emph{Satz:} Wenn $\Slang{P}\leq_m \Slang{Q}$ und $\Slang{Q}$ semi-entscheidbar ist, dann ist auch $\Slang{P}$ semi-entscheidbar.}
 
-Für jedes Atom $p$ in $\mathcal{F}$ (in beliebiger Reihenfolge):
-\begin{enumerate}[(a)]
-\item Wenn $\{p\}\in\mathcal{F}$, definiere $w(p)\defeq\mytrue$
-\item Wenn $\{\neg p\}\in\mathcal{F}$, definiere $w(p)\defeq\myfalse$
-\item Wenn weder $\{p\}\in\mathcal{F}$ noch $\{\neg p\}\in\mathcal{F}$, dann setze $w(p)\defeq\mytrue$
-und $\mathcal{F}\defeq\mathcal{F}\cup\{\{p\}\}$ und führe nochmals Resolution durch, bis keine weiteren Klauseln abgeleitet
-werden.
+\pause\emph{Beweis:} Die Reduktion liefert einen Semi-Entscheidungs\-algorithmus.
+Die Korrektheit folgt direkt aus den Definitionen.
+\qed\bigskip
+
+\emph{Anmerkung 1:} Wir haben diese Aussage in der letzten Vorlesung mit "`entscheidbar"' anstelle
+von "`semi-entscheidbar"' gezeigt. Die Idee ist genau die gleiche.
+
+\emph{Anmerkung 2:} Die Aussage gilt analog wenn man "`co-semi-entscheidbar"' anstelle
+von "`semi-entscheidbar"' verwendet. Dies folgt schon deshalb, weil eine Many-One-Reduktion
+$\Slang{P}\leq_m \Slang{Q}$ gleichzeitig auch eine Many-One-Reduktion $\overline{\Slang{P}}\leq_m \overline{\Slang{Q}}$ ist.
+
+
+\emph{Anmerkung 3:} Damit schließen wir einen Beweis aus der letzten Vorlesung ab: Es gibt keine Many-One-Reduktion $\Slang{P}_{\textsf{Halt}}\leq_m \overline{\Slang{P}}_{\textsf{Halt}}$.
+
+\end{frame}
+
+% \begin{frame}\frametitle{Verschiedene Unentscheidbarkeiten?}
+% 
+% Es ist also 
+% 
+% \end{frame}
+
+
+\sectionSlide{Das Postsche Korrespondenzproblem}
+
+\begin{frame}\frametitle{Ein neues Problem}
+
+Bisher hatten alle unsere unentscheidbaren Probleme direkt mit
+Turingmaschinen bzw. Programmen zu tun.\\
+\begin{enumerate}[$\leadsto$]
+\item Gibt es auch unentscheidbare Probleme ohne direkten Bezug zu Berechnung?
 \end{enumerate}
-}\smallskip
+\bigskip\pause
 
-Die so bestimmte Wertzuweisung $w$ ist ein Modell für $\mathcal{F}$.\bigskip
+Ja, z.B. das \alert{Postsche Korrespondenzproblem}. Das PCP gleicht einem Dominospiel, in dem Dominos mit Wörtern beschriftet sind.
+\[
+\text{Beispiel:}\quad
+\left[\begin{matrix}\Sterm{AB}\\\Sterm{A}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{AA}\\\Sterm{A}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{B}\\\Sterm{BBAB}\end{matrix}\right]
+ \]
 
-{\tiny  Beweisskizze:
-\begin{enumerate}[(1)]
-\item In Schritt (c) wird nie die leere Klausel abgeleitet (Intuition: Dazu wäre eine Klausel $\{\neg p\}$ nötig, die es aber in diesem Fall nicht geben darf und die auch nicht neu abgeleitet werden kann $\leadsto$ Induktion)
-\item Dank (1) enthält $\mathcal{F}$ auch nach Bestimmung aller Werte keine leere Klausel (einfache Induktion)
-\item Daher werden alle Klauseln in $\mathcal{F}$ erfüllt (Wenn eine nicht erfüllt wäre, dann könnte man aus ihr unter Verwendung der einelementigen Klauseln $\bot$ ableiten, was aber laut (2) nicht abgeleitet wird)
-\end{enumerate}}
-% 
-% Man kann zeigen: $w\models\mathcal{F}$, insbesondere ist $w$ ein Modell der ursprünglichen Formel
+Ziel ist es, beliebig viele Dominos jeden Typs so in Reihe zu legen, dass oberes und unteres Wort gleich werden\pause, z.B.
+\[
+\left[\begin{matrix}\Sterm{AB}\\\Sterm{A}\end{matrix}\right]
+\left[\begin{matrix}\Sterm{B}\\\Sterm{BBAB}\end{matrix}\right]
+\left[\begin{matrix}\Sterm{AB}\\\Sterm{A}\end{matrix}\right]
+\left[\begin{matrix}\Sterm{AA}\\\Sterm{A}\end{matrix}\right]
+ \]
 
-% Wir benötigen eine Wertzuweisung für jedes Atom, das in der Formel vorkommt.
-% 
-% \begin{itemize}
-% \item Wenn eine Klausel $\{p\}$ oder $\{\neg p\}$ abgeleitet wurde, dann kann man die
-% Wertzuweisung ablesen ($p\mapsto\mytrue$ bzw. $p\mapsto\myfalse$)
-% \item Wenn für ein Atom $p$ weder $\{p\}$ noch $\{\neg p\}$ abgeleitet wurde, dann können wir eines
-% davon frei wählen (z.B. $\{p\}$) und mit dieser zusätzlichen Klausel Resolution durchführen (dies kann
-% keinen Widerspruch erzeugen!)
-% \end{itemize}
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Resolution: Eigenschaften (4)}
+\begin{frame}\label{frame_post}\frametitle{Emil Leon Post}
 
-Resolution eignet sich tatsächlich zum logischen Schließen:\medskip
+\begin{center}
 
-\theobox{\emph{Satz:} Das Resolutionskalkül hat die folgenden Eigenschaften:
-\begin{itemize}
-\item \alert{Korrektheit:} Wenn $\bot$ aus $\mathcal{F}$ abgeleitet wird, dann gilt $\mathcal{F}\models\bot$.
-\item \alert{Vollständigkeit:} Wenn $\mathcal{F}\models\bot$, dann kann $\bot$ aus $\mathcal{F}$ abgeleitet werden.
-\item \alert{Terminierung:} Das Verfahren endet nach endlich vielen Schritten.
-\end{itemize}
+\includegraphics[width=2cm]{images/Post}
+
+11.2.1897 -- 21.4.1954
+\bigskip
+
+Tragisches Genie\\
+Wegbereiter der Logik\\
+Stiller Vordenker von Gödel und Turing
+
+\end{center}
+
+\end{frame}
+
+\begin{frame}\frametitle{Das Postsche Korrespondenzproblem}
+
+\defbox{Das \redalert{Postsche Korrespondenzproblem} (PCP) besteht in der folgenden Frage.\\[1ex]
+\emph{Gegeben:} eine endliche Folge von Wortpaaren\\[1ex]
+% \narrowcentering{$\tuple{x_1,y_1}, \ldots, \tuple{x_k,y_k}$}\\[1ex]
+\narrowcentering{$\left[\begin{matrix}x_1\\y_1\end{matrix}\right]\quad\ldots\quad\left[\begin{matrix}x_k\\y_k\end{matrix}\right]$}\\[1ex]
+über einem Alphabet $\Sigma^*$.\\[1ex]
+\emph{Frage:} Gibt es eine Folge von Zahlen $i_1,\ldots,i_\ell$, so dass gilt\\[1ex]
+\narrowcentering{$x_{i_1} \cdots x_{i_\ell} = y_{i_1} \cdots y_{i_\ell}$,}\\[1ex]
+wobei $\ell>0$ ist und $i_j\in\{1,\ldots,k\}$ für alle $j=1,\ldots,\ell$?
 }
 
-\emph{Beweis:} \alert{Vollständigkeit} ist etwas aufwändiger.\medskip
+\end{frame}
 
-Vorgehen: Wir zeigen, wie
-man eine erfüllende Zuweisung finden kann, wenn die leere Klausel nicht abgeleitet wurde.\qed
+\begin{frame}\frametitle{Beispiele}
+
+ \[
+\left[\begin{matrix}\Sterm{AB}\\\Sterm{B}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{B}\\\Sterm{BBB}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{BB}\\\Sterm{BA}\end{matrix}\right]
+ \]
+
+ \pause Dieses PCP hat eine Lösung mit 10 Schritten (Bonusaufgabe).\pause
+
 \bigskip
+\[
+\left[\begin{matrix}\Sterm{ABB}\\\Sterm{A}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{BB}\\\Sterm{AAB}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{A}\\\Sterm{BB}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{A}\\\Sterm{BAA}\end{matrix}\right]
+ \] 
+\pause Dieses PCP hat ebenfalls eine Lösung, aber keine mit weniger als 160 Schritten!\pause
 
-\emph{Anmerkung:} "`Vollständigkeit"' bezieht sich nur auf die Ableitung von $\bot$. Resolution kann nicht
-jede beliebige Klausel ableiten, die logisch folgt!
+\bigskip
+\[
+\left[\begin{matrix}\Sterm{AA}\\\Sterm{B}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{BA}\\\Sterm{BAA}\end{matrix}\right]\quad
+\left[\begin{matrix}\Sterm{ABA}\\\Sterm{A}\end{matrix}\right]
+ \]
+\pause Dieses PCP hat keine Lösung (Bonusaufgabe: Warum?).
 
 \end{frame}
 
-\begin{frame}\frametitle{Beispiel: widerspruchsfreie Resolution}
+\begin{frame}\frametitle{Unentscheidbarkeit}
 
-\begin{minipage}{4cm}
-\tiny
-\begin{tabular}[t]{rlll}
-(1) & $\{\neg A, \neg B\}$ &\\
-(2) & $\{A, B\}$  &\\
-(3) & $\{\neg B, \neg C\}$  &\\
-(4) & $\{B, C\}$ &\\
-(5) & $\{\neg A,\neg C\}$ &\\
-(6) & $\{A, B, C\}$ &\\
-%
-(7) & $\{B,\neg B\}$ & (2)+(1)\\
-(8) & $\{B,\neg C\}$ & (2)+(5)\\
-(9) & $\{A,\neg A\}$ & (2)+(1)\\
-(10) & $\{A,\neg C\}$ & (2)+(3)\\
-(11) & $\{\neg A,C\}$ & (4)+(1)\\
-(12) & $\{C,\neg C\}$ & (4)+(3)\\
-(13) & $\{\neg A,B\}$ & (4)+(5)\\
-(14) & $\{B,\neg B,C\}$ & (6)+(1)\\
-(15) & $\{B,C,\neg C\}$ & (6)+(5)\\
-(16) & $\{A,\neg A, C\}$ & (6)+(1)\\
-(17) & $\{A,C, \neg C\}$ & (6)+(3)\\
-(18) & $\{A,B,\neg B\}$ & (6)+(3)\\
-(19) & $\{A,\neg A, B\}$ & (6)+(3)\\
-%
-(20) & \textcolor<2->{darkred}{$\{B\}$} & (2)+(13)\\
-(21) & \textcolor<2->{darkred}{$\{\neg C\}$} & (8)+(3)\\
-(22) & \textcolor<2->{darkred}{$\{\neg A\}$} & (13)+(1)\\
-(23) & $\{\neg A,B,\neg B\}$ & (14)+(5)\\
-(24) & $\{\neg A,C,\neg C\}$ & (15)+(1)
-\end{tabular}\end{minipage}
-\begin{minipage}{5cm}{\tiny
-\begin{tabular}[t]{rlll}
-(25) & $\{A,\neg A,\neg B\}$ & (16)+(3)\\
-(26) & $\{\neg B,C,\neg C\}$ & (17)+(1)\\
-(27) & $\{B,\neg B,\neg C\}$ & (18)+(5)\\
-(28) & $\{A,\neg A,\neg C\}$ & (19)+(3)\\
-%
-(29) & $\{\neg A,\neg B,\neg C\}$ & (23)+(3)\\
-(30) & $\{A,\neg A,B,\neg B\}$ & (6)+(29)\\
-(31) & $\{A,\neg A,C,\neg C\}$ & (6)+(29)\\
-(32) & $\{B,\neg B,C,\neg C\}$ & (6)+(29)\\
-%
-(33) & $\{A,\neg A, B,\neg B,C,\neg C\}$ & (30)+(31)\\
-(34) & $\{\neg A, B,\neg B,C,\neg C\}$ & (33)+(22)\\
-(35) & $\{A, \neg A, B,C,\neg C\}$ & (20)+(33)\\
-(36) & $\{A, \neg A, B,\neg B,\neg C\}$ & (33)+(21)\\
-(37) & $\{\neg A, B,C,\neg C\}$ & (20)+(34)\\
-(38) & $\{\neg A, B,\neg B,\neg C\}$ & (34)+(21)\\
-(39) & $\{A, \neg A, B,\neg C\}$ & (35)+(21)\\
-(40) & $\{\neg A, B,\neg C\}$ & (39)+(22)\\
-(41) & $\{A, B,\neg B,C,\neg C\}$ & (2)+(33)\\
-(42) & $\{A,\neg A, \neg B,C,\neg C\}$ & (33)+(3)\\
-(43) & $\{A,\neg A, B,\neg B,C\}$ & (4)+(33)\\
-(44) & \ldots und so weiter
-\end{tabular}}\pause
-\vspace{5mm}
+\theobox{\emph{Satz:} Das PCP ist unentscheidbar.}\pause
 
-Es ergibt sich ein Modell $w$ mit
-$w(A)=\myfalse$, $w(B)=\mytrue$ und $w(C)=\myfalse$.
-\end{minipage}
+Das zu zeigen ist nicht ganz so einfach, da das PCP auf den ersten Blick
+nichts mit den uns bisher bekannten unentscheidbaren Problemen zu tun hat.
+\bigskip
+
+Wir gehen in zwei Schritten vor:
+\begin{enumerate}[(1)]
+\item Wir reduzieren das Halteproblem auf ein \alert{modifiziertes PCP}
+\item Wir reduzieren das modifizierte PCP auf PCP
+\end{enumerate}\bigskip\pause
+
+\defbox{Eine Instanz des \redalert{Modifizierten PCP} (MPCP) ist eine Instanz des PCP (d.h. eine Menge von Wortpaaren), für die ein bestimmtes Startpaar angegeben ist.
+Die Lösung des MPCP ist eine Lösung des PCP, welche mit dem Startpaar beginnt.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Resolution: Komplexität}
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (1)}
 
-Leider können \redalert{im schlimmsten Fall exponentiell} viele Resolventen gebildet werden
-(wobei die Formel erfüllbar ist, so dass kein frühzeitiger Abbruch möglich ist)
-\bigskip
+Wir wollen das Halteproblem von DTMs auf das MPCP reduzieren.\medskip
 
-\textcolor{devilscss}{(Die Verwendung von Hilfsatomen zur Ermittlung einer linear großen Klauselform löst dieses Problem nicht)}
-\bigskip
+Wir entwickeln dazu eine \alert{Many-One-Reduktion}, die eine Instanz des Halteproblems
+in eine Instanz des MPCP verwandelt.\\
+$\leadsto$ Kodiere TM-Berechnungen als Sequenz von Wortpaaren
+\bigskip\pause
 
+\emph{Ansatz für die Reduktion:}
 \begin{itemize}
-\item Bezüglich der algorithmischen Komplexität ist Resolution schlimmstenfalls
-\alert{nicht besser als andere Verfahren}.
-\item Das hier vorgestellte einfachste Verfahren ist \alert{hoffnungslos ineffizient}.
-\item Praktische Implementierungen verwenden aber sehr \alert{viele weitere Optimierungen}.
+\item Das Wort, welches zur Lösung des MPCP entsteht, kodiert den Lauf einer TM
+\begin{itemize}
+\item Hält die TM, dann ist der Lauf endlich und es gibt eine Lösung
+\item Hält die TM nicht, dann wird es keine Lösung geben
+\end{itemize}
+\item Eine TM-Konfiguration können wir wie immer als Wort der Form $v\, q\, w$ darstellen
+\item Wir kodieren einen Lauf als Folge von Konfigurationen, getrennt mit $\Sterm{\#}$ (kein Alphabetszeichen oder Zustand der TM)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}\frametitle{Aussagenlogisches Schließen in der Praxis}
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (2)}
 
-Systeme zum aussagenlogischen Schließen heißen \redalert{SAT-Solver}.
-\bigskip
+Wie kann man sicherstellen, dass die MPCP-Lösung eine korrekte Folge von TM-Konfigurationen kodiert?\bigskip\pause
 
-Moderne SAT-Solver \ldots
-\begin{enumerate}[$\ldots$]
-\item sind \alert{stark optimiert} und können Probleme mit Millionen von Atomen lösen
-\item verwenden in der Regel \alert{keine (reine) Resolution}, bilden aber manchmal Resolventen
-\item werden auch \alert{jenseits der Aussagenlogik} verwendet, indem Probleme zunächst in Aussagenlogik übersetzt werden
-\end{enumerate}\bigskip
-
-Resolution ist dennoch bedeutsam, da sie gut auf Prädikatenlogik und verwandte Logiken anwendbar ist, was für andere aussagenlogische Verfahren nicht zutrifft.
+\emph{Kernidee:}
+\begin{itemize}
+\item Das Lösungswort soll wie folgt beginnen: $\Sterm{\#}c_0\Sterm{\#}c_1\Sterm{\#}c_3\Sterm{\#}\ldots$, wobei $c_i$ Konfigurationen kodieren
+\item Beim PCP entsteht das Lösungswort doppelt, oben und unten
+\item Wir beginnen mit $\left[\begin{matrix}\epsilon\\\Sterm{\#}c_0\end{matrix}\right]$, d.h. das obere (leere) Wort liegt eine Konfiguration zurück
+\item Wir definieren die Wortpaare so, dass man oben eine Kopie der unteren Konfiguration nur dann erzeugen kann, wenn man gleichzeitig unten die Nachfolgerkonfiguration anfügt
+\item Falls die TM hält, dann sorgen wir dafür, dass das obere Wort die fehlende Konfiguration aufholen kann
+\end{itemize}
 
 \end{frame}
 
-% \sectionSlide{Horn-Logik}
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (3)}
+
+\alert{Überführungsregeln} kodieren die Übergänge der DTM:
+
+\begin{align*}
+\left[\begin{matrix}q\Sterm{a}\\\Sterm{b}p\end{matrix}\right]\quad
+	& \text{falls $\delta(q,\Sterm{a})=\tuple{p,\Sterm{b},R}$}\\
+\left[\begin{matrix}\Sterm{c}q\Sterm{a}\\p\Sterm{cb}\end{matrix}\right]\quad
+	& \text{falls $\delta(q,\Sterm{a})=\tuple{p,\Sterm{b},L}$ und $\Sterm{c}\in\Gamma$ beliebig}\\
+\left[\begin{matrix}q\Sterm{a}\\p\Sterm{b}\end{matrix}\right]\quad
+	& \text{falls $\delta(q,\Sterm{a})=\tuple{p,\Sterm{b},N}$}
+\end{align*}
+
+In diesen Regeln steckt die Kernidee des Beweises. Es sind die wesentlichen Regeln, mit denen man Zustandssymbol $q\in Q$ im oberen Wort replizieren kann.
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (4)}
+
+Es gibt zwei \alert{Randfälle:}\bigskip
+
+Am linken Rand soll unsere TM einfach "`anstoßen"' (einseitig unendliches Band):
+\begin{align*}
+\left[\begin{matrix}\Sterm{\#}q\Sterm{a}\\\Sterm{\#}p\Sterm{b}\end{matrix}\right]\quad
+	& \text{falls $\delta(q,\Sterm{a})=\tuple{p,\Sterm{b},L}$}
+\end{align*}
+
+Am rechten Rand kann die TM das Band beliebig erweitern:
+
+\begin{align*}
+\left[\begin{matrix}q\Sterm{\#}\\q\blank\Sterm{\#}\end{matrix}\right]\quad
+	& \text{für jeden Zustand $q\in Q$}
+\end{align*}
+
+\textcolor{devilscss}{Anmerkung: Diese Umformung ist kein echter Rechenschritt, aber erspart uns die Auflistung von Sonderfällen für jede denkbare Transition am rechten Rand.}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (5)}
+
+\alert{Kopierregeln} erlauben uns, den Rest der TM-Konfiguration (die Teile, die nicht nah am Lese-/Schreibkopf liegen) vom unteren zum oberen Wort zu kopieren:
+
+\begin{align*}
+\left[\begin{matrix}x\\ x\end{matrix}\right]\quad
+	& \text{für jedes Symbol $x\in \Gamma\cup\{\Sterm{\#}\}$}
+\end{align*}
+
+\textcolor{devilscss}{Anmerkung: Damit kann man keine Zustände kopieren.}
+\bigskip\pause
+
+Die \alert{Startregel} schließlich setzt die Berechnung in Gang:
+
+\begin{align*}
+\left[\begin{matrix}\epsilon\\ \Sterm{\#}q_0 w\end{matrix}\right]\quad
+	& \text{wobei $q_0$ der Startzustand und $w\in\Sigma^*$ das Eingabewort ist}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (6)}
+
+\emph{Zwischenstand:} Angefangen von der Startregel zwingen uns die Regeln, Konfigurationen
+zu kopieren und dabei entweder einen Berechnungsschritt auszuführen, oder mehr Speicher am
+rechten Rand zu allozieren.
+\bigskip\pause
+
+Es fehlt noch ein \alert{Abschluss:}\\
+{(wir verwenden ein weiteres zusätzliches Symbol $\medbullet$)}
+
+\begin{align*}
+\left[\begin{matrix}q\Sterm{a}\\\medbullet\end{matrix}\right]\quad
+	& \text{falls $\delta(q,\Sterm{a})$ undefiniert und $\Sterm{a}\in\Gamma$ (d.h. $\Sterm{a}\neq\Sterm{\#}$)}\\
+\left[\begin{matrix}\Sterm{a}\medbullet\\\medbullet\end{matrix}\right]\quad\text{und}\quad\left[\begin{matrix}\medbullet\Sterm{a}\\\medbullet\end{matrix}\right]\quad
+	& \text{für alle $\Sterm{a}\in\Gamma$}\\
+% \left[\begin{matrix}\Sterm{a}\medbullet\\\medbullet\end{matrix}\right]\quad
+% 	& \text{für alle $\Sterm{a}\in\Gamma$ beliebig}\\
+\left[\begin{matrix}\medbullet\Sterm{\#}\Sterm{\#}\\\Sterm{\#}\end{matrix}\right]\quad
+	& \text{der endgültige Abschluss}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}\frametitle{Turingmaschinen simulieren in MPCP (7)}
+
+\theobox{\emph{Satz:} Es gibt eine Many-One-Reduktion vom Halteproblem auf das
+modifizierte PCP.}
+
+\emph{Beweis:} Wir haben die Reduktion gerade angegeben, wobei das Wortpaar
+mit der Startkonfiguration das Startpaar des MPCP ist.
+\bigskip
+
+Korrektheit (Skizze):
+\begin{itemize}
+\item Wenn es einen haltenden Lauf gibt, dann kann man eine Lösung des MPCP finden: gemäß Konstruktion
+\item Wenn es eine Lösung für das MPCP gibt, dann hält die TM:
+	\begin{itemize}
+	\item Wir können die Übergänge als Berechnungsschritte interpretieren, d.h. es entsteht ein Lauf
+	\item Das obere Wort ist anfangs kürzer und wird in keiner Regel länger als das untere, solange nicht eine haltende Konfiguration erreicht wurde
+	\item Also kann das MPCP nur dann eine Lösung haben, wenn die TM hält.\qed
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Von PCP zu MPCP (1)}
+
+Es fehlt noch eine Reduktion von MPCP auf PCP.\bigskip
+
+\theobox{\emph{Satz:} Es gibt eine Many-One-Reduktion vom 
+modifizierten PCP auf PCP.}
+
+\emph{Beweis:} Wir verwenden zwei zusätzliche Symbole $\Sterm{\#}$ und 
+$\Sterm{\blacksquare}$. Für ein Wort $w=a_1\cdots a_\ell$
+definieren wir:
+\begin{align*}
+{}_{\Sterm{\#}}w_{\Sterm{\#}} &= \Sterm{\#}{a_1}\Sterm{\#}\cdots\Sterm{\#}{a_\ell}\Sterm{\#} &
+w_{\Sterm{\#}} &= {a_1}\Sterm{\#}\cdots\Sterm{\#}{a_\ell}\Sterm{\#} &
+{}_{\Sterm{\#}}w &= \Sterm{\#}{a_1}\Sterm{\#}\cdots\Sterm{\#}{a_\ell}
+\end{align*}
+Die gesuchte Reduktion bildet jetzt ein MPCP\\[1ex]
+\narrowcentering{$\left[\begin{matrix}x_1\\y_1\end{matrix}\right]\quad\ldots\quad\left[\begin{matrix}x_k\\y_k\end{matrix}\right]$}\\[1ex]
+ab auf das PCP\\[1ex]
+\narrowcentering{$%
+\left[\begin{matrix}{}_{\Sterm{\#}}x_1{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_1\end{matrix}\right]
+\quad\left[\begin{matrix}x_1{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_1\end{matrix}\right]
+\quad\ldots
+\quad\left[\begin{matrix}x_k{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_k\end{matrix}\right]
+\quad\left[\begin{matrix}\Sterm{\blacksquare}\\\Sterm{\#\blacksquare}\end{matrix}\right]
+$}\\[1ex]
+
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Von PCP zu MPCP (2)}
+
+% Es fehlt noch eine Reduktion von MPCP auf PCP.\bigskip
 % 
-% \begin{frame}\frametitle{Horn-Logik}
-% 
-% Bisher waren alle unsere Ansätze für aussagenlogisches Schließen exponentiell -- geht es auch einfacher?
-% \bigskip\pause
-% 
-% \emph{Idee:} Beschränke die Form von Formeln
-% \bigskip
-% 
-% \defbox{Eine \redalert{Horn-Klausel}${}^*$ ist eine Klausel, die höchstens ein nichtnegiertes Literal enthält.
-% Eine \redalert{Horn-Formel} ist eine Formel in KNF, welche nur Horn-Klauseln enthält.\\
-% {\tiny ${}^*$) nach Alfred Horn, 1918--2001, US-amerikanischer Mathematiker}}
-% 
-% \pause
-% \examplebox{\emph{Beispiele:}
-% \begin{itemize}
-% \item $\neg p\vee \neg q \vee r$ ist eine Horn-Klausel
-% \item $q\vee p$ ist keine Horn-Klausel
-% \item $p$ ist eine Horn-Klausel
-% \item $\neg p\vee \neg q$ ist eine Horn-Klausel
-% \item $p\vee p$ ist keine Horn-Klausel (aber äquivalent zu einer)
-% \end{itemize}
-% }
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Horn-Klauseln als Implikationen}
-% 
-% Jede Horn-Klausel kann als eine Implikation ohne Negation und Disjunktion ausgedrückt werden
-% \bigskip
-% 
-% \examplebox{\emph{Beispiele:}
-% \begin{align*}
-% \neg p\vee \neg q \vee r \qquad \equiv &&(p\wedge q) &\to r\\
-% p \qquad \equiv &&\top&\to p\\
-% \neg p\vee \neg q \qquad \equiv &&(p\wedge q)&\to \bot
-% \end{align*}
-% }
-% 
-% \begin{itemize}
-% \item Wir verwenden $\top$ für die leere Prämisse und $\bot$ für die leere Konsequenz (weil so die gewünschte logische Äquivalenz gilt)
-% \item Als Implikationen geschriebene Horn-Klauseln werden oft als \redalert{(Horn-)Regeln} bezeichnet
-% \item Es ist üblich, die Klammern der Konjunktion in der Prämisse wegzulassen
-% \end{itemize}
-% 
-% \end{frame}
-% 
-% \begin{frame}\frametitle{Ausblick}
-% 
-% \emph{Nächste Vorlesung:} Wir werden logisches Schließen für Horn-Regeln noch etwas genauer betrachten
-% \begin{itemize}
-% \item Resolution kann in diesem Fall spezialisiert werden
-% \item Dadurch erhält man polynomielle Algorithmen
-% \end{itemize}
-% 
-% \end{frame}
+% \theobox{Satz: Es gibt eine Many-One-Reduktion vom 
+% modifizierten PCP auf PCP.}
+
+\emph{Beweis (Fortsetzung):} Wir erhalten also das folgende PCP\\[1ex]
+\narrowcentering{$%
+\left[\begin{matrix}{}_{\Sterm{\#}}x_1{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_1\end{matrix}\right]
+\quad\left[\begin{matrix}x_1{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_1\end{matrix}\right]
+\quad\ldots
+\quad\left[\begin{matrix}x_k{}_{\Sterm{\#}}\\{}_{\Sterm{\#}}y_k\end{matrix}\right]
+\quad\left[\begin{matrix}\Sterm{\blacksquare}\\\Sterm{\#\blacksquare}\end{matrix}\right]
+$}\\[1ex]
+%
+Es ist nicht schwer zu zeigen, dass dies genau dann eine Lösung hat, wenn das ursprüngliche MPCP eine hat:\pause
+\begin{itemize}
+\item "`$\Leftarrow$"' Wenn das MPCP eine Lösung hat, dann erhalten wir leicht eine entsprechende Lösung für das PCP, wobei jedes Symbol zusätzlich von $\Sterm{\#}$ umgeben ist und das Wort auf $\Sterm{\blacksquare}$ endet\pause
+\item "`$\Rightarrow$"' Wenn das PCP eine Lösung hat, dann muss es mit dem ersten Wortpaar beginnen, da nur dieses Wortpaar gleiche Anfangssymbole hat. Durch Weglassen aller $\Sterm{\#}$ und 
+$\Sterm{\blacksquare}$ entsteht wieder eine Lösung des MPCP.\qed
+\end{itemize}
+
+\end{frame}
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-Das \redalert{logische Schließen} umfasst viele Fragen (meist Entscheidungsprobleme), die aber oft
-auf Erfüllbarkeit zurückgeführt werden können
-\bigskip
+Alle interessanten Fragen über Turingmaschinen sind unentscheidbar\bigskip
 
-\redalert{Resolution} ist ein bekanntes Widerlegungskalkül, welches über die Aussagenlogik hinaus von Bedeutung ist
-\bigskip
+\alert{Semi-Entscheidbarkeit} wird durch Many-One-Reduktionen erhalten, nicht aber durch Turing-Reduktionen\bigskip
 
-Die betrachteten Beweisverfahren für Aussagenlogik benötigen schlimmstenfalls \redalert{exponentiell viel Zeit}%;
-% bei \redalert{Horn-Formeln} gibt es dagegen polynomielle Schlussfolgerungsalgorithmen
-\bigskip
+Das \alert{Postsche Korrespondenzproblem} ist ein unentscheidbares Problem, das nicht (direkt) mit TMs zu tun hat -- es ist hilfreich bei vielen Reduktionen\bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-\item Ist logisches Schließen immer so schwer?
-% \item Gibt es auch sub-exponentielle Algorithmen für aussagenlogisches Schließen?
-\item Was hat Aussagenlogik mit Sprachen, Berechnung und TMs zu tun?
+\item Turingmaschinen als Modell für Typ 0 und Typ 1
+\item Unberechenbare Probleme formaler Sprachen
+\item Abschließende Bemerkungen und Zusammenfassung
 \end{itemize}
 }
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Literatur und Bildrechte}
+
+\alert{Literatur}\bigskip
+
+\begin{itemize}
+\item Richard J. Lorentz:
+\emph{Creating Difficult Instances of the Post Correspondence Problem.}
+Computers and Games 2000: 214--228
+\item John J. O'Connor, Edmund F. Robertson: \emph{Emil Leon Post.} MacTutor History of Mathematics archive, University of St Andrews. \url{http://www-history.mcs.st-andrews.ac.uk/Biographies/Post.html}
+\end{itemize}
+
+\bigskip\bigskip
+
+\alert{Bildrechte}\bigskip
+
+Folie \ref{frame_post}: gemeinfrei
 
 \end{frame}
 
