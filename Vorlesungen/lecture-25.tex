@@ -4,734 +4,414 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{25}{NP-Vollständigkeit}{22. Januar 2024}
+\defineTitle{25}{Unentscheidbare Probleme formaler Sprachen}{26. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
-\sectionSlideNoHandout{Rückblick}
+\begin{frame}\frametitle{Rückblick}
+% 
+% Zwei wesentliche Erkenntnisse der letzten Vorlesung:
+% 
+% \begin{itemize}
+% \item Praktisch alle interessanten Fragen zu Turingmaschinen sind unentscheidbar (Rice)
+% \item Es gibt unentscheidbare Probleme, die nicht direkt mit Berechnung zu tun haben (Post)
+% \end{itemize}
+% 
+\end{frame}
 
-\begin{frame}\frametitle{Kompexitätsklassen}
 
-\redalert{Komplexitätsklassen} sind Mengen von Sprachen, die man (grob) einteilt entsprechend der Ressourcen,
-die eine TM zur Entscheidung ihres Wortproblems benötigt.\bigskip
+\sectionSlide{Unentscheidbare Probleme formaler Sprachen}
 
-\begin{tabular}{ccc}
-\alert{deterministisch} & & \alert{nichtdeterministisch} \\[1ex]
-$\Scomplclass{P}=\Scomplclass{PTime}$ & \alert{polynomielle Zeit} & $\Scomplclass{NP}=\Scomplclass{NPTime}$\\
-$\Scomplclass{Exp}=\Scomplclass{ExpTime}$ & \alert{exponentielle Zeit} & $\Scomplclass{NExp}=\Scomplclass{NExpTime}$\\[1ex]
-$\Scomplclass{L}=\Scomplclass{LogSpace}$ & \alert{logarithmischer Speicher} & $\Scomplclass{NL}=\Scomplclass{NLogSpace}$\\
-$\Scomplclass{PSpace}$ & \alert{polynomieller Speicher} & $\Scomplclass{NPSpace}$\\
+
+\begin{frame}\frametitle{Wiederholung}
+
+Wir schreiben $\Slang{L}(G)$ für die Sprache, welche durch die Grammatik $G$ erzeugt wird.\bigskip
+
+\theobox{\emph{Satz (Vorlesung 5):} Das \alert{Schnittproblem regulärer Grammatiken} ist entscheidbar.\\
+\emph{Gegeben:} Reguläre Grammatiken $G_1$ und $G_2$\\
+\emph{Frage:} Ist $\Slang{L}(G_1)\cap\Slang{L}(G_2)\neq\emptyset$?
+}
+\pause\emph{Beweisskizze:} Für reguläre Grammatiken $G_1$ und $G_2$ kann man $\Slang{L}(G_1)\cap\Slang{L}(G_2)$ durch einen Automaten darstellen (Produktkonstruktion). Automaten kann man leicht auf Leerheit testen.\qed\bigskip\pause
+
+\theobox{\emph{Satz (Vorlesung 14):} Das \alert{Schnittproblem kontextfreier Grammatiken} ist unentscheidbar.\\
+\emph{Gegeben:} Kontextfreie Grammatiken $G_1$ und $G_2$\\
+\emph{Frage:} Ist $\Slang{L}(G_1)\cap\Slang{L}(G_2)\neq\emptyset$?
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{CFG-Schnittproblem unentscheidbar (1)}
+
+\theobox{\emph{Satz:} Das \alert{Schnittproblem kontextfreier Grammatiken} ist unentscheidbar.\\
+\emph{Gegeben:} Kontextfreie Grammatiken $G_1$ und $G_2$\\
+\emph{Frage:} Ist $\Slang{L}(G_1)\cap\Slang{L}(G_2)\neq\emptyset$?
+}
+
+\pause\emph{Beweis:} Durch Many-One-Reduktion vom PCP:\pause\medskip
+
+\begin{itemize}
+\item Für eine gegebene PCP-Instanz $P$
+\item konstruieren wir kontextfreie Grammatiken $G_x$ und $G_y$,\\[1ex]
+	so dass gilt:
+\item $P$ hat eine Lösung genau dann wenn $\Slang{L}(G_x)\cap\Slang{L}(G_y)\neq\emptyset$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{CFG-Schnittproblem unentscheidbar (2)}
+
+\emph{Beweis:} Sei $\left[\begin{matrix}x_1\\y_1\end{matrix}\right]\quad\ldots\quad\left[\begin{matrix}x_k\\y_k\end{matrix}\right]$ eine PCP-Instanz mit Alphabet $\Sigma$.
+\medskip\pause
+
+Die Grammatik $G_x$ wird definiert als $\tuple{V,\Sigma_k,P_x,\Snterm{S}}$ mit
+\begin{itemize}
+\item $V=\{\Snterm{S}\}$
+\item $\Sigma_k = \Sigma \cup\{1,\ldots,k\}$~~~~~ (o.B.d.A. sei dies eine disjunkte Vereinigung)
+\item $P_x$ ist die Menge aller Regeln 
+\begin{align*}
+\Snterm{S}\to i\Snterm{S}x_i\quad\text{ und }\quad\Snterm{S}\to i x_i && \text{für alle $1\leq i\leq k$}
+\end{align*}
+
+\end{itemize}
+Damit ist $G_x$ leicht berechenbar.\\
+$G_y=\tuple{V,\Sigma_k,P_y,\Snterm{S}}$ wird analog definiert.\bigskip\pause
+
+Damit ergibt sich:
+\begin{itemize}
+\item $\Slang{L}(G_x)=\{ i_\ell\cdots i_1 x_{i_1}\cdots x_{i_\ell}\mid \ell\geq 1\text{ und } i_1,\ldots,i_\ell\in\{1,\ldots,k\}\}$ und
+\item $\Slang{L}(G_y)=\{ i_\ell\cdots i_1 y_{i_1}\cdots y_{i_\ell}\mid \ell\geq 1\text{ und } i_1,\ldots,i_\ell\in\{1,\ldots,k\}\}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{CFG-Schnittproblem unentscheidbar (3)}
+
+\emph{Beweis:} Wie soeben erkannt:
+\begin{itemize}
+\item $\Slang{L}(G_x)=\{ i_\ell\cdots i_1 x_{i_1}\cdots x_{i_\ell}\mid \ell\geq 1\text{ und } i_1,\ldots,i_\ell\in\{1,\ldots,k\}\}$ und
+\item $\Slang{L}(G_y)=\{ i_\ell\cdots i_1 y_{i_1}\cdots y_{i_\ell}\mid \ell\geq 1\text{ und } i_1,\ldots,i_\ell\in\{1,\ldots,k\}\}$
+\end{itemize}\bigskip\pause
+
+Damit folgt:\medskip
+
+\begin{tabular}{rl}
+& $\Slang{L}(G_x)\cap\Slang{L}(G_y)\neq\emptyset$\\\pause
+gdw. & es gibt eine Sequenz $i_1,\ldots,i_\ell\in\{1,\ldots,k\}$ mit $\ell\geq 1$, so dass:\\
+	& $ i_\ell\cdots i_1 x_{i_1}\cdots x_{i_\ell} = i_\ell\cdots i_1 y_{i_1}\cdots y_{i_\ell}$\\\pause
+gdw. & es gibt eine Sequenz $i_1,\ldots,i_\ell\in\{1,\ldots,k\}$ mit $\ell\geq 1$, so dass:\\
+	& $ x_{i_1}\cdots x_{i_\ell} = y_{i_1}\cdots y_{i_\ell}$\\\pause
+gdw. &  Die PCP-Instanz $P$ hat eine Lösung\qed\\
 \end{tabular}
 
 \end{frame}
 
 
-\begin{frame}\frametitle{Deterministisch vs. nichtdeterministisch}
+\begin{frame}\frametitle{Wiederholung}
 
-%
-Welche Beziehungen haben diese Klassen zu anderen?\pause
-{\footnotesize
+\emph{Wir wissen:}
 \begin{itemize}
-\item Die Beziehungen zwischen nichtdeterministischen Klassen sind analog zu denen im deterministischen Fall:\\[1ex]
-\narrowcentering{$\Scomplclass{NL}\subseteq \Scomplclass{NP}\subseteq \Scomplclass{NPSpace}\subseteq \Scomplclass{NExp}$}
-\pause
-\item Eine DTM kann als NTM aufgefasst werden, d.h. die nichtdeterministischen Klassen sind immer stärker:\\[1ex]
-\narrowcentering{$\Scomplclass{L}\subseteq \Scomplclass{NL}\qquad \Scomplclass{P}\subseteq \Scomplclass{NP}\qquad \Scomplclass{PSpace}\subseteq \Scomplclass{NPSpace}\qquad \Scomplclass{Exp}\subseteq \Scomplclass{NExp}$}
-\pause
-\item Man kann NTMs mit DTMs simulieren, aber das ist oft mit exponentiellen Mehrkosten verbunden (Vorlesung 19).
-\pause
-\item Der berühmte \alert{Satz von Savitch} besagt, dass speicherbeschränkte NTMs durch DTMs mit nur quadratischen Mehrkosten simuliert werden können. Insbesondere gilt damit $\Scomplclass{PSpace}= \Scomplclass{NPSpace}$.
-\end{itemize}}
-% Insgesamt ergeben sich folgende Beziehungen:
-Zusammenfassung der wichtigsten bekannten Beziehungen:
-\theobox{
-\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
-\vspace{-2.5ex}
-}
+\item Kontextfreie Grammatiken kann man als Kellerautomaten darstellen und umgekehrt
+ (diese Umformung ist berechenbar)
+\item Deterministische kontextfreie Sprachen kann man als deterministische Kellerautomaten darstellen
+\end{itemize}
+\bigskip
 
-\end{frame}
-
-\begin{frame}\frametitle{Die Grenzen unseres Wissens}
-
-Wir wissen:
-
-\theobox{
-\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}= \Scomplclass{NPSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
-\vspace{-2.5ex}
-}
-
+\theobox{\emph{Satz (Wiederholung):}
 \begin{itemize}
-\item Wir wissen nicht, ob irgendeines dieser $\subseteq$ sogar $\subsetneq$ ist.
-\item Insbesondere wissen wir nicht, ob $\Scomplclass{P}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{P}=\Scomplclass{NP}$.
-\item Wir wissen nicht einmal, ob $\Scomplclass{L}\subsetneq\Scomplclass{NP}$ oder $\Scomplclass{L}=\Scomplclass{NP}$.
-\end{itemize}\pause
-Es wird aber vermutet, dass alle  $\subseteq$ eigentlich $\subsetneq$ sind.
-% 
-Bekannt ist das aber nur bei exponentiell großen Ressourcenunterschieden:
-
-\theobox{Es gilt:
-\begin{itemize}
-\item $\Scomplclass{NL}\subsetneq\Scomplclass{PSpace}$
-\item $\Scomplclass{P}\subsetneq\Scomplclass{Exp}$
-\item $\Scomplclass{NP}\subsetneq\Scomplclass{NExp}$
+\item Das Leerheitsproblem für kontextfreie Grammatiken ist entscheidbar
+\item Kontextfreie Sprachen sind unter Vereinigung abgeschlossen
+\item Deterministische kontextfreie Sprachen sind unter Komplement abgeschlossen
 \end{itemize}}
 
 \end{frame}
 
+\begin{frame}\frametitle{Eine einfache Beobachtung}
 
-\sectionSlide{NP}
-
-\begin{frame}\frametitle{NP-Probleme effizient lösen?}
-
-Wir haben gesehen:
-\[ \Slang{SAT}\in\Scomplclass{NP}\subseteq\Scomplclass{PSpace}\subseteq\Scomplclass{ExpTime}\]
-
+Die Grammatiken $G_x$ und $G_y$ aus dem vorigen Beweis kann man leicht
+als deterministische Kellerautomaten darstellen\pause:
 \begin{itemize}
-\item Dennoch haben alle unsere Algorithmen für $\Slang{SAT}$ bisher 
-exponentielle Laufzeit.
-\item $\Slang{SAT}\in\Scomplclass{NP}$ führt nicht direkt zu einer besseren Lösung, da real existierende Computer nicht wie NTMs arbeiten.
-\item Andererseits spricht auch nichts dagegen, dass es einen schnelleren Algorithmus gibt.
+\item Die Indices $i_\ell\cdots i_1$ lassen sich deterministisch einlesen und auf dem Stack ablegen
+\item Sobald der Wortteil $x_{i_1}\cdots x_{i_\ell}$ beginnt, wird der Stack abgearbeitet und jeweils nur das Wort für den aktuellen Index akzeptiert
 \end{itemize}
-
-\anybox{purple}{Kann man $\Slang{SAT}$ auch effizienter lösen?}
-$\leadsto$ Dazu sollten wir erst einmal $\Scomplclass{NP}$ etwas besser verstehen
-
-\end{frame}
-
-\begin{frame}\frametitle{Lösungen prüfen}
-
-\emph{Eine interessante Eigenschaft von \Slang{SAT}:}
-\begin{itemize}
-\item Es scheint schwer, die Erfüllbarkeit einer Formel zu ermitteln (z.B. können wir exponentiell viele
-	Wertzuweisungen durchsuchen).
-\item Es ist einfach, Erfüllbarkeit einer Formel zu überprüfen, wenn ein Modell gegeben ist (dazu muss nur der Wahrheitswert der Formel berechnet werden).
-\end{itemize}\pause
-
-\emph{Ähnlich ist es bei Sudoku:}
-\begin{itemize}
-\item Es ist schwer, ein Sudoku korrekt auszufüllen.
-\item Es ist einfach, zu prüfen, ob ein Sudoku korrekt ausgefüllt \ghost{wurde.}
-\end{itemize}\pause
-
-\anybox{purple}{
-\emph{Gibt es noch mehr Probleme, die sich so verhalten?}
-\begin{itemize}
-\item Es ist schwer, eine Lösung zu finden.
-\item Es ist einfach, eine gegebene Lösung zu prüfen.
-\end{itemize}}
-
-\end{frame}
-
-\begin{frame}\frametitle{TMs die Lösungen überprüfen}
-
-Wir wollen diese Idee formalisieren:
-
-\defbox{Ein \redalert{polynomieller Verifikator} für eine Sprache $\Slang{L}\subseteq \Sigma^*$ ist eine
-polynomiell-zeitbeschränkte, deterministische TM \Smach{M}, für die gilt:
-\begin{itemize}
-\item \Smach{M} akzeptiert nur Wörter der Form $w\# z$ mit:
-	\begin{itemize}
-	\item $w\in\Slang{L}$
-	\item $z\in\Sigma^*$ ist ein \redalert{Zertifikat} polynomieller Länge\\(d.h. für \Smach{M} gibt es ein Polynom $p$ mit $|z|\leq p(|w|)$)
-	\end{itemize}
-\item Für jedes Wort $w\in\Slang{L}$ gibt es ein solches Wort $w\# z\in\Slang{L}(\Smach{M})$.
-\end{itemize}
-}
-
-\emph{Intuition:}
-\begin{itemize}
-\item Das Zertifikat $z$ kodiert die Lösung des Problems $w$, die der Verifikator lediglich nachprüft.
-\item Zertifikate sollten kurz sein, damit die Prüfung selbst nicht länger dauert als die Lösung des Problems.
-\end{itemize}
-
-Zertifikate werden auch \alert{Nachweis}, \alert{Beweis} oder \alert{Zeuge} genannt
-
-\end{frame}
-
-\begin{frame}\frametitle{Nachweis-polynomielle Sprachen}
-
-\defbox{Eine Sprache $\Slang{L}$ ist \redalert{nachweis-polynomiell} wenn es für sie einen polynomiellen
-Verifikator gibt.}\medskip\pause
-
-\examplebox{\emph{Beispiel:} \Slang{SAT} ist nachweis-polynomiell. Ein möglicher polynomiellen Verifikator für
-\Slang{SAT} akzeptiert Wörter $F\#w$, wobei $F$ die Kodierung einer erfüllbaren Formel ist und $w$ eine Kodierung einer
-Wertzuweisung, die $F$ erfüllt.}\medskip\pause
-
-\examplebox{\emph{Beispiel:} Jede Sprache $\Slang{L}\in\Scomplclass{P}$ ist nachweis-polynomiell. Als Verifikator
-verwenden wir einfach einen polynomiell-zeitbeschränkten Entscheider für $\Slang{L}$. Das Zertifikat kann leer sein.}
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiel: Drei-Farben-Problem}
-
-Das \redalert{Drei-Farben-Problem} besteht darin, die Knoten eines ungerichteten Graphen so mit den
-drei Farben rot, grün und blau zu färben, dass keine zwei benachbarten Knoten die gleiche Farbe haben.
-\medskip
-
-\narrowcentering{
-\includegraphics[width=3cm]{images/graph1}
-\begin{minipage}[b]{3cm}
-~\\\huge
-\narrowcentering{$\Rightarrow$}\\[5mm]~
-\end{minipage}
-\includegraphics[width=3cm]{images/graph3}
-}\pause
-
-\medskip
-Das Problem kann als Wortproblem aufgefasst werden, wenn man Graphen als Wörter kodiert (z.B. als Adjazenzliste oder als zeilenweise kodierte Adjazenzmatrix).
-\medskip
-
-\alert{Das Drei-Farben-Problem ist nachweis-polynomiell}\\ (Zertifikat: Farbzuweisung).
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiel: Faktorisierung}
-
-\defbox{Die \redalert{Faktorisierung} einer natürlichen Zahl $n$ ist die Darstellung der 
-Zahl als Produkt von natürlichen Zahlen $f_1\cdot f_2=n$.}\medskip
-
-Folgende Sprache ist nachweis-polynomiell:\\[1ex]
-\narrowcentering{$\Slang{COMPOSITE}=\{\textsf{bin}(n)\mid \text{es gibt }f_1,f_2>1 \text{ mit }n=f_1\cdot f_2\}$}\\[1ex]
-(Zertifikat: Kodierung von $f_1$ und $f_2$)
 \bigskip\pause
 
-Überraschender Weise ist auch folgende Sprache nachweis-polynomiell:\\[1ex]
-\narrowcentering{$\Slang{PRIMES}=\{\textsf{bin}(n)\mid \text{es gibt \redalert{keine} }f_1,f_2>1 \text{ mit }n=f_1\cdot f_2\}$}\\[1ex]
-(Zertifikat: "`\href{https://en.wikipedia.org/wiki/Primality_certificate}{Primality certificate}"', bekannt seit 1975)
+Wir haben also auch schon gezeigt:
+
+\theobox{\emph{Korollar:} Das \alert{Schnittproblem deterministischer Kellerautomaten} ist unentscheidbar.\\
+\emph{Gegeben:} Deterministische Kellerautomaten $\Smach{M}_1$ und $\Smach{M}_2$\\
+\emph{Frage:} Ist $\Slang{L}(\Smach{M}_1)\cap\Slang{L}(\Smach{M}_2)\neq\emptyset$?
+}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{CFG-Äquivalenz (1)}
+
+\theobox{\emph{Satz:} Das \alert{Äquivalenzproblem kontextfreier Grammatiken} ist unentscheidbar.\\
+\emph{Gegeben:} Kontextfreie Grammatiken $G_1$ und $G_2$\\
+\emph{Frage:} Ist $\Slang{L}(G_1)=\Slang{L}(G_2)$?
+}
+
+\emph{Beweis:} Durch Many-One-Reduktion vom Komplement des Schnittproblems.\pause
+
+\begin{itemize}
+\item Wir verwenden $G_x$ und $G_y$ aus dem vorigen Beweis\pause
+\item Wir wissen, wie man einen det.\ Kellerautomaten $\Smach{M}_x$ für $G_x$ konstruiert\pause
+\item $\Smach{M}_x$ kann man komplementieren: sei $\overline{\Smach{M}}_x$ der Automat für
+die Sprache $\overline{\Slang{L}(\Smach{M}_x)}$\pause
+\item Für $\overline{\Smach{M}}_x$ kann man eine Grammatik berechnen: sei $\overline{G}_x$ die Grammatik für die Sprache $\Slang{L}(\overline{\Smach{M}}_x)$\pause
+\item Kontextfreie Grammatiken kann man vereinigen: sei $G_{\overline{x}y}$ die Grammatik mit $\Slang{L}(G_{\overline{x}y})= \Slang{L}(\overline{G}_x)\cup\Slang{L}(G_y)$ 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{CFG-Äquivalenz (2)}
+
+\theobox{\emph{Satz:} Das \alert{Äquivalenzproblem kontextfreier Grammatiken} ist unentscheidbar.\\
+\emph{Gegeben:} Kontextfreie Grammatiken $G_1$ und $G_2$\\
+\emph{Frage:} Ist $\Slang{L}(G_1)=\Slang{L}(G_2)$?
+}
+
+\emph{Beweis:} Wir behaupten: \["`\Slang{L}(G_x)\cap\Slang{L}(G_y)\stackrel{?}{=}\emptyset"' \mapsto "`\Slang{L}(G_{\overline{x}y})\stackrel{?}{=}\Slang{L}(\overline{G}_x)"'\] ist die gesuchte Reduktion.\bigskip\pause
+
+\begin{tabular}{rrl}
+$\Slang{L}(G_x)\cap\Slang{L}(G_y)=\emptyset$ \pause
+	& gdw. & $\Slang{L}(G_y)\subseteq\Slang{L}(\overline{G}_x)$\\\pause
+	& gdw. & $\Slang{L}(G_y)\cup\Slang{L}(\overline{G}_x)=\Slang{L}(\overline{G}_x)$\\\pause
+	& gdw. & $\Slang{L}(G_{\overline{x}y})=\Slang{L}(\overline{G}_x)$\\[1ex]
+\end{tabular}
+
+Die Behauptung folgt, da das Komplement des Schnittproblems unentscheidbar ist.\qed
+
+\end{frame}
+
+\begin{frame}\frametitle{Diskussion}
+
+\emph{Anmerkung 1:} $G_{\overline{x}y}$ ist nicht unbedingt deterministisch. Der Beweis
+gilt also nicht für deterministische CFGs. In der Tat ist Äquivalenz dort (mit viel Aufwand) entscheidbar.\\[1ex]
+{\tiny (S\'{e}nizergues: L(A)=L(B)? decidability results from complete formal systems, 2001; der komplexe Beweis zeigt Semi-Entscheidbarkeit des Problems und seines Komplements, also keine Zeitgrenzen!)
+
+}
 \bigskip\pause
 
-\textcolor{devilscss}{(Seit 2002 wissen wir: $\textbf{PRIMES}\in\Scomplclass{P}$}
-\textcolor{devilscss}{$\leadsto$ Primzahlentest nach Agrawal, Kayal und Saxena)}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (1)}
-
-\theobox{\emph{Satz:} Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip\pause
-
-\emph{Beweis:}
-$(\Rightarrow)$ Sei $\Slang{L}$ nachweis-polynomiell mit Verifikator \Smach{V}. Wir erhalten eine polynomiell-zeitbeschränkte NTM \Smach{M} für $\Slang{L}$ wie folgt:\pause
+\emph{Anmerkung 2:} Aus der Unentscheidbarkeit der CFG-Äquivalenz folgt -- durch einfache Many-One-Reduktion -- die Unentscheidbarkeit der Äquivalenz aller Formalismen, in die man CFGs leicht übersetzen kann:
 \begin{itemize}
-\item für eine Eingabe $w$ rät \Smach{M} nichtdeterministisch ein polynomielles Zertifikat $z$\\
-(dabei muss \Smach{M} die Länge von $z$ selbst beschränken)
-\item anschließend führt \Smach{M} die Berechnungen wie \Smach{V} aus um das geratene Zertifikat in polynomieller Zeit zu prüfen
+\item Kellerautomaten
+\item kontextsensitive Grammatiken/LBAs
+\item LOOP-Programme
+\item Typ-0-Grammatiken/Turingmaschinen/WHILE-Programme
+\item \ldots
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{NP steht für "`nachweis-polynomiell"' (2)}
+\begin{frame}\frametitle{Unentscheidbare Probleme für Typ 1}
 
-\theobox{\emph{Satz:} Eine Sprache $\Slang{L}$ ist genau dann nachweis-polynomiell wenn $\Slang{L}\,{\in}\,\Scomplclass{NP}$.}\medskip
+Wir halten noch einmal fest:
 
-\emph{Beweis:}
-$(\Leftarrow)$ Sei \Smach{M} eine polynomiell-zeitbeschränkte NTM für $\Slang{L}$. Wir erhalten einen polynomiellen Verifikator \Smach{V} für $\Slang{L}$ wie folgt.\pause
-% 
-\begin{itemize}
-\item Für jedes Wort $w\in\Slang{L}$ gibt es einen akzeptierenden Lauf von \ghost{\Smach{M}.}
-\item In jedem Schritt dieses Laufs wählt \Smach{M} nichtdeterministisch einen Übergang aus.
-\item Der Lauf ist von polynomieller Länge, da \Smach{M} polynomiell-zeitbeschränkt ist.
-\end{itemize}\pause
-$\leadsto$ Die Liste der Übergänge eines akzeptierenden Laufs kann als Zertifikat dienen
-\medskip
+\theobox{\emph{Satz:} Für kontextsensitive Grammatiken $G_1$ und $G_2$ sind
+die folgenden Fragen unentscheidbar:
+\begin{enumerate}[(1)]
+\item Äquivalenz: $\Slang{L}(G_1)=\Slang{L}(G_2)$?
+\item Schnitt: $\Slang{L}(G_1)\cap\Slang{L}(G_2)=\emptyset$?
+\item Leerheit: $\Slang{L}(G_1)=\emptyset$?
+\end{enumerate}}
 
-\Smach{V} prüft, ob die durch $z$ gegebenen Entscheidungen für die Eingabe $w$ zu einem akzeptierenden Lauf von \Smach{M} führen.\qed 
+\emph{Beweis:} (1) und (2) gelten, weil alle kontextfreien Grammatiken auch
+kontextsensitive Grammatiken sind (offensichtliche Many-One-Reduktion).
+\bigskip
+
+(3) gilt, da kontextsensitive Grammatiken unter Schnitten abgeschlossen sind (siehe
+Vorlesung~24), so dass man Schnitt auf Leerheit reduzieren kann.\qed
 
 \end{frame}
 
-\begin{frame}\frametitle{\Scomplclass{NP} ist nicht symmetrisch}
+\begin{frame}\frametitle{Semi-Entscheidbarkeit}
 
-Es ist leicht zu sehen:
+\emph{Beobachtung 1:} Das Schnittproblem ist semi-entscheidbar: zähle alle
+Wörter von $\Slang{L}(G_1)$ auf und teste jeweils, ob sie in $\Slang{L}(G_2)$
+liegen.
+\bigskip\pause
 
-\theobox{\emph{Satz:} Die Klasse \Scomplclass{P} ist unter Komplement abgeschlossen.}
+\emph{Beobachtung 2:} Das Komplement des Schnittproblems ist demnach nicht semi-entscheidbar.
+Ebenso ist also das Äquivalenzproblem nicht semi-entscheidbar (wegen Many-One-Reduktion).
+\bigskip\pause
 
-\emph{Beweis:} Wenn es für \Slang{L} eine polynomiell-zeitbeschränkte TM \Smach{M}
-gibt, dann erhält man eine TM für $\overline{\Slang{L}}$ indem man akzeptierende
-und nichtakzeptierende Zustände von \Smach{M} vertauscht.\qed
-\medskip\pause
-
-Für \Scomplclass{NP} ist das nicht so einfach möglich. Wir haben das schon für NFAs beobachtet (eine spezielle Art von NTMs).${}^*$
-
-\examplebox{\emph{Beispiele:} Es scheint kein einfaches Zertifikat dafür zu geben, dass
-eine Formel \alert{nicht} erfüllbar ist oder dass ein Graph \alert{keine} Dreifärbung zulässt.
-}
-
-\visible<3->{\defbox{Die Klasse aller Sprachen $\Slang{L}$, für die $\overline{\Slang{L}}\in\Scomplclass{NP}$ gilt, heißt $\Scomplclass{coNP}$.}}
-
-% Jede nichtdeterministische Klasse kann so komplementiert werden, z.B. $\Scomplclass{coNL}$ oder $\Scomplclass{coNExp}$.
-\medskip
-
-{\tiny ${}^*$ Grund: für ein akzeptiertes Wort kann es bei einer NTM akzeptierende \emph{und} verwerfende Läufe geben. Nach dem Austausch der Endzustände gäbe es dann aber immer noch akzeptierende Läufe.\\
-}
+\emph{Beobachtung 3:} Das Komplement des Äquivalenzproblems ist semi-entscheidbar: zähle abwechselnd Wörter von $\Slang{L}(G_1)$ und $\Slang{L}(G_2)$ auf und teste jeweils, ob sie nicht in $\Slang{L}(G_2)$ bzw. $\Slang{L}(G_1)$ liegen.
 
 \end{frame}
 
-\sectionSlide{NP-Vollständigkeit}
+\sectionSlide{Unentscheidbarkeiten}
 
-\definecolor{myred}{rgb}{0.80, 0.20, 0.20}
-\definecolor{mygreen}{rgb}{0.20, 0.80, 0.20}
-\definecolor{myblue}{rgb}{0.20, 0.20, 0.80}
-\newcommand{\ppred}[1]{\color{myred}{\text{r}_{#1}}\color{text}{}}
-\newcommand{\pgreen}[1]{\color{mygreen}{\text{g}_{#1}}\color{text}{}}
-\newcommand{\pblue}[1]{\color{myblue}{\text{b}_{#1}}\color{text}{}}
+\begin{frame}\frametitle{Das schwerste unentscheidbare Problem?}
 
-\begin{frame}\frametitle{Reduktionen}
+Wir haben gesehen (Übung):\smallskip
 
-Manche Probleme lassen sich auf andere zurückführen\pause
-\bigskip
+\theobox{\emph{Satz:} Jedes semi-entscheidbare Problem kann auf das Halteproblem
+many-one-reduziert werden.}\medskip\pause
 
-% \bigskip
-% 
-% \alert{Beispiel:}\\
-\emph{Beispiel:} Drei-Farben-Problem ist auf \Slang{SAT} reduzierbar.
-\bigskip
+Demnach kann man außerdem Komplemente semi-entscheidbarer Probleme ("`co-semi-entscheidbare"' Probleme) auf das Halteproblem Turing-reduzieren.\bigskip
 
-\only<2>{\includegraphics[width=2.5cm]{images/graph1}}%
-\only<3-5>{\includegraphics[width=2.5cm]{images/graph2}}%
-\only<6->{\includegraphics[width=2.5cm]{images/graph3}}%
-%
-\raisebox{5mm}{%
-\hspace{7mm}%
-\uncover<3->{\begin{minipage}[b]{6cm}
-Darstellung von Farben mit Atomen:
-\begin{itemize}
-\item $\ppred{i}$ bedeutet "`Knoten $i$ ist rot"'
-\item $\pgreen{i}$ bedeutet "`Knoten $i$ ist grün"'
-\item $\pblue{i}$ bedeutet "`Knoten $i$ ist blau"'
-\end{itemize}
-\end{minipage}}}
-\bigskip
+Mit anderen Worten: Wenn man das Halteproblem lösen könnte, dann könnte man
+jedes (co-)semi-entscheidbare Problem lösen.\pause
 
-\uncover<4->{
-Färbe-Bedingungen für Knoten:\\
-$(\ppred{1}\wedge\neg\pgreen{1}\wedge\neg\pblue{1})\vee
-(\neg\ppred{1}\wedge\pgreen{1}\wedge\neg\pblue{1})\vee
-(\neg\ppred{1}\wedge\neg\pgreen{1}\wedge\pblue{1})$
-\hfill(usw. für alle Knoten)
-% $(\ppred{10}\wedge\neg\pgreen{10}\wedge\neg\pblue{10})\vee
-% (\neg\ppred{10}\wedge\pgreen{10}\wedge\neg\pblue{10})\vee
-% (\neg\ppred{10}\wedge\neg\pgreen{10}\wedge\pblue{10})$\\
-}
-
-\bigskip
-\uncover<4->{
-Färbe-Bedingungen für Kanten:
-
-$\neg(\ppred{1}\wedge\ppred{2})\wedge\neg(\pgreen{1}\wedge\pgreen{2})\wedge\neg(\pblue{1}\wedge\pblue{2})$
-\mbox{}\hfill(usw. für alle Kanten)
-}
-\uncover<5->{
 \begin{center}
-\alert{Erfüllende Wertzuweisung $\Leftrightarrow$ zulässige Färbung}
-\end{center}
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Polynomielle Reduktionen}
-
-\defbox{Eine Funktion $f:\Sigma^*\to\Sigma^*$ ist \redalert{polynomiell berechenbar} wenn es eine
-polynomiell-zeitbeschränkte TM gibt, die bei einer Eingabe $w$ die Ausgabe $f(w)$ auf das Band schreibt
-und anschließend anhält.
-}\bigskip
-
-\defbox{Eine polynomiell berechenbare Funktion $f:\Sigma^*\to\Sigma^*$ ist eine \redalert{polynomielle Reduktion} von einer
-Sprache $\Slang{L}$ auf eine Sprache $\Slang{G}$, wenn für alle Wörter $w\in\Sigma^*$ gilt:\\[1ex]
-%
-\narrowcentering{$w\in\Slang{L}\quad$ genau dann wenn $\quad f(w)\in\Slang{G}$}
-}\bigskip\pause
-
-\examplebox{\emph{Beispiel:} Die soeben skizzierte Funktion von Graphen auf logische Formeln ist eine polynomielle Reduktion
-des Drei-Farben-Problems auf \Slang{SAT}.}
-
-\examplebox{\emph{Beispiel:} Wir haben das Inklusionsproblem endlicher Automaten in Vorlesung~10 auf das Leerheitsproblem reduziert. Diese Reduktion war bei deterministischen Automaten polynomiell.}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Die Struktur von NP}
-Idee: polynomielle Reduzierbarkeit definiert eine Art Ordnung auf Problemen
-
-\vspace{1cm}
-\begin{center}
-\only<1>{\includegraphics[scale=1.5]{images/np1}}%
-\only<2>{\includegraphics[scale=1.5]{images/np2}}%
-\only<3>{\includegraphics[scale=1.5]{images/np3}}%
-\only<4>{\includegraphics[scale=1.5]{images/np4}}%
-\only<5>{\includegraphics[scale=1.5]{images/np5}}
+\alert{Ist das Halteproblem das schwerste unentscheidbare Problem?}\\
+{\tiny (Sind alle unentscheidbaren Probleme auf das Halteproblem Turing-reduzierbar?)}
 \end{center}
 
 \end{frame}
 
+\begin{frame}\frametitle{Das schwerste unentscheidbare Problem?}
 
-\begin{frame}\frametitle{Das schwerste Problem in NP?}
+\begin{center}
+\alert{Ist das Halteproblem das schwerste unentscheidbare Problem?}\\
+{\tiny (Sind alle unentscheidbaren Probleme auf das Halteproblem Turing-reduzierbar?)}
+\end{center}
 
 \bigskip
-~\hfill%
-\begin{minipage}{1.5cm}\includegraphics[height=1.4cm]{images/cook}\\\scalebox{0.8}{Stephen Cook}\end{minipage}\hfill
-\begin{minipage}{1.5cm}\includegraphics[height=1.4cm]{images/levin}\\\scalebox{0.8}{Leonid Levin}\end{minipage}\hfill
-\begin{minipage}{1.5cm}\includegraphics[height=1.4cm]{images/karp}\\\scalebox{0.8}{Richard Karp}\end{minipage}\hfill~
-\bigskip
-
-\theobox{\emph{Satz von Cook [1971] \& Levin [1973]:}
-Alle Probleme in \Scomplclass{NP} können polynomiell auf \Slang{SAT} reduziert werden.}\pause
-
-\begin{itemize}
-\item Wer \Slang{SAT} polynomiell löst, der hat alle Probleme in \Scomplclass{NP} polynomiell gelöst\pause
-\item Es gibt in \Scomplclass{NP} eine maximale Klasse, die ein praktisch interessantes Problem enthält\pause
-\item Karp findet kurz darauf 21 weitere solcher Probleme (1972)
-\item Seitdem wurden tausende weitere entdeckt \ldots
-\end{itemize}
-% \pause
-\bigskip
-% $\leadsto$ Die Klasse der "`schwersten"' Probleme in NP ist praktisch interessant
-
-
-\end{frame}
-
-\begin{frame}\frametitle{\Scomplclass{NP}-Schwere und \Scomplclass{NP}-Vollständigkeit}
-
-\defbox{Eine Sprache ist
-\begin{itemize}
-\item \redalert{\Scomplclass{NP}-schwer,} wenn jede Sprache in \Scomplclass{NP} polynomiell darauf reduzierbar ist
-\item \redalert{\Scomplclass{NP}-vollständig,} wenn sie \Scomplclass{NP}-schwer ist und in \Scomplclass{NP} liegt
-\end{itemize}}\medskip\pause
-
-\examplebox{\emph{Beispiel:} \Slang{SAT} ist \Scomplclass{NP}-vollständig (Cook \& Levin).}
-
-\examplebox{\emph{Beispiel:} \Slang{PRIMES} ist in \Scomplclass{NP}, aber \alert{vermutlich} nicht \Scomplclass{NP}-schwer. Gleiches gilt für viele Probleme in \Scomplclass{P} (bei einigen ist dagegen sicher, dass sie nicht \Scomplclass{NP}-schwer sind).}
-
-\examplebox{\emph{Beispiel:} Das Halteproblem ist \Scomplclass{NP}-schwer aber sicher nicht in \Scomplclass{NP}. Gleiches gilt für viele unentscheidbare Probleme.}
-
-
-\end{frame}
-
-\begin{frame}\frametitle{Beispiele}
-
-\examplebox{\emph{Beispiel:} Das Drei-Farben-Problem ist \Scomplclass{NP}-vollständig.}
-
-\examplebox{\emph{Beispiel:} Verallgemeinertes Sudoku ($n^2$ Zahlen in einem $n^2\times n^2$-Feld mit $n\times n$-Unterfeldern) ist \Scomplclass{NP}-vollständig. Das Entscheidungsproblem dabei ist, ob das gegebene, teilweise gefüllte Feld eine Lösung zulässt. Gleiches gilt für Verallgemeinerungen vieler anderer Solitärspiele (z.B. Minesweeper).}
-
-\examplebox{\emph{Beispiel:} Das Wortproblem für Typ-1-Sprachen (gegeben als Grammatik) ist \Scomplclass{NP}-schwer aber \alert{vermutlich} nicht in \Scomplclass{NP}. Gleiches gilt für das Halteproblem von LBAs.}
-
-\examplebox{\emph{Beispiel:} Das Problem des Handelsreisenden ist \Scomplclass{NP}-vollständig. Es besteht darin, in einem
-Graph mit bewerteten Kanten einen Pfad durch alle Knoten zu finden, so dass die Summe der Kantenwerte unter einem
-gegebenen Maximum liegt.}
-
-\end{frame}
-
-\begin{frame}\frametitle{Wie findet man \Scomplclass{NP}-schwere Probleme?}
-
-Schwer ist, worauf sich schwere Dinge leicht zurückführen lassen:
-
-\theobox{\emph{Satz:} Wenn $\Slang{L}$ \Scomplclass{NP}-schwer ist und polynomiell auf $\Slang{G}$
-reduziert werden kann, dann ist $\Slang{G}$ auch \Scomplclass{NP}-schwer.}
-
-\emph{Beweis:} Folgt direkt aus der Definition, da die Komposition von zwei polynomiellen Reduktionen ebenfalls eine
-polynomielle Reduktion ist.\qed
+\pause \narrowcentering{{\Large\redalert{Nein, sicher nicht.}}}
 \bigskip\pause
 
-\emph{Technik zum Beweis von \Scomplclass{NP}-Schwere:}
+\emph{Beweisskizze:} Wir können uns Turing-Reduktionen als TMs vorstellen, die Subroutinen
+aufrufen dürfen.
+
 \begin{itemize}
-\item Suche ein bekanntes \Scomplclass{NP}-schweres Problem, welches dem untersuchten Problem möglichst ähnlich ist.
-\item Gib eine polynomielle Reduktion an und zeige, dass sie korrekt ist.
+\item Selbst ohne die Details der formalen Definition ist klar: Solche TMs müssen weiterhin
+endlich beschreibbar sein.
+\item Daher gibt es nur abzählbar viele solcher TMs.
+\item Es gibt aber überabzählbar viele Probleme.
 \end{itemize}
-\begin{enumerate}[$\leadsto$]
-\item Oft nicht schwer, wenn man bereits viele \Scomplclass{NP}-schwere Probleme kennt -- aber wo fängt man an?
-\end{enumerate}
+
+Also sind die meisten Probleme nicht durch Turing-Reduktionen auf das Halteproblem
+lösbar.\qed
 
 \end{frame}
 
-\begin{frame}\frametitle{Cook/Levin: Beweisskizze (1)}
+\begin{frame}\frametitle{Noch unentscheidbarere Probleme}
 
-\alert{Wie stellen wir TM-Berechnungen in aussagenlogisch dar?}
+Gibt es auch konkrete unentscheidbare Probleme, die nicht
+mithilfe von $\Slang{P}_{\text{halt}}$ lösbar sind?
+\bigskip\pause
+
+Ja, zum Beispiel folgendes:
+
+\defbox{Wir betrachten folgendes Problem $\Slang{P}^2_{\text{halt}}$:\\
+\emph{Gegeben:} ein Wort $w$ und eine DTM $\Smach{M}$, welche $\Slang{P}_{\text{halt}}$ als Subroutine verwenden darf\\
+\emph{Frage:} Hält $\Smach{M}$ auf $w$?
+}
+
+Dies ist sozusagen ein Haltproblem höherer Ordnung.\bigskip\pause
+
+Ein noch schwereres Problem $\Slang{P}^3_{\text{halt}}$ ist
+das Halteproblem für TMs, die $\Slang{P}^2_{\text{halt}}$ als Subroutine
+verwenden dürfen\\
+$\leadsto$ \alert{eine unendliche Hierarchie unentscheidbarer Probleme}
+\bigskip\pause
+
+Und selbst all diese Probleme sind nur abzählbar viele \ldots
+
+\end{frame}
+
+\begin{frame}\frametitle{Das leichteste unentscheidbare Problem?}
+
+\begin{center}
+\alert{Ist das Halteproblem das leichteste unentscheidbare Problem?}\\
+{\tiny (Ist das Halteproblem auf alle unentscheidbaren Probleme Turing-reduzierbar?)}
+\end{center}
+
+\bigskip
+\pause \narrowcentering{{\Large\redalert{Nein, auch das gilt nicht.}}}
 \bigskip
 
-\emph{Idee:}
+Die Situation ist ziemlich kompliziert:
 \begin{itemize}
-\item Jedes Problem in \Scomplclass{NP} ist durch eine konkrete NTM \Smach{M} in einer Zeit lösbar, die durch ein konkretes Polynom $p$ gegeben ist.
-\item Für eine Eingabe $|w|$ kennen wir also die maximale Zahl an Schritten $p(|w|)$ dieser Berechnung.
+\item Es gibt unentscheibare Probleme $\Slang{A}$ und $\Slang{B}$, so dass
+\item $\Slang{A}\leq_T \Slang{P}_{\text{halt}}$ und $\Slang{B}\leq_T \Slang{P}_{\text{halt}}$, aber
+\item $\Slang{A}\not\leq_T \Slang{B}$ und $\Slang{B}\not\leq_T \Slang{A}$
 \end{itemize}
-\begin{enumerate}[$\leadsto$]
-\item Ein Lauf ist eine Folge von maximal $p(|w|)$ Konfigurationen, die jeweils maximal $p(|w|)$ Speicherstellen verwenden
-\end{enumerate}
+
+Man kann also mit $\leq_T$ nicht einmal alle Klassen unentscheidbarer Probleme
+in eine totale Ordnung bringen.
+
+{\tiny Bewiesen in 1956 (unabhängig!) von Friedberg (USA) und Muchnik (USSR)}
 \bigskip
 
-\emph{Ansatz:} Kodiere \Smach{M} und $w$ so in Logik, dass die möglichen Läufe genau den erfüllenden Wertzuweisungen entsprechen
+Allerdings sind diese Probleme sehr künstlich.
 
 \end{frame}
 
+\begin{frame}\frametitle{Wozu das alles?}
 
-\begin{frame}\frametitle{Cook/Levin: Beweisskizze (2)}
+Die Untersuchung der Struktur des Unentscheidbaren hat
+sehr viele Fragen betrachtet und beantwortet.\\
+$\leadsto$ Forschungsgegenstand der \alert{Berechenbarkeitstheorie}
+\bigskip\pause
 
+Offensichtliche Frage: \redalert{Bringt uns das praktische Einsichten?}
+\bigskip\pause
 
-% Illustration eines Laufs in $p(|w|)$ Schritten:
-
-\begin{tikzpicture}[
-	scale=0.50,
-	decoration=penciline, decorate
-]
-% \path[use as bounding box] (-3.2,0) rectangle (3.5,-5); % add "draw" to see it
-% \draw[help lines] (0,0) grid (5,5);
-\pgfmathsetseed{5712}
-
-\draw [thick, darkblue,decorate,decoration={brace,amplitude=3pt},xshift=0.4pt,yshift=-0.7mm](-1,0.6) -- (13,0.6) node[black,midway,yshift=0.36cm] {\alert{$p(|w|)$ Speicherstellen}};
-
-\draw [thick, darkblue,decorate,decoration={brace,mirror,amplitude=3pt},xshift=0.4pt,yshift=-0.7mm](-1.5,0) -- (-1.5,-7.5) node[black,midway,xshift=-0.36cm] {\rotatebox{90}{\alert{$p(|w|)$ Berechnungsschritte}}};
-
-\draw[decorate,line width=0.3mm] (-1,0) -- (10.5,0);
-\draw[decorate,line width=0.3mm] (-1,-1) -- (10.5,-1);
-\node [circle,draw=none,inner sep=1pt] at (11.1,0) {$\cdots$};
-\node [circle,draw=none,inner sep=1pt] at (11.1,-1) {$\cdots$};
-\draw[decorate,line width=0.3mm] (11.5,0) -- (13,0);
-\draw[decorate,line width=0.3mm] (11.5,-1) -- (13,-1);
-
-\foreach \x in {0,...,10} {
-	\draw[decorate,line width=0.3mm] (\x-1,0) -- (\x-1,-0.9);
-	\node [circle,draw=none,inner sep=1pt] at (\x-0.5,-0.5) {\ifthenelse{\x<5}{\ifthenelse{\x<3}{\Sterm{a}}{\Sterm{b}}}{\ifthenelse{\x=5 \OR \x=7 \OR \x=8}{\Sterm{c}}{\ifthenelse{\x=10}{$\blank$}{\Sterm{d}}}}};
-}
-\draw[decorate,line width=0.3mm] (10,0) -- (10,-0.9);
-\draw[decorate,line width=0.3mm] (12,0) -- (12,-0.9);
-\node [circle,draw=none,inner sep=1pt] at (12.5,-0.5) {$\blank$};
-\draw[decorate,line width=0.3mm] (13,0) -- (13,-0.9);
-
-\draw[fill=none,line width=0.4mm,darkblue,->] (-0.5,-1.5) -> (-0.5,-1.1);
-\node [circle,draw=none,inner sep=1pt] at (-0.5,-1.8) {$q_0$};
-
-
-\draw[decorate,line width=0.3mm] (-1,-2.5) -- (10.5,-2.5);
-\draw[decorate,line width=0.3mm] (-1,-3.5) -- (10.5,-3.5);
-\node [circle,draw=none,inner sep=1pt] at (11.1,-2.5) {$\cdots$};
-\node [circle,draw=none,inner sep=1pt] at (11.1,-3.5) {$\cdots$};
-\draw[decorate,line width=0.3mm] (11.5,-2.5) -- (13,-2.5);
-\draw[decorate,line width=0.3mm] (11.5,-3.5) -- (13,-3.5);
-
-\foreach \x in {0,...,10} {
-	\draw[decorate,line width=0.3mm] (\x-1,-2.5) -- (\x-1,-3.4);
-	\node [circle,draw=none,inner sep=1pt] at (\x-0.5,-3.0) {\ifthenelse{\x=0}{\Snterm{A}}{\ifthenelse{\x<5}{\ifthenelse{\x<3}{\Sterm{a}}{\Sterm{b}}}{\ifthenelse{\x=5 \OR \x=7 \OR \x=8}{\Sterm{c}}{\ifthenelse{\x=10}{$\blank$}{\Sterm{d}}}}}};
-}
-\draw[decorate,line width=0.3mm] (10,-2.5) -- (10,-3.4);
-\draw[decorate,line width=0.3mm] (12,-2.5) -- (12,-3.4);
-\node [circle,draw=none,inner sep=1pt] at (12.5,-3) {$\blank$};
-\draw[decorate,line width=0.3mm] (13,-2.5) -- (13,-3.4);
-
-\draw[fill=none,line width=0.4mm,darkblue,->] (0.5,-4.0) -> (0.5,-3.6);
-\node [circle,draw=none,inner sep=1pt] at (0.5,-4.3) {$q_1$};
-
-\node [circle,draw=none,inner sep=1pt] at (-0.5,-5.2) {$\vdots$};
-\node [circle,draw=none,inner sep=1pt] at (9.5,-5.2) {$\vdots$};
-\node [circle,draw=none,inner sep=1pt] at (12.5,-5.2) {$\vdots$};
-
-\draw[decorate,line width=0.3mm] (-1,-6.5) -- (10.5,-6.5);
-\draw[decorate,line width=0.3mm] (-1,-7.5) -- (10.5,-7.5);
-\node [circle,draw=none,inner sep=1pt] at (11.1,-6.5) {$\cdots$};
-\node [circle,draw=none,inner sep=1pt] at (11.1,-7.5) {$\cdots$};
-\draw[decorate,line width=0.3mm] (11.5,-6.5) -- (13,-6.5);
-\draw[decorate,line width=0.3mm] (11.5,-7.5) -- (13,-7.5);
-
-\foreach \x in {0,...,10} {
-	\draw[decorate,line width=0.3mm] (\x-1,-6.5) -- (\x-1,-7.4);
-	\node [circle,draw=none,inner sep=1pt] at (\x-0.5,-7.0) {\ifthenelse{\x=2}{\Snterm{B}}{\ifthenelse{\x<5}{\ifthenelse{\x<3}{\Snterm{A}}{\Sterm{a}}}{\ifthenelse{\x=5 \OR \x=7 \OR \x=8}{\Snterm{C}}{\ifthenelse{\x=10}{\Snterm{A}}{\Sterm{b}}}}}};
-}
-\draw[decorate,line width=0.3mm] (10,-6.5) -- (10,-7.4);
-\draw[decorate,line width=0.3mm] (12,-6.5) -- (12,-7.4);
-\node [circle,draw=none,inner sep=1pt] at (12.5,-7) {\Snterm{B}};
-\draw[decorate,line width=0.3mm] (13,-6.5) -- (13,-7.4);
-
-\draw[fill=none,line width=0.4mm,darkblue,->] (5.5,-8.0) -> (5.5,-7.6);
-\node [circle,draw=none,inner sep=1pt] at (5.5,-8.4) {$q_f$};
-
-\end{tikzpicture}
-
-Wir können diesen Lauf mit aussagenlogischen Atomen kodieren:
+"`Jain"':
 \begin{itemize}
-\item $Q_{q,s}$: "`TM ist in Schritt $s$ in Zustand $q$"'
-% 
-% Für jede Position $i\in\{1,\ldots,p(|w|)\}$, jeden Schritt $s\in\{1,\ldots,p(|w|)\}$
-\item $P_{i,s}$: "`TM-Kopf ist in Schritt $s$ an Position $i$"'
-\item $S_{a,i,s}$: "`Das Band enthält in Schritt $s$ Zeichen $a$ an Position $i$"'
+\item Einerseits sind alle unentscheidbaren Probleme praktisch unlösbar
+\item Andererseits kann der Grad der Unentscheidbarkeit ein Hinweis auf die Schwere
+entscheidbarer Teilprobleme sein
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}\frametitle{Cook/Levin: Beweisskizze (3)}
+\begin{frame}\frametitle{Beispiel: Noch ein Problem}
 
-Wir können diesen Lauf mit aussagenlogischen Atomen kodieren:
+\defbox{Das \redalert{Universalitätsproblem von TMs} fragt, ob eine TM alle Eingaben
+akzeptiert:\\
+\emph{Gegeben:} Turingmaschine $\Smach{M}$ über Eingabealphabet $\Sigma$\\
+\emph{Frage:} Ist $\Slang{L}(\Smach{M})=\Sigma^*$?}
+
+\pause Das Universalitätsproblem vom TMs ist schwerer als das Halteproblem (aber Turing-reduzierbar auf $\Slang{P}^2_{\text{halt}}$). Das zeigt sich auch bei Sonderfällen:
 \begin{itemize}
-\item $Q_{q,s}$: "`TM ist in Schritt $s$ in Zustand $q$"'
-% 
-% Für jede Position $i\in\{1,\ldots,p(|w|)\}$, jeden Schritt $s\in\{1,\ldots,p(|w|)\}$
-\item $P_{i,s}$: "`TM-Kopf ist in Schritt $s$ an Position $i$"'
-\item $S_{a,i,s}$: "`Das Band enthält in Schritt $s$ Zeichen $a$ an Position $i$"'
+\item \alert{Kontextfreie Grammatiken:} Wortproblem und Leerheitsproblem entscheidbar; Universalität unentscheidbar
+\item \alert{Endliche Automaten:} Wortproblem und Leerheitsproblem effizient lösbar (polynomiell); Universalität PSpace-schwer (nur exponentielle Algorithmen bekannt)
 \end{itemize}
-$\leadsto$ Nur polynomiell viele Atome nötig
-\bigskip
-
-Mithilfe von Formeln kann man alle Bedingungen ausdrücken, die für einen korrekten Lauf der NTM gelten müssen.
-
-% , z.B.
-% dass  zu jedem Zeitpunkt nur ein Zustand gilt ($Q_{q,s}\to\neg Q_{q',s}$ für alle $s\in\{1,\ldots,p(|w|)\}$ und Zustände $q\neq q'$).
-\medskip
-
-\examplebox{
-Die Übergangsrelation wird z.B. mit Formel der folgenden Form kodiert:
-\[(Q_{q,s}\wedge P_{i,s}\wedge S_{a,i,s})\to\bigvee_{\substack{\tuple{q',b,D}\in\delta(q,a)\\ i'=D(i)}} (S_{b,i,s+1}\wedge Q_{q',s+1}\wedge P_{i',s+1})\]
-(für alle $s\in\{1,\ldots,p(|w|)\}$ und Positionen $i\in\{1,\ldots,p(|w|)\}$).}
-
 
 \end{frame}
-
-\begin{frame}\frametitle{\Scomplclass{P}-Schwere}
-
-Man kann Schwere und Vollständigkeit auch für andere Klassen definieren. Bei schwächeren Klassen
-muss man allerdings sicherstellen, dass die Reduktion selbst nicht schon so viele Ressourcen benötigt wie
-die Lösung des Problems!
-
-\defbox{Eine Sprache ist \Scomplclass{P}-schwer wenn jede Sprache in \Scomplclass{P} mit logarithmischem Speicherbedarf
-darauf reduzierbar ist. Sie ist \Scomplclass{P}-vollständig, wenn sie zudem in \Scomplclass{P} liegt.}\pause
-
-\begin{itemize}
-\item \Scomplclass{P}-vollständige Probleme sind die schwersten polynomiell lösbaren Probleme.
-\item Sie gelten als inhärent seriell, d.h. als nicht gut parallelisierbar (bisher nicht bewiesen).
-\end{itemize}\pause
-
-\examplebox{\emph{Beispiel:} Die Erfüllbarkeit von aussagenlogischen Horn-Formeln (\Slang{HornSAT}) ist ein \Scomplclass{P}-vollständiges Problem.}
-
-\end{frame}
-
-\begin{frame}\frametitle{Deterministisch vs. Nichtdeterministisch}
-
-	Wir haben bereits bemerkt, dass \Scomplclass{P} ${}\subseteq{}$ \Scomplclass{NP} gilt, da DTMs spezielle NTMs sind.
-	\medskip
-
-  \alert{Bis heute ist nicht bekannt, ob die Umkehrung dieser Inklusion gilt oder nicht.}
-  \begin{itemize}
-  \item Intuitiv gefragt: "`Wenn es einfach ist, eine mögliche Lösung für ein Problem zu prüfen, ist es dann auch einfach, eine zu finden?"'
-  \item Übertrieben: "`Can creativity be automated?"' (Wigderson, \ghost{2006)}
-  \item Seit über 40 Jahren ungelöst
-  \item Eines der größten offenen Probleme der Informatik und Mathematik unserer Zeit
-  \item 1.000.000 USD Preisgeld für die Lösung\\("`Millenium Problem"')
-  \end{itemize}
-   
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}\frametitle{Status of \PTime vs. \NP}
-% %   So what is the state of this question?
-% 
-%   \begin{itemize}
-%   \item It is often said: \alert{``Most experts think \PTime ${}\neq{}$ \NP''}
-% 	\begin{itemize}
-% 	\item Main argument: ``If $\NP = \PTime$, someone ought to have found some polynomial algorithm by now.''
-% 	\item ``This is, in my opinion, a very weak argument. The space of algorithms is very large and we are only at the beginning of its exploration.'' (Moshe Vardi, 2002)
-% 	\end{itemize}
-%   \item Results of a poll among 100 experts [Gasarch 2002]:
-% 	\begin{itemize}
-% 	\item $\PTime \neq \NP$: 61
-% 	\item $\PTime = \NP$: 9
-% 	\item No comment: 22
-% 	\item Other: independent (4), not independent (3), it depends (1)
-% 	\end{itemize}
-%   \item Over 100 ``proofs'' show $\PTime = \NP$ to be true/false/both/neither: \url{https://www.win.tue.nl/~gwoegi/P-versus-NP.htm}
-%   \item Many solutions conceivable, e.g., $\PTime = \NP$ could be shown with a non-constructive proof
-%   \end{itemize}
-%    
-% \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Status von \Scomplclass{P} vs. \Scomplclass{NP}}
-%   So what is the state of this question?
-
-  Viele Menschen glauben \Scomplclass{P} ${}\neq{}$ \Scomplclass{NP}
-	\begin{itemize}
-	\item Hauptargument: "`Wenn $\Scomplclass{NP} = \Scomplclass{P}$ wäre, dann müsste jemand inzwischen einen polynomiellen Algorithmus für ein \Scomplclass{NP}-vollständiges Problem gefunden haben."'
-	\item ``This is, in my opinion, a very weak argument. The space of algorithms is very large and we are only at the beginning of its exploration.'' (Moshe Vardi, 2002)
-	\item Ein weiterer Grund für die verbreitete Meinung: Menschen finden es schwer, \Scomplclass{NP}-Probleme zu lösen und können sich schwer vorstellen, wie man sie vereinfachen sollte
-	-- eventuell ``human chauvinistic bravado'' (Zeilenberger, 2006)
-	\item Es gibt noch bessere Argumente, aber keines mehr als eine Intuition
-	\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}\frametitle{Status von \Scomplclass{P} vs. \Scomplclass{NP} (2)}
-%   So what is the state of this question?
-
-  Verschiedene Ergebnisse sind denkbar:\pause
-  \begin{itemize}
-	\item $\Scomplclass{P} =  \Scomplclass{NP}$ könnte durch einen nichtkonstruktiven Beweis gezeigt werden\pause
-	\item Die Antwort könnte unabhängig von den Standardaxiomen der Mathematik (ZFC) sein\pause
-	\item Selbst wenn $\Scomplclass{P} \neq \Scomplclass{NP}$ gilt, ist weiterhin unklar, ob $\Scomplclass{NP}$-schwere Probleme wirklich exponentielle Zeit benötigen -- es gibt viele andere super-polynomielle Funktionen \ghost{\ldots}\pause
-	\item Das Problem könnte für immer ungelöst bleiben\pause
-  \end{itemize}\bigskip
-  
-  Über 100 "`Beweise"' zeigen, dass $\Scomplclass{P} = \Scomplclass{NP}$ wahr/falsch/beides/keines der beiden ist: \url{https://www.win.tue.nl/~gwoegi/P-versus-NP.htm}
-   
-\end{frame}
-
-\begin{frame}\frametitle{Most researchers think that \ldots}
-
-Häufig wird im Bezug auf \Scomplclass{P} vs. \Scomplclass{NP} angeführt, dass die meisten
-Experten an die Ungleichheit glauben. Das wurde zumindest punktuell bestätigt:\bigskip
-
-  \alert{Ergebnisse einer Umfrage unter 152 Experten [Gasarch 2012]:}
-	\begin{itemize}
-	\item $\Scomplclass{P} \neq \Scomplclass{NP}$: 126 (83\%)
-	\item $\Scomplclass{P} = \Scomplclass{NP}$: 12 (9\%)
-	\item Weiß nicht/ist mir egal: 7 (4\%)
-	\item Unabhängig von ZFC: 5 (3\%)
-	\item "`I don't \emph{want} it to be equal."': 1 (0.6\%)
-	\end{itemize}\medskip
-	
-Aber Experten haben sich auch schon früher geirrt \ldots
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}\frametitle{Status von \Scomplclass{P} vs. \Scomplclass{NP} (3)}
-% %   So what is the state of this question?
-% 
-%   Aktuelle Meinung in der Forschung:
-%   \begin{itemize}
-%   \item Ergebnisse einer Umfrage unter 152 Experten [Gasarch 2012]:
-% 	\begin{itemize}
-% 	\item $\Scomplclass{P} \neq \Scomplclass{NP}$: 126 (83\%)
-% 	\item $\Scomplclass{P} = \Scomplclass{NP}$: 12 (9\%)
-% 	\item Weiß nicht/ist mir egal: 7 (4\%)
-% 	\item Unabhängig von ZFC: 5 (3\%)
-% 	\item "`I don't \emph{want} it to be equal."': 1 (0.6\%)
-% 	\end{itemize}
-%   \item Experten haben sich auch schon früher geirrt
-%   \item Über 100 "`Beweise"' zeigen, dass $\Scomplclass{P} = \Scomplclass{NP}$ wahr/falsch/beides/keines der beiden ist: \url{https://www.win.tue.nl/~gwoegi/P-versus-NP.htm}
-% %   \item Research journals have policies to limit the number of ``proofs'' submitted per year
-%   \end{itemize}
-%    
-% \end{frame}
-
 
 
 \begin{frame}\frametitle{Zusammenfassung und Ausblick}
 
-\Scomplclass{NP} ist die Klasse der \redalert{nachweis-polynomiellen Probleme}.
-\bigskip
+Die Unentscheidbarkeit vieler Probleme der Sprachtheorie lässt sich gut durch Reduktion vom Postschen Korrespondenzproblem zeigen\bigskip
 
-\redalert{\Scomplclass{NP}-vollständige} Probleme sind die schwersten Probleme in \Scomplclass{NP}: Wenn man eines davon effizient löst, dann kann alle Probleme in \Scomplclass{NP} effizient lösen.
-\bigskip
-
-\redalert{\Slang{SAT} ist $\Scomplclass{NP}$-vollständig} und \redalert{\Slang{HornSAT} ist $\Scomplclass{P}$-vollständig}.
-\bigskip
+Es gibt mehr als eine Art von Unentscheidbarkeit\bigskip
 
 \anybox{yellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-% \item Wie genau stehen die Komplexitätsklassen in Beziehung? Insbesondere: $\Scomplclass{P}\neq \Scomplclass{NP}$?
-\item Haben Sie sich ausreichend auf die Prüfung vorbereitet?
-\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ wir werden Konsultationstermine anbieten)
+\item Euklid als Informatiker
+\item Abschließende Bemerkungen und Zusammenfassung
+\item Prüfungsvorbereitung und Prüfung
 \end{itemize}
 }
 
 \end{frame}
+
+% \begin{frame}[t]\frametitle{Literatur und Bildrechte}
+% 
+% \alert{Literatur}\bigskip
+% 
+% \begin{itemize}
+% \item Richard J. Lorentz:
+% \emph{Creating Difficult Instances of the Post Correspondence Problem.}
+% Computers and Games 2000: 214--228
+% \item John J. O'Connor, Edmund F. Robertson: \emph{Emil Leon Post.} MacTutor History of Mathematics archive, University of St Andrews. \url{http://www-history.mcs.st-andrews.ac.uk/Biographies/Post.html}
+% \end{itemize}
+% 
+% \bigskip\bigskip
+% 
+% \alert{Bildrechte}\bigskip
+% 
+% Folie \ref{frame_post}: gemeinfrei
+% 
+% \end{frame}
 
 
 \end{document}
