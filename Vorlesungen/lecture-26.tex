@@ -4,24 +4,195 @@
 \input{macros-lecture}
 \input{../macros}
 
-\defineTitle{26}{Zusammenfassung und Ausblick}{25. Januar 2024}
+\defineTitle{26}{Zusammenfassung und Ausblick}{29. Januar 2026}
 
 \begin{document}
 
 \maketitle
 
-% \sectionSlide{Zusammenfassung}
+\sectionSlide{Euklid als Informatiker}
 
-\frame{\begin{center}
-{\LARGE
-Zusammenfassung}\bigskip
+\begin{frame}\frametitle{Geometrie nach Euklid}
 
-~\hfill
-\includegraphics[height=4.5cm]{images/xkcd-tsp}
-\hfill~
+Etwa im 3. Jhd. v. Chr. veröffentlicht Euklid sein Lehrbuch 
+\redalert{Die~Elemente} und begründet darin die euklidische Geometrie.
+\bigskip
 
-\rotatebox{0}{\tiny Randall Munroe, \url{http://xkcd.com/399/}, CC-BY-NC 2.5}
-\end{center}}
+Zentrales Thema der euklidischen Geometrie ist die
+Konstruktion mit den \redalert{euklidischen Werkzeugen:}
+
+\begin{itemize}
+\item \alert{Lineal:} beliebig lang, aber ohne Markierungen
+\item \alert{Zirkel:} zeichnet Kreise, aber trägt bei Euklid keine Längen ab (kollabierend)
+\end{itemize}
+
+Die Konstruktion mit diesen idealen Werkzeugen gilt bei den Griechen und noch
+Jahrhunderte später als Königsdisziplin der Mathematik
+
+\end{frame}
+
+\begin{frame}\frametitle{Konstruktion mit Zirkel und Lineal}
+
+
+\alert{Erlaubte Konstruktionsschritte:}
+\begin{enumerate}[(1)]
+\item Ziehen einer beliebig langen Geraden durch zwei verschiedene Punkte
+\item Zeichnen eines Kreises mit einen gegebenen Mittelpunkt, der durch einen gegebenen Punkt verläuft
+\item Abtragen einer Strecke mit dem Zirkel\\[0.5ex]
+{\tiny Bei Euklid nicht direkt erlaubt, aber Euklid selbst hat bewiesen, dass diese Operation als Makro mithilfe der Operationen (1) und (2) darstellbar ist
+
+}
+\end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Beispiel}
+
+Man kann ein Quadrat wie folgt konstruieren:\bigskip
+
+\narrowcentering{%
+\begin{tikzpicture}[scale=0.4]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+% \pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+
+\draw[line width=0.3mm] (-4,0) -- (10,0);
+\draw[line width=0.3mm] (1,-0.1) -- (1,0.1);
+\draw[line width=0.3mm] (5,-0.1) -- (5,0.1);
+
+\visible<2-7>{\draw[line width=1mm,darkred] (1,0) -- (5,0);}
+
+\visible<3-10>{\draw (5,0) circle (4cm);}
+
+\visible<4-7>{\draw (1,-8) arc (270:430:8cm);}
+\visible<5-7>{\draw (9,8) arc (90:250:8cm);}
+
+\visible<6-10>{\draw[line width=0.3mm] (5,7.5) -- (5,-8);}
+
+\visible<7->{\draw[line width=1mm,darkred] (1,0) -- (5,0) -- (5,4);}
+
+\visible<9-10>{\draw (1,0) circle (4cm);
+\draw (-3,-8) arc (270:430:8cm);
+\draw (5,8) arc (90:250:8cm);
+\draw[line width=0.3mm] (1,8) -- (1,-7.5);}
+
+\visible<10-11>{\draw[line width=1mm,darkred] (1,0) -- (5,0) -- (5,4) -- (1,4) -- cycle;}
+\end{tikzpicture}}
+
+\end{frame}
+
+\begin{frame}\frametitle{Weitere Konstruktionsbeispiele}
+
+Es lassen sich zahlreiche weitere Konstruktionen durchführen, z.B.:
+\begin{itemize}
+\item Halbierung eines Winkels
+\item Konstruktion des regelmäßigen Sechsecks
+\item Konstruktion eines flächengleichen Quadrates aus einem gegebenen Rechteck\pause
+\item Konstruktion des regelmäßigen 17-Ecks\\ (entdeckt von Gauss -- "`Durch angestrengtes Nachdenken \ldots am Morgen \ldots (ehe ich aus dem Bette aufgestanden war)"')\pause
+\item Konstruktion des regelmäßigen 65537-Ecks (Hermes)
+\item \ldots
+\end{itemize}
+
+%% Anmerkung: 65537=2^{2^4}+1 kann wie jede Primzahl dieser Form ("Fermatsche Primzahl") konstruiert werden;
+%% Allerdings sind jenseits von F0 = 3, F1 = 5, F2 = 17, F3 = 257 und F4 keine weiteren solchen Primzahlen bekannt.
+%% Veranschaulichung siehe Wikipedia: https://de.wikipedia.org/wiki/65537-Eck
+%% Konkret: https://de.wikipedia.org/w/index.php?title=65537-Eck&oldid=174880711#Veranschaulichung
+
+\end{frame}
+
+\begin{frame}\frametitle{Rechnen mit Euklid}
+
+1637: Ren\'{e} Descartes publiziert die Idee des Koordinatensystems\smallskip
+
+$\leadsto$ Geometrie wird numerisch!
+\bigskip\pause
+
+\emph{Beispiel:} Beginnend mit Punkten an den Koordinaten $(0,0)$ und $(1,0)$
+können wir einen neuen Punkt konstruieren:\bigskip
+
+\narrowcentering{%
+\begin{tikzpicture}[scale=0.4]
+% \path[use as bounding box] (-3.2,0) rectangle (3.5,-4); % add "draw" to see it
+% \pgfmathsetseed{6571}
+% \draw[help lines] (0,0) grid (5,5);
+
+\draw[line width=0.3mm] (-4,0) -- (10,0);
+\draw[line width=0.3mm] (1,-0.1) -- (1,0.1);
+\draw[line width=0.3mm] (5,-0.1) -- (5,0.1);
+
+\node [circle,draw=none,inner sep=1pt] at (0.95,-0.7) {0};
+\node [circle,draw=none,inner sep=1pt] at (4.95,-0.7) {1};
+
+\draw[line width=0.5mm] (1,0) -- (5,0) -- (5,4) -- (1,4) -- cycle;
+
+\draw[darkred,line width=0.5mm] (6.65685424949238019521,0) arc (0:45:5.65685424949238019521cm);
+
+\visible<2>{\node [circle,draw=none,inner sep=1pt, darkred] at (6.6,-0.7) {?};}
+\visible<3>{\node [circle,draw=none,inner sep=1pt, darkred] at (6.6,-0.7) {$\sqrt{2}$};}
+
+\end{tikzpicture}}\bigskip
+
+\visible<3>{Wir haben also $\sqrt{2}$ "`berechnet"'!}
+
+\end{frame}
+
+\begin{frame}\frametitle{Was kann dieser "`Rechner"'?}
+\pause
+
+Man kann Geometrie durch Gleichungen darstellen:
+\begin{itemize}
+\item Gerade durch Punkte $(a,b)$ und $(c,d)$:\\ $y=\frac{d-b}{c-a}x + \frac{bc-da}{c-a}$
+\item Kreis um Mittelpunkt $(a,b)$ durch Punkt $(c,d)$: $(x-a)^2 + (y-b)^2 = (a-c)^2 + (b-d)^2$
+\end{itemize}
+
+Zeichnen = Systeme solcher Gleichungen grafisch Lösen
+\bigskip\pause
+
+\alert{Es stellt sich heraus:} Alle so konstruierbaren Zahlen ergeben sich mit folgenden Rechnungen:
+\begin{itemize}
+\item Addition und Subtraktion
+\item Multiplikation und Division
+\item Ziehen der Quadratwurzel
+\end{itemize}\pause
+
+$\leadsto$ Unmöglich ("`euklidisch unberechenbar"') sind zum Beispiel die Konstruktion von $\pi$ (\alert{"`Quadratur des Kreises"'})
+und die Berechnung von Kubikwurzeln (\alert{"`Verdoppelung des Würfels"'})
+
+\end{frame}
+
+\begin{frame}\frametitle{Euklid statt Turing?}
+
+Liefert uns das eine alternatives Berechenbarkeitsmodell?\pause
+\bigskip
+
+\alert{Vermutlich nicht:}
+\begin{itemize}
+\item Exaktes Zeichnen ist nicht physisch implementierbar\\ (es gibt z.B. keinen perfekten Kreis)
+\item Die Ergebnisse sind nicht exakt ablesbar (Messfehler)
+\end{itemize}\pause
+
+Dennoch illustriert das wichtige Ideen der Informatik:\bigskip
+
+\anybox{strongyellow}{\vspace{-5mm}\begin{center}
+Informatik erforscht, was Computer sind\\ und welche Probleme man mit ihnen lösen kann.\end{center}}\bigskip
+
+Man sollte trotz Church-Turing immer neu fragen, was Rechnen noch sein kann \ldots
+
+\end{frame}
+
+\sectionSlide{Zusammenfassung}
+
+% \frame{\begin{center}
+% {\LARGE
+% Zusammenfassung}\bigskip
+% 
+% ~\hfill
+% \includegraphics[height=4.5cm]{images/xkcd-tsp}
+% \hfill~
+% 
+% \rotatebox{0}{\tiny Randall Munroe, \url{http://xkcd.com/399/}, CC-BY-NC 2.5}
+% \end{center}}
 
 % \sectionSlide{Fragen?}
 
@@ -36,244 +207,256 @@ Zusammenfassung}\bigskip
 \examplebox{Beispiel: Auch die Berechnung von Funktionen kann als Wortproblem ausgedrückt werden. 
 Anstatt zu fragen, "`Was ergibt $n+m$?"' kann man fragen "`Ist $n+m=r$?"'}
 
-Daraus ergibt sich das Kernthema diese Vorlesung:\\[2ex]
+Daraus ergibt sich ein Kernthema dieser Vorlesung:\\[2ex]
 
 \narrowcentering{\alert{Sprachen zu klassifizieren heißt Rechenaufgaben klassifizieren}}
 
 \end{frame}
 
-\begin{frame}\frametitle{Zwei Hierarchien}
-
-Wir haben zwei Hierarchien von Sprachklassen kennengelernt\bigskip
-
-\begin{enumerate}[(1)]
-\item \alert{Chomsky-Hierarchie:}
-\[ \text{Typ 3}\subset \text{det. kontextfrei}\subset\text{Typ 2}\subset\text{Typ 1}\subset\text{Typ 0}\]
-Ansatz: natürliche Definition über Grammatiken\bigskip
-\item \alert{Hierarchie der Komplexitätsklassen:}
-\[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
-Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschinen
-\end{enumerate}
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Eine Hierarchie?\phantom{p}}
-
-\narrowcentering
-{%
-\scalebox{0.75}{%
-\begin{tikzpicture}[decoration=penciline, decorate,
-	mybox/.style args = {}{
-		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
-		align=flush center
-	},
-	myarrow/.style args = {}{
-		line width=0.4mm,
-		draw=black
-	}
-]
-\pgfmathsetseed{7729}
-\path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
-% \draw[help lines] (0,0) grid (5,5);
-
-\node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
-\node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
-\node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
-\node (lsavitch) [draw=none,fill=none,circle] at (1.5,2) {=};
-\node (npspace) [mybox=] at (3,2) {\Scomplclass{NPSpace}};
-\node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
-\node (p) [mybox=] at (0,0) {\Scomplclass{P}};
-\node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
-\node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
-
-\node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
-\node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
-\node (lcslspace) [draw=none,fill=none,circle] at (5.5,0.5) {=};
-\node (nspacen) [mybox=] at (7,0.5) {\Scomplclass{NSpace}$(n)$};
-
-\node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
-\node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
-\node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
-\node (lregtime) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
-\node (nspacen) [mybox=] at (7,-3.6) {\Scomplclass{DSpace}$(1)$};
-
-\draw[myarrow=] (l)--(nl);
-\draw[myarrow=] (nl)--(p);
-\draw[myarrow=] (p)--(np);
-\draw[myarrow=] (np)--(pspace);
-\draw[myarrow=] (pspace)--(exp);
-\draw[myarrow=] (exp)--(nexp);
-\draw[myarrow=] (nexp)--(re);
-
-\draw[myarrow=] (reg)--(dcf);
-\draw[myarrow=] (dcf)--(cf);
-\draw[myarrow=] (cf)--(cs);
-\draw[myarrow=] (cs)--(pspace);
-\draw[myarrow=] (reg)--(l);
-\draw[myarrow=] (cf)--(p);
-\draw[myarrow=] (nl)--(cs);
-
-\node (legend) [rectangle,text width=3.7cm,draw=darkred,fill=strongyellow!40,
-		align=flush left] at (7.5,4) {Bekannte Beziehungen (Mengeninklusionen) zwischen den Sprachklassen; zumeist geht man von echten Teilmengen aus, aber bewiesen ist das nur in manchen Fällen};
-\end{tikzpicture}}}
-
-
-\end{frame}
-
-\begin{frame}[t]\frametitle{Typische Beispiel-Sprachen}
-
-\ghost{\hspace{2.0cm}\raisebox{6.3cm}{\includegraphics[height=1.5cm]{images/Sudoku-xkcd74}$*$}
-\hspace{10.5cm}\raisebox{1.5cm}{\rotatebox{90}{\tiny $*$ Randall Munroe, \url{http://xkcd.com/74/}, CC-BY-NC 2.5}}}%
-\narrowcentering
-{%
-\scalebox{0.75}{%
-\begin{tikzpicture}[decoration=penciline, decorate,
-	mybox/.style args = {}{
-		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
-		align=flush center
-	},
-	myexbox/.style args = {}{
-		rectangle,rounded corners=1pt,minimum width=2cm,draw=darkgreen,fill=darkgreen!40,
-		align=flush center
-	},
-	myarrow/.style args = {}{
-		line width=0.4mm,
-		draw=black
-	}
-]
-\pgfmathsetseed{7729}
-\path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
-% \draw[help lines] (0,0) grid (5,5);
-
-\node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
-\node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
-\node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
+% \begin{frame}\frametitle{Zwei Hierarchien}
+% 
+% Wir haben zwei Hierarchien von Sprachklassen kennengelernt\bigskip
+% 
+% \begin{enumerate}[(1)]
+% \item \alert{Chomsky-Hierarchie:}
+% \[ \text{Typ 3}\subset \text{det. kontextfrei}\subset\text{Typ 2}\subset\text{Typ 1}\subset\text{Typ 0}\]
+% Ansatz: natürliche Definition über Grammatiken\bigskip
+% \item \alert{Hierarchie der Komplexitätsklassen:}
+% \[\Scomplclass{L}\subseteq\Scomplclass{NL}\subseteq \Scomplclass{P}\subseteq\Scomplclass{NP}\subseteq\Scomplclass{PSpace}\subseteq \Scomplclass{Exp}\subseteq \Scomplclass{NExp}\]
+% Ansatz: natürliche und robuste Definition durch Beschränkung von Turingmaschinen
+% \end{enumerate}
+% 
+% \end{frame}
+% 
+% \begin{frame}[t]\frametitle{Eine Hierarchie?\phantom{p}}
+% 
+% \narrowcentering
+% {%
+% \scalebox{0.75}{%
+% \begin{tikzpicture}[decoration=penciline, decorate,
+% 	mybox/.style args = {}{
+% 		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
+% 		align=flush center
+% 	},
+% 	myarrow/.style args = {}{
+% 		line width=0.4mm,
+% 		draw=black
+% 	}
+% ]
+% \pgfmathsetseed{7729}
+% \path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
+% % \draw[help lines] (0,0) grid (5,5);
+% 
+% \node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
+% \node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
+% \node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
 % \node (lsavitch) [draw=none,fill=none,circle] at (1.5,2) {=};
 % \node (npspace) [mybox=] at (3,2) {\Scomplclass{NPSpace}};
-\node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
-\node (p) [mybox=] at (0,0) {\Scomplclass{P}};
-\node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
-\node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
-
-\node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
-\node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
-% \node (lsavitch) [draw=none,fill=none,circle] at (5.5,0.5) {=};
+% \node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
+% \node (p) [mybox=] at (0,0) {\Scomplclass{P}};
+% \node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
+% \node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
+% 
+% \node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
+% \node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
+% \node (lcslspace) [draw=none,fill=none,circle] at (5.5,0.5) {=};
 % \node (nspacen) [mybox=] at (7,0.5) {\Scomplclass{NSpace}$(n)$};
-
-\node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
-\node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
-\node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
-% \node (lsavitch) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
+% 
+% \node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
+% \node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
+% \node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
+% \node (lregtime) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
 % \node (nspacen) [mybox=] at (7,-3.6) {\Scomplclass{DSpace}$(1)$};
-
-\draw[myarrow=] (l)--(nl);
-\draw[myarrow=] (nl)--(p);
-\draw[myarrow=] (p)--(np);
-\draw[myarrow=] (np)--(pspace);
-\draw[myarrow=] (pspace)--(exp);
-\draw[myarrow=] (exp)--(nexp);
-\draw[myarrow=] (nexp)--(re);
-
-\draw[myarrow=] (reg)--(dcf);
-\draw[myarrow=] (dcf)--(cf);
-\draw[myarrow=] (cf)--(cs);
-\draw[myarrow=] (cs)--(pspace);
-\draw[myarrow=] (reg)--(l);
-\draw[myarrow=] (cf)--(p);
-\draw[myarrow=] (nl)--(cs);
-
-\node (cslex) [myexbox=] at (6.3,0.8) {$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$};
-\node (cslex2) [myexbox=] at (6.2,0.1) {\Slang{SAT}};
-\node (cflex) [myexbox=] at (7,-0.7) {$\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j\text{ oder }j\neq k\}$};
-\node (cflex2) [myexbox=] at (6.5,-1.4) {$\{w w^r\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$};
-\node (dcflex) [myexbox=] at (6,-2.3) {$\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$};
-\node (regex) [myexbox=] at (6.2,-3.3) {$\{\Sterm{a}^i\Sterm{b}^j\mid i,j\geq 0\}$};
-\node (regex2) [myexbox=] at (7.0,-4.0) {alle endlichen Sprachen};
-
-\node (npex) [myexbox=] at (-2.0,1.3) {\Slang{SAT}};
-\node (pex) [myexbox=] at (-2.0,0.3) {\Slang{HornSAT}};
-\node (pex) [myexbox=] at (5.0,4.9) {Halteproblem};
-
+% 
+% \draw[myarrow=] (l)--(nl);
+% \draw[myarrow=] (nl)--(p);
+% \draw[myarrow=] (p)--(np);
+% \draw[myarrow=] (np)--(pspace);
+% \draw[myarrow=] (pspace)--(exp);
+% \draw[myarrow=] (exp)--(nexp);
+% \draw[myarrow=] (nexp)--(re);
+% 
+% \draw[myarrow=] (reg)--(dcf);
+% \draw[myarrow=] (dcf)--(cf);
+% \draw[myarrow=] (cf)--(cs);
+% \draw[myarrow=] (cs)--(pspace);
+% \draw[myarrow=] (reg)--(l);
+% \draw[myarrow=] (cf)--(p);
+% \draw[myarrow=] (nl)--(cs);
+% 
 % \node (legend) [rectangle,text width=3.7cm,draw=darkred,fill=strongyellow!40,
 % 		align=flush left] at (7.5,4) {Bekannte Beziehungen (Mengeninklusionen) zwischen den Sprachklassen; zumeist geht man von echten Teilmengen aus, aber bewiesen ist das nur in manchen Fällen};
-\end{tikzpicture}}}
+% \end{tikzpicture}}}
+% 
+% 
+% \end{frame}
+% 
+% \begin{frame}[t]\frametitle{Typische Beispiel-Sprachen}
+% 
+% \ghost{\hspace{2.0cm}\raisebox{6.3cm}{\includegraphics[height=1.5cm]{images/Sudoku-xkcd74}$*$}
+% \hspace{10.5cm}\raisebox{1.5cm}{\rotatebox{90}{\tiny $*$ Randall Munroe, \url{http://xkcd.com/74/}, CC-BY-NC 2.5}}}%
+% \narrowcentering
+% {%
+% \scalebox{0.75}{%
+% \begin{tikzpicture}[decoration=penciline, decorate,
+% 	mybox/.style args = {}{
+% 		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
+% 		align=flush center
+% 	},
+% 	myexbox/.style args = {}{
+% 		rectangle,rounded corners=1pt,minimum width=2cm,draw=darkgreen,fill=darkgreen!40,
+% 		align=flush center
+% 	},
+% 	myarrow/.style args = {}{
+% 		line width=0.4mm,
+% 		draw=black
+% 	}
+% ]
+% \pgfmathsetseed{7729}
+% \path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
+% % \draw[help lines] (0,0) grid (5,5);
+% 
+% \node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
+% \node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
+% \node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (1.5,2) {=};
+% % \node (npspace) [mybox=] at (3,2) {\Scomplclass{NPSpace}};
+% \node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
+% \node (p) [mybox=] at (0,0) {\Scomplclass{P}};
+% \node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
+% \node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
+% 
+% \node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
+% \node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (5.5,0.5) {=};
+% % \node (nspacen) [mybox=] at (7,0.5) {\Scomplclass{NSpace}$(n)$};
+% 
+% \node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
+% \node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
+% \node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
+% % \node (nspacen) [mybox=] at (7,-3.6) {\Scomplclass{DSpace}$(1)$};
+% 
+% \draw[myarrow=] (l)--(nl);
+% \draw[myarrow=] (nl)--(p);
+% \draw[myarrow=] (p)--(np);
+% \draw[myarrow=] (np)--(pspace);
+% \draw[myarrow=] (pspace)--(exp);
+% \draw[myarrow=] (exp)--(nexp);
+% \draw[myarrow=] (nexp)--(re);
+% 
+% \draw[myarrow=] (reg)--(dcf);
+% \draw[myarrow=] (dcf)--(cf);
+% \draw[myarrow=] (cf)--(cs);
+% \draw[myarrow=] (cs)--(pspace);
+% \draw[myarrow=] (reg)--(l);
+% \draw[myarrow=] (cf)--(p);
+% \draw[myarrow=] (nl)--(cs);
+% 
+% \node (cslex) [myexbox=] at (6.3,0.8) {$\{\Sterm{a}^i\Sterm{b}^i\Sterm{c}^i\mid i\geq 0\}$};
+% \node (cslex2) [myexbox=] at (6.2,0.1) {\Slang{SAT}};
+% \node (cflex) [myexbox=] at (7,-0.7) {$\{\Sterm{a}^i\Sterm{b}^j\Sterm{c}^k\mid i\neq j\text{ oder }j\neq k\}$};
+% \node (cflex2) [myexbox=] at (6.5,-1.4) {$\{w w^r\mid w\in\{\Sterm{a},\Sterm{b}\}^*\}$};
+% \node (dcflex) [myexbox=] at (6,-2.3) {$\{\Sterm{a}^i\Sterm{b}^i\mid i\geq 0\}$};
+% \node (regex) [myexbox=] at (6.2,-3.3) {$\{\Sterm{a}^i\Sterm{b}^j\mid i,j\geq 0\}$};
+% \node (regex2) [myexbox=] at (7.0,-4.0) {alle endlichen Sprachen};
+% 
+% \node (npex) [myexbox=] at (-2.0,1.3) {\Slang{SAT}};
+% \node (pex) [myexbox=] at (-2.0,0.3) {\Slang{HornSAT}};
+% \node (pex) [myexbox=] at (5.0,4.9) {Halteproblem};
+% 
+% % \node (legend) [rectangle,text width=3.7cm,draw=darkred,fill=strongyellow!40,
+% % 		align=flush left] at (7.5,4) {Bekannte Beziehungen (Mengeninklusionen) zwischen den Sprachklassen; zumeist geht man von echten Teilmengen aus, aber bewiesen ist das nur in manchen Fällen};
+% \end{tikzpicture}}}
+% 
+% \end{frame}
 
-\end{frame}
+% \begin{frame}[t]\frametitle{Berechnungsmodelle}
+% 
+% \narrowcentering
+% {%
+% \scalebox{0.75}{%
+% \begin{tikzpicture}[decoration=penciline, decorate,
+% 	mybox/.style args = {}{
+% 		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
+% 		align=flush center
+% 	},
+% 	mymachbox/.style args = {}{
+% 		rectangle,rounded corners=2pt,minimum width=2cm,draw=darkred,fill=darkred!40,
+% 		align=flush center
+% 	},
+% 	myarrow/.style args = {}{
+% 		line width=0.4mm,
+% 		draw=black
+% 	}
+% ]
+% \pgfmathsetseed{7729}
+% \path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
+% % \draw[help lines] (0,0) grid (5,5);
+% 
+% \node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
+% \node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
+% \node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (1.5,2) {=};
+% % \node (npspace) [mybox=] at (3,2) {\Scomplclass{NPSpace}};
+% \node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
+% \node (p) [mybox=] at (0,0) {\Scomplclass{P}};
+% \node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
+% \node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
+% 
+% \node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
+% \node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (5.5,0.5) {=};
+% % \node (nspacen) [mybox=] at (7,0.5) {\Scomplclass{NSpace}$(n)$};
+% 
+% \node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
+% \node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
+% \node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
+% % \node (lsavitch) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
+% % \node (nspacen) [mybox=] at (7,-3.6) {\Scomplclass{DSpace}$(1)$};
+% 
+% \draw[myarrow=] (l)--(nl);
+% \draw[myarrow=] (nl)--(p);
+% \draw[myarrow=] (p)--(np);
+% \draw[myarrow=] (np)--(pspace);
+% \draw[myarrow=] (pspace)--(exp);
+% \draw[myarrow=] (exp)--(nexp);
+% \draw[myarrow=] (nexp)--(re);
+% 
+% \draw[myarrow=] (reg)--(dcf);
+% \draw[myarrow=] (dcf)--(cf);
+% \draw[myarrow=] (cf)--(cs);
+% \draw[myarrow=] (cs)--(pspace);
+% \draw[myarrow=] (reg)--(l);
+% \draw[myarrow=] (cf)--(p);
+% \draw[myarrow=] (nl)--(cs);
+% 
+% \node (cslex) [mymachbox=] at (6.1,0.8) {LBA};
+% \node (cflex) [mymachbox=] at (6.2,-1.0) {PDA};
+% \node (dcflex) [mymachbox=] at (6.2,-2.3) {DPDA};
+% \node (regex) [mymachbox=] at (6.2,-3.3) {NFA};
+% \node (regex2) [mymachbox=] at (6.2,-4.0) {DFA};
+% 
+% \node (npex) [mymachbox=] at (-2.0,1.3) {Polyzeit NTM};
+% \node (pex) [mymachbox=] at (-2.0,0.3) {Polyzeit DTM};
+% \node (pex) [mymachbox=] at (5.6,4.9) {DTM};
+% \node (pex) [mymachbox=] at (5.6,5.5) {NTM};
+% 
+% % \node (legend) [rectangle,text width=3.7cm,draw=darkred,fill=strongyellow!40,
+% % 		align=flush left] at (7.5,4) {Bekannte Beziehungen (Mengeninklusionen) zwischen den Sprachklassen; zumeist geht man von echten Teilmengen aus, aber bewiesen ist das nur in manchen Fällen};
+% \end{tikzpicture}}}
+% 
+% \end{frame}
 
-\begin{frame}[t]\frametitle{Berechnungsmodelle}
+\begin{frame}\frametitle{Die Chomsky-Hierarchie}
 
-\narrowcentering
-{%
-\scalebox{0.75}{%
-\begin{tikzpicture}[decoration=penciline, decorate,
-	mybox/.style args = {}{
-		rectangle,rounded corners=5pt,minimum width=2.5cm,draw=black,fill=cyan!40,
-		align=flush center
-	},
-	mymachbox/.style args = {}{
-		rectangle,rounded corners=2pt,minimum width=2cm,draw=darkred,fill=darkred!40,
-		align=flush center
-	},
-	myarrow/.style args = {}{
-		line width=0.4mm,
-		draw=black
-	}
-]
-\pgfmathsetseed{7729}
-\path[use as bounding box] (-4,-6) rectangle (9,6); % add "draw" to see it
-% \draw[help lines] (0,0) grid (5,5);
-
-\node (nexp) [mybox=] at (0,4) {\Scomplclass{NExp}};
-\node (exp) [mybox=] at (0,3) {\Scomplclass{Exp}};
-\node (pspace) [mybox=] at (0,2) {\Scomplclass{PSpace}};
-% \node (lsavitch) [draw=none,fill=none,circle] at (1.5,2) {=};
-% \node (npspace) [mybox=] at (3,2) {\Scomplclass{NPSpace}};
-\node (np) [mybox=] at (0,1) {\Scomplclass{NP}};
-\node (p) [mybox=] at (0,0) {\Scomplclass{P}};
-\node (nl) [mybox=] at (0,-1) {\Scomplclass{NL}};
-\node (l) [mybox=] at (0,-2.3) {\Scomplclass{L}};
-
-\node (re) [mybox=] at (2,5.5) {RE, Typ 0\\[-0.6ex]{\footnotesize(semi-entscheidbar, Turing-erkennbar)}};
-\node (cs) [mybox=] at (4,0.5) {Typ 1, CSL\\[-0.6ex]{\footnotesize(kontextsensitiv)}};
-% \node (lsavitch) [draw=none,fill=none,circle] at (5.5,0.5) {=};
-% \node (nspacen) [mybox=] at (7,0.5) {\Scomplclass{NSpace}$(n)$};
-
-\node (cf) [mybox=] at (4,-1) {Typ 2, CFL\\[-0.6ex]{\footnotesize(kontextfrei)}};
-\node (dcf) [mybox=] at (4,-2.3) {DCFL\\[-0.6ex]{\footnotesize(det. kontextf.)}};
-\node (reg) [mybox=] at (4,-3.6) {Typ 3, REG\\[-0.6ex]{\footnotesize(regulär)}};
-% \node (lsavitch) [draw=none,fill=none,circle] at (5.5,-3.6) {=};
-% \node (nspacen) [mybox=] at (7,-3.6) {\Scomplclass{DSpace}$(1)$};
-
-\draw[myarrow=] (l)--(nl);
-\draw[myarrow=] (nl)--(p);
-\draw[myarrow=] (p)--(np);
-\draw[myarrow=] (np)--(pspace);
-\draw[myarrow=] (pspace)--(exp);
-\draw[myarrow=] (exp)--(nexp);
-\draw[myarrow=] (nexp)--(re);
-
-\draw[myarrow=] (reg)--(dcf);
-\draw[myarrow=] (dcf)--(cf);
-\draw[myarrow=] (cf)--(cs);
-\draw[myarrow=] (cs)--(pspace);
-\draw[myarrow=] (reg)--(l);
-\draw[myarrow=] (cf)--(p);
-\draw[myarrow=] (nl)--(cs);
-
-\node (cslex) [mymachbox=] at (6.1,0.8) {LBA};
-\node (cflex) [mymachbox=] at (6.2,-1.0) {PDA};
-\node (dcflex) [mymachbox=] at (6.2,-2.3) {DPDA};
-\node (regex) [mymachbox=] at (6.2,-3.3) {NFA};
-\node (regex2) [mymachbox=] at (6.2,-4.0) {DFA};
-
-\node (npex) [mymachbox=] at (-2.0,1.3) {Polyzeit NTM};
-\node (pex) [mymachbox=] at (-2.0,0.3) {Polyzeit DTM};
-\node (pex) [mymachbox=] at (5.6,4.9) {DTM};
-\node (pex) [mymachbox=] at (5.6,5.5) {NTM};
-
-% \node (legend) [rectangle,text width=3.7cm,draw=darkred,fill=strongyellow!40,
-% 		align=flush left] at (7.5,4) {Bekannte Beziehungen (Mengeninklusionen) zwischen den Sprachklassen; zumeist geht man von echten Teilmengen aus, aber bewiesen ist das nur in manchen Fällen};
-\end{tikzpicture}}}
+\begin{tikzpicture}[decoration=penciline, decorate]
+\node (nl) [decorate,draw=nightblue, text depth = 4cm, text width = \linewidth, fill=nightblue!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at (0,0) {Formale Sprachen};
+\node (n0) [decorate,draw=darkgreen, text depth = 3cm, text width = 8cm, fill=darkgreen!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]nl.center) {Typ-0-Sprachen};
+\node (n1) [decorate,draw=strongyellow, text depth = 2cm, text width = 6.7cm,  fill=strongyellow!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n0.center) {Kontextsensitive Sprachen (Typ 1)};
+\node (n2) [decorate,draw=orange, text depth = 1cm, text width = 5.4cm,  fill=orange!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n1.center) {Kontextfreie Sprachen (Typ 2)};
+\node (n3) [decorate,draw=red, fill=red!10,thick,align=left, inner ysep=2mm, inner xsep=2mm] at ([yshift=-0.5em]n2.center) {Reguläre Sprachen (Typ 3)};
+\end{tikzpicture}
 
 \end{frame}
 
@@ -287,14 +470,14 @@ Die Chomsky-Hierarchie ist echt. Methoden, um
 \item \alert{Typ 2}: kontextfreies Pumping-Lemma (V13), Abschlusseigenschaften (V14)
 \item \alert{det. Typ 2}: Abschlusseigenschaften (V16)
 \item \alert{Typ 1}: Entscheidbarkeit, Abschlusseigenschaften (V19/V20)
-\item \alert{Typ 0}: Semi-Entscheidbarkeit (V19/V20)
+\item \alert{Typ 0}: Semi-Entscheidbarkeit (V20, V25)
 \end{itemize}
 
-Bei den Komplexitätsklassen sind bisher weitaus weniger Unterschiede bewiesen.
-Exponentielle Ressourcenzugaben erzeugen echt größere Klassen (z.B. $\Scomplclass{P}\subset\Scomplclass{Exp}$).
-\medskip
-
-\textcolor{devilscss}{Aus einem analogen Ergebnis für Speicher folgt auch, dass $\Scomplclass{ExpSpace}$-harte Sprachen nicht kontextsensitiv sind, auch wenn sie entscheidbar sind}
+% Bei den Komplexitätsklassen sind bisher weitaus weniger Unterschiede bewiesen.
+% Exponentielle Ressourcenzugaben erzeugen echt größere Klassen (z.B. $\Scomplclass{P}\subset\Scomplclass{Exp}$).
+% \medskip
+% 
+% \textcolor{devilscss}{Aus einem analogen Ergebnis für Speicher folgt auch, dass $\Scomplclass{ExpSpace}$-harte Sprachen nicht kontextsensitiv sind, auch wenn sie entscheidbar sind}
 
 \end{frame}
 
@@ -380,13 +563,14 @@ Sprache & Zeitkomplexität bzgl. Wortlänge $n$\\\hline
 Typ 3 & $O(n)$ (Abarbeitung DFA)\\
 Det. Typ 2 & $O(n)$ (Abarbeitung DPDA)\\
 Typ 2 &  $O(n^3)$ (CYK-Algorithmus)\\
-\Scomplclass{P} & polynomiell (z.B. Hyperresolution für Hornlogik)\\
-\Scomplclass{NP} & exponentiell (z.B. Resolution allgemein)\\
+% \Scomplclass{P} & polynomiell (z.B. Hyperresolution für Hornlogik)\\
+% \Scomplclass{NP} & exponentiell (z.B. Resolution allgemein)\\
 Typ 1 & $O(n\cdot |\Gamma|^n)$ (z.B. über LBA-Konfigurationsgraph)\\
 Typ 0 & unentscheidbar\\
 \end{tabular}}\bigskip
 
-Das Wortproblem für \Scomplclass{NP} und Typ 1 ist \Scomplclass{NP}-vollständig bzw. \Scomplclass{PSpace}-vollständig.
+% Das Wortproblem für \Scomplclass{NP} und Typ 1 ist \Scomplclass{NP}-vollständig bzw. \Scomplclass{PSpace}-vollständig.
+Das Wortproblem für Typ 1 ist \Scomplclass{PSpace}-vollständig.
 Es ist nicht bewiesen aber wahrscheinlich, dass es keine subexponentiellen Algorithmen gibt.
 
 \end{frame}
@@ -417,38 +601,39 @@ DTM & NTM & \myyes \\
 z.B. ist auch $\Scomplclass{P}\neq\Scomplclass{NP}$ offen
 \item Wegen der Asymmetrie hat jede nichtdeterministische Klasse eine Komplementärklasse, die oft (vermutlich) unterschiedlich ist (z.B. \Scomplclass{coNP} vs. \Scomplclass{NP})
 \end{itemize}
+$\leadsto$ mehr dazu in Theoretische Informatik und Logik im Sommersemester
 
 \end{frame}
 
-\begin{frame}\frametitle{Ein einfacher Beweis für \Scomplclass{P} = \Scomplclass{NP} ;-)}
-
-\begin{align*}
-\text{Wir wissen:}      && \Slang{L} \in \Scomplclass{P} \quad& \text{impliziert}\quad \Slang{L} \in \Scomplclass{NP}  \\
-\text{Daher gilt:}  &&          \Slang{L} \notin \Scomplclass{NP} \quad& \text{impliziert}\quad \Slang{L} \notin \Scomplclass{P}\\
-\text{Anders gesagt:}  &&   \Slang{L} \in \Scomplclass{coNP} \quad& \text{impliziert}\quad \Slang{L} \in \Scomplclass{coP} \\
-\text{Das heißt:} &&       \Scomplclass{coNP} &\subseteq  \Scomplclass{coP}\\
-\text{Wegen $\Scomplclass{coP} = \Scomplclass{P}$ gilt:}  &&            \Scomplclass{coNP} &\subseteq \Scomplclass{P}\\
-\text{Somit gilt:} &&       \Scomplclass{NP} &\subseteq \Scomplclass{P}\\
-\text{D.h., wegen $\Scomplclass{P} \subseteq \Scomplclass{NP}$ gilt:} &&       \Scomplclass{NP} &= \Scomplclass{P}
-\end{align*}
-
-\mbox{}\hfill q.e.d.?
-
-\end{frame}
+% \begin{frame}\frametitle{Ein einfacher Beweis für \Scomplclass{P} = \Scomplclass{NP} ;-)}
+% 
+% \begin{align*}
+% \text{Wir wissen:}      && \Slang{L} \in \Scomplclass{P} \quad& \text{impliziert}\quad \Slang{L} \in \Scomplclass{NP}  \\
+% \text{Daher gilt:}  &&          \Slang{L} \notin \Scomplclass{NP} \quad& \text{impliziert}\quad \Slang{L} \notin \Scomplclass{P}\\
+% \text{Anders gesagt:}  &&   \Slang{L} \in \Scomplclass{coNP} \quad& \text{impliziert}\quad \Slang{L} \in \Scomplclass{coP} \\
+% \text{Das heißt:} &&       \Scomplclass{coNP} &\subseteq  \Scomplclass{coP}\\
+% \text{Wegen $\Scomplclass{coP} = \Scomplclass{P}$ gilt:}  &&            \Scomplclass{coNP} &\subseteq \Scomplclass{P}\\
+% \text{Somit gilt:} &&       \Scomplclass{NP} &\subseteq \Scomplclass{P}\\
+% \text{D.h., wegen $\Scomplclass{P} \subseteq \Scomplclass{NP}$ gilt:} &&       \Scomplclass{NP} &= \Scomplclass{P}
+% \end{align*}
+% 
+% \mbox{}\hfill q.e.d.?
+% 
+% \end{frame}
 
 % Darstellung der entsprechenden Grammatiken (wo verfügbar)
 % Trennung der Sprachklassen: Methoden
 
-% \sectionSlide{Ausblick und Anwendungen}
-\frame{\begin{center}
-{\LARGE
-Ausblick und Anwendungen}\bigskip
-
-~\hfill
-\includegraphics[height=5.5cm]{images/xkcd246-labyrinth-puzzle}
-\hfill~
-\rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/246/}, CC-BY-NC 2.5}
-\end{center}}
+\sectionSlide{Ausblick und Anwendungen}
+% \frame{\begin{center}
+% {\LARGE
+% Ausblick und Anwendungen}\bigskip
+% 
+% ~\hfill
+% \includegraphics[height=5.5cm]{images/xkcd246-labyrinth-puzzle}
+% \hfill~
+% \rotatebox{90}{\tiny Randall Munroe, \url{http://xkcd.com/246/}, CC-BY-NC 2.5}
+% \end{center}}
 
 \begin{frame}\frametitle{Formale Sprachen}
 
@@ -481,43 +666,43 @@ Wesentliche Anwendungen von Automaten:
 
 \end{frame}
 
-\begin{frame}\frametitle{Logik}
-
-Aussagenlogik ist nur der Anfang \ldots
-
-\begin{itemize}
-\item \alert{Prädikatenlogik/Logik erster Stufe} erweitert die Struktur atomarer Aussagen (Prädikate, Terme, Variablen, \ldots); Quantoren $\forall$ und $\exists$ ermöglichen es, sich auf viele Aussagen zu beziehen ohne alle einzeln zu nennen
-\item \alert{Logik zweiter Stufe} führt zudem Variablen für Prädikate und entsprechende Quantoren ein
-\end{itemize}
-$\leadsto$ Ausgangspunkt vieler anwendungsspezifischer Logiken
-\bigskip
-
-Wesentliche Anwendungen:
-\begin{itemize}
-\item Wissensrepräsentation
-\item Logikprogrammierung
-\item Constraint-Erfüllungsprobleme
-\item Verifikation
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}\frametitle{Logisches Schließen}
-
-Großes Fachgebiet; sehr stark anwendungsspezifisch
-\bigskip
-
-Nennenswerte Klassen stark optimierter Logiktools:
-
-\begin{itemize}
-\item SAT-Solver: aussagenlogisches Schließen
-\item Theorembeweiser: Entwickeln formaler Beweise in sehr ausdrucksstarken Logiken
-\item Model-Checker: effiziente Verifikation von formalen Aussagen bzgl. abstrakter Programmmodelle
-\item Logikprogramm-Systeme: Berechnung der Ergebnisse logischer Programme verschiedenster Form
-\item Ontologie-Reasoner: Anfragebeantwortung über logischen Wissensbasen und Datenbanken
-\end{itemize}
-
-\end{frame}
+% \begin{frame}\frametitle{Logik}
+% 
+% Aussagenlogik ist nur der Anfang \ldots
+% 
+% \begin{itemize}
+% \item \alert{Prädikatenlogik/Logik erster Stufe} erweitert die Struktur atomarer Aussagen (Prädikate, Terme, Variablen, \ldots); Quantoren $\forall$ und $\exists$ ermöglichen es, sich auf viele Aussagen zu beziehen ohne alle einzeln zu nennen
+% \item \alert{Logik zweiter Stufe} führt zudem Variablen für Prädikate und entsprechende Quantoren ein
+% \end{itemize}
+% $\leadsto$ Ausgangspunkt vieler anwendungsspezifischer Logiken
+% \bigskip
+% 
+% Wesentliche Anwendungen:
+% \begin{itemize}
+% \item Wissensrepräsentation
+% \item Logikprogrammierung
+% \item Constraint-Erfüllungsprobleme
+% \item Verifikation
+% \end{itemize}
+% 
+% \end{frame}
+% 
+% \begin{frame}\frametitle{Logisches Schließen}
+% 
+% Großes Fachgebiet; sehr stark anwendungsspezifisch
+% \bigskip
+% 
+% Nennenswerte Klassen stark optimierter Logiktools:
+% 
+% \begin{itemize}
+% \item SAT-Solver: aussagenlogisches Schließen
+% \item Theorembeweiser: Entwickeln formaler Beweise in sehr ausdrucksstarken Logiken
+% \item Model-Checker: effiziente Verifikation von formalen Aussagen bzgl. abstrakter Programmmodelle
+% \item Logikprogramm-Systeme: Berechnung der Ergebnisse logischer Programme verschiedenster Form
+% \item Ontologie-Reasoner: Anfragebeantwortung über logischen Wissensbasen und Datenbanken
+% \end{itemize}
+% 
+% \end{frame}
 
 % \begin{frame}\frametitle{}
 % 
@@ -526,10 +711,33 @@ Nennenswerte Klassen stark optimierter Logiktools:
 % 
 % \end{frame}
 
-\begin{frame}\frametitle{Komplexitätstheorie}
+% \begin{frame}\frametitle{Komplexitätstheorie}
+% 
+% Großes Gebiet in der theoretischen Informatik, mit zwei wesentlichen Bedeutungen:
+% 
+% \begin{enumerate}[1]
+% \item \alert{Eigenständiges Forschungsgebiet}, das sich vielen grundlegenden Fragen widmet (einschl. $\Scomplclass{P}\neq\Scomplclass{NP}?$); Theorie der Kryptographie; Quantenkomplexität
+% % 
+% \item \alert{Methoden für andere Forschungsfelder}, welche die komplexitätstheoretische Analyse von Problemen
+% in vielen Fachgebieten ermöglichen; Themen wie parametrisierte Komplexität oder Ausgabekomplexität sind aus
+% Anwendungen motiviert
+% \end{enumerate}
+% 
+% Weiteres Fachgebiet: \redalert{Berechenbarkeitstheorie} (Klassifikation unentscheidbarer Probleme, alternative Berechnungsmodelle)
+% 
+% \end{frame}
 
-Großes Gebiet in der theoretischen Informatik, mit zwei wesentlichen Bedeutungen:
+\begin{frame}\frametitle{Berechenbarkeitstheorie}
 
+Klassifikation unentscheidbarer Probleme, alternative Berechnungsmodelle\\
+$\leadsto$ wichtig für das Grundverständnis von Berechnung in der Informatik
+\bigskip
+
+Praktisch bedeutsamer ist die Struktur der entscheidbaren Probleme, die wir im Sommersemester näher betrachten: \redalert{Komplexitätstheorie}
+% 
+% Wir werden im Sommersemester die
+% Großes Gebiet in der theoretischen Informatik, mit zwei wesentlichen Bedeutungen:
+% 
 \begin{enumerate}[1]
 \item \alert{Eigenständiges Forschungsgebiet}, das sich vielen grundlegenden Fragen widmet (einschl. $\Scomplclass{P}\neq\Scomplclass{NP}?$); Theorie der Kryptographie; Quantenkomplexität
 % 
@@ -537,8 +745,6 @@ Großes Gebiet in der theoretischen Informatik, mit zwei wesentlichen Bedeutunge
 in vielen Fachgebieten ermöglichen; Themen wie parametrisierte Komplexität oder Ausgabekomplexität sind aus
 Anwendungen motiviert
 \end{enumerate}
-
-Weiteres Fachgebiet: \redalert{Berechenbarkeitstheorie} (Klassifikation unentscheidbarer Probleme, alternative Berechnungsmodelle)
 
 \end{frame}
 
@@ -564,36 +770,36 @@ Weiteres Fachgebiet: \redalert{Berechenbarkeitstheorie} (Klassifikation unentsch
 % % Foundations of Semantic Web Technologies
 % % was zu Verifikation?
 
-\begin{frame}\frametitle{TheoLog}
-
-Im nächsten Semester gibt es \alert{"`Theoretische Informatik und Logik"'} {\tiny(Pflicht für einige, offen für alle)}\medskip
-
-Hören Sie die großen Fragen der Mathematik -- und die Antworten der Informatik!
-\begin{itemize}
-\item \redalert{Berechenbarkeit}
-\begin{itemize}
-\item Fleißige Biber und manch Unentscheidbares
-\item Von Turingmaschinen zu Programmen
-\end{itemize}
-\item \redalert{Komplexität}
-\begin{itemize}
-\item NP: Spiele für eine Person
-\item PSpace: einfache Spiele für zwei
-\end{itemize}
-\item \redalert{Prädikatenlogik}
-\begin{itemize}
-\item Die Sprache der Mathematik
-\item Resolution reloaded
-\item Endliche Modelle (besser bekannt als ``Datenbanken'')
-\end{itemize}
-\item \redalert{Mathematiker:innen als Programmierer:innen}
-\begin{itemize}
-\item Die Grenzen der Mathematik
-\item Gödel, Turing und der ganze Rest
-\end{itemize}
-\end{itemize}
-
-\end{frame}
+% \begin{frame}\frametitle{TheoLog}
+% 
+% Im nächsten Semester gibt es \alert{"`Theoretische Informatik und Logik"'} {\tiny(Pflicht für einige, offen für alle)}\medskip
+% 
+% Hören Sie die großen Fragen der Mathematik -- und die Antworten der Informatik!
+% \begin{itemize}
+% \item \redalert{Berechenbarkeit}
+% \begin{itemize}
+% \item Fleißige Biber und manch Unentscheidbares
+% \item Von Turingmaschinen zu Programmen
+% \end{itemize}
+% \item \redalert{Komplexität}
+% \begin{itemize}
+% \item NP: Spiele für eine Person
+% \item PSpace: einfache Spiele für zwei
+% \end{itemize}
+% \item \redalert{Prädikatenlogik}
+% \begin{itemize}
+% \item Die Sprache der Mathematik
+% \item Resolution reloaded
+% \item Endliche Modelle (besser bekannt als ``Datenbanken'')
+% \end{itemize}
+% \item \redalert{Mathematiker:innen als Programmierer:innen}
+% \begin{itemize}
+% \item Die Grenzen der Mathematik
+% \item Gödel, Turing und der ganze Rest
+% \end{itemize}
+% \end{itemize}
+% 
+% \end{frame}
 
 % \sectionSlide{Fragen?}
 
@@ -606,14 +812,13 @@ Hören Sie die großen Fragen der Mathematik -- und die Antworten der Informatik
 von Berechnungsaufgaben zu treffen
 \bigskip
 
-\redalert{Formale Logik} wird als Spezifikationssprache für (zumeist anspruchsvolle) Probleme in vielen Gebieten verwendet
-\bigskip
 
 \anybox{strongyellow}{
-Offene Fragen:
+Was erwartet uns als nächstes?
 \begin{itemize}
-\item Haben Sie noch inhaltliche Fragen? ($\leadsto$ Konsultationen und zusätzlichen Übungstermin nutzen)
-\item Haben Sie sich ausreichend auf die Prüfung vorbereitet?
+\item Probeklausur und Repetitorium
+\item Klausurvorbereitung
+\item Prüfung
 \end{itemize}
 }
 
