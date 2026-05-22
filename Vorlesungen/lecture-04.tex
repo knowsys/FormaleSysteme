@@ -676,9 +676,9 @@ wie folgt:%
 
 \begin{tikzpicture}[baseline={([yshift=-2ex]current bounding box.north)}]
 % \draw[help lines] (0,0) grid (7,2);
-\onslide<2->{\node (s12) [rectangle,rounded corners=1.5ex,onslide={<3->{double}},draw=black,thick] at (0,0) {$\{q_0,q_1\}$};}
+\onslide<2->{\node (s12) [rectangle,rounded corners=1.5ex,onslideprint={<3->{double}},draw=black,thick] at (0,0) {$\{q_0,q_1\}$};}
 \onslide<2->{\node (s1) [rectangle,rounded corners=1.5ex,draw=black,thick] at (3,0) {$\{q_0\}$};}
-\onslide<2->{\node (s2) [onslide={<3->{double}},rectangle,rounded corners=1.5ex,draw=black,thick] at (3,-2) {$\{q_1\}$};}
+\onslide<2->{\node (s2) [onslideprint={<3->{double}},rectangle,rounded corners=1.5ex,draw=black,thick] at (3,-2) {$\{q_1\}$};}
 \onslide<2->{\node (s0) [circle,draw=black,thick] at (0,-2) {$\emptyset$};}
 %,onslide={<1>{color=white}}
 \onslide<4->{\path[->,line width=0.5mm,onslide={<4>{dashed,darkred}}](0,1) edge (s12);}
